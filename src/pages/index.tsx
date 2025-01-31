@@ -15,8 +15,13 @@ export default function Home() {
 
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
-  function generateCombos(array: any[]) {
-    let combinations: number[][] = [];
+  function generateCombos(
+    array: {
+      title: string;
+      score: number;
+    }[]
+  ) {
+    const combinations: number[][] = [];
 
     for (const utensil1 of array) {
       const firstUtensil = array.indexOf(utensil1);
@@ -53,17 +58,21 @@ export default function Home() {
   // 11: 55 possible combos
   // 12: 66 possible combos
 
-  function shuffle(array: any[]) {
-    let tempArray = array.slice();
-    let finalArray: any[] = [];
+  // https://stackoverflow.com/a/2450976
+  function shuffle<T>(array: T[]): T[] {
+    let currentIndex = array.length;
 
-    array.forEach(() => {
-      let itemNow = tempArray[Math.floor(Math.random() * tempArray.length)];
-      finalArray.push(itemNow);
-      tempArray.splice(tempArray.indexOf(itemNow), 1);
-    });
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
 
-    return finalArray;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
   }
 
   function setRandomCombo(
@@ -108,7 +117,7 @@ export default function Home() {
                 if (utensilInput.trim() == "") {
                   alert("Enter a list of things separated by line");
                 } else {
-                  let newUtensilsArray = [];
+                  const newUtensilsArray = [];
 
                   for (const utensilTitle of utensilInput.trim().split("\n")) {
                     newUtensilsArray.push({
