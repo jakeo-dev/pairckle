@@ -21,7 +21,7 @@ export default function Home() {
       score: number;
     }[]
   ) {
-    const combinations: number[][] = [];
+    let combinations: number[][] = [];
 
     for (const utensil1 of array) {
       const firstUtensil = array.indexOf(utensil1);
@@ -41,6 +41,11 @@ export default function Home() {
         }
       }
     }
+
+    // shuffles order of combos
+    combinations = shuffle(combinations);
+    // shuffles order of numbers in each combo
+    combinations.forEach((combo) => shuffle(combo));
 
     return shuffle(combinations);
   }
