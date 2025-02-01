@@ -164,12 +164,14 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 flex w-full pt-6 px-8">
-          <h1 className="text-center text-3xl font-bold cursor-default mr-8">
+        <div className="absolute top-0 block lg:flex w-full pt-6 px-8">
+          <h1 className="text-left lg:text-center text-3xl font-bold cursor-default mb-2 lg:mr-8">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          <div className={`${utensilsVisibility} w-max overflow-x-auto pt-1`}>
+          <div
+            className={`${utensilsVisibility} lg:w-max overflow-x-auto pt-1`}
+          >
             <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
               {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
               {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
@@ -189,13 +191,13 @@ export default function Home() {
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <label className="text-black/60 text-sm px-2">
+            <label className="block text-black/60 text-sm px-2">
               Enter a list of things separated by line
             </label>
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
-              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-80 lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list of things separated by line..."
               maxLength={-1}
               required={true}
@@ -237,9 +239,9 @@ export default function Home() {
           <div
             className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <div className="flex items-center gap-8">
+            <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
-                className="w-[30rem] h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -257,15 +259,15 @@ export default function Home() {
                 </span>
               </button>
               <button
-                className="w-24 h-24 rounded-full border-4 border-gray-500/30 hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                className="lg:w-20 lg:h-20 rounded-full lg:border-4 border-gray-500/30 bg-gray-500/20 lg:bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none px-3 py-2 lg:p-2 transition"
                 onClick={() => {
                   setRandomCombo(combosArray, utensilsArray);
                 }}
               >
-                <span className="text-xl">skip</span>
+                <span className="lg:text-lg">Skip</span>
               </button>
               <button
-                className="w-[30rem] h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -283,7 +285,7 @@ export default function Home() {
                 </span>
               </button>
             </div>
-            <h3 className="text-lg text-center -mt-12">
+            <h3 className="text-lg text-center mt-6 lg:-mt-10 xl:-mt-12">
               {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
               {getNumCombos(utensilsArray.length)}
             </h3>
@@ -293,7 +295,7 @@ export default function Home() {
             className={`${finalVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
             <div className="w-max overflow-x-auto border-gray-400/40 border-2 rounded-lg">
-              <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-96">
+              <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-80 lg:w-96">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
