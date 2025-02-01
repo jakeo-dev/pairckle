@@ -5,6 +5,8 @@ export default function Home() {
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
   const [selectionVisibility, setSelectionVisibility] =
     useState<string>("invisibleFade");
+  const [utensilsVisibility, setUtensilsVisibility] =
+    useState<string>("invisibleFade");
 
   const [currentCombo, setCurrentCombo] = useState<number[]>([-1, -1]);
   const [firstOption, setFirstOption] = useState<string>();
@@ -121,15 +123,29 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen">
+        <div className="absolute top-0 flex w-full pt-6 px-8">
+          <h1 className="text-center text-4xl font-bold mr-8">Paircise</h1>
+          <div className={`${utensilsVisibility} w-max overflow-x-auto pt-2`}>
+            <ul className="flex whitespace-nowrap space-x-4 scrollbar-hide">
+              {utensilsArray.map((utensil, index) => (
+                <li
+                  key={index}
+                  className="bg-gray-500/30 rounded-md px-2 py-0.5 last:mr-4"
+                >
+                  {utensil["title"]}: {utensil["score"]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <div className="relative">
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <h1 className="text-center text-4xl font-bold mb-10">Indecisive</h1>
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
-              className="min-h-[17rem] max-h-[50vh] lg:max-h-[80vh] w-[26rem]" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-[26rem]" // 1 line = 2.125 rem
               placeholder="Enter a list of things separated by line..."
               maxLength={-1}
               required={true}
@@ -158,10 +174,11 @@ export default function Home() {
                   setRandomCombo(newCombosArray, newUtensilsArray);
 
                   setSelectionVisibility("visibleFade");
+                  setUtensilsVisibility("visibleFade");
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="block w-full bg-gray-500/20 hover:bg-gray-500/30 active:bg-gray-500/40 rounded-md transition px-3 py-2 mb-1"
+              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mb-1"
             >
               Start
             </button>
@@ -169,20 +186,53 @@ export default function Home() {
           <div
             className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <h1 className="text-center text-4xl font-bold mb-10">Indecisive</h1>
-            <div className="flex gap-8">
-              <div className="w-[30rem] h-[14rem] text-white bg-orange-500/90 rounded-2xl flex justify-center items-center p-4 transition">
-                <h1 className="text-3xl font-semibold text-center">
+            <div className="flex items-center gap-8">
+              <button
+                className="w-[30rem] h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                onClick={() => {
+                  setUtensilsArray((prevArray) => {
+                    return prevArray.map((item, index) => {
+                      if (index === currentCombo[0]) {
+                        return { ...item, score: item.score + 1 };
+                      }
+                      return item;
+                    });
+                  });
+                  setRandomCombo(combosArray, utensilsArray);
+                }}
+              >
+                <span className="text-3xl font-semibold text-center">
                   {firstOption}
-                </h1>
-              </div>
-              <div className="w-[30rem] h-[14rem] text-white bg-blue-500/90 rounded-2xl flex justify-center items-center p-4 transition">
-                <h1 className="text-3xl font-semibold text-center">
+                </span>
+              </button>
+              <button
+                className="w-24 h-24 rounded-full border-4 border-gray-500/30 hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                onClick={() => {
+                  setRandomCombo(combosArray, utensilsArray);
+                }}
+              >
+                <span className="text-xl">skip</span>
+              </button>
+              <button
+                className="w-[30rem] h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                onClick={() => {
+                  setUtensilsArray((prevArray) => {
+                    return prevArray.map((item, index) => {
+                      if (index === currentCombo[1]) {
+                        return { ...item, score: item.score + 1 };
+                      }
+                      return item;
+                    });
+                  });
+                  setRandomCombo(combosArray, utensilsArray);
+                }}
+              >
+                <span className="text-3xl font-semibold text-center">
                   {secondOption}
-                </h1>
-              </div>
+                </span>
+              </button>
             </div>
-            <div className="flex justify-center items-center gap-6 mt-8">
+            {/* <div className="flex justify-center items-center gap-10 mt-8">
               <button
                 className="w-24 h-24 rounded-full border-4 border-orange-500/70 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
                 onClick={() => {
@@ -201,7 +251,7 @@ export default function Home() {
                 <span className="text-xl">+3</span>
               </button>
               <button
-                className="w-24 h-24 rounded-full border-4 border-orange-500/50 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                className="w-24 h-24 rounded-full border-4 border-orange-500/60 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -217,7 +267,7 @@ export default function Home() {
                 <span className="text-xl">+2</span>
               </button>
               <button
-                className="w-24 h-24 rounded-full border-4 border-orange-500/30 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                className="w-24 h-24 rounded-full border-4 border-orange-500/40 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition mr-6"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -241,7 +291,7 @@ export default function Home() {
                 <span className="text-xl">+0</span>
               </button>
               <button
-                className="w-24 h-24 rounded-full border-4 border-blue-500/30 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                className="w-24 h-24 rounded-full border-4 border-blue-500/40 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition ml-6"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -257,7 +307,7 @@ export default function Home() {
                 <span className="text-xl">+1</span>
               </button>
               <button
-                className="w-24 h-24 rounded-full border-4 border-blue-500/50 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
+                className="w-24 h-24 rounded-full border-4 border-blue-500/60 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -272,7 +322,7 @@ export default function Home() {
               >
                 <span className="text-xl">+2</span>
               </button>
-              <button
+              {/* <button
                 className="w-24 h-24 rounded-full border-4 border-blue-500/70 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
@@ -288,21 +338,14 @@ export default function Home() {
               >
                 <span className="text-xl">+3</span>
               </button>
-            </div>
-            <h2 className="text-center mt-4">
+            </div> */}
+            {/* <h2 className="text-center mt-4">
               Click how much you prefer either option
-            </h2>
-            <h3 className="text-center mt-4">
+            </h2> */}
+            <h3 className="text-center mt-2">
               {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
               {getNumCombos(utensilsArray.length)}
             </h3>
-            <ul>
-              {utensilsArray.map((utensil, index) => (
-                <li key={index}>
-                  {utensil["title"]}: {utensil["score"]}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>

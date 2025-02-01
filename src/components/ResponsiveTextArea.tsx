@@ -42,7 +42,7 @@ export default function ResponsiveTextArea({
       onInput={onInput}
       value={value}
       placeholder={placeholder}
-      className={`bg-gray-100 border-gray-300 border-2 rounded-md hover:bg-gray-200 focus:bg-gray-200 w-full text-left transition px-3 py-2 overflow-auto resize-none pb-3 ${className}`}
+      className={`bg-gray-400/20 hover:bg-gray-400/30 focus:bg-gray-400/30 border-gray-400/50 border-2 rounded-md w-full text-left transition px-3 py-2 overflow-auto resize-none pb-3 ${className}`}
       ref={textAreaRef}
       rows={1}
       maxLength={maxLength != -1 ? maxLength : undefined}
