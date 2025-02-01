@@ -151,15 +151,19 @@ export default function Home() {
     <>
       <div className="flex justify-center items-center min-h-screen">
         <div className="absolute top-0 flex w-full pt-6 px-8">
-          <h1 className="text-center text-4xl font-bold mr-8">Paircise</h1>
-          <div className={`${utensilsVisibility} w-max overflow-x-auto pt-2`}>
-            <ul className="flex whitespace-nowrap space-x-4 scrollbar-hide">
+          <h1 className="text-center text-3xl font-bold cursor-default mr-8">
+            <span className="text-orange-500">Pair</span>
+            <span className="text-blue-500">cise</span>
+          </h1>
+          <div className={`${utensilsVisibility} w-max overflow-x-auto pt-1`}>
+            <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
               {utensilsArray.sort(sortUtensils).map((utensil, index) => (
                 <li
                   key={index}
-                  className="bg-gray-500/30 rounded-md px-2 py-0.5 last:mr-4"
+                  className="bg-gray-500/20 rounded-md px-2 py-0.5"
                 >
-                  {utensil["title"]}: {utensil["score"]}
+                  <span>{utensil["title"]}</span>
+                  <span className="font-semibold ml-2">{utensil["score"]}</span>
                 </li>
               ))}
             </ul>
@@ -169,10 +173,13 @@ export default function Home() {
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
+            <label className="text-black/60 text-sm px-2">
+              Enter a list of things separated by line
+            </label>
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
-              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-[26rem]" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-96" // 1 line = 2.125 rem
               placeholder="Enter a list of things separated by line..."
               maxLength={-1}
               required={true}
@@ -369,7 +376,7 @@ export default function Home() {
             {/* <h2 className="text-center mt-4">
               Click how much you prefer either option
             </h2> */}
-            <h3 className="text-center mt-2">
+            <h3 className="text-lg text-center -mt-12">
               {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
               {getNumCombos(utensilsArray.length)}
             </h3>
