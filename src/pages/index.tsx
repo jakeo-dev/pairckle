@@ -8,6 +8,8 @@ export default function Home() {
     useState<string>("invisibleFade");
   const [utensilsVisibility, setUtensilsVisibility] =
     useState<string>("invisibleFade");
+  const [finalVisibility, setFinalVisibility] =
+    useState<string>("invisibleFade");
 
   const [currentCombo, setCurrentCombo] = useState<number[]>([-1, -1]);
   const [firstOption, setFirstOption] = useState<string>();
@@ -120,9 +122,10 @@ export default function Home() {
       // remove selected random combo so it cant be selected again
       setCombosArray(combosArray.filter((combo) => combo !== randomCombo));
     } else {
-      setFirstOption("");
-      setSecondOption("");
-      alert("DONE!");
+      // done with all combos
+      setSelectionVisibility("invisibleFade");
+      setUtensilsVisibility("invisibleFade");
+      setFinalVisibility("visibleFade");
     }
   }
 
@@ -181,6 +184,7 @@ export default function Home() {
             </ul>
           </div>
         </div>
+
         <div className="relative">
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
@@ -224,11 +228,12 @@ export default function Home() {
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mb-1"
+              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2"
             >
               Start
             </button>
           </div>
+
           <div
             className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
@@ -278,120 +283,40 @@ export default function Home() {
                 </span>
               </button>
             </div>
-            {/* <div className="flex justify-center items-center gap-10 mt-8">
-              <button
-                className="w-24 h-24 rounded-full border-4 border-orange-500/70 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    // adds +3 to score of selected utensil
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[0])
-                        return { ...item, score: item.score + 3 };
-                      return item;
-                    });
-                  });
-
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+3</span>
-              </button>
-              <button
-                className="w-24 h-24 rounded-full border-4 border-orange-500/60 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[0]) {
-                        return { ...item, score: item.score + 2 };
-                      }
-                      return item;
-                    });
-                  });
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+2</span>
-              </button>
-              <button
-                className="w-24 h-24 rounded-full border-4 border-orange-500/40 hover:bg-orange-500/10 active:hover:bg-orange-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition mr-6"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[0]) {
-                        return { ...item, score: item.score + 1 };
-                      }
-                      return item;
-                    });
-                  });
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+1</span>
-              </button>
-              <button
-                className="w-24 h-24 rounded-full border-4 border-gray-500/30 hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
-                onClick={() => {
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+0</span>
-              </button>
-              <button
-                className="w-24 h-24 rounded-full border-4 border-blue-500/40 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition ml-6"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[1]) {
-                        return { ...item, score: item.score + 1 };
-                      }
-                      return item;
-                    });
-                  });
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+1</span>
-              </button>
-              <button
-                className="w-24 h-24 rounded-full border-4 border-blue-500/60 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[1]) {
-                        return { ...item, score: item.score + 2 };
-                      }
-                      return item;
-                    });
-                  });
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+2</span>
-              </button>
-              {/* <button
-                className="w-24 h-24 rounded-full border-4 border-blue-500/70 hover:bg-blue-500/10 active:hover:bg-blue-500/30 shadow-sm hover:shadow-md active:shadow-none p-2 transition"
-                onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
-                      if (index === currentCombo[1]) {
-                        return { ...item, score: item.score + 3 };
-                      }
-                      return item;
-                    });
-                  });
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="text-xl">+3</span>
-              </button>
-            </div> */}
-            {/* <h2 className="text-center mt-4">
-              Click how much you prefer either option
-            </h2> */}
             <h3 className="text-lg text-center -mt-12">
               {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
               {getNumCombos(utensilsArray.length)}
             </h3>
+          </div>
+
+          <div
+            className={`${finalVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+          >
+            <div className="w-max overflow-x-auto border-gray-400/40 border-2 rounded-lg">
+              <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-96">
+                {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
+                {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
+                  <li
+                    key={index}
+                    className="flex odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                  >
+                    <span className="w-full">{utensil["title"]}</span>
+                    <span className="font-semibold text-right ml-2">
+                      {utensil["score"]}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <button
+              onClick={() => {
+                setFinalVisibility("invisibleFade");
+                setStartVisibility("visibleFade");
+              }}
+              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
+            >
+              Restart
+            </button>
           </div>
         </div>
       </div>
