@@ -22,6 +22,33 @@ export default function Home() {
 
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
+  function sortUtensils(
+    a: {
+      title: string;
+      score: number;
+    },
+    b: {
+      title: string;
+      score: number;
+    }
+  ) {
+    // sort by score, highest to lowest
+    if (a.score !== b.score) {
+      return b.score - a.score;
+    }
+
+    const aIndex = utensilsArray.indexOf(a);
+    const bIndex = utensilsArray.indexOf(b);
+
+    // sort by how the utensils were inputted, lower index to higher index
+    if (aIndex !== bIndex) {
+      return aIndex - bIndex;
+    }
+
+    // sort alphabetically
+    return a.title.localeCompare(b.title);
+  }
+
   function generateCombos(
     array: {
       title: string;
@@ -127,7 +154,7 @@ export default function Home() {
           <h1 className="text-center text-4xl font-bold mr-8">Paircise</h1>
           <div className={`${utensilsVisibility} w-max overflow-x-auto pt-2`}>
             <ul className="flex whitespace-nowrap space-x-4 scrollbar-hide">
-              {utensilsArray.map((utensil, index) => (
+              {utensilsArray.sort(sortUtensils).map((utensil, index) => (
                 <li
                   key={index}
                   className="bg-gray-500/30 rounded-md px-2 py-0.5 last:mr-4"
