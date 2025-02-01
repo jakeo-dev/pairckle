@@ -56,7 +56,7 @@ export default function Home() {
       score: number;
     }[]
   ) {
-    let combinations: number[][] = [];
+    const combinations: number[][] = [];
 
     for (const utensil1 of array) {
       const firstUtensil = array.indexOf(utensil1);
@@ -168,7 +168,7 @@ export default function Home() {
           </h1>
           <div className={`${utensilsVisibility} w-max overflow-x-auto pt-1`}>
             <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
-              {/* create shallow copy of utensilsArray, sort utensils by their score, display them as a horizoontal list */}
+              {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
               {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                 <li
                   key={index}
