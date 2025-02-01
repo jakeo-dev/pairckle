@@ -151,8 +151,8 @@ export default function Home() {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Paircise</title>
-        <meta property="og:title" content="Paircise" />
+        <title>Pairckle</title>
+        <meta property="og:title" content="Pairckle" />
         <meta
           property="og:description"
           content="Easily rank your favorite things with simple pairwise comparisons."
@@ -164,7 +164,7 @@ export default function Home() {
         <div className="absolute top-0 flex w-full pt-6 px-8">
           <h1 className="text-center text-3xl font-bold cursor-default mr-8">
             <span className="text-orange-500">Pair</span>
-            <span className="text-blue-500">cise</span>
+            <span className="text-blue-500">ckle</span>
           </h1>
           <div className={`${utensilsVisibility} w-max overflow-x-auto pt-1`}>
             <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
