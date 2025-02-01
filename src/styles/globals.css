@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.invisibleFade {
+  @apply invisible opacity-0 transition-all;
+}
+
+.visibleFade {
+  @apply visible opacity-100 transition-all;
+}
