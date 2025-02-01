@@ -1,3 +1,4 @@
+import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import { useState } from "react";
 
@@ -76,12 +77,10 @@ export default function Home() {
       }
     }
 
-    // shuffles order of combos
-    combinations = shuffle(combinations);
     // shuffles order of numbers in each combo
     combinations.forEach((combo) => shuffle(combo));
 
-    return shuffle(combinations);
+    return combinations;
   }
 
   // https://stackoverflow.com/a/2450976
@@ -109,9 +108,9 @@ export default function Home() {
     }[]
   ) {
     if (combosArray.length > 0) {
+      // gets random combo
       const randomCombo =
         combosArray[Math.floor(Math.random() * combosArray.length)];
-
       setCurrentCombo(randomCombo);
 
       // set options to the randomly selected combo
@@ -149,6 +148,18 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Paircise</title>
+        <meta property="og:title" content="Paircise" />
+        <meta
+          property="og:description"
+          content="Easily rank your favorite things with simple pairwise comparisons."
+        />
+        <meta name="theme-color" content="#f97316" />
+      </Head>
+
       <div className="flex justify-center items-center min-h-screen">
         <div className="absolute top-0 flex w-full pt-6 px-8">
           <h1 className="text-center text-3xl font-bold cursor-default mr-8">
@@ -157,7 +168,8 @@ export default function Home() {
           </h1>
           <div className={`${utensilsVisibility} w-max overflow-x-auto pt-1`}>
             <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
-              {utensilsArray.sort(sortUtensils).map((utensil, index) => (
+              {/* create shallow copy of utensilsArray, sort utensils by their score, display them as a horizoontal list */}
+              {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                 <li
                   key={index}
                   className="bg-gray-500/20 rounded-md px-2 py-0.5"
