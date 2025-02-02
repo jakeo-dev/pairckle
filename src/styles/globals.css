@@ -11,3 +11,24 @@
     @apply visible opacity-100 transition-all;
   }
 }
+
+@layer utilities {
+  .thin-scrollbar::-webkit-thin-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  .thin-scrollbar::-webkit-thin-scrollbar-track {
+    border-radius: 100vh;
+    background: rgb(107 114 128 / 0.05);
+  }
+
+  .thin-scrollbar::-webkit-thin-scrollbar-thumb {
+    background: rgb(107 114 128 / 0.4);
+    border-radius: 100vh;
+  }
+
+  .thin-scrollbar::-webkit-thin-scrollbar-thumb:hover {
+    background: rgb(107 114 128 / 0.6);
+  }
+}

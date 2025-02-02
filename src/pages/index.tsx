@@ -6,10 +6,7 @@ export default function Home() {
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
   const [selectionVisibility, setSelectionVisibility] =
     useState<string>("invisibleFade");
-  const [utensilsVisibility, setUtensilsVisibility] =
-    useState<string>("invisibleFade");
-  const [finalVisibility, setFinalVisibility] =
-    useState<string>("invisibleFade");
+  const [rankVisibility, setRankVisibility] = useState<string>("invisibleFade");
 
   const [currentCombo, setCurrentCombo] = useState<number[]>([-1, -1]);
   const [firstOption, setFirstOption] = useState<string>();
@@ -124,8 +121,7 @@ export default function Home() {
     } else {
       // done with all combos
       setSelectionVisibility("invisibleFade");
-      setUtensilsVisibility("invisibleFade");
-      setFinalVisibility("visibleFade");
+      setRankVisibility("visibleFade");
     }
   }
 
@@ -136,18 +132,6 @@ export default function Home() {
     }
     return sum;
   }
-  // 1: 0 possible combos
-  // 2: 1 possible combo
-  // 3: 3 possible combos
-  // 4: 6 possible combos
-  // 5: 10 possible combos
-  // 6: 15 possible combos
-  // 7: 21 possible combos
-  // 8: 28 possible combo
-  // 9: 36 possible combos
-  // 10: 45 possible combos
-  // 11: 55 possible combos
-  // 12: 66 possible combos
 
   return (
     <>
@@ -164,27 +148,77 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 block lg:flex w-full pt-6 px-8">
-          <h1 className="text-left lg:text-center text-3xl font-bold cursor-default mb-2 lg:mr-8">
+        <div className="absolute top-0 flex w-full pt-10 px-8">
+          <h1 className="w-full text-center text-4xl font-bold cursor-default">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          <div
-            className={`${utensilsVisibility} lg:w-max overflow-x-auto pt-1`}
-          >
-            <ul className="flex whitespace-nowrap space-x-3 scrollbar-hide">
-              {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
-              {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
-                <li
-                  key={index}
-                  className="bg-gray-500/20 rounded-md px-2 py-0.5"
+          {/* <div
+            className="lg:flex lg:flex-row-reverse w-full min-w-0 gap-x-8"
+          > */}
+          {/* <div className="min-w-max flex gap-x-4 ml-auto float-right"> */}
+          {/* <div className="relative">
+                <button
+                  onClick={() => {
+                    if (rankVisibility == "invisibleFade")
+                      setRankVisibility("visibleFade");
+                    else setRankVisibility("invisibleFade");
+                  }}
+                  className="bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2"
                 >
-                  <span>{utensil["title"]}</span>
-                  <span className="font-semibold ml-2">{utensil["score"]}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+                  View ranking
+                </button>
+                <div
+                  className={`${rankVisibility} absolute top-12 right-0 w-max overflow-y-auto bg-gray-200 border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar shadow-md`}
+                >
+                  <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-80 lg:w-96"> */}
+          {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
+          {/* {[...utensilsArray]
+                      .sort(sortUtensils)
+                      .map((utensil, index) => (
+                        <li
+                          key={index}
+                          className="flex odd:bg-orange-400/15 even:bg-blue-400/5 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                        >
+                          <span className="w-full">{utensil["title"]}</span>
+                          <span className="font-semibold text-right ml-2">
+                            {utensil["score"]}
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div> */}
+          {/* <button
+                onClick={() => {
+                  setRankVisibility("invisibleFade");
+                  setStartVisibility("visibleFade");
+                }}
+                className="bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2"
+              >
+                Restart
+              </button>
+            </div> */}
+          {/* <div className="lg:w-max overflow-x-auto pt-1 thin-scrollbar">
+              <ul className="flex whitespace-nowrap space-x-4"> */}
+          {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
+          {/* {[...utensilsArray]
+                  .sort(sortUtensils)
+                  //.splice(0, 3) // only shows top 3
+                  .map((utensil, index) => (
+                    <li
+                      key={index}
+                      className="bg-gray-500/20 first:bg-gradient-to-r from-orange-200/90 via-gray-200/90 to-blue-200/90 rounded-md px-2 py-0.5"
+                    >
+                      <span>{utensil["title"]}</span>
+                      <span className="font-semibold ml-2">
+                        {utensil["score"]}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div> */}
+          {/* </div> */}
         </div>
 
         <div className="relative">
@@ -239,7 +273,6 @@ export default function Home() {
                   setRandomCombo(newCombosArray, newUtensilsArray);
 
                   setSelectionVisibility("visibleFade");
-                  setUtensilsVisibility("visibleFade");
                   setStartVisibility("invisibleFade");
                 }
               }}
@@ -254,7 +287,7 @@ export default function Home() {
           >
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -267,20 +300,26 @@ export default function Home() {
                   setRandomCombo(combosArray, utensilsArray);
                 }}
               >
-                <span className="text-3xl font-semibold text-center">
+                <span className="text-3xl xl:text-4xl font-semibold text-center">
                   {firstOption}
                 </span>
               </button>
+              <div className="lg:-mb-10 xl:-mb-12">
+                <button
+                  className="flex lg:block lg:w-20 lg:h-20 rounded-full lg:border-4 border-gray-500/30 bg-gray-500/20 lg:bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none px-3 py-2 lg:p-2 transition mx-auto"
+                  onClick={() => {
+                    setRandomCombo(combosArray, utensilsArray);
+                  }}
+                >
+                  <span className="lg:text-lg">Skip</span>
+                </button>
+                <h3 className="lg:text-lg text-center mt-3">
+                  {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
+                  {getNumCombos(utensilsArray.length)}
+                </h3>
+              </div>
               <button
-                className="lg:w-20 lg:h-20 rounded-full lg:border-4 border-gray-500/30 bg-gray-500/20 lg:bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none px-3 py-2 lg:p-2 transition"
-                onClick={() => {
-                  setRandomCombo(combosArray, utensilsArray);
-                }}
-              >
-                <span className="lg:text-lg">Skip</span>
-              </button>
-              <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-4 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -293,21 +332,17 @@ export default function Home() {
                   setRandomCombo(combosArray, utensilsArray);
                 }}
               >
-                <span className="text-3xl font-semibold text-center">
+                <span className="text-3xl xl:text-4xl font-semibold text-center">
                   {secondOption}
                 </span>
               </button>
             </div>
-            <h3 className="text-lg text-center mt-6 lg:-mt-10 xl:-mt-12">
-              {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
-              {getNumCombos(utensilsArray.length)}
-            </h3>
           </div>
 
           <div
-            className={`${finalVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+            className={`${rankVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <div className="w-max overflow-x-auto border-gray-400/40 border-2 rounded-lg">
+            <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar">
               <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-80 lg:w-96">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
@@ -325,10 +360,10 @@ export default function Home() {
             </div>
             <button
               onClick={() => {
-                setFinalVisibility("invisibleFade");
+                setRankVisibility("invisibleFade");
                 setStartVisibility("visibleFade");
               }}
-              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
+              className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
               Restart
             </button>
