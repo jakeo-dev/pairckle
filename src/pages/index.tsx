@@ -150,13 +150,13 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 w-full text-center cursor-default pt-10 px-8">
-          <h1 className="block text-5xl font-bold">
+        <div className="absolute top-0 w-full text-center cursor-default pt-12 px-8">
+          <h1 className="block text-4xl lg:text-5xl font-bold">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          <h2 className="block mt-1">
-            Create a ranking through simple comparisons
+          <h2 className="block text-sm lg:text-base text-gray-800 mt-2">
+            Create a ranking through pairwise comparisons
           </h2>
         </div>
 
@@ -217,9 +217,12 @@ export default function Home() {
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2"
+              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2"
             >
-              Hurry (quicker session)
+              Hurry
+              <span className="text-sm text-gray-800 ml-1">
+                (quicker session)
+              </span>
             </button>
             <button
               onClick={() => {
@@ -263,9 +266,12 @@ export default function Home() {
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
+              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
             >
-              Concentrate (more accurate results)
+              Concentrate
+              <span className="text-sm text-gray-800 ml-1">
+                (more accurate results)
+              </span>
             </button>
           </div>
 
