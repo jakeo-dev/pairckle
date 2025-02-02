@@ -192,13 +192,13 @@ export default function Home() {
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
             <label className="block text-black/60 text-sm px-2">
-              Enter a list of things separated by line
+              Enter a list of things separated by line or comma
             </label>
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
               className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-80 lg:w-96" // 1 line = 2.125 rem
-              placeholder="Enter a list of things separated by line..."
+              placeholder="Enter a list of things separated by line or comma..."
               maxLength={-1}
               required={true}
             />
@@ -206,13 +206,26 @@ export default function Home() {
               onClick={() => {
                 if (
                   utensilInput.trim() == "" ||
-                  utensilInput.trim().split("\n").length < 2
+                  (utensilInput.trim().split("\n").length < 2 &&
+                    utensilInput.trim().split(",").length < 2)
                 ) {
-                  alert("Enter a list of things separated by line");
+                  alert("Enter a list of things separated by line or comma");
                 } else {
                   const newUtensilsArray = [];
 
-                  for (const utensilTitle of utensilInput.trim().split("\n")) {
+                  // if input is not separated by lines, then assume its separated by commas
+                  // lines trump commas
+                  let splitKey = "\n";
+                  if (
+                    utensilInput.trim().split("\n").length < 2 &&
+                    utensilInput.trim().split(",").length > 1
+                  ) {
+                    splitKey = ",";
+                  }
+
+                  for (const utensilTitle of utensilInput
+                    .trim()
+                    .split(splitKey)) {
                     newUtensilsArray.push({
                       title: utensilTitle.trim(),
                       score: 0,
