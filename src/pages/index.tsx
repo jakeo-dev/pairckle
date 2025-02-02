@@ -12,6 +12,8 @@ export default function Home() {
   const [firstOption, setFirstOption] = useState<string>();
   const [secondOption, setSecondOption] = useState<string>();
 
+  const [maxCombos, setMaxCombos] = useState<number>(1);
+
   const [utensilInput, setUtensilInput] = useState<string>("");
   const [utensilsArray, setUtensilsArray] = useState<
     {
@@ -106,7 +108,7 @@ export default function Home() {
       score: number;
     }[]
   ) {
-    if (combosArray.length > 0) {
+    if (getNumCombos(utensilsArray.length) - combosArray.length < maxCombos) {
       // gets random combo
       const randomCombo =
         combosArray[Math.floor(Math.random() * combosArray.length)];
@@ -148,77 +150,14 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 flex w-full pt-10 px-8">
-          <h1 className="w-full text-center text-4xl font-bold cursor-default">
+        <div className="absolute top-0 w-full text-center cursor-default pt-10 px-8">
+          <h1 className="block text-5xl font-bold">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          {/* <div
-            className="lg:flex lg:flex-row-reverse w-full min-w-0 gap-x-8"
-          > */}
-          {/* <div className="min-w-max flex gap-x-4 ml-auto float-right"> */}
-          {/* <div className="relative">
-                <button
-                  onClick={() => {
-                    if (rankVisibility == "invisibleFade")
-                      setRankVisibility("visibleFade");
-                    else setRankVisibility("invisibleFade");
-                  }}
-                  className="bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2"
-                >
-                  View ranking
-                </button>
-                <div
-                  className={`${rankVisibility} absolute top-12 right-0 w-max overflow-y-auto bg-gray-200 border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar shadow-md`}
-                >
-                  <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-80 lg:w-96"> */}
-          {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
-          {/* {[...utensilsArray]
-                      .sort(sortUtensils)
-                      .map((utensil, index) => (
-                        <li
-                          key={index}
-                          className="flex odd:bg-orange-400/15 even:bg-blue-400/5 first:rounded-t-md last:rounded-b-md px-2 py-1"
-                        >
-                          <span className="w-full">{utensil["title"]}</span>
-                          <span className="font-semibold text-right ml-2">
-                            {utensil["score"]}
-                          </span>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </div> */}
-          {/* <button
-                onClick={() => {
-                  setRankVisibility("invisibleFade");
-                  setStartVisibility("visibleFade");
-                }}
-                className="bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2"
-              >
-                Restart
-              </button>
-            </div> */}
-          {/* <div className="lg:w-max overflow-x-auto pt-1 thin-scrollbar">
-              <ul className="flex whitespace-nowrap space-x-4"> */}
-          {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
-          {/* {[...utensilsArray]
-                  .sort(sortUtensils)
-                  //.splice(0, 3) // only shows top 3
-                  .map((utensil, index) => (
-                    <li
-                      key={index}
-                      className="bg-gray-500/20 first:bg-gradient-to-r from-orange-200/90 via-gray-200/90 to-blue-200/90 rounded-md px-2 py-0.5"
-                    >
-                      <span>{utensil["title"]}</span>
-                      <span className="font-semibold ml-2">
-                        {utensil["score"]}
-                      </span>
-                    </li>
-                  ))}
-              </ul>
-            </div> */}
-          {/* </div> */}
+          <h2 className="block mt-1">
+            Create a ranking through simple comparisons
+          </h2>
         </div>
 
         <div className="relative">
@@ -268,6 +207,8 @@ export default function Home() {
 
                   const newCombosArray = generateCombos(newUtensilsArray);
 
+                  setMaxCombos(Math.ceil(newCombosArray.length / 2));
+
                   setUtensilsArray(newUtensilsArray);
                   setCombosArray(newCombosArray);
                   setRandomCombo(newCombosArray, newUtensilsArray);
@@ -278,7 +219,53 @@ export default function Home() {
               }}
               className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2"
             >
-              Start
+              Hurry (quicker session)
+            </button>
+            <button
+              onClick={() => {
+                if (
+                  utensilInput.trim() == "" ||
+                  (utensilInput.trim().split("\n").length < 2 &&
+                    utensilInput.trim().split(",").length < 2)
+                ) {
+                  alert("Enter a list of things separated by line or comma");
+                } else {
+                  const newUtensilsArray = [];
+
+                  // if input is not separated by lines, then assume its separated by commas
+                  // lines trump commas
+                  let splitKey = "\n";
+                  if (
+                    utensilInput.trim().split("\n").length < 2 &&
+                    utensilInput.trim().split(",").length > 1
+                  ) {
+                    splitKey = ",";
+                  }
+
+                  for (const utensilTitle of utensilInput
+                    .trim()
+                    .split(splitKey)) {
+                    newUtensilsArray.push({
+                      title: utensilTitle.trim(),
+                      score: 0,
+                    });
+                  }
+
+                  const newCombosArray = generateCombos(newUtensilsArray);
+
+                  setMaxCombos(newCombosArray.length);
+
+                  setUtensilsArray(newUtensilsArray);
+                  setCombosArray(newCombosArray);
+                  setRandomCombo(newCombosArray, newUtensilsArray);
+
+                  setSelectionVisibility("visibleFade");
+                  setStartVisibility("invisibleFade");
+                }
+              }}
+              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
+            >
+              Concentrate (more accurate results)
             </button>
           </div>
 
@@ -315,7 +302,9 @@ export default function Home() {
                 </button>
                 <h3 className="lg:text-lg text-center mt-3">
                   {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
-                  {getNumCombos(utensilsArray.length)}
+                  {maxCombos == getNumCombos(utensilsArray.length)
+                    ? getNumCombos(utensilsArray.length)
+                    : Math.ceil(getNumCombos(utensilsArray.length) / 2)}
                 </h3>
               </div>
               <button
