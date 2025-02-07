@@ -144,7 +144,7 @@ export default function Home() {
         <meta property="og:title" content="Pairckle" />
         <meta
           property="og:description"
-          content="Easily rank your favorite things with simple pairwise comparisons."
+          content="Easily rank your favorite things through simple pairwise comparisons."
         />
         <meta name="theme-color" content="#f97316" />
       </Head>
@@ -171,7 +171,7 @@ export default function Home() {
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
               className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-80 lg:w-96" // 1 line = 2.125 rem
-              placeholder="Enter a list of things separated by line or comma..."
+              placeholder="Start listing your favorite things here..."
               maxLength={-1}
               required={true}
             />
