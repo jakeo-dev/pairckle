@@ -14,6 +14,8 @@ export default function Home() {
 
   const [maxCombos, setMaxCombos] = useState<number>(1);
 
+  //const [titleInput, setTitleInput] = useState<string>("");
+
   const [utensilInput, setUtensilInput] = useState<string>("");
   const [utensilsArray, setUtensilsArray] = useState<
     {
@@ -150,12 +152,12 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 w-full text-center cursor-default pt-16 px-8">
+        <div className="absolute top-0 w-full text-center cursor-default pt-8 lg:pt-16 px-8">
           <h1 className="block text-4xl lg:text-5xl font-bold">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          <h2 className="block text-sm lg:text-base text-gray-800 mt-2">
+          <h2 className="block text-sm lg:text-base text-gray-800 mt-1 lg:mt-2">
             Create a ranking through pairwise comparisons
           </h2>
         </div>
@@ -164,13 +166,24 @@ export default function Home() {
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            <label className="block text-black/60 text-sm px-2">
+            {/* <label className="block text-black/60 text-xs lg:text-sm px-2">
+              Enter a title for your ranking
+            </label>
+            <input
+              value={titleInput}
+              onInput={(e) => setTitleInput(e.currentTarget.value)}
+              className="w-full bg-gray-400/10 hover:bg-gray-400/20 focus:bg-gray-400/20 border-gray-400/30 border-2 rounded-md text-left transition px-3 py-2 mb-2 lg:mb-4" // 1 line = 2.125 rem
+              placeholder="Enter a title here..."
+              maxLength={-1}
+              required={true}
+            /> */}
+            <label className="block text-black/60 text-xs lg:text-sm px-2">
               Enter a list of things separated by line or comma
             </label>
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
-              className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-80 lg:w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
@@ -217,7 +230,7 @@ export default function Home() {
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2"
+              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
             >
               Hurry
               <span className="text-sm text-gray-800 ml-1">
@@ -266,7 +279,7 @@ export default function Home() {
                   setStartVisibility("invisibleFade");
                 }
               }}
-              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
+              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-2"
             >
               Concentrate
               <span className="text-sm text-gray-800 ml-1">
@@ -351,8 +364,11 @@ export default function Home() {
           <div
             className={`${rankVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
+            {/* <h2 className="text-lg text-center font-medium px-2 mb-1">
+              {titleInput}
+            </h2> */}
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[55vh] lg:max-h-[70.85vh] w-80 lg:w-96">
+              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-96">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
@@ -376,6 +392,30 @@ export default function Home() {
             >
               Restart
             </button>
+            {/* <button
+              onClick={() => {
+                let text =
+                  "Ranking from Pairckle \nhttps://pairckle.jakeo.dev \n\n";
+                [...utensilsArray]
+                  .sort(sortUtensils)
+                  .forEach(
+                    (utensil) =>
+                      (text +=
+                        "#" +
+                        ([...utensilsArray]
+                          .sort(sortUtensils)
+                          .indexOf(utensil) +
+                          1) +
+                        " " +
+                        utensil.title +
+                        "\n")
+                  );
+                navigator.clipboard.writeText(text);
+              }}
+              className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+            >
+              Share
+            </button> */}
           </div>
         </div>
       </div>
