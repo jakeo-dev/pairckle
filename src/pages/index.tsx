@@ -2,6 +2,9 @@ import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import { useState } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
+
 export default function Home() {
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
   const [selectionVisibility, setSelectionVisibility] =
@@ -164,7 +167,7 @@ export default function Home() {
 
         <div className="relative">
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-6 lg:mt-0`}
           >
             {/* <label className="block text-black/60 text-xs lg:text-sm px-2">
               Enter a title for your ranking
@@ -188,104 +191,114 @@ export default function Home() {
               maxLength={-1}
               required={true}
             />
-            <button
-              onClick={() => {
-                if (
-                  utensilInput.trim() == "" ||
-                  (utensilInput.trim().split("\n").length < 2 &&
-                    utensilInput.trim().split(",").length < 2)
-                ) {
-                  alert("Enter a list of things separated by line or comma");
-                } else {
-                  const newUtensilsArray = [];
-
-                  // if input is not separated by lines, then assume its separated by commas
-                  // lines trump commas
-                  let splitKey = "\n";
+            <div className="flex gap-2 mt-0.5">
+              <button
+                onClick={() => {
                   if (
-                    utensilInput.trim().split("\n").length < 2 &&
-                    utensilInput.trim().split(",").length > 1
+                    utensilInput.trim() == "" ||
+                    (utensilInput.trim().split("\n").length < 2 &&
+                      utensilInput.trim().split(",").length < 2)
                   ) {
-                    splitKey = ",";
+                    alert("Enter a list of things separated by line or comma");
+                  } else {
+                    const newUtensilsArray = [];
+
+                    // if input is not separated by lines, then assume its separated by commas
+                    // lines trump commas
+                    let splitKey = "\n";
+                    if (
+                      utensilInput.trim().split("\n").length < 2 &&
+                      utensilInput.trim().split(",").length > 1
+                    ) {
+                      splitKey = ",";
+                    }
+
+                    for (const utensilTitle of utensilInput
+                      .trim()
+                      .split(splitKey)) {
+                      newUtensilsArray.push({
+                        title: utensilTitle.trim(),
+                        score: 0,
+                      });
+                    }
+
+                    const newCombosArray = generateCombos(newUtensilsArray);
+
+                    setMaxCombos(Math.ceil(newCombosArray.length / 2));
+
+                    setUtensilsArray(newUtensilsArray);
+                    setCombosArray(newCombosArray);
+                    setRandomCombo(newCombosArray, newUtensilsArray);
+
+                    setSelectionVisibility("visibleFade");
+                    setStartVisibility("invisibleFade");
                   }
-
-                  for (const utensilTitle of utensilInput
-                    .trim()
-                    .split(splitKey)) {
-                    newUtensilsArray.push({
-                      title: utensilTitle.trim(),
-                      score: 0,
-                    });
-                  }
-
-                  const newCombosArray = generateCombos(newUtensilsArray);
-
-                  setMaxCombos(Math.ceil(newCombosArray.length / 2));
-
-                  setUtensilsArray(newUtensilsArray);
-                  setCombosArray(newCombosArray);
-                  setRandomCombo(newCombosArray, newUtensilsArray);
-
-                  setSelectionVisibility("visibleFade");
-                  setStartVisibility("invisibleFade");
-                }
-              }}
-              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-1"
-            >
-              Hurry
-              <span className="text-sm text-gray-800 ml-1">
-                (quicker session)
-              </span>
-            </button>
-            <button
-              onClick={() => {
-                if (
-                  utensilInput.trim() == "" ||
-                  (utensilInput.trim().split("\n").length < 2 &&
-                    utensilInput.trim().split(",").length < 2)
-                ) {
-                  alert("Enter a list of things separated by line or comma");
-                } else {
-                  const newUtensilsArray = [];
-
-                  // if input is not separated by lines, then assume its separated by commas
-                  // lines trump commas
-                  let splitKey = "\n";
+                }}
+                className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
+              >
+                <FontAwesomeIcon
+                  icon={faBolt}
+                  className="block text-3xl text-orange-500"
+                />
+                <span className="block mt-2">Hurry</span>
+                <span className="block text-sm text-gray-800">
+                  Quicker session
+                </span>
+              </button>
+              <button
+                onClick={() => {
                   if (
-                    utensilInput.trim().split("\n").length < 2 &&
-                    utensilInput.trim().split(",").length > 1
+                    utensilInput.trim() == "" ||
+                    (utensilInput.trim().split("\n").length < 2 &&
+                      utensilInput.trim().split(",").length < 2)
                   ) {
-                    splitKey = ",";
+                    alert("Enter a list of things separated by line or comma");
+                  } else {
+                    const newUtensilsArray = [];
+
+                    // if input is not separated by lines, then assume its separated by commas
+                    // lines trump commas
+                    let splitKey = "\n";
+                    if (
+                      utensilInput.trim().split("\n").length < 2 &&
+                      utensilInput.trim().split(",").length > 1
+                    ) {
+                      splitKey = ",";
+                    }
+
+                    for (const utensilTitle of utensilInput
+                      .trim()
+                      .split(splitKey)) {
+                      newUtensilsArray.push({
+                        title: utensilTitle.trim(),
+                        score: 0,
+                      });
+                    }
+
+                    const newCombosArray = generateCombos(newUtensilsArray);
+
+                    setMaxCombos(newCombosArray.length);
+
+                    setUtensilsArray(newUtensilsArray);
+                    setCombosArray(newCombosArray);
+                    setRandomCombo(newCombosArray, newUtensilsArray);
+
+                    setSelectionVisibility("visibleFade");
+                    setStartVisibility("invisibleFade");
                   }
-
-                  for (const utensilTitle of utensilInput
-                    .trim()
-                    .split(splitKey)) {
-                    newUtensilsArray.push({
-                      title: utensilTitle.trim(),
-                      score: 0,
-                    });
-                  }
-
-                  const newCombosArray = generateCombos(newUtensilsArray);
-
-                  setMaxCombos(newCombosArray.length);
-
-                  setUtensilsArray(newUtensilsArray);
-                  setCombosArray(newCombosArray);
-                  setRandomCombo(newCombosArray, newUtensilsArray);
-
-                  setSelectionVisibility("visibleFade");
-                  setStartVisibility("invisibleFade");
-                }
-              }}
-              className="flex justify-center items-center w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-2 mt-2"
-            >
-              Concentrate
-              <span className="text-sm text-gray-800 ml-1">
-                (more accurate results)
-              </span>
-            </button>
+                }}
+                className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
+              >
+                <FontAwesomeIcon
+                  icon={faBullseye}
+                  className="block text-3xl text-blue-500"
+                />
+                <span className="block mt-2">Concentrate</span>
+                <span className="block text-sm text-gray-800">
+                  More accurate results
+                </span>
+              </button>
+            </div>
           </div>
 
           <div
