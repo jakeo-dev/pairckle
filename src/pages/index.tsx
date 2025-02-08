@@ -367,16 +367,26 @@ export default function Home() {
             {/* <h2 className="text-lg text-center font-medium px-2 mb-1">
               {titleInput}
             </h2> */}
+            <div className="flex w-full">
+              <span className="block text-black/60 text-xs lg:text-sm px-2">
+                Element
+              </span>
+              <span className="block w-full text-right text-black/60 text-xs lg:text-sm px-2">
+                Number of matchups won
+              </span>
+            </div>
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-96">
+              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-[30rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
-                    className="flex odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                    className="flex items-center justify-center odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2.5 lg:px-3 py-1.5 lg:py-2"
                   >
-                    <span className="w-full">{utensil["title"]}</span>
-                    <span className="font-semibold text-right ml-2">
+                    <span className="text-lg lg:text-xl w-full">
+                      {utensil["title"]}
+                    </span>
+                    <span className="lg:text-lg font-semibold text-right ml-3">
                       {utensil["score"]}
                     </span>
                   </li>
