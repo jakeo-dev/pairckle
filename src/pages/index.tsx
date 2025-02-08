@@ -150,7 +150,7 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 w-full text-center cursor-default pt-12 px-8">
+        <div className="absolute top-0 w-full text-center cursor-default pt-16 px-8">
           <h1 className="block text-4xl lg:text-5xl font-bold">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
@@ -171,7 +171,7 @@ export default function Home() {
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
               className="min-h-[17rem] max-h-[55vh] lg:max-h-[70vh] w-80 lg:w-96" // 1 line = 2.125 rem
-              placeholder="Start listing your favorite things here..."
+              placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
             />
@@ -297,7 +297,7 @@ export default function Home() {
                   {firstOption}
                 </span>
               </button>
-              <div className="lg:-mb-10 xl:-mb-12">
+              <div className="lg:-mb-2 xl:-mb-4">
                 <button
                   className="flex lg:block lg:w-20 lg:h-20 rounded-full lg:border-4 border-gray-500/30 bg-gray-500/20 lg:bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none px-3 py-2 lg:p-2 transition mx-auto"
                   onClick={() => {
@@ -306,12 +306,6 @@ export default function Home() {
                 >
                   <span className="lg:text-lg">Skip</span>
                 </button>
-                <h3 className="lg:text-lg text-center mt-3">
-                  {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
-                  {maxCombos == getNumCombos(utensilsArray.length)
-                    ? getNumCombos(utensilsArray.length)
-                    : Math.ceil(getNumCombos(utensilsArray.length) / 2)}
-                </h3>
               </div>
               <button
                 className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
@@ -332,6 +326,26 @@ export default function Home() {
                 </span>
               </button>
             </div>
+
+            <div className="flex items-center justify-center">
+              <progress
+                className="progress-bar w-full h-2 mt-6"
+                value={
+                  (getNumCombos(utensilsArray.length) -
+                    combosArray.length -
+                    1) /
+                  (maxCombos == getNumCombos(utensilsArray.length)
+                    ? getNumCombos(utensilsArray.length)
+                    : Math.ceil(getNumCombos(utensilsArray.length) / 2))
+                }
+              ></progress>
+            </div>
+            <h3 className="text-center mt-2">
+              Pair {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
+              {maxCombos == getNumCombos(utensilsArray.length)
+                ? getNumCombos(utensilsArray.length)
+                : Math.ceil(getNumCombos(utensilsArray.length) / 2)}
+            </h3>
           </div>
 
           <div

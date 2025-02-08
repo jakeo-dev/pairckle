@@ -31,4 +31,23 @@
   .thin-scrollbar::-webkit-thin-scrollbar-thumb:hover {
     background: rgb(107 114 128 / 0.6);
   }
+
+  .progress-bar {
+    border-radius: 9999px;
+  }
+
+  .progress-bar::-webkit-progress-bar {
+    background-color: rgb(156 163 175 / 0.3);
+    border-radius: 9999px;
+  }
+
+  .progress-bar::-webkit-progress-value {
+    background-color: rgb(156 163 175 / 0.8);
+    border-radius: 9999px;
+  }
+
+  .progress-bar::-moz-progress-bar {
+    background-color: rgb(156 163 175 / 0.3);
+    border-radius: 9999px;
+  }
 }
