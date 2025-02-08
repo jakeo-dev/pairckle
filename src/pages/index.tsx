@@ -3,7 +3,11 @@ import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBolt,
+  faBullseye,
+  faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
@@ -238,7 +242,7 @@ export default function Home() {
               >
                 <FontAwesomeIcon
                   icon={faBolt}
-                  className="block text-3xl text-orange-500"
+                  className="block text-3xl text-orange-500 mx-auto"
                 />
                 <span className="block mt-2">Hurry</span>
                 <span className="block text-sm text-gray-800">
@@ -291,7 +295,7 @@ export default function Home() {
               >
                 <FontAwesomeIcon
                   icon={faBullseye}
-                  className="block text-3xl text-blue-500"
+                  className="block text-3xl text-blue-500 mx-auto"
                 />
                 <span className="block mt-2">Concentrate</span>
                 <span className="block text-sm text-gray-800">
@@ -411,8 +415,9 @@ export default function Home() {
                 setRankVisibility("invisibleFade");
                 setStartVisibility("visibleFade");
               }}
-              className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
+              <FontAwesomeIcon icon={faRotateRight} className="text-sm mr-2" />
               Restart
             </button>
             {/* <button
