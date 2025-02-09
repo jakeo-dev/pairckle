@@ -1,12 +1,14 @@
 import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
+  faBookmark,
   faBullseye,
   faRotateRight,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
@@ -14,14 +16,14 @@ export default function Home() {
   const [selectionVisibility, setSelectionVisibility] =
     useState<string>("invisibleFade");
   const [rankVisibility, setRankVisibility] = useState<string>("invisibleFade");
+  const [savedRankingsModalVisibility, setSavedRankingsModalVisibility] =
+    useState<string>("invisibleFade");
 
   const [currentCombo, setCurrentCombo] = useState<number[]>([-1, -1]);
   const [firstOption, setFirstOption] = useState<string>();
   const [secondOption, setSecondOption] = useState<string>();
 
   const [maxCombos, setMaxCombos] = useState<number>(1);
-
-  //const [titleInput, setTitleInput] = useState<string>("");
 
   const [utensilInput, setUtensilInput] = useState<string>("");
   const [utensilsArray, setUtensilsArray] = useState<
@@ -32,6 +34,17 @@ export default function Home() {
   >([{ title: "", score: 0 }]);
 
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
+
+  const [savedRankings, setSavedRankings] = useState<
+    {
+      rankingName: string;
+      rankedUtensils: { title: string; score: number }[];
+    }[]
+  >([]);
+
+  useEffect(() => {
+    setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
+  }, []);
 
   function sortUtensils(
     a: {
@@ -75,9 +88,9 @@ export default function Home() {
         const secondUtensil = array.indexOf(utensil2);
 
         if (
-          /* checks if combo is the same utensil twice */
+          // checks if combo is the same utensil twice
           firstUtensil != secondUtensil &&
-          /* checks if duplicate combos in other orders already exists in combinations */
+          // checks if duplicate combos in other orders already exists in combinations
           !combinations
             .map((combo) => JSON.stringify(combo))
             .includes(JSON.stringify([secondUtensil, firstUtensil]))
@@ -144,6 +157,10 @@ export default function Home() {
     return sum;
   }
 
+  function randomElement<T>(array: T[]): T {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
   return (
     <>
       <Head>
@@ -159,31 +176,90 @@ export default function Home() {
       </Head>
 
       <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute top-0 w-full text-center cursor-default pt-8 lg:pt-16 px-8">
-          <h1 className="block text-4xl lg:text-5xl font-bold">
+        <div className="absolute top-0 w-full text-center cursor-default pt-10 lg:pt-14 px-8">
+          <h1 className="block text-3xl lg:text-4xl font-bold">
             <span className="text-orange-500">Pair</span>
             <span className="text-blue-500">ckle</span>
           </h1>
-          <h2 className="block text-sm lg:text-base text-gray-800 mt-1 lg:mt-2">
+          <h2 className="block text-xs lg:text-sm text-gray-800 mt-1 lg:mt-2">
             Create a ranking through pairwise comparisons
           </h2>
+        </div>
+
+        <div
+          className={`${savedRankingsModalVisibility} bg-black/40 w-full h-full flex justify-center items-center absolute top-0 left-0 z-10`}
+        >
+          <div>
+            <div className="bg-gray-100 h-[70vh] w-[90vw] lg:w-[40rem] border-gray-300 border-2 rounded-lg overflow-y-auto px-6 lg:px-12 py-8">
+              <h1 className="flex justify-center items-center text-xl font-semibold">
+                <FontAwesomeIcon icon={faBookmark} className="text-base mr-2" />
+                Saved rankings
+              </h1>
+              {[...savedRankings].map((ranking, index1) => (
+                <div className="mt-6 first:mt-0" key={index1}>
+                  <div className="flex px-2">
+                    <h2 className="font-medium w-full">
+                      {ranking["rankingName"]}
+                    </h2>
+                    <button
+                      className="w-min flex justify-end items-center text-sm text-right hover:text-red-500 active:text-red-600 transition"
+                      onClick={() => {
+                        if (
+                          confirm(
+                            "Are you sure you want to delete " +
+                              ranking["rankingName"] +
+                              "?"
+                          )
+                        ) {
+                          const newSavedRankings = savedRankings.filter(
+                            (r) => r !== ranking
+                          );
+                          setSavedRankings(newSavedRankings);
+                          localStorage.setItem(
+                            "savedRankings",
+                            JSON.stringify(newSavedRankings)
+                          );
+                        }
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faXmark} className="mr-1" />
+                      Delete
+                    </button>
+                  </div>
+                  <ul className="border-gray-300 border-2 rounded-lg">
+                    {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
+                    {[...ranking["rankedUtensils"]]
+                      .sort(sortUtensils)
+                      .map((utensil, index2) => (
+                        <li
+                          key={index2}
+                          className="flex items-center justify-center odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                        >
+                          <span className="w-full">{utensil["title"]}</span>
+                          <span className="font-semibold text-right ml-3">
+                            {utensil["score"]}
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <button
+              className="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 border-gray-300 border-2 rounded-lg w-full py-1.5 lg:py-2 mt-2 transition"
+              onClick={() => {
+                setSavedRankingsModalVisibility("invisibleFade");
+              }}
+            >
+              Close
+            </button>
+          </div>
         </div>
 
         <div className="relative">
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-6 lg:mt-0`}
           >
-            {/* <label className="block text-black/60 text-xs lg:text-sm px-2">
-              Enter a title for your ranking
-            </label>
-            <input
-              value={titleInput}
-              onInput={(e) => setTitleInput(e.currentTarget.value)}
-              className="w-full bg-gray-400/10 hover:bg-gray-400/20 focus:bg-gray-400/20 border-gray-400/30 border-2 rounded-md text-left transition px-3 py-2 mb-2 lg:mb-4" // 1 line = 2.125 rem
-              placeholder="Enter a title here..."
-              maxLength={-1}
-              required={true}
-            /> */}
             <label className="block text-black/60 text-xs lg:text-sm px-2">
               Enter a list of things separated by line or comma
             </label>
@@ -303,6 +379,15 @@ export default function Home() {
                 </span>
               </button>
             </div>
+            <button
+              onClick={() => {
+                setSavedRankingsModalVisibility("visibleFade");
+              }}
+              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6 mt-2"
+            >
+              <FontAwesomeIcon icon={faBookmark} className="text-sm mr-2" />
+              Saved rankings
+            </button>
           </div>
 
           <div
@@ -381,9 +466,6 @@ export default function Home() {
           <div
             className={`${rankVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
           >
-            {/* <h2 className="text-lg text-center font-medium px-2 mb-1">
-              {titleInput}
-            </h2> */}
             <div className="flex w-full">
               <span className="block text-black/60 text-xs lg:text-sm px-2">
                 Element
@@ -392,7 +474,7 @@ export default function Home() {
                 Number of matchups won
               </span>
             </div>
-            <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg z-10 thin-scrollbar">
+            <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
               <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-[30rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
@@ -419,6 +501,166 @@ export default function Home() {
             >
               <FontAwesomeIcon icon={faRotateRight} className="text-sm mr-2" />
               Restart
+            </button>
+            <button
+              onClick={() => {
+                //const randomRankingName = "New ranking #" + (savedRankings.length + 1);
+
+                const randomRankingName =
+                  randomElement(["Best", "Greatest", "Top"]) +
+                  " " +
+                  randomElement([
+                    "pickles",
+                    "spaghetti and meatballs",
+                    "fettuccine alfredos",
+                    "penne pastas",
+                    "macaroni and cheeses",
+                    "raviolis",
+                    "lasagnas",
+                    "udons",
+                    "ramens",
+                    "carbonaras",
+                    "baked zitis",
+                    "gnocchis",
+                    "pizzas",
+                    "calzones",
+                    "garlic breads",
+                    "focaccias",
+                    "cheese breads",
+                    "flatbreads",
+                    "french bread pizzas",
+                    "deep-dish pizzas",
+                    "pepperoni rolls",
+                    "burgers",
+                    "cheeseburgers",
+                    "chicken sandwiches",
+                    "grilled cheeses",
+                    "tuna melts",
+                    "sloppy joes",
+                    "philly cheesesteaks",
+                    "paninis",
+                    "shawarmas",
+                    "gyros",
+                    "falafels",
+                    "bánh mis",
+                    "tacos",
+                    "burritos",
+                    "quesadillas",
+                    "fajitas",
+                    "enchiladas",
+                    "tamales",
+                    "nachos",
+                    "tostadas",
+                    "sushis",
+                    "sashimis",
+                    "teriyakis",
+                    "tempuras",
+                    "spring rolls",
+                    "egg rolls",
+                    "dumplings",
+                    "orange chickens",
+                    "fried rices",
+                    "chow meins",
+                    "bulgogis",
+                    "chicken soups",
+                    "tomato soups",
+                    "french onion soups",
+                    "clam chowders",
+                    "lobster bisques",
+                    "beef stews",
+                    "vegetable stews",
+                    "lentil soups",
+                    "gazpachos",
+                    "minestrones",
+                    "tortilla soups",
+                    "jambalayas",
+                    "miso soups",
+                    "ribs",
+                    "briskets",
+                    "steaks",
+                    "meatloaves",
+                    "chicken parmesans",
+                    "fried chickens",
+                    "buffalo wings",
+                    "honey garlic wings",
+                    "beef bourguignons",
+                    "chicken pot pies",
+                    "casseroles",
+                    "stuffed peppers",
+                    "baked pastas",
+                    "pot pies",
+                    "pastitsios",
+                    "ratatouilles",
+                    "eggplant parmesans",
+                    "pancakes",
+                    "waffles",
+                    "french toasts",
+                    "crepes",
+                    "scrambled eggs",
+                    "omelets",
+                    "eggs benedicts",
+                    "breakfast burritos",
+                    "breakfast sandwiches",
+                    "hash browns",
+                    "fish and chips",
+                    "grilled salmons",
+                    "crab cakes",
+                    "lobster rolls",
+                    "shrimp scampis",
+                    "mozzarella sticks",
+                    "jalapeno poppers",
+                    "stuffed mushrooms",
+                    "deviled eggs",
+                    "bruschettas",
+                    "caprese salads",
+                    "chicken tenders",
+                  ]) +
+                  " " +
+                  randomElement([
+                    "of all time",
+                    "ever",
+                    "of the year",
+                    "of the century",
+                    "in history",
+                    "in the country",
+                    "in the world",
+                    "on Earth",
+                  ]);
+
+                const rankingNameInput = prompt(
+                  "Enter a title for this ranking",
+                  randomRankingName
+                );
+                let rankingName = "";
+                if (rankingNameInput !== null) {
+                  rankingName = rankingNameInput;
+
+                  const savedRankingsArray = JSON.parse(
+                    localStorage.getItem("savedRankings") ?? "[]"
+                  );
+
+                  const rankingsArray = Array.isArray(savedRankingsArray)
+                    ? savedRankingsArray
+                    : [];
+
+                  rankingsArray.unshift({
+                    rankingName: rankingName,
+                    rankedUtensils: [...utensilsArray].sort(sortUtensils),
+                  });
+
+                  localStorage.setItem(
+                    "savedRankings",
+                    JSON.stringify(rankingsArray)
+                  );
+                  setSavedRankings(rankingsArray);
+
+                  setSavedRankingsModalVisibility("visibleFade");
+                }
+              }}
+              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+            >
+              <FontAwesomeIcon icon={faBookmark} className="text-sm mr-2" />
+              Save this ranking
             </button>
             {/* <button
               onClick={() => {
