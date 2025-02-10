@@ -49,18 +49,22 @@ export default function Rankings() {
         <meta name="theme-color" content="#f97316" />
       </Head>
 
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="min-h-screen lg:min-h-full">
         <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
-          <div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className={savedRankings.length < 1 ? "hidden" : ""}>
+            <div
+              className={`grid grid-cols-1 ${
+                savedRankings.length != 1 ? "lg:grid-cols-2" : ""
+              } gap-6 lg:gap-8 w-full`}
+            >
               {[...savedRankings].map((ranking, index1) => (
-                <div className="max-w-80 lg:max-w-96" key={index1}>
-                  <div className="flex gap-2 px-2 mb-1">
+                <div className="w-80 lg:w-96" key={index1}>
+                  <div className="flex gap-2 items-end px-2 mb-1">
                     <h2 className="font-medium w-full lg:line-clamp-1 overflow-ellipsis">
                       {ranking["rankingName"]}
                     </h2>
                     <button
-                      className="w-min flex justify-end items-center text-sm text-right bg-gray-400/20 rounded-md hover:text-red-500 active:text-red-600 transition px-1.5"
+                      className="w-min flex justify-end items-center h-min text-sm text-right bg-gray-400/20 rounded-md hover:text-red-500 active:text-red-600 transition px-1.5 py-0.5"
                       onClick={() => {
                         if (
                           confirm(
@@ -103,6 +107,12 @@ export default function Rankings() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className={savedRankings.length < 1 ? "" : "hidden"}>
+            <h2 className="text-gray-600 text-3xl">
+              You haven't saved any rankings yet...
+            </h2>
           </div>
         </div>
       </div>

@@ -164,7 +164,7 @@ export default function Home() {
       <div className="flex justify-center items-center min-h-screen">
         <div className="relative pb-16">
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-6 lg:mt-0`}
+            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-8 lg:mt-0`}
           >
             <label className="block text-black/60 text-xs lg:text-sm px-2">
               Enter a list of things separated by line or comma
@@ -172,7 +172,7 @@ export default function Home() {
             <ResponsiveTextArea
               value={utensilInput}
               onInput={(e) => setUtensilInput(e.currentTarget.value)}
-              className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-[85vw] lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}

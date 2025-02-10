@@ -5,8 +5,8 @@ export default function Home() {
   const { pathname } = useRouter();
 
   return (
-    <div className="absolute top-0 w-full text-center flex justify-between  p-8">
-      <div className=" text-left cursor-default">
+    <div className="absolute top-0 w-full text-center lg:flex justify-between p-8">
+      <div className="text-left cursor-default">
         <h1 className="block text-2xl lg:text-3xl font-bold">
           <span className="text-orange-500">Pair</span>
           <span className="text-blue-500">ckle</span>
@@ -16,13 +16,13 @@ export default function Home() {
         </h2>
       </div>
 
-      <div className="h-min flex gap-2">
+      <div className="h-min flex gap-2 mt-4 lg:mt-0">
         <Link
           className={`${
             pathname == "/"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md transition px-3 py-4 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-3 py-2 lg:py-2`}
           href="/"
         >
           Create a ranking
@@ -32,7 +32,7 @@ export default function Home() {
             pathname == "/rankings"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md transition px-3 py-4 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-3 py-2 lg:py-2`}
           href="/rankings"
         >
           Saved rankings
