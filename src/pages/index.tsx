@@ -1,6 +1,6 @@
 import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
