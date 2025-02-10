@@ -5,13 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Rankings() {
-  const [utensilsArray, setUtensilsArray] = useState<
-    {
-      title: string;
-      score: number;
-    }[]
-  >([{ title: "", score: 0 }]);
-
   const [savedRankings, setSavedRankings] = useState<
     {
       rankingName: string;
@@ -36,14 +29,6 @@ export default function Rankings() {
     // sort by score, highest to lowest
     if (a.score !== b.score) {
       return b.score - a.score;
-    }
-
-    const aIndex = utensilsArray.indexOf(a);
-    const bIndex = utensilsArray.indexOf(b);
-
-    // sort by how the utensils were inputted, lower index to higher index
-    if (aIndex !== bIndex) {
-      return aIndex - bIndex;
     }
 
     // sort alphabetically

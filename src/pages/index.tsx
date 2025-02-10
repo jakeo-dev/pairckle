@@ -32,17 +32,6 @@ export default function Home() {
 
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
-  const [savedRankings, setSavedRankings] = useState<
-    {
-      rankingName: string;
-      rankedUtensils: { title: string; score: number }[];
-    }[]
-  >([]);
-
-  useEffect(() => {
-    setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
-  }, []);
-
   function sortUtensils(
     a: {
       title: string;
@@ -560,7 +549,6 @@ export default function Home() {
                     "savedRankings",
                     JSON.stringify(rankingsArray)
                   );
-                  setSavedRankings(rankingsArray);
                 }
               }}
               className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
