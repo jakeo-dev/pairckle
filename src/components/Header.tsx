@@ -1,0 +1,43 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+export default function Home() {
+  const { pathname } = useRouter();
+
+  return (
+    <div className="absolute top-0 w-full text-center flex justify-between  p-8">
+      <div className=" text-left cursor-default">
+        <h1 className="block text-2xl lg:text-3xl font-bold">
+          <span className="text-orange-500">Pair</span>
+          <span className="text-blue-500">ckle</span>
+        </h1>
+        <h2 className="block text-xs lg:text-sm text-gray-800 mt-1">
+          Create a ranking through pairwise comparisons
+        </h2>
+      </div>
+
+      <div className="h-min flex gap-2">
+        <Link
+          className={`${
+            pathname == "/"
+              ? "bg-gray-400/40"
+              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+          } h-min flex justify-center items-center rounded-md transition px-3 py-4 lg:py-2`}
+          href="/"
+        >
+          Create a ranking
+        </Link>
+        <Link
+          className={`${
+            pathname == "/rankings"
+              ? "bg-gray-400/40"
+              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+          } h-min flex justify-center items-center rounded-md transition px-3 py-4 lg:py-2`}
+          href="/rankings"
+        >
+          Saved rankings
+        </Link>
+      </div>
+    </div>
+  );
+}
