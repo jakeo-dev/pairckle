@@ -111,7 +111,7 @@ export default function Rankings() {
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
             <h2 className="text-gray-600 text-3xl">
-              You haven't saved any rankings yet...
+              {`You haven't saved any rankings yet...`}
             </h2>
           </div>
         </div>
