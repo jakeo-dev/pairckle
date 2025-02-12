@@ -64,7 +64,7 @@ export default function Rankings() {
                       {ranking["rankingName"]}
                     </h2>
                     <button
-                      className="w-min flex justify-end items-center h-min text-sm text-right bg-gray-400/20 rounded-md hover:text-red-500 active:text-red-600 transition px-1.5 py-0.5"
+                      className="w-min flex justify-end items-center h-min text-sm text-right bg-gray-400/20 rounded-full hover:text-red-500 active:text-red-600 transition px-1.5 py-1"
                       onClick={() => {
                         if (
                           confirm(
@@ -84,8 +84,7 @@ export default function Rankings() {
                         }
                       }}
                     >
-                      <FontAwesomeIcon icon={faXmark} className="mr-1" />
-                      Delete
+                      <FontAwesomeIcon icon={faXmark} />
                     </button>
                   </div>
                   <ul className="h-[13.5rem] lg:h-[21.5rem] overflow-y-auto border-gray-400/40 border-2 rounded-lg">

@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="absolute top-0 w-full text-center lg:flex justify-between p-8">
       <div className="text-left cursor-default">
-        <h1 className="block text-2xl lg:text-3xl font-bold">
+        <h1 className="block text-3xl lg:text-3xl font-bold">
           <span className="text-orange-500">Pair</span>
           <span className="text-blue-500">ckle</span>
         </h1>
@@ -22,7 +22,7 @@ export default function Home() {
             pathname == "/"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-3 py-2 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/"
         >
           Create a ranking
@@ -32,7 +32,7 @@ export default function Home() {
             pathname == "/rankings"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-3 py-2 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/rankings"
         >
           Saved rankings
