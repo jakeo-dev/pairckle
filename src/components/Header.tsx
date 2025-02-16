@@ -12,7 +12,7 @@ export default function Home() {
           <span className="text-blue-500">ckle</span>
         </h1>
         <h2 className="block text-xs lg:text-sm text-gray-800 mt-1">
-          Create a ranking through pairwise comparisons
+          Rank through pairwise comparisons
         </h2>
       </div>
 

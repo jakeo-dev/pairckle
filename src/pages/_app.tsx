@@ -9,6 +9,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <main className={lexend.className}>
       <Header />
       <Component {...pageProps} />
+      <Footer />
       <Analytics />
     </main>
   );
