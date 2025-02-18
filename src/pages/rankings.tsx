@@ -40,8 +40,8 @@ export default function Rankings() {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pairckle</title>
-        <meta property="og:title" content="Pairckle" />
+        <title>Pairckle: Saved rankings</title>
+        <meta property="og:title" content="Pairckle: Saved rankings" />
         <meta
           property="og:description"
           content="Easily rank your favorite things through simple pairwise comparisons."
@@ -84,11 +84,14 @@ export default function Rankings() {
                         }
                       }}
                     >
-                      <FontAwesomeIcon icon={faXmark} />
+                      <FontAwesomeIcon
+                        icon={faXmark}
+                        aria-label={`Delete ${ranking["rankingName"]}`}
+                      />
                     </button>
                   </div>
                   <ul className="h-[13.5rem] lg:h-[21.5rem] overflow-y-auto border-gray-400/40 border-2 rounded-lg">
-                    {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score, display them as a horizoontal list */}
+                    {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score */}
                     {[...ranking["rankedUtensils"]]
                       .sort(sortUtensils)
                       .map((utensil, index2) => (

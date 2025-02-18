@@ -13,13 +13,13 @@ import Footer from "@/components/Footer";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <main className={lexend.className}>
       <Header />
       <Component {...pageProps} />
-      <Footer />
       <Analytics />
+      <Footer fixed={router.pathname == "/" ? true : false} />
     </main>
   );
 }

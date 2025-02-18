@@ -9,6 +9,7 @@ export default function ResponsiveTextArea({
   placeholder,
   maxLength,
   required,
+  id,
 }: {
   onInput: (arg: FormEvent<HTMLTextAreaElement>) => void;
   value: string;
@@ -16,6 +17,7 @@ export default function ResponsiveTextArea({
   placeholder: string;
   maxLength: number;
   required: boolean;
+  id: string;
 }) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -47,6 +49,7 @@ export default function ResponsiveTextArea({
       rows={1}
       maxLength={maxLength != -1 ? maxLength : undefined}
       required={required}
+      id={id} // for labels
     />
   );
 }

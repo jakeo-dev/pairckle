@@ -1,12 +1,14 @@
 import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBackward,
   faBolt,
   faBookmark,
   faBullseye,
+  faForward,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +18,9 @@ export default function Home() {
     useState<string>("invisibleFade");
   const [rankVisibility, setRankVisibility] = useState<string>("invisibleFade");
 
-  const [currentCombo, setCurrentCombo] = useState<number[]>([-1, -1]);
+  const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
+  const [prevComboWinners, setPrevComboWinners] = useState<number[]>([-1]);
+
   const [firstOption, setFirstOption] = useState<string>();
   const [secondOption, setSecondOption] = useState<string>();
 
@@ -31,6 +35,10 @@ export default function Home() {
   >([{ title: "", score: 0 }]);
 
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
+
+  useEffect(() => {
+    setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+  }, []);
 
   function sortUtensils(
     a: {
@@ -89,7 +97,8 @@ export default function Home() {
     // shuffles order of numbers in each combo
     combinations.forEach((combo) => shuffle(combo));
 
-    return combinations;
+    // shuffles order of combos
+    return shuffle(combinations);
   }
 
   // https://stackoverflow.com/a/2450976
@@ -109,39 +118,53 @@ export default function Home() {
     return array;
   }
 
-  function setRandomCombo(
+  function setNextCombo(
     combosArray: number[][],
     utensilsArray: {
       title: string;
       score: number;
     }[]
   ) {
-    if (getNumCombos(utensilsArray.length) - combosArray.length < maxCombos) {
-      // gets random combo
-      const randomCombo =
-        combosArray[Math.floor(Math.random() * combosArray.length)];
-      setCurrentCombo(randomCombo);
+    if (currentComboIndex + 1 < maxCombos) {
+      // go to next combo in array
+      const nextComboIndex = currentComboIndex + 1;
+      setCurrentComboIndex(nextComboIndex);
 
-      // set options to the randomly selected combo
-      setFirstOption(utensilsArray[randomCombo[0]]["title"]);
-      setSecondOption(utensilsArray[randomCombo[1]]["title"]);
-
-      // remove selected random combo so it cant be selected again
-      setCombosArray(combosArray.filter((combo) => combo !== randomCombo));
+      // set options to the selected combo
+      setFirstOption(utensilsArray[combosArray[nextComboIndex][0]]["title"]);
+      setSecondOption(utensilsArray[combosArray[nextComboIndex][1]]["title"]);
     } else {
       // done with all combos
       setSelectionVisibility("invisibleFade");
       setRankVisibility("visibleFade");
+      setCurrentComboIndex(-1);
+      setPrevComboWinners([-1]);
     }
   }
 
-  function getNumCombos(numUtensils: number) {
+  function setPrevCombo(
+    combosArray: number[][],
+    utensilsArray: {
+      title: string;
+      score: number;
+    }[]
+  ) {
+    // go to previous combo in array
+    const prevComboIndex = currentComboIndex - 1;
+    setCurrentComboIndex(prevComboIndex);
+
+    // set options to the selected combo
+    setFirstOption(utensilsArray[combosArray[prevComboIndex][0]]["title"]);
+    setSecondOption(utensilsArray[combosArray[prevComboIndex][1]]["title"]);
+  }
+
+  /* function getNumCombos(numUtensils: number) {
     let sum = 0;
     for (let i = 1; i < numUtensils; i++) {
       sum += i;
     }
     return sum;
-  }
+  } */
 
   function randomElement<T>(array: T[]): T {
     return array[Math.floor(Math.random() * array.length)];
@@ -166,18 +189,25 @@ export default function Home() {
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-8 lg:mt-0`}
           >
-            <label className="block text-black/60 text-xs lg:text-sm px-2">
+            <label
+              className="block text-black/60 text-xs lg:text-sm px-2"
+              htmlFor="utensil-input"
+            >
               Enter a list of things separated by line or comma
             </label>
             <ResponsiveTextArea
               value={utensilInput}
-              onInput={(e) => setUtensilInput(e.currentTarget.value)}
+              onInput={(e) => {
+                setUtensilInput(e.currentTarget.value);
+                localStorage.setItem("utensilInput", e.currentTarget.value);
+              }}
               className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-[85vw] lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
+              id="utensil-input"
             />
-            <div className="flex gap-2 mt-0.5">
+            <div className="flex gap-2 mt-2">
               <button
                 onClick={() => {
                   if (
@@ -214,7 +244,7 @@ export default function Home() {
 
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
-                    setRandomCombo(newCombosArray, newUtensilsArray);
+                    setNextCombo(newCombosArray, newUtensilsArray);
 
                     setSelectionVisibility("visibleFade");
                     setStartVisibility("invisibleFade");
@@ -222,11 +252,14 @@ export default function Home() {
                 }}
                 className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
+                <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                 <FontAwesomeIcon
                   icon={faBolt}
-                  className="block text-3xl text-orange-500 mx-auto"
+                    className="block text-xl lg:text-3xl text-orange-500 mr-1 lg:mx-auto"
+                    aria-hidden
                 />
-                <span className="block mt-2">Hurry</span>
+                  <span className="block lg:mt-2">Hurry</span>
+                </div>
                 <span className="block text-sm text-gray-800">
                   Quicker session
                 </span>
@@ -267,7 +300,7 @@ export default function Home() {
 
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
-                    setRandomCombo(newCombosArray, newUtensilsArray);
+                    setNextCombo(newCombosArray, newUtensilsArray);
 
                     setSelectionVisibility("visibleFade");
                     setStartVisibility("invisibleFade");
@@ -275,13 +308,16 @@ export default function Home() {
                 }}
                 className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
+                <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                 <FontAwesomeIcon
                   icon={faBullseye}
-                  className="block text-3xl text-blue-500 mx-auto"
+                    className="block text-xl lg:text-3xl text-blue-500 mr-1 lg:mx-auto"
+                    aria-hidden
                 />
-                <span className="block mt-2">Concentrate</span>
+                  <span className="block lg:mt-2">Concentrate</span>
+                </div>
                 <span className="block text-sm text-gray-800">
-                  More accurate results
+                  More accurate
                 </span>
               </button>
             </div>
@@ -296,41 +332,33 @@ export default function Home() {
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
-                      if (index === currentCombo[0]) {
+                      if (index === combosArray[currentComboIndex][0]) {
                         return { ...item, score: item.score + 1 };
                       }
                       return item;
                     });
                   });
-                  setRandomCombo(combosArray, utensilsArray);
+                  setNextCombo(combosArray, utensilsArray);
+                  setPrevComboWinners((ogArray) => [...ogArray, 0]);
                 }}
               >
                 <span className="text-3xl xl:text-4xl font-semibold text-center">
                   {firstOption}
                 </span>
               </button>
-              <div className="lg:-mb-2 xl:-mb-4">
-                <button
-                  className="flex lg:block lg:w-20 lg:h-20 rounded-full lg:border-4 border-gray-500/30 bg-gray-500/20 lg:bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 shadow-sm hover:shadow-md active:shadow-none px-3 py-2 lg:p-2 transition mx-auto"
-                  onClick={() => {
-                    setRandomCombo(combosArray, utensilsArray);
-                  }}
-                >
-                  <span className="lg:text-lg">Skip</span>
-                </button>
-              </div>
               <button
                 className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
-                      if (index === currentCombo[1]) {
+                      if (index === combosArray[currentComboIndex][1]) {
                         return { ...item, score: item.score + 1 };
                       }
                       return item;
                     });
                   });
-                  setRandomCombo(combosArray, utensilsArray);
+                  setNextCombo(combosArray, utensilsArray);
+                  setPrevComboWinners((ogArray) => [...ogArray, 1]);
                 }}
               >
                 <span className="text-3xl xl:text-4xl font-semibold text-center">
@@ -339,24 +367,92 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center">
+            <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
+              <button
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                onClick={() => {
+                  if (currentComboIndex > 0) {
+                    if (prevComboWinners[currentComboIndex] != 2) {
+                      setUtensilsArray((prevArray) => {
+                        return prevArray.map((item, index) => {
+                          if (
+                            index ===
+                            combosArray[currentComboIndex - 1][
+                              prevComboWinners[currentComboIndex]
+                            ]
+                          ) {
+                            return { ...item, score: item.score - 1 };
+                          }
+                          return item;
+                        });
+                      });
+                    }
+
+                    setPrevCombo(combosArray, utensilsArray);
+
+                    setPrevComboWinners((ogArray) => ogArray.slice(0, -1));
+                  }
+                }}
+              >
+                <div className="flex justify-center items-center">
+                  <FontAwesomeIcon
+                    icon={faBackward}
+                    className="text-sm lg:mr-2"
+                    aria-labelledby="previous-button-text"
+                  />
+                  <span className="hidden lg:inline" id="previous-button-text">
+                    Previous
+                  </span>
+                </div>
+              </button>
+              <button
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                onClick={() => {
+                  setSelectionVisibility("invisibleFade");
+                  setStartVisibility("visibleFade");
+                  setCurrentComboIndex(-1);
+                  setPrevComboWinners([-1]);
+                }}
+              >
+                <div className="flex justify-center items-center">
+                  <FontAwesomeIcon
+                    icon={faRotateRight}
+                    className="text-sm lg:mr-2"
+                    aria-labelledby="restart-button-text"
+                  />
+                  <span className="hidden lg:inline" id="restart-button-text">
+                    Restart
+                  </span>
+                </div>
+              </button>
+              <button
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                onClick={() => {
+                  setNextCombo(combosArray, utensilsArray);
+                  setPrevComboWinners((ogArray) => [...ogArray, 2]);
+                }}
+              >
+                <div className="flex justify-center items-center">
+                  <FontAwesomeIcon
+                    icon={faForward}
+                    className="text-sm lg:mr-2"
+                    aria-labelledby="skip-button-text"
+                  />
+                  <span className="hidden lg:inline" id="skip-button-text">
+                    Skip
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            <div className="flex items-center justify-center mt-8 lg:mt-6">
               <progress
-                className="progress-bar w-full h-2 mt-6"
-                value={
-                  (getNumCombos(utensilsArray.length) -
-                    combosArray.length -
-                    1) /
-                  (maxCombos == getNumCombos(utensilsArray.length)
-                    ? getNumCombos(utensilsArray.length)
-                    : Math.ceil(getNumCombos(utensilsArray.length) / 2))
-                }
-              ></progress>
+                className="progress-bar w-full h-2"
+                value={currentComboIndex / maxCombos}
+              />
             </div>
             <h3 className="text-center mt-2">
-              Pair {getNumCombos(utensilsArray.length) - combosArray.length} /{" "}
-              {maxCombos == getNumCombos(utensilsArray.length)
-                ? getNumCombos(utensilsArray.length)
-                : Math.ceil(getNumCombos(utensilsArray.length) / 2)}
+              Pair {currentComboIndex + 1} / {maxCombos}
             </h3>
           </div>
 
@@ -373,7 +469,7 @@ export default function Home() {
             </div>
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
               <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-[30rem]">
-                {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score, display them as a horizoontal list */}
+                {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
@@ -393,11 +489,17 @@ export default function Home() {
               onClick={() => {
                 setRankVisibility("invisibleFade");
                 setStartVisibility("visibleFade");
+                setCurrentComboIndex(-1);
+                setPrevComboWinners([-1]);
               }}
               className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
-              <FontAwesomeIcon icon={faRotateRight} className="text-sm mr-2" />
-              Restart
+              <FontAwesomeIcon
+                icon={faRotateRight}
+                className="text-sm mr-2"
+                aria-labelledby="restart-button-text-2"
+              />
+              <span id="restart-button-text-2">Restart</span>
             </button>
             <button
               onClick={() => {
@@ -553,8 +655,12 @@ export default function Home() {
               }}
               className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
-              <FontAwesomeIcon icon={faBookmark} className="text-sm mr-2" />
-              Save this ranking
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className="text-sm mr-2"
+                aria-labelledby="save-this-text"
+              />
+              <span id="save-this-text">Save this ranking</span>
             </button>
             {/* <button
               onClick={() => {
