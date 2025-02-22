@@ -12,6 +12,9 @@ export default function Rankings() {
     }[]
   >([]);
 
+  // each number element in rankingPlaces represents the rankingPlace for each saved ranking; the number starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the corresponding saved ranking
+  const rankingPlaces = new Array(savedRankings.length).fill(1);
+
   useEffect(() => {
     setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
   }, []);
@@ -49,7 +52,7 @@ export default function Rankings() {
         <meta name="theme-color" content="#f97316" />
       </Head>
 
-      <div className="min-h-screen lg:min-h-full">
+      <div className="min-h-screen lg:min-h-[94.6vh]">
         <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
           <div className={savedRankings.length < 1 ? "hidden" : ""}>
             <div
@@ -97,10 +100,70 @@ export default function Rankings() {
                       .map((utensil, index2) => (
                         <li
                           key={index2}
-                          className="flex items-center justify-center odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                          // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
+                          className={`flex items-center justify-center first:rounded-t-md last:rounded-b-md px-2 py-1 ${
+                            [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 - 1
+                            ] &&
+                            [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 - 1
+                            ]["score"] == utensil["score"]
+                              ? (rankingPlaces[index1] - 1) % 2 !== 0
+                                ? "bg-gray-400/20"
+                                : ""
+                              : rankingPlaces[index1] % 2 !== 0
+                              ? "bg-gray-400/20"
+                              : ""
+                          }`}
                         >
+                          {/* shows place in ranking */}
+                          <span className="text-xs lg:text-sm font-semibold">
+                            {[...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 - 1
+                            ] &&
+                            [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 - 1
+                            ]["score"] == utensil["score"]
+                              ? rankingPlaces[index1] - 1
+                              : rankingPlaces[index1]++}
+                            .
+                          </span>
+                          {/* show "(tie)" if tied */}
+                          <span
+                            className={`text-xs lg:text-sm mr-1.5 ${
+                              ([...ranking["rankedUtensils"]].sort(
+                                sortUtensils
+                              )[index2 - 1] &&
+                                [...ranking["rankedUtensils"]].sort(
+                                  sortUtensils
+                                )[index2 - 1]["score"] == utensil["score"]) ||
+                              ([...ranking["rankedUtensils"]].sort(
+                                sortUtensils
+                              )[index2 + 1] &&
+                                [...ranking["rankedUtensils"]].sort(
+                                  sortUtensils
+                                )[index2 + 1]["score"] == utensil["score"])
+                                ? "ml-1.5"
+                                : ""
+                            }`}
+                          >
+                            {([...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 - 1
+                            ] &&
+                              [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                                index2 - 1
+                              ]["score"] == utensil["score"]) ||
+                            ([...ranking["rankedUtensils"]].sort(sortUtensils)[
+                              index2 + 1
+                            ] &&
+                              [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                                index2 + 1
+                              ]["score"] == utensil["score"])
+                              ? "(tie)"
+                              : ""}
+                          </span>
                           <span className="w-full">{utensil["title"]}</span>
-                          <span className="font-semibold text-right ml-3">
+                          <span className="text-right ml-3">
                             {utensil["score"]}
                           </span>
                         </li>

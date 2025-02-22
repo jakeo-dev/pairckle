@@ -13,20 +13,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
+  // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
+  let rankingPlace = 1;
+
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
   const [selectionVisibility, setSelectionVisibility] =
     useState<string>("invisibleFade");
   const [rankVisibility, setRankVisibility] = useState<string>("invisibleFade");
 
+  // index of the current combo in combosArray; how far along in the selection process
   const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
+
+  // saves the winner for each combo (0: first option, 1: second option), allows for undoing a selection
   const [prevComboWinners, setPrevComboWinners] = useState<number[]>([-1]);
 
   const [firstOption, setFirstOption] = useState<string>();
   const [secondOption, setSecondOption] = useState<string>();
 
+  // number of combos until the selection process is finished, the number is halved for Hurry
   const [maxCombos, setMaxCombos] = useState<number>(1);
 
   const [utensilInput, setUtensilInput] = useState<string>("");
+
+  // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
   const [utensilsArray, setUtensilsArray] = useState<
     {
       title: string;
@@ -34,6 +43,7 @@ export default function Home() {
     }[]
   >([{ title: "", score: 0 }]);
 
+  // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
   useEffect(() => {
@@ -473,12 +483,60 @@ export default function Home() {
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
-                    className="flex items-center justify-center odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2.5 lg:px-3 py-1.5 lg:py-2"
+                    // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
+                    className={`flex items-center justify-center first:rounded-t-md last:rounded-b-md px-2.5 lg:px-3 py-1.5 lg:py-2 ${
+                      [...utensilsArray].sort(sortUtensils)[index - 1] &&
+                      [...utensilsArray].sort(sortUtensils)[index - 1][
+                        "score"
+                      ] == utensil["score"]
+                        ? (rankingPlace - 1) % 2 !== 0
+                          ? "bg-gray-400/20"
+                          : ""
+                        : rankingPlace % 2 !== 0
+                        ? "bg-gray-400/20"
+                        : ""
+                    }`}
                   >
+                    {/* shows place in ranking */}
+                    <span className="text-sm lg:text-base font-semibold">
+                      {[...utensilsArray].sort(sortUtensils)[index - 1] &&
+                      [...utensilsArray].sort(sortUtensils)[index - 1][
+                        "score"
+                      ] == utensil["score"]
+                        ? rankingPlace - 1
+                        : rankingPlace++}
+                      .
+                    </span>
+                    {/* show "(tie)" if tied */}
+                    <span
+                      className={`text-xs lg:text-sm ml-2 ${
+                        ([...utensilsArray].sort(sortUtensils)[index - 1] &&
+                          [...utensilsArray].sort(sortUtensils)[index - 1][
+                            "score"
+                          ] == utensil["score"]) ||
+                        ([...utensilsArray].sort(sortUtensils)[index + 1] &&
+                          [...utensilsArray].sort(sortUtensils)[index + 1][
+                            "score"
+                          ] == utensil["score"])
+                          ? "mr-2"
+                          : ""
+                      }`}
+                    >
+                      {([...utensilsArray].sort(sortUtensils)[index - 1] &&
+                        [...utensilsArray].sort(sortUtensils)[index - 1][
+                          "score"
+                        ] == utensil["score"]) ||
+                      ([...utensilsArray].sort(sortUtensils)[index + 1] &&
+                        [...utensilsArray].sort(sortUtensils)[index + 1][
+                          "score"
+                        ] == utensil["score"])
+                        ? "(tie)"
+                        : ""}
+                    </span>
                     <span className="text-lg lg:text-xl w-full">
                       {utensil["title"]}
                     </span>
-                    <span className="lg:text-lg font-semibold text-right ml-4">
+                    <span className="lg:text-lg text-right ml-3">
                       {utensil["score"]}
                     </span>
                   </li>
