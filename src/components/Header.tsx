@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBookmark,
+  faChartSimple,
+} from "@fortawesome/free-solid-svg-icons";
+
 export default function Header() {
   const { pathname } = useRouter();
 
@@ -16,26 +22,34 @@ export default function Header() {
         </h2>
       </div>
 
-      <div className="h-min flex gap-2 mt-4 lg:mt-0">
+      <div className="h-min flex gap-1 lg:gap-2 mt-4 lg:mt-0">
         <Link
           className={`${
             pathname == "/"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/"
         >
-          Create a ranking
+          <FontAwesomeIcon
+            icon={faChartSimple}
+            className="rotate-90 mr-2"
+            aria-hidden
+          />
+          <span className="hidden lg:inline">Create a ranking</span>
+          <span className="lg:hidden">Rank</span>
         </Link>
         <Link
           className={`${
             pathname == "/rankings"
               ? "bg-gray-400/40"
               : "hover:bg-gray-400/20 active:bg-gray-400/30"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/rankings"
         >
-          Saved rankings
+          <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
+          <span className="hidden lg:inline">Saved rankings</span>
+          <span className="lg:hidden">Saved</span>
         </Link>
       </div>
     </div>

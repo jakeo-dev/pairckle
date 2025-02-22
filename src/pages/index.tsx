@@ -19,7 +19,8 @@ export default function Home() {
   const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
   const [selectionVisibility, setSelectionVisibility] =
     useState<string>("invisibleFade");
-  const [rankVisibility, setRankVisibility] = useState<string>("invisibleFade");
+  const [finalRankingVisibility, setFinalRankingVisibility] =
+    useState<string>("invisibleFade");
 
   // index of the current combo in combosArray; how far along in the selection process
   const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
@@ -146,7 +147,7 @@ export default function Home() {
     } else {
       // done with all combos
       setSelectionVisibility("invisibleFade");
-      setRankVisibility("visibleFade");
+      setFinalRankingVisibility("visibleFade");
       setCurrentComboIndex(-1);
       setPrevComboWinners([-1]);
     }
@@ -194,10 +195,10 @@ export default function Home() {
         <meta name="theme-color" content="#f97316" />
       </Head>
 
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="relative pb-16">
+      <div className="flex justify-center items-center h-screen lg:min-h-screen">
+        <div className="relative">
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-8 lg:mt-0`}
+            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
             <label
               className="block text-black/60 text-xs lg:text-sm px-2"
@@ -263,11 +264,11 @@ export default function Home() {
                 className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
-                <FontAwesomeIcon
-                  icon={faBolt}
+                  <FontAwesomeIcon
+                    icon={faBolt}
                     className="block text-xl lg:text-3xl text-orange-500 mr-1 lg:mx-auto"
                     aria-hidden
-                />
+                  />
                   <span className="block lg:mt-2">Hurry</span>
                 </div>
                 <span className="block text-sm text-gray-800">
@@ -319,11 +320,11 @@ export default function Home() {
                 className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
-                <FontAwesomeIcon
-                  icon={faBullseye}
+                  <FontAwesomeIcon
+                    icon={faBullseye}
                     className="block text-xl lg:text-3xl text-blue-500 mr-1 lg:mx-auto"
                     aria-hidden
-                />
+                  />
                   <span className="block lg:mt-2">Concentrate</span>
                 </div>
                 <span className="block text-sm text-gray-800">
@@ -334,7 +335,7 @@ export default function Home() {
           </div>
 
           <div
-            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
@@ -467,7 +468,7 @@ export default function Home() {
           </div>
 
           <div
-            className={`${rankVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
             <div className="flex w-full">
               <span className="block text-black/60 text-xs lg:text-sm px-2">
@@ -545,7 +546,7 @@ export default function Home() {
             </div>
             <button
               onClick={() => {
-                setRankVisibility("invisibleFade");
+                setFinalRankingVisibility("invisibleFade");
                 setStartVisibility("visibleFade");
                 setCurrentComboIndex(-1);
                 setPrevComboWinners([-1]);
