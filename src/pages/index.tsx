@@ -1,5 +1,6 @@
 import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
+import ConfirmModal from "@/components/ConfirmModal";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,6 +22,11 @@ export default function Home() {
     useState<string>("invisibleFade");
   const [finalRankingVisibility, setFinalRankingVisibility] =
     useState<string>("invisibleFade");
+
+  const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
+    useState<boolean>(false);
+  const [confirmRestartModalSubtext, setConfirmRestartModalSubtext] =
+    useState<string>("By restarting, you'll lose all of your progress so far.");
 
   // index of the current combo in combosArray; how far along in the selection process
   const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
@@ -194,6 +200,26 @@ export default function Home() {
         />
         <meta name="theme-color" content="#f97316" />
       </Head>
+
+      <ConfirmModal
+        visibility={confirmRestartModalVisibility}
+        titleText="Are you sure want to restart?"
+        subtitleText={confirmRestartModalSubtext}
+        primaryButtonText="Restart"
+        secondaryButtonText="Cancel"
+        onConfirm={() => {
+          setSelectionVisibility("invisibleFade");
+          setFinalRankingVisibility("invisibleFade");
+          setStartVisibility("visibleFade");
+          setCurrentComboIndex(-1);
+          setPrevComboWinners([-1]);
+
+          setConfirmRestartModalVisibility(false);
+        }}
+        onCancel={() => {
+          setConfirmRestartModalVisibility(false);
+        }}
+      />
 
       <div className="flex justify-center items-center h-screen lg:min-h-screen">
         <div className="relative">
@@ -380,7 +406,7 @@ export default function Home() {
 
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (prevComboWinners[currentComboIndex] != 2) {
@@ -417,12 +443,12 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
-                  setSelectionVisibility("invisibleFade");
-                  setStartVisibility("visibleFade");
-                  setCurrentComboIndex(-1);
-                  setPrevComboWinners([-1]);
+                  setConfirmRestartModalSubtext(
+                    "By restarting, you'll lose all of your progress so far."
+                  );
+                  setConfirmRestartModalVisibility(true);
                 }}
               >
                 <div className="flex justify-center items-center">
@@ -437,7 +463,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-500/10 active:hover:bg-gray-500/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setNextCombo(combosArray, utensilsArray);
                   setPrevComboWinners((ogArray) => [...ogArray, 2]);
@@ -546,10 +572,10 @@ export default function Home() {
             </div>
             <button
               onClick={() => {
-                setFinalRankingVisibility("invisibleFade");
-                setStartVisibility("visibleFade");
-                setCurrentComboIndex(-1);
-                setPrevComboWinners([-1]);
+                setConfirmRestartModalSubtext(
+                  'By restarting, you\'ll lose this ranking forever. Consider saving it by clicking "Save this ranking."'
+                );
+                setConfirmRestartModalVisibility(true);
               }}
               className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
