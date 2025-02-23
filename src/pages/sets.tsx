@@ -835,7 +835,7 @@ export default function Sets() {
         <meta property="og:title" content="Pairckle: Starter sets" />
         <meta
           property="og:description"
-          content="Easily rank your favorite things through simple pairwise comparisons."
+          content="Easily rank your favorite things with pairwise comparisons."
         />
         <meta name="theme-color" content="#f97316" />
       </Head>

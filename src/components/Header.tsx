@@ -19,7 +19,7 @@ export default function Header() {
           <span className="text-blue-500">ckle</span>
         </h1>
         <h2 className="block text-xs lg:text-sm text-gray-800 mt-1">
-          Rank through pairwise comparisons
+          Rank with pairwise comparisons
         </h2>
       </div>
 

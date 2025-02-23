@@ -209,7 +209,7 @@ export default function Home() {
         <meta property="og:title" content="Pairckle" />
         <meta
           property="og:description"
-          content="Easily rank your favorite things through simple pairwise comparisons."
+          content="Easily rank your favorite things with pairwise comparisons."
         />
         <meta name="theme-color" content="#f97316" />
       </Head>
