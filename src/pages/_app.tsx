@@ -16,7 +16,7 @@ const lexend = Lexend({ subsets: ["latin"] });
 export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <main
-      className={`${lexend.className} flex flex-col min-h-screen bg-gradient-to-b lg:bg-gradient-to-r from-orange-200 via-gray-200 to-blue-200`}
+      className={`${lexend.className} flex flex-col min-h-screen bg-gradient-to-br lg:bg-gradient-to-r from-orange-200 via-gray-200 to-blue-200`}
     >
       <Header />
       <Component {...pageProps} />

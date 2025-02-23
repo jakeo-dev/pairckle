@@ -1,9 +1,14 @@
 import Head from "next/head";
 import ConfirmModal from "@/components/ConfirmModal";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartSimple,
+  faPen,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Rankings() {
   const [savedRankings, setSavedRankings] = useState<
@@ -60,6 +65,22 @@ export default function Rankings() {
 
   function randomElement<T>(array: T[]): T {
     return array[Math.floor(Math.random() * array.length)];
+  }
+
+  function shuffle<T>(array: T[]): T[] {
+    let currentIndex = array.length;
+
+    while (currentIndex != 0) {
+      const randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
   }
 
   return (
@@ -190,8 +211,30 @@ export default function Rankings() {
                       ))}
                   </ul>
                   <div className="flex gap-2">
+                    <Link
+                      className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
+                      href="/"
+                      onClick={() => {
+                        localStorage.setItem(
+                          "utensilInput",
+                          shuffle(
+                            ranking["rankedUtensils"].map(
+                              (utensil) => utensil.title
+                            )
+                          ).join("\n")
+                        );
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faChartSimple}
+                        className="text-gray-800 rotate-90 mr-2"
+                        aria-labelledby="re-rank-text"
+                      />
+                      <span id="re-rank-text">Re-rank</span>
+                    </Link>
+
                     <button
-                      className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                      className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
                       onClick={() => {
                         const randomNewRankingName =
                           randomElement(["Best", "Greatest", "Top"]) +
@@ -357,7 +400,7 @@ export default function Rankings() {
                       <span id="edit-title-text">Edit title</span>
                     </button>
                     <button
-                      className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                      className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
                       onClick={() => {
                         setCurrentRanking(ranking);
                         setConfirmDeleteModalVisibility(true);
@@ -377,7 +420,7 @@ export default function Rankings() {
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
-            <h2 className="text-gray-600 text-3xl">
+            <h2 className="text-gray-600 text-xl lg:text-3xl text-center">
               {`You haven't saved any rankings yet...`}
             </h2>
           </div>

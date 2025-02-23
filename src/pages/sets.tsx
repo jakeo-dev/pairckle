@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<
@@ -879,11 +879,11 @@ export default function Sets() {
                     }}
                   >
                     <FontAwesomeIcon
-                      icon={faCirclePlus}
-                      className="text-gray-800 mr-2"
+                      icon={faChartSimple}
+                      className="text-gray-800 rotate-90 mr-2"
                       aria-labelledby="use-this-text"
                     />
-                    <span id="use-this-text">Use this set</span>
+                    <span id="use-this-text">Rank this set</span>
                   </Link>
                 </div>
               ))}
