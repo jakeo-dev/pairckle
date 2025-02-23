@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBarsStaggered,
   faBookmark,
   faChartSimple,
 } from "@fortawesome/free-solid-svg-icons";
@@ -50,6 +51,22 @@ export default function Header() {
           <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
           <span className="hidden lg:inline">Your rankings</span>
           <span className="lg:hidden">Saved</span>
+        </Link>
+        <Link
+          className={`${
+            pathname == "/sets"
+              ? "bg-gray-400/40"
+              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+          href="/sets"
+        >
+          <FontAwesomeIcon
+            icon={faBarsStaggered}
+            className="mr-2"
+            aria-hidden
+          />
+          <span className="hidden lg:inline">Starter sets</span>
+          <span className="lg:hidden">Sets</span>
         </Link>
       </div>
     </div>

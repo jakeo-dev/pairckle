@@ -1,11 +1,13 @@
 import Head from "next/head";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBackward,
+  faBarsStaggered,
   faBolt,
   faBookmark,
   faBullseye,
@@ -251,12 +253,23 @@ export default function Home() {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
-              className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-[85vw] lg:w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[35vh] lg:max-h-[48vh] w-[85vw] lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
               id="utensil-input"
             />
+            <Link
+              href="/sets"
+              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
+            >
+              <FontAwesomeIcon
+                icon={faBarsStaggered}
+                className="mr-2"
+                aria-labelledby="browse-lists-text"
+              />
+              <span id="browse-lists-text">Browse starter sets</span>
+            </Link>
             <div className="flex gap-2 mt-2">
               <button
                 onClick={() => {
@@ -393,7 +406,7 @@ export default function Home() {
                   setPrevComboWinners((ogArray) => [...ogArray, 0]);
                 }}
               >
-                <span className="text-2xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis">
+                <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
                   {firstOption}
                 </span>
               </button>
@@ -412,7 +425,7 @@ export default function Home() {
                   setPrevComboWinners((ogArray) => [...ogArray, 1]);
                 }}
               >
-                <span className="text-2xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis">
+                <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
                   {secondOption}
                 </span>
               </button>
@@ -520,7 +533,7 @@ export default function Home() {
               </span>
             </div>
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[46vh] w-80 lg:w-[30rem]">
+              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[48vh] w-80 lg:w-[30rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
