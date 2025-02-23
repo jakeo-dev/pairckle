@@ -22,7 +22,7 @@ export default function Header() {
         </h2>
       </div>
 
-      <div className="h-min flex gap-1 lg:gap-2 mt-4 lg:mt-0">
+      <div className="h-min flex gap-2 mt-4 lg:mt-0">
         <Link
           className={`${
             pathname == "/"
@@ -48,7 +48,7 @@ export default function Header() {
           href="/rankings"
         >
           <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
-          <span className="hidden lg:inline">Saved rankings</span>
+          <span className="hidden lg:inline">Your rankings</span>
           <span className="lg:hidden">Saved</span>
         </Link>
       </div>

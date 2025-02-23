@@ -156,6 +156,21 @@ export default function Home() {
       setFinalRankingVisibility("visibleFade");
       setCurrentComboIndex(-1);
       setPrevComboWinners([-1]);
+
+      const savedRankingsArray = JSON.parse(
+        localStorage.getItem("savedRankings") ?? "[]"
+      );
+
+      const rankingsArray = Array.isArray(savedRankingsArray)
+        ? savedRankingsArray
+        : [];
+
+      rankingsArray.unshift({
+        rankingName: "New ranking #" + (savedRankingsArray.length + 1),
+        rankedUtensils: [...utensilsArray].sort(sortUtensils),
+      });
+
+      localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
     }
   }
 
@@ -201,6 +216,7 @@ export default function Home() {
         <meta name="theme-color" content="#f97316" />
       </Head>
 
+      {/* confirm to restart modal */}
       <ConfirmModal
         visibility={confirmRestartModalVisibility}
         titleText="Are you sure want to restart?"
@@ -223,6 +239,7 @@ export default function Home() {
 
       <div className="flex justify-center items-center h-screen lg:min-h-screen">
         <div className="relative">
+          {/* utensil input start screen */}
           <div
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
@@ -292,7 +309,7 @@ export default function Home() {
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="block text-xl lg:text-3xl text-orange-500 mr-1 lg:mx-auto"
+                    className="block text-xl lg:text-3xl text-orange-500 mr-1.5 lg:mx-auto"
                     aria-hidden
                   />
                   <span className="block lg:mt-2">Hurry</span>
@@ -348,7 +365,7 @@ export default function Home() {
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="block text-xl lg:text-3xl text-blue-500 mr-1 lg:mx-auto"
+                    className="block text-xl lg:text-3xl text-blue-500 mr-1.5 lg:mx-auto"
                     aria-hidden
                   />
                   <span className="block lg:mt-2">Concentrate</span>
@@ -360,6 +377,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* selection process screen */}
           <div
             className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
@@ -493,6 +511,7 @@ export default function Home() {
             </h3>
           </div>
 
+          {/* final ranking screen */}
           <div
             className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
           >
@@ -570,14 +589,20 @@ export default function Home() {
                 ))}
               </ul>
             </div>
+            <div className="text-sm text-gray-600 px-2 mt-1">
+              <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
+              <span>
+                This ranking has been saved. Go to "Your rankings" to see it.
+              </span>
+            </div>
             <button
               onClick={() => {
                 setConfirmRestartModalSubtext(
-                  'By restarting, you\'ll lose this ranking forever. Consider saving it by clicking "Save this ranking."'
+                  'You will NOT lose this ranking if you restart because it has already been saved in "Your rankings".'
                 );
                 setConfirmRestartModalVisibility(true);
               }}
-              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-4"
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
@@ -585,167 +610,6 @@ export default function Home() {
                 aria-labelledby="restart-button-text-2"
               />
               <span id="restart-button-text-2">Restart</span>
-            </button>
-            <button
-              onClick={() => {
-                //const randomRankingName = "New ranking #" + (savedRankings.length + 1);
-
-                const randomRankingName =
-                  randomElement(["Best", "Greatest", "Top"]) +
-                  " " +
-                  randomElement([
-                    "pickles",
-                    "spaghetti and meatballs",
-                    "fettuccine alfredos",
-                    "penne pastas",
-                    "macaroni and cheeses",
-                    "raviolis",
-                    "lasagnas",
-                    "udons",
-                    "ramens",
-                    "carbonaras",
-                    "baked zitis",
-                    "gnocchis",
-                    "pizzas",
-                    "calzones",
-                    "garlic breads",
-                    "focaccias",
-                    "cheese breads",
-                    "flatbreads",
-                    "french bread pizzas",
-                    "deep-dish pizzas",
-                    "pepperoni rolls",
-                    "burgers",
-                    "cheeseburgers",
-                    "chicken sandwiches",
-                    "grilled cheeses",
-                    "tuna melts",
-                    "sloppy joes",
-                    "philly cheesesteaks",
-                    "paninis",
-                    "shawarmas",
-                    "gyros",
-                    "falafels",
-                    "bánh mis",
-                    "tacos",
-                    "burritos",
-                    "quesadillas",
-                    "fajitas",
-                    "enchiladas",
-                    "tamales",
-                    "nachos",
-                    "tostadas",
-                    "sushis",
-                    "sashimis",
-                    "teriyakis",
-                    "tempuras",
-                    "spring rolls",
-                    "egg rolls",
-                    "dumplings",
-                    "orange chickens",
-                    "fried rices",
-                    "chow meins",
-                    "bulgogis",
-                    "chicken soups",
-                    "tomato soups",
-                    "french onion soups",
-                    "clam chowders",
-                    "lobster bisques",
-                    "beef stews",
-                    "vegetable stews",
-                    "lentil soups",
-                    "gazpachos",
-                    "minestrones",
-                    "tortilla soups",
-                    "jambalayas",
-                    "miso soups",
-                    "ribs",
-                    "briskets",
-                    "steaks",
-                    "meatloaves",
-                    "chicken parmesans",
-                    "fried chickens",
-                    "buffalo wings",
-                    "honey garlic wings",
-                    "beef bourguignons",
-                    "chicken pot pies",
-                    "casseroles",
-                    "stuffed peppers",
-                    "baked pastas",
-                    "pot pies",
-                    "pastitsios",
-                    "ratatouilles",
-                    "eggplant parmesans",
-                    "pancakes",
-                    "waffles",
-                    "french toasts",
-                    "crepes",
-                    "scrambled eggs",
-                    "omelets",
-                    "eggs benedicts",
-                    "breakfast burritos",
-                    "breakfast sandwiches",
-                    "hash browns",
-                    "fish and chips",
-                    "grilled salmons",
-                    "crab cakes",
-                    "lobster rolls",
-                    "shrimp scampis",
-                    "mozzarella sticks",
-                    "jalapeno poppers",
-                    "stuffed mushrooms",
-                    "deviled eggs",
-                    "bruschettas",
-                    "caprese salads",
-                    "chicken tenders",
-                  ]) +
-                  " " +
-                  randomElement([
-                    "of all time",
-                    "ever",
-                    "of the year",
-                    "of the century",
-                    "in history",
-                    "in the country",
-                    "in the world",
-                    "on Earth",
-                  ]);
-
-                const rankingNameInput = prompt(
-                  "Enter a title for this ranking",
-                  randomRankingName
-                );
-                let rankingName = "";
-                if (rankingNameInput !== null) {
-                  rankingName = rankingNameInput;
-
-                  const savedRankingsArray = JSON.parse(
-                    localStorage.getItem("savedRankings") ?? "[]"
-                  );
-
-                  const rankingsArray = Array.isArray(savedRankingsArray)
-                    ? savedRankingsArray
-                    : [];
-
-                  rankingsArray.unshift({
-                    rankingName: rankingName,
-                    rankedUtensils: [...utensilsArray].sort(sortUtensils),
-                  });
-
-                  localStorage.setItem(
-                    "savedRankings",
-                    JSON.stringify(rankingsArray)
-                  );
-                }
-              }}
-              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
-            >
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className="text-sm mr-2"
-                aria-labelledby="save-this-text"
-              />
-              <span id="save-this-text">Save this ranking</span>
             </button>
             {/* <button
               onClick={() => {
