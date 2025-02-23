@@ -198,10 +198,6 @@ export default function Home() {
     return sum;
   } */
 
-  function randomElement<T>(array: T[]): T {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-
   return (
     <>
       <Head>
@@ -592,7 +588,7 @@ export default function Home() {
             <div className="text-sm text-gray-600 px-2 mt-1">
               <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
               <span>
-                This ranking has been saved. Go to "Your rankings" to see it.
+                {`This ranking has been saved. Go to "Your rankings" to see it.`}
               </span>
             </div>
             <button
