@@ -237,7 +237,7 @@ export default function Home() {
         <div className="relative">
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
+            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
             <label
               className="block text-black/60 text-xs lg:text-sm px-2"
@@ -375,11 +375,11 @@ export default function Home() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
+            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -393,12 +393,12 @@ export default function Home() {
                   setPrevComboWinners((ogArray) => [...ogArray, 0]);
                 }}
               >
-                <span className="text-3xl xl:text-4xl font-semibold text-center">
+                <span className="text-2xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis">
                   {firstOption}
                 </span>
               </button>
               <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-8 transition"
+                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   setUtensilsArray((prevArray) => {
                     return prevArray.map((item, index) => {
@@ -412,7 +412,7 @@ export default function Home() {
                   setPrevComboWinners((ogArray) => [...ogArray, 1]);
                 }}
               >
-                <span className="text-3xl xl:text-4xl font-semibold text-center">
+                <span className="text-2xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis">
                   {secondOption}
                 </span>
               </button>
@@ -509,7 +509,7 @@ export default function Home() {
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[33%] lg:-translate-y-1/2`}
+            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
             <div className="flex w-full">
               <span className="block text-black/60 text-xs lg:text-sm px-2">
