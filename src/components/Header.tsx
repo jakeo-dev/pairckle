@@ -27,8 +27,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/"
-              ? "bg-gray-400/40"
-              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+              ? "bg-gray-400/30"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/"
         >
@@ -43,8 +43,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/rankings"
-              ? "bg-gray-400/40"
-              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+              ? "bg-gray-400/30"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/rankings"
         >
@@ -55,8 +55,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/sets"
-              ? "bg-gray-400/40"
-              : "hover:bg-gray-400/20 active:bg-gray-400/30"
+              ? "bg-gray-400/30"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/sets"
         >
