@@ -394,15 +394,16 @@ export default function Home() {
               <button
                 className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
+                  const updatedUtensilsArray = [...utensilsArray].map(
+                    (item, index) => {
                       if (index === combosArray[currentComboIndex][0]) {
                         return { ...item, score: item.score + 1 };
                       }
                       return item;
-                    });
-                  });
-                  setNextCombo(combosArray, utensilsArray);
+                    }
+                  );
+                  setUtensilsArray(updatedUtensilsArray);
+                  setNextCombo(combosArray, updatedUtensilsArray);
                   setPrevComboWinners((ogArray) => [...ogArray, 0]);
                 }}
               >
@@ -413,15 +414,16 @@ export default function Home() {
               <button
                 className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
-                  setUtensilsArray((prevArray) => {
-                    return prevArray.map((item, index) => {
+                  const updatedUtensilsArray = [...utensilsArray].map(
+                    (item, index) => {
                       if (index === combosArray[currentComboIndex][1]) {
                         return { ...item, score: item.score + 1 };
                       }
                       return item;
-                    });
-                  });
-                  setNextCombo(combosArray, utensilsArray);
+                    }
+                  );
+                  setUtensilsArray(updatedUtensilsArray);
+                  setNextCombo(combosArray, updatedUtensilsArray);
                   setPrevComboWinners((ogArray) => [...ogArray, 1]);
                 }}
               >
