@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Footer({ fixed }: { fixed: boolean }) {
   return (
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } bg-gray-400/10 w-full p-3 md:p-4 mt-auto lg:mt-0`}
+      } bg-gray-400/10 w-full p-3 lg:p-4 mt-auto lg:mt-0`}
     >
-      <div className="flex justify-center items-center text-xs md:text-sm text-center">
+      <div className="flex justify-center items-center text-xs lg:text-sm text-center">
         <a
           className="hover:drop-shadow-md active:drop-shadow-none transition"
           href="https://jakeo.dev"
@@ -17,7 +17,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
         >
           <img
             src="https://www.jakeo.dev/logos/bunny-jakeo-wordmark.png"
-            className="w-[3.25rem] md:w-16"
+            className="w-[3.25rem] lg:w-16"
             alt="JakeO.dev logo"
           />
         </a>
@@ -27,12 +27,12 @@ export default function Footer({ fixed }: { fixed: boolean }) {
           href="https://github.com/jakeo-dev/pairckle"
           target="_blank"
         >
-          GitHub
           <FontAwesomeIcon
-            icon={faArrowUpRightFromSquare}
-            className="md:text-sm ml-1.5"
+            icon={faGithub}
+            className="text-xs lg:text-sm mr-1"
             aria-hidden
           />
+          GitHub
         </a>
       </div>
     </footer>

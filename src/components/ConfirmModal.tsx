@@ -39,7 +39,7 @@ export default function ConfirmModal({
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="text-xl font-medium">{titleText}</h1>
+        <h1 className="text-xl font-medium pr-4">{titleText}</h1>
         <p className="mt-4">{subtitleText}</p>
         <div className="flex gap-2 mt-6">
           <button
