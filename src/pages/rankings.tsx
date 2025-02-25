@@ -227,7 +227,7 @@ export default function Rankings() {
                     >
                       <FontAwesomeIcon
                         icon={faChartSimple}
-                        className="text-gray-800 rotate-90 mr-2"
+                        className="text-gray-800 dark:text-gray-300 rotate-90 mr-2"
                         aria-labelledby="re-rank-text"
                       />
                       <span id="re-rank-text">Re-rank</span>
@@ -394,7 +394,7 @@ export default function Rankings() {
                     >
                       <FontAwesomeIcon
                         icon={faPen}
-                        className="text-gray-800 mr-2"
+                        className="text-gray-800 dark:text-gray-300 mr-2"
                         aria-labelledby="edit-title-text"
                       />
                       <span id="edit-title-text">Edit title</span>
@@ -408,7 +408,7 @@ export default function Rankings() {
                     >
                       <FontAwesomeIcon
                         icon={faTrashCan}
-                        className="text-gray-800 mr-2"
+                        className="text-gray-800 dark:text-gray-300 mr-2"
                         aria-labelledby="delete-text"
                       />
                       <span id="delete-text">Delete</span>

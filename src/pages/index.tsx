@@ -206,12 +206,33 @@ export default function Home() {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Pairckle</title>
+
+        <meta
+          name="keywords"
+          content="pairckle, compare, comparison, comparisons, rank, ranking, tier list, tier, rankings, pairwise, pairwise comparison"
+        />
+        <meta
+          property="description"
+          content="Easily rank your favorite things with pairwise comparisons."
+        />
+
         <meta property="og:title" content="Pairckle" />
         <meta
           property="og:description"
           content="Easily rank your favorite things with pairwise comparisons."
         />
         <meta name="theme-color" content="#f97316" />
+        <meta property="og:image" content="pairckle-icon.png" />
+        <meta property="og:url" content="https://pairckle.jakeo.dev" />
+
+        <meta name="twitter:card" content="pairckle-icon.png" />
+        <meta name="twitter:title" content="Pairckle" />
+        <meta
+          name="twitter:description"
+          content="Easily rank your favorite things with pairwise comparisons."
+        />
+        <meta name="twitter:image" content="pairckle-icon.png" />
+        <meta name="twitter:url" content="https://pairckle.jakeo.dev" />
       </Head>
 
       {/* confirm to restart modal */}
@@ -323,7 +344,7 @@ export default function Home() {
                   />
                   <span className="block lg:mt-2">Hurry</span>
                 </div>
-                <span className="block text-sm text-gray-800">
+                <span className="block text-sm text-gray-800 dark:text-gray-300">
                   Quicker session
                 </span>
               </button>
@@ -379,7 +400,7 @@ export default function Home() {
                   />
                   <span className="block lg:mt-2">Concentrate</span>
                 </div>
-                <span className="block text-sm text-gray-800">
+                <span className="block text-sm text-gray-800 dark:text-gray-300">
                   More accurate
                 </span>
               </button>
@@ -435,7 +456,7 @@ export default function Home() {
 
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (prevComboWinners[currentComboIndex] != 2) {
@@ -472,7 +493,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "By restarting, you'll lose all of your progress so far."
@@ -492,7 +513,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setNextCombo(combosArray, utensilsArray);
                   setPrevComboWinners((ogArray) => [...ogArray, 2]);
@@ -600,7 +621,7 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="text-sm text-gray-600 px-2 mt-1">
+            <div className="text-sm text-gray-600 dark:text-gray-400 px-2 mt-1">
               <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
               <span>
                 {`This ranking has been saved. Go to "Your rankings" to see it.`}

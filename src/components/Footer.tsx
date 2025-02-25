@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer({ fixed }: { fixed: boolean }) {
   return (
@@ -17,13 +18,18 @@ export default function Footer({ fixed }: { fixed: boolean }) {
         >
           <img
             src="https://www.jakeo.dev/logos/bunny-jakeo-wordmark.png"
-            className="w-[3.25rem] lg:w-16"
+            className="w-[3.25rem] lg:w-16 dark:hidden"
+            alt="JakeO.dev logo"
+          />
+          <img
+            src="https://www.jakeo.dev/logos/bunny-jakeo-wordmark-light.png"
+            className="w-[3.25rem] lg:w-16 hidden dark:inline"
             alt="JakeO.dev logo"
           />
         </a>
-        <span className="mx-2">•</span>
+        <span className="mx-3">•</span>
         <a
-          className="hover:text-blue-600 underline hover:decoration-wavy hover:decoration-1 transition-all"
+          className="text-gray-800 hover:text-gray-700 active:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400 transition"
           href="https://github.com/jakeo-dev/pairckle"
           target="_blank"
         >
@@ -34,6 +40,23 @@ export default function Footer({ fixed }: { fixed: boolean }) {
           />
           GitHub
         </a>
+        <span className="mx-3">•</span>
+        <button
+          className="text-gray-800 hover:text-gray-700 active:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400 transition"
+          onClick={() => {
+            if (localStorage.getItem("theme") === "dark") {
+              document.documentElement.classList.remove("dark");
+              localStorage.setItem("theme", "light");
+            } else {
+              document.documentElement.classList.add("dark");
+              localStorage.setItem("theme", "dark");
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faSun} className="dark:hidden" />
+          <FontAwesomeIcon icon={faMoon} className="hidden dark:inline" />
+          <span className="ml-1">Theme</span>
+        </button>
       </div>
     </footer>
   );

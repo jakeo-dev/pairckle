@@ -880,7 +880,7 @@ export default function Sets() {
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-gray-800 rotate-90 mr-2"
+                      className="text-gray-800 dark:text-gray-300 rotate-90 mr-2"
                       aria-labelledby="use-this-text"
                     />
                     <span id="use-this-text">Rank this set</span>
