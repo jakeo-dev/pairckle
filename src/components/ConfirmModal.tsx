@@ -30,9 +30,9 @@ export default function ConfirmModal({
       }}
       tabIndex={0}
     >
-      <div className="bg-gray-200 relative rounded-xl w-11/12 lg:max-w-xl shadow-md px-8 py-8 lg:px-11 lg:py-10">
+      <div className="bg-gray-200 dark:bg-black dark:border-2 dark:border-gray-500/50 relative rounded-xl w-11/12 lg:max-w-xl shadow-md px-8 py-8 lg:px-11 lg:py-10">
         <button
-          className="absolute top-7 right-8 text-lg hover:text-gray-500 transition"
+          className="absolute top-7 right-8 text-lg hover:text-gray-500 active:text-gray-400 dark:active:text-gray-600 transition"
           onClick={() => {
             onCancel();
           }}
@@ -49,7 +49,7 @@ export default function ConfirmModal({
             {primaryButtonText}
           </button>
           <button
-            className="bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-500/30 px-3.5 py-2 transition"
+            className="bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/30 px-3.5 py-2 transition"
             onClick={onCancel}
           >
             {secondaryButtonText}
