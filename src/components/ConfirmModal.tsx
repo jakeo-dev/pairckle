@@ -41,18 +41,18 @@ export default function ConfirmModal({
         </button>
         <h1 className="text-xl font-medium pr-4">{titleText}</h1>
         <p className="mt-4">{subtitleText}</p>
-        <div className="flex gap-2 mt-6">
+        <div className="flex gap-2 float-right mt-6">
           <button
-            className="bg-gray-400/30 hover:bg-gray-400/40 active:bg-gray-400/50 rounded-md px-3.5 py-2 transition"
-            onClick={onConfirm}
-          >
-            {primaryButtonText}
-          </button>
-          <button
-            className="bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/30 px-3.5 py-2 transition"
+            className="bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/40 px-4 py-2 transition"
             onClick={onCancel}
           >
             {secondaryButtonText}
+          </button>
+          <button
+            className="bg-gray-900/70 hover:bg-gray-900/60 active:bg-gray-900/50 text-white dark:bg-gray-100/80 dark:hover:bg-gray-100/70 dark:active:bg-gray-100/60 dark:text-black rounded-md px-4 py-2 transition"
+            onClick={onConfirm}
+          >
+            {primaryButtonText}
           </button>
         </div>
       </div>

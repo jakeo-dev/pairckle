@@ -171,7 +171,7 @@ export default function Rankings() {
                           </span>
                           {/* show "(tie)" if tied */}
                           <span
-                            className={`text-xs lg:text-sm mr-1.5 ${
+                            className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 mr-1.5 ${
                               ([...ranking["rankedUtensils"]].sort(
                                 sortUtensils
                               )[index2 - 1] &&

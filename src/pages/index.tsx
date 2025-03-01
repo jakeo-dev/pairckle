@@ -587,7 +587,7 @@ export default function Home() {
                     </span>
                     {/* show "(tie)" if tied */}
                     <span
-                      className={`text-xs lg:text-sm ml-2 ${
+                      className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-2 ${
                         ([...utensilsArray].sort(sortUtensils)[index - 1] &&
                           [...utensilsArray].sort(sortUtensils)[index - 1][
                             "score"
@@ -623,14 +623,17 @@ export default function Home() {
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400 px-2 mt-1">
               <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
-              <span>
+              <span className="hidden lg:inline">
                 {`This ranking has been saved. Go to "Your rankings" to see it.`}
+              </span>
+              <span className="lg:hidden">
+                {`This ranking has been saved. Go to "Saved" to see it.`}
               </span>
             </div>
             <button
               onClick={() => {
                 setConfirmRestartModalSubtext(
-                  'You will NOT lose this ranking if you restart because it has already been saved in "Your rankings".'
+                  "You will NOT lose this ranking if you restart because it has already been saved in your rankings."
                 );
                 setConfirmRestartModalVisibility(true);
               }}
