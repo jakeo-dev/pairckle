@@ -263,7 +263,7 @@ export default function Home() {
             className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
             <label
-              className="block text-black/60 text-xs lg:text-sm px-2"
+              className="block text-black/60 dark:text-white/60 text-xs lg:text-sm px-2"
               htmlFor="utensil-input"
             >
               Enter a list of things separated by line or comma
