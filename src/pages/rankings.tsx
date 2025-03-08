@@ -15,6 +15,7 @@ export default function Rankings() {
   const [savedRankings, setSavedRankings] = useState<
     {
       rankingName: string;
+      rankingDate: { month: number; day: number; year: number };
       rankedUtensils: { title: string; score: number }[];
     }[]
   >([]);
@@ -24,12 +25,14 @@ export default function Rankings() {
 
   const [currentRanking, setCurrentRanking] = useState<{
     rankingName: string;
+    rankingDate: { month: number; day: number; year: number };
     rankedUtensils: {
       title: string;
       score: number;
     }[];
   }>({
     rankingName: "",
+    rankingDate: { month: -1, day: -1, year: -1 },
     rankedUtensils: [
       {
         title: "",
@@ -84,6 +87,22 @@ export default function Rankings() {
     return array;
   }
 
+  function monthName(num: number) {
+    if (num == 1) return "January";
+    else if (num == 2) return "February";
+    else if (num == 3) return "March";
+    else if (num == 4) return "April";
+    else if (num == 5) return "May";
+    else if (num == 6) return "June";
+    else if (num == 7) return "July";
+    else if (num == 8) return "August";
+    else if (num == 9) return "September";
+    else if (num == 10) return "October";
+    else if (num == 11) return "November";
+    else if (num == 12) return "December";
+    else return "";
+  }
+
   return (
     <>
       <Head>
@@ -133,9 +152,16 @@ export default function Rankings() {
             >
               {[...savedRankings].map((ranking, index1) => (
                 <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
-                  <h2 className="font-medium w-full lg:line-clamp-1 overflow-ellipsis px-2 mb-1">
-                    {ranking["rankingName"]}
-                  </h2>
+                  <div className="flex gap-3 items-end px-2 mb-1">
+                    <h2 className="leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+                      {ranking["rankingName"]}
+                    </h2>
+                    <h3 className="text-sm leading-6 text-gray-700 dark:text-gray-400 text-right min-w-max ml-auto">
+                      {monthName(ranking["rankingDate"]["month"]).slice(0, 3)}.{" "}
+                      {ranking["rankingDate"]["day"]},{" "}
+                      {ranking["rankingDate"]["year"]}
+                    </h3>
+                  </div>
                   <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
                     {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score */}
                     {[...ranking["rankedUtensils"]]
@@ -382,6 +408,7 @@ export default function Rankings() {
 
                           rankingsArray[index1] = {
                             rankingName: rankingNewName,
+                            rankingDate: ranking["rankingDate"],
                             rankedUtensils: ranking["rankedUtensils"],
                           };
 
@@ -422,7 +449,7 @@ export default function Rankings() {
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
-            <h2 className="text-gray-600 text-xl lg:text-3xl text-center">
+            <h2 className="text-gray-600 dark:text-gray-400 text-xl lg:text-3xl text-center">
               {`You haven't saved any rankings yet...`}
             </h2>
           </div>

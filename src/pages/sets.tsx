@@ -853,7 +853,7 @@ export default function Sets() {
               {[...starterSets].map((set, index1) => (
                 <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
                   <div className="flex gap-2 items-end px-2 mb-1">
-                    <h2 className="font-medium w-full lg:line-clamp-1 overflow-ellipsis">
+                    <h2 className="leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis">
                       {set["setName"]}
                     </h2>
                   </div>
