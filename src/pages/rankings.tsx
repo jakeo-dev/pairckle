@@ -157,9 +157,14 @@ export default function Rankings() {
                       {ranking["rankingName"]}
                     </h2>
                     <h3 className="text-sm leading-6 text-gray-700 dark:text-gray-400 text-right min-w-max ml-auto">
-                      {monthName(ranking["rankingDate"]["month"]).slice(0, 3)}.{" "}
-                      {ranking["rankingDate"]["day"]},{" "}
-                      {ranking["rankingDate"]["year"]}
+                      {ranking["rankingDate"]
+                        ? `${monthName(ranking["rankingDate"]["month"]).slice(
+                            0,
+                            3
+                          )}. ${ranking["rankingDate"]["day"]}, ${
+                            ranking["rankingDate"]["year"]
+                          }`
+                        : ""}
                     </h3>
                   </div>
                   <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
