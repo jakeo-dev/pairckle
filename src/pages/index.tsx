@@ -274,7 +274,7 @@ export default function Home() {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
-              className="min-h-[17rem] max-h-[35vh] lg:max-h-[48vh] w-[85vw] lg:w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[17rem] md:max-h-[27.25rem] w-[85vw] lg:w-96" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
@@ -548,15 +548,15 @@ export default function Home() {
             className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
             <div className="flex w-full">
-              <span className="block text-black/60 text-xs lg:text-sm px-2">
+              <span className="block text-black/60 dark:text-white/60 text-xs lg:text-sm px-2">
                 Element
               </span>
-              <span className="block w-full text-right text-black/60 text-xs lg:text-sm px-2">
+              <span className="block w-full text-right text-black/60 dark:text-white/60 text-xs lg:text-sm px-2">
                 Number of matchups won
               </span>
             </div>
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[35vh] lg:max-h-[48vh] w-80 lg:w-[30rem]">
+              <ul className="min-h-[17rem] max-h-[19rem] md:max-h-[29rem] w-80 lg:w-[30rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
