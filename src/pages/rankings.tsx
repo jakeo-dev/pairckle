@@ -1,6 +1,7 @@
 import Head from "next/head";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
+import MasonryLayout from "@/components/MasonryLayout";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -124,17 +125,18 @@ export default function Rankings() {
       <div className="min-h-screen lg:min-h-[94.6vh]">
         <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
           <div className={savedRankings.length < 1 ? "hidden" : ""}>
-            <div
-              className={`grid grid-cols-1 ${
-                savedRankings.length != 1 ? "lg:grid-cols-2" : ""
-              } gap-8 lg:gap-10 w-full`}
+            <MasonryLayout
+              defaultCols={1}
+              lgCols={2}
+              className="flex w-full"
+              columnClassName="bg-clip-padding px-4 lg:px-5"
             >
               {[...savedRankings].map((ranking, index1) => (
-                <div className="w-80 lg:w-96" key={index1}>
+                <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
                   <h2 className="font-medium w-full lg:line-clamp-1 overflow-ellipsis px-2 mb-1">
                     {ranking["rankingName"]}
                   </h2>
-                  <ul className="h-[13.5rem] lg:h-[21.5rem] overflow-y-auto border-gray-400/40 border-2 rounded-lg">
+                  <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
                     {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score */}
                     {[...ranking["rankedUtensils"]]
                       .sort(sortUtensils)
@@ -171,7 +173,7 @@ export default function Rankings() {
                           </span>
                           {/* show "(tie)" if tied */}
                           <span
-                            className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 mr-1.5 ${
+                            className={`text-xs text-gray-700 dark:text-gray-400 mr-1.5 ${
                               ([...ranking["rankedUtensils"]].sort(
                                 sortUtensils
                               )[index2 - 1] &&
@@ -416,7 +418,7 @@ export default function Rankings() {
                   </div>
                 </div>
               ))}
-            </div>
+            </MasonryLayout>
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>

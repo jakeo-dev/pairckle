@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import MasonryLayout from "@/components/MasonryLayout";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -843,19 +844,20 @@ export default function Sets() {
       <div className="min-h-screen lg:min-h-[94.6vh]">
         <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
           <div>
-            <div
-              className={`grid grid-cols-1 ${
-                starterSets.length != 1 ? "lg:grid-cols-2" : ""
-              } gap-8 lg:gap-10 w-full`}
+            <MasonryLayout
+              defaultCols={1}
+              lgCols={2}
+              className="flex w-full"
+              columnClassName="bg-clip-padding px-4 lg:px-5"
             >
               {[...starterSets].map((set, index1) => (
-                <div className="w-80 lg:w-96" key={index1}>
+                <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
                   <div className="flex gap-2 items-end px-2 mb-1">
                     <h2 className="font-medium w-full lg:line-clamp-1 overflow-ellipsis">
                       {set["setName"]}
                     </h2>
                   </div>
-                  <ul className="h-[13.5rem] lg:h-[21.5rem] overflow-y-auto border-gray-400/40 border-2 rounded-lg">
+                  <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
                     {/* create shallow copy of set["utensilSet"] (so it wont actually change the set["utensilSet"] variable), sort utensils by their score */}
                     {[...set["utensilSet"]].map((utensil, index2) => (
                       <li
@@ -887,7 +889,7 @@ export default function Sets() {
                   </Link>
                 </div>
               ))}
-            </div>
+            </MasonryLayout>
           </div>
         </div>
       </div>
