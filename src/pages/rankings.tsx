@@ -16,6 +16,7 @@ export default function Rankings() {
     {
       rankingName: string;
       rankingDate: { month: number; day: number; year: number };
+      rankingType: string;
       rankedUtensils: {
         title: string;
         score: number;
@@ -31,6 +32,7 @@ export default function Rankings() {
   const [currentRanking, setCurrentRanking] = useState<{
     rankingName: string;
     rankingDate: { month: number; day: number; year: number };
+    rankingType: string;
     rankedUtensils: {
       title: string;
       score: number;
@@ -40,6 +42,7 @@ export default function Rankings() {
   }>({
     rankingName: "",
     rankingDate: { month: -1, day: -1, year: -1 },
+    rankingType: "",
     rankedUtensils: [
       {
         title: "",
@@ -443,6 +446,7 @@ export default function Rankings() {
                           rankingsArray[index1] = {
                             rankingName: rankingNewName,
                             rankingDate: ranking["rankingDate"],
+                            rankingType: ranking["rankingType"],
                             rankedUtensils: ranking["rankedUtensils"],
                           };
 

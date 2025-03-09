@@ -42,6 +42,9 @@ export default function Home() {
   // number of combos until the selection process is finished, the number is halved for Hurry
   const [maxCombos, setMaxCombos] = useState<number>(1);
 
+  // type of ranking: hurry or concentrate
+  const [rankingType, setRankingType] = useState<string>("");
+
   const [utensilInput, setUtensilInput] = useState<string>("");
 
   // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
@@ -184,6 +187,7 @@ export default function Home() {
           day: new Date().getDate(),
           year: new Date().getFullYear(),
         },
+        rankingType: rankingType,
         rankedUtensils: [...utensilsArray].sort(sortUtensils),
       });
 
@@ -345,6 +349,8 @@ export default function Home() {
 
                     setMaxCombos(Math.ceil(newCombosArray.length / 2));
 
+                    setRankingType("hurry");
+
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
                     setNextCombo(newCombosArray, newUtensilsArray);
@@ -402,6 +408,8 @@ export default function Home() {
                     const newCombosArray = generateCombos(newUtensilsArray);
 
                     setMaxCombos(newCombosArray.length);
+
+                    setRankingType("concentrate");
 
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
