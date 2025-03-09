@@ -16,7 +16,12 @@ export default function Rankings() {
     {
       rankingName: string;
       rankingDate: { month: number; day: number; year: number };
-      rankedUtensils: { title: string; score: number }[];
+      rankedUtensils: {
+        title: string;
+        score: number;
+        wins: number;
+        losses: number;
+      }[];
     }[]
   >([]);
 
@@ -29,6 +34,8 @@ export default function Rankings() {
     rankedUtensils: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }[];
   }>({
     rankingName: "",
@@ -37,6 +44,8 @@ export default function Rankings() {
       {
         title: "",
         score: 0,
+        wins: 0,
+        losses: 0,
       },
     ],
   });
@@ -52,10 +61,14 @@ export default function Rankings() {
     a: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     },
     b: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }
   ) {
     // sort by score, highest to lowest
@@ -237,9 +250,25 @@ export default function Rankings() {
                               : ""}
                           </span>
                           <span className="w-full">{utensil["title"]}</span>
-                          <span className="text-right ml-3">
-                            {utensil["score"]}
-                          </span>
+                          <div className="flex gap-3 text-xs lg:text-sm min-w-fit text-gray-700 dark:text-gray-400">
+                            {/* show both wins and losses if they exist, otherwise just show score (wins) */}
+                            <span>
+                              {typeof utensil["wins"] === "number"
+                                ? `${utensil["wins"]} won`
+                                : `${utensil["score"]} won`}
+                            </span>
+                            <span
+                              className={
+                                typeof utensil["losses"] === "number"
+                                  ? ""
+                                  : "hidden"
+                              }
+                            >
+                              {typeof utensil["losses"] === "number"
+                                ? `${utensil["losses"]} lost`
+                                : ""}
+                            </span>
+                          </div>
                         </li>
                       ))}
                   </ul>

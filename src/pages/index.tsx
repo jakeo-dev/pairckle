@@ -49,8 +49,10 @@ export default function Home() {
     {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }[]
-  >([{ title: "", score: 0 }]);
+  >([{ title: "", score: 0, wins: 0, losses: 0 }]);
 
   // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
@@ -63,10 +65,14 @@ export default function Home() {
     a: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     },
     b: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }
   ) {
     // sort by score, highest to lowest
@@ -90,6 +96,8 @@ export default function Home() {
     array: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }[]
   ) {
     const combinations: number[][] = [];
@@ -142,6 +150,8 @@ export default function Home() {
     utensilsArray: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }[]
   ) {
     if (currentComboIndex + 1 < maxCombos) {
@@ -186,6 +196,8 @@ export default function Home() {
     utensilsArray: {
       title: string;
       score: number;
+      wins: number;
+      losses: number;
     }[]
   ) {
     // go to previous combo in array
@@ -324,6 +336,8 @@ export default function Home() {
                       newUtensilsArray.push({
                         title: utensilTitle.trim(),
                         score: 0,
+                        wins: 0,
+                        losses: 0,
                       });
                     }
 
@@ -380,6 +394,8 @@ export default function Home() {
                       newUtensilsArray.push({
                         title: utensilTitle.trim(),
                         score: 0,
+                        wins: 0,
+                        losses: 0,
                       });
                     }
 
@@ -422,8 +438,20 @@ export default function Home() {
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
+                      // add 1 to wins and add 1 to score for first option
                       if (index === combosArray[currentComboIndex][0]) {
-                        return { ...item, score: item.score + 1 };
+                        return {
+                          ...item,
+                          score: item.score + 1,
+                          wins: item.wins + 1,
+                        };
+                        // add 1 to losses and remove 1 from score for second option
+                      } else if (index === combosArray[currentComboIndex][1]) {
+                        return {
+                          ...item,
+                          score: item.score - 1,
+                          losses: item.losses + 1,
+                        };
                       }
                       return item;
                     }
@@ -442,8 +470,20 @@ export default function Home() {
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
+                      // add 1 to wins and add 1 to score for second option
                       if (index === combosArray[currentComboIndex][1]) {
-                        return { ...item, score: item.score + 1 };
+                        return {
+                          ...item,
+                          score: item.score + 1,
+                          wins: item.wins + 1,
+                        };
+                        // add 1 to losses and remove 1 from score for first option
+                      } else if (index === combosArray[currentComboIndex][0]) {
+                        return {
+                          ...item,
+                          score: item.score - 1,
+                          losses: item.losses + 1,
+                        };
                       }
                       return item;
                     }
@@ -461,19 +501,36 @@ export default function Home() {
 
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (prevComboWinners[currentComboIndex] != 2) {
                       setUtensilsArray((prevArray) => {
                         return prevArray.map((item, index) => {
+                          // undo previous action by removing 1 from wins and removing 1 from score for the previous winner
                           if (
                             index ===
                             combosArray[currentComboIndex - 1][
                               prevComboWinners[currentComboIndex]
                             ]
                           ) {
-                            return { ...item, score: item.score - 1 };
+                            return {
+                              ...item,
+                              score: item.score - 1,
+                              wins: item.wins - 1,
+                            };
+                            // undo previous action by removing 1 from losses and adding 1 to score for the previous loser
+                          } else if (
+                            index ===
+                            combosArray[currentComboIndex - 1][
+                              Math.abs(prevComboWinners[currentComboIndex] - 1)
+                            ]
+                          ) {
+                            return {
+                              ...item,
+                              score: item.score + 1,
+                              losses: item.losses - 1,
+                            };
                           }
                           return item;
                         });
@@ -498,7 +555,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "By restarting, you'll lose all of your progress so far."
@@ -518,7 +575,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-xl border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setNextCombo(combosArray, utensilsArray);
                   setPrevComboWinners((ogArray) => [...ogArray, 2]);
@@ -552,13 +609,10 @@ export default function Home() {
           <div
             className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
           >
-            <div className="flex w-full">
-              <span className="block text-black/60 dark:text-white/60 text-xs lg:text-sm px-2">
-                Element
-              </span>
-              <span className="block w-full text-right text-black/60 dark:text-white/60 text-xs lg:text-sm px-2">
-                Number of matchups won
-              </span>
+            <div className="flex w-full px-2 mb-1">
+              <h2 className="leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+                Final ranking
+              </h2>
             </div>
             <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
               <ul className="min-h-[17rem] max-h-[19rem] md:max-h-[29rem] w-80 lg:w-[30rem]">
@@ -619,9 +673,10 @@ export default function Home() {
                     <span className="text-lg lg:text-xl w-full">
                       {utensil["title"]}
                     </span>
-                    <span className="lg:text-lg text-right ml-3">
-                      {utensil["score"]}
-                    </span>
+                    <div className="flex gap-3 text-xs lg:text-sm min-w-fit text-gray-700 dark:text-gray-400">
+                      <span>{utensil["wins"]} won</span>
+                      <span>{utensil["losses"]} lost</span>
+                    </div>
                   </li>
                 ))}
               </ul>
