@@ -83,12 +83,9 @@ export default function Home() {
       return b.score - a.score;
     }
 
-    const aIndex = utensilsArray.indexOf(a);
-    const bIndex = utensilsArray.indexOf(b);
-
-    // sort by how the utensils were inputted, lower index to higher index
-    if (aIndex !== bIndex) {
-      return aIndex - bIndex;
+    // sort by number of wins, highest to lowest
+    if (a.wins !== b.wins) {
+      return b.wins - a.wins;
     }
 
     // sort alphabetically

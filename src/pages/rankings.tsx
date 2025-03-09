@@ -79,6 +79,11 @@ export default function Rankings() {
       return b.score - a.score;
     }
 
+    // sort by number of wins, highest to lowest
+    if (a.wins !== b.wins) {
+      return b.wins - a.wins;
+    }
+
     // sort alphabetically
     return a.title.localeCompare(b.title);
   }
