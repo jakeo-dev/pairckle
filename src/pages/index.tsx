@@ -78,12 +78,17 @@ export default function Home() {
       losses: number;
     }
   ) {
-    // sort by score, highest to lowest
+    // sort by SCORE, highest to lowest
     if (a.score !== b.score) {
       return b.score - a.score;
     }
 
-    // sort by number of wins, highest to lowest
+    // sort by WIN RATE, highest to lowest
+    if (b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)) {
+      return b.wins / (b.wins + b.losses) - a.wins / (a.wins + a.losses);
+    }
+
+    // sort by NUMBER OF WINS, highest to lowest
     if (a.wins !== b.wins) {
       return b.wins - a.wins;
     }
@@ -439,7 +444,7 @@ export default function Home() {
           >
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                className="w-[20rem] min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -471,7 +476,7 @@ export default function Home() {
                 </span>
               </button>
               <button
-                className="w-[20rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                className="w-[20rem] min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -619,40 +624,53 @@ export default function Home() {
                 Final ranking
               </h2>
             </div>
-            <div className="w-max overflow-y-auto border-gray-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[19rem] md:max-h-[29rem] w-80 lg:w-[30rem]">
+            <div className="h-max overflow-y-auto overflow-x-hidden border-gray-400/40 border-2 rounded-lg thin-scrollbar">
+              <ul className="min-h-[17rem] max-h-[19rem] md:max-h-[29rem] w-full lg:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
                     // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                    className={`flex items-center justify-center first:rounded-t-md last:rounded-b-md px-2.5 lg:px-3 py-1.5 lg:py-2 ${
+                    className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2.5 py-1.5 ${
                       [...utensilsArray].sort(sortUtensils)[index - 1] &&
                       [...utensilsArray].sort(sortUtensils)[index - 1][
                         "score"
                       ] == utensil["score"]
                         ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-gray-400/20"
+                          ? "bg-gray-500/10 dark:bg-gray-500/20"
                           : ""
                         : rankingPlace % 2 !== 0
-                        ? "bg-gray-400/20"
+                        ? "bg-gray-500/10 dark:bg-gray-500/20"
                         : ""
                     }`}
                   >
-                    {/* shows place in ranking */}
-                    <span className="text-sm lg:text-base font-semibold">
-                      {[...utensilsArray].sort(sortUtensils)[index - 1] &&
-                      [...utensilsArray].sort(sortUtensils)[index - 1][
-                        "score"
-                      ] == utensil["score"]
-                        ? rankingPlace - 1
-                        : rankingPlace++}
-                      .
-                    </span>
-                    {/* show "(tie)" if tied */}
-                    <span
-                      className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-2 ${
-                        ([...utensilsArray].sort(sortUtensils)[index - 1] &&
+                    <div className="flex items-center">
+                      {/* shows place in ranking */}
+                      <span className="text-xs lg:text-sm font-semibold">
+                        {[...utensilsArray].sort(sortUtensils)[index - 1] &&
+                        [...utensilsArray].sort(sortUtensils)[index - 1][
+                          "score"
+                        ] == utensil["score"]
+                          ? rankingPlace - 1
+                          : rankingPlace++}
+                        .
+                      </span>
+                      {/* show "(tie)" if tied */}
+                      <span
+                        className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-2 ${
+                          ([...utensilsArray].sort(sortUtensils)[index - 1] &&
+                            [...utensilsArray].sort(sortUtensils)[index - 1][
+                              "score"
+                            ] == utensil["score"]) ||
+                          ([...utensilsArray].sort(sortUtensils)[index + 1] &&
+                            [...utensilsArray].sort(sortUtensils)[index + 1][
+                              "score"
+                            ] == utensil["score"])
+                            ? "mr-2"
+                            : ""
+                        }`}
+                      >
+                        {([...utensilsArray].sort(sortUtensils)[index - 1] &&
                           [...utensilsArray].sort(sortUtensils)[index - 1][
                             "score"
                           ] == utensil["score"]) ||
@@ -660,27 +678,43 @@ export default function Home() {
                           [...utensilsArray].sort(sortUtensils)[index + 1][
                             "score"
                           ] == utensil["score"])
-                          ? "mr-2"
-                          : ""
-                      }`}
-                    >
-                      {([...utensilsArray].sort(sortUtensils)[index - 1] &&
-                        [...utensilsArray].sort(sortUtensils)[index - 1][
-                          "score"
-                        ] == utensil["score"]) ||
-                      ([...utensilsArray].sort(sortUtensils)[index + 1] &&
-                        [...utensilsArray].sort(sortUtensils)[index + 1][
-                          "score"
-                        ] == utensil["score"])
-                        ? "(tie)"
-                        : ""}
-                    </span>
-                    <span className="text-lg lg:text-xl w-full">
-                      {utensil["title"]}
-                    </span>
-                    <div className="flex gap-3 text-xs lg:text-sm min-w-fit text-gray-700 dark:text-gray-400">
-                      <span>{utensil["wins"]} won</span>
-                      <span>{utensil["losses"]} lost</span>
+                          ? "(tie)"
+                          : ""}
+                      </span>
+                      <span className="w-fit">{utensil["title"]}</span>
+                    </div>
+
+                    <div className="relative flex ml-auto">
+                      <progress
+                        className="win-rate-bar w-32 md:w-72 lg:w-96 appearance-none h-6"
+                        value={
+                          typeof utensil["wins"] === "number"
+                            ? utensil["wins"] /
+                              (utensil["wins"] + utensil["losses"])
+                            : utensil["score"] / utensilsArray.length
+                        }
+                      />
+
+                      <div className="absolute inset-0 flex justify-between text-xs lg:text-sm text-white dark:text-black px-1">
+                        <span className="px-2 py-1 lg:py-0.5">
+                          {typeof utensil["wins"] === "number"
+                            ? `${utensil["wins"]} won`
+                            : `${utensil["score"]} won`}
+                        </span>
+                        <span
+                          className={`px-2 py-1 lg:py-0.5 
+                                  ${
+                                    typeof utensil["losses"] === "number"
+                                      ? ""
+                                      : "hidden"
+                                  }
+                                `}
+                        >
+                          {typeof utensil["losses"] === "number"
+                            ? `${utensil["losses"]} lost`
+                            : ""}
+                        </span>
+                      </div>
                     </div>
                   </li>
                 ))}

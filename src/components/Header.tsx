@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <div className="absolute top-0 w-full text-center lg:flex justify-between p-8">
       <div className="text-left cursor-default">
-        <h1 className="block text-3xl lg:text-3xl font-bold">
+        <h1 className="block text-2xl lg:text-3xl font-bold">
           <span className="text-orange-500">Pair</span>
           <span className="text-blue-500">ckle</span>
         </h1>
@@ -27,7 +27,7 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/"
-              ? "bg-gray-400/30"
+              ? "bg-gray-400/20"
               : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/"
@@ -43,7 +43,7 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/rankings"
-              ? "bg-gray-400/30"
+              ? "bg-gray-400/20"
               : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/rankings"
@@ -55,7 +55,7 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/sets"
-              ? "bg-gray-400/30"
+              ? "bg-gray-400/20"
               : "hover:bg-gray-400/15 active:bg-gray-400/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/sets"

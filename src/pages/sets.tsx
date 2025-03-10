@@ -846,7 +846,10 @@ export default function Sets() {
           <div>
             <MasonryLayout
               defaultCols={1}
+              smCols={1}
+              mdCols={1}
               lgCols={2}
+              xlCols={2}
               className="flex w-full"
               columnClassName="bg-clip-padding px-4 lg:px-5"
             >
@@ -862,7 +865,7 @@ export default function Sets() {
                     {[...set["utensilSet"]].map((utensil, index2) => (
                       <li
                         key={index2}
-                        className="flex items-center justify-center odd:bg-gray-400/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                        className="flex items-center justify-center odd:bg-gray-500/10 dark:odd:bg-gray-500/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
                       >
                         <span className="w-full">{utensil["title"]}</span>
                       </li>

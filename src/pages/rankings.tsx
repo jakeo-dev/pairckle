@@ -74,12 +74,17 @@ export default function Rankings() {
       losses: number;
     }
   ) {
-    // sort by score, highest to lowest
+    // sort by SCORE, highest to lowest
     if (a.score !== b.score) {
       return b.score - a.score;
     }
 
-    // sort by number of wins, highest to lowest
+    // sort by WIN RATE, highest to lowest
+    if (b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)) {
+      return b.wins / (b.wins + b.losses) - a.wins / (a.wins + a.losses);
+    }
+
+    // sort by NUMBER OF WINS, highest to lowest
     if (a.wins !== b.wins) {
       return b.wins - a.wins;
     }
@@ -167,12 +172,15 @@ export default function Rankings() {
           <div className={savedRankings.length < 1 ? "hidden" : ""}>
             <MasonryLayout
               defaultCols={1}
-              lgCols={2}
+              smCols={1}
+              mdCols={1}
+              lgCols={1}
+              xlCols={1}
               className="flex w-full"
               columnClassName="bg-clip-padding px-4 lg:px-5"
             >
               {[...savedRankings].map((ranking, index1) => (
-                <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
+                <div className="w-full lg:w-[45rem] mb-8 lg:mb-10" key={index1}>
                   <div className="flex gap-3 items-end px-2 mb-1">
                     <h2 className="leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
                       {ranking["rankingName"]}
@@ -196,7 +204,7 @@ export default function Rankings() {
                         <li
                           key={index2}
                           // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                          className={`flex items-center justify-center first:rounded-t-md last:rounded-b-md px-2 py-1 ${
+                          className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2.5 py-1.5 ${
                             [...ranking["rankedUtensils"]].sort(sortUtensils)[
                               index2 - 1
                             ] &&
@@ -211,22 +219,39 @@ export default function Rankings() {
                               : ""
                           }`}
                         >
-                          {/* shows place in ranking */}
-                          <span className="text-xs lg:text-sm font-semibold">
-                            {[...ranking["rankedUtensils"]].sort(sortUtensils)[
-                              index2 - 1
-                            ] &&
-                            [...ranking["rankedUtensils"]].sort(sortUtensils)[
-                              index2 - 1
-                            ]["score"] == utensil["score"]
-                              ? rankingPlaces[index1] - 1
-                              : rankingPlaces[index1]++}
-                            .
-                          </span>
-                          {/* show "(tie)" if tied */}
-                          <span
-                            className={`text-xs text-gray-700 dark:text-gray-400 mr-1.5 ${
-                              ([...ranking["rankedUtensils"]].sort(
+                          <div className="flex items-center">
+                            {/* shows place in ranking */}
+                            <span className="text-xs lg:text-sm font-semibold">
+                              {[...ranking["rankedUtensils"]].sort(
+                                sortUtensils
+                              )[index2 - 1] &&
+                              [...ranking["rankedUtensils"]].sort(sortUtensils)[
+                                index2 - 1
+                              ]["score"] == utensil["score"]
+                                ? rankingPlaces[index1] - 1
+                                : rankingPlaces[index1]++}
+                              .
+                            </span>
+                            {/* show "(tie)" if tied */}
+                            <span
+                              className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 mr-1.5 ${
+                                ([...ranking["rankedUtensils"]].sort(
+                                  sortUtensils
+                                )[index2 - 1] &&
+                                  [...ranking["rankedUtensils"]].sort(
+                                    sortUtensils
+                                  )[index2 - 1]["score"] == utensil["score"]) ||
+                                ([...ranking["rankedUtensils"]].sort(
+                                  sortUtensils
+                                )[index2 + 1] &&
+                                  [...ranking["rankedUtensils"]].sort(
+                                    sortUtensils
+                                  )[index2 + 1]["score"] == utensil["score"])
+                                  ? "ml-1.5"
+                                  : ""
+                              }`}
+                            >
+                              {([...ranking["rankedUtensils"]].sort(
                                 sortUtensils
                               )[index2 - 1] &&
                                 [...ranking["rankedUtensils"]].sort(
@@ -238,44 +263,43 @@ export default function Rankings() {
                                 [...ranking["rankedUtensils"]].sort(
                                   sortUtensils
                                 )[index2 + 1]["score"] == utensil["score"])
-                                ? "ml-1.5"
-                                : ""
-                            }`}
-                          >
-                            {([...ranking["rankedUtensils"]].sort(sortUtensils)[
-                              index2 - 1
-                            ] &&
-                              [...ranking["rankedUtensils"]].sort(sortUtensils)[
-                                index2 - 1
-                              ]["score"] == utensil["score"]) ||
-                            ([...ranking["rankedUtensils"]].sort(sortUtensils)[
-                              index2 + 1
-                            ] &&
-                              [...ranking["rankedUtensils"]].sort(sortUtensils)[
-                                index2 + 1
-                              ]["score"] == utensil["score"])
-                              ? "(tie)"
-                              : ""}
-                          </span>
-                          <span className="w-full">{utensil["title"]}</span>
-                          <div className="flex gap-3 text-xs lg:text-sm min-w-fit text-gray-700 dark:text-gray-400">
-                            {/* show both wins and losses if they exist, otherwise just show score (wins) */}
-                            <span>
-                              {typeof utensil["wins"] === "number"
-                                ? `${utensil["wins"]} won`
-                                : `${utensil["score"]} won`}
-                            </span>
-                            <span
-                              className={
-                                typeof utensil["losses"] === "number"
-                                  ? ""
-                                  : "hidden"
-                              }
-                            >
-                              {typeof utensil["losses"] === "number"
-                                ? `${utensil["losses"]} lost`
+                                ? "(tie)"
                                 : ""}
                             </span>
+                            <span className="w-fit">{utensil["title"]}</span>
+                          </div>
+                          <div className="relative flex ml-auto">
+                            <progress
+                              className="win-rate-bar w-32 md:w-72 lg:w-96 appearance-none h-6"
+                              value={
+                                typeof utensil["wins"] === "number"
+                                  ? utensil["wins"] /
+                                    (utensil["wins"] + utensil["losses"])
+                                  : utensil["score"] /
+                                    ranking["rankedUtensils"].length
+                              }
+                            />
+
+                            <div className="absolute inset-0 flex justify-between text-xs lg:text-sm text-white dark:text-black px-1">
+                              <span className="px-2 py-1 lg:py-0.5">
+                                {typeof utensil["wins"] === "number"
+                                  ? `${utensil["wins"]} won`
+                                  : `${utensil["score"]} won`}
+                              </span>
+                              <span
+                                className={`px-2 py-1 lg:py-0.5 
+                                  ${
+                                    typeof utensil["losses"] === "number"
+                                      ? ""
+                                      : "hidden"
+                                  }
+                                `}
+                              >
+                                {typeof utensil["losses"] === "number"
+                                  ? `${utensil["losses"]} lost`
+                                  : ""}
+                              </span>
+                            </div>
                           </div>
                         </li>
                       ))}

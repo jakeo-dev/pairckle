@@ -28,7 +28,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
   return (
     <main
-      className={`${lexend.className} flex flex-col min-h-screen bg-gray-200 dark:bg-black dark:text-gray-100`}
+      className={`${lexend.className} flex flex-col min-h-screen bg-gray-100 dark:bg-black dark:text-gray-100`}
     >
       <Header />
       <Component {...pageProps} />
