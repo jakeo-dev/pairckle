@@ -276,7 +276,7 @@ export default function Rankings() {
                                   ? utensil["wins"] /
                                     (utensil["wins"] + utensil["losses"])
                                   : utensil["score"] /
-                                    ranking["rankedUtensils"].length
+                                    (ranking["rankedUtensils"].length - 1)
                               }
                             />
 

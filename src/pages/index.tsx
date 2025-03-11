@@ -625,7 +625,7 @@ export default function Home() {
               </h2>
             </div>
             <div className="h-max overflow-y-auto overflow-x-hidden border-gray-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="min-h-[17rem] max-h-[19rem] md:max-h-[29rem] w-full lg:w-[45rem]">
+              <ul className="max-h-[19rem] md:max-h-[29rem] w-full lg:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
