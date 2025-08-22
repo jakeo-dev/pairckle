@@ -1,4 +1,4 @@
-import Head from "next/head";
+import CommonHead from "@/components/CommonHead";
 import Link from "next/link";
 import MasonryLayout from "@/components/MasonryLayout";
 import { useEffect, useState } from "react";
@@ -379,7 +379,7 @@ export default function Sets() {
           ]),
         },
         {
-          setName: "Ivy league universities",
+          setName: "Ivy League universities",
           utensilSet: shuffle([
             { title: "Brown University" },
             { title: "Columbia University" },
@@ -829,17 +829,7 @@ export default function Sets() {
 
   return (
     <>
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pairckle: Starter sets</title>
-        <meta property="og:title" content="Pairckle: Starter sets" />
-        <meta
-          property="og:description"
-          content="Easily rank your favorite things with pairwise comparisons."
-        />
-        <meta name="theme-color" content="#f97316" />
-      </Head>
+      <CommonHead />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
         <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">

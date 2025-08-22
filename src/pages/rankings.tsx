@@ -1,4 +1,4 @@
-import Head from "next/head";
+import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -130,17 +130,7 @@ export default function Rankings() {
 
   return (
     <>
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pairckle: Your rankings</title>
-        <meta property="og:title" content="Pairckle: Your rankings" />
-        <meta
-          property="og:description"
-          content="Easily rank your favorite things with pairwise comparisons."
-        />
-        <meta name="theme-color" content="#f97316" />
-      </Head>
+      <CommonHead />
 
       {/* confirm to delete modal */}
       <ConfirmModal

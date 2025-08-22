@@ -19,7 +19,7 @@ export default function Header() {
           <span className="text-blue-500">ckle</span>
         </h1>
         <h2 className="block text-xs lg:text-sm text-gray-800 dark:text-gray-300 mt-1">
-          Rank with pairwise comparisons
+          Rank your favorites pairwisely
         </h2>
       </div>
 
@@ -27,8 +27,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/"
-              ? "bg-gray-400/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20"
+              ? "bg-gray-400/20 dark:bg-gray-300/20"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/"
         >
@@ -43,8 +43,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/rankings"
-              ? "bg-gray-400/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20"
+              ? "bg-gray-400/20 dark:bg-gray-300/20"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/rankings"
         >
@@ -55,8 +55,8 @@ export default function Header() {
         <Link
           className={`${
             pathname == "/sets"
-              ? "bg-gray-400/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20"
+              ? "bg-gray-400/20 dark:bg-gray-300/20"
+              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
           } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
           href="/sets"
         >

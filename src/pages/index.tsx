@@ -1,4 +1,4 @@
-import Head from "next/head";
+import CommonHead from "@/components/CommonHead";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
@@ -225,38 +225,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pairckle</title>
-
-        <meta
-          name="keywords"
-          content="pairckle, compare, comparison, comparisons, rank, ranking, tier list, tier, rankings, pairwise, pairwise comparison"
-        />
-        <meta
-          property="description"
-          content="Easily rank your favorite things with pairwise comparisons."
-        />
-
-        <meta property="og:title" content="Pairckle" />
-        <meta
-          property="og:description"
-          content="Easily rank your favorite things with pairwise comparisons."
-        />
-        <meta name="theme-color" content="#f97316" />
-        <meta property="og:image" content="pairckle-icon.png" />
-        <meta property="og:url" content="https://pairckle.jakeo.dev" />
-
-        <meta name="twitter:card" content="pairckle-icon.png" />
-        <meta name="twitter:title" content="Pairckle" />
-        <meta
-          name="twitter:description"
-          content="Easily rank your favorite things with pairwise comparisons."
-        />
-        <meta name="twitter:image" content="pairckle-icon.png" />
-        <meta name="twitter:url" content="https://pairckle.jakeo.dev" />
-      </Head>
+      <CommonHead />
 
       {/* confirm to restart modal */}
       <ConfirmModal
