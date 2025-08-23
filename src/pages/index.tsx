@@ -28,13 +28,15 @@ export default function Home() {
   const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
     useState<boolean>(false);
   const [confirmRestartModalSubtext, setConfirmRestartModalSubtext] =
-    useState<string>("By restarting, you'll lose all of your progress so far.");
+    useState<string>(
+      "If you restart, you'll lose all of your progress so far in this ranking."
+    );
 
   // index of the current combo in combosArray; how far along in the selection process
   const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
 
-  // saves the winner for each combo (0: first option, 1: second option), allows for undoing a selection
-  const [prevComboWinners, setPrevComboWinners] = useState<number[]>([-1]);
+  // saves the winner for each combo (0: first option, 1: second option, 2: skip), allows for undoing a selection
+  const [winnersHistory, setWinnersHistory] = useState<number[]>([]);
 
   const [firstOption, setFirstOption] = useState<string>();
   const [secondOption, setSecondOption] = useState<string>();
@@ -61,7 +63,45 @@ export default function Home() {
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
   useEffect(() => {
+    // set initial input empty if not already saved
     setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+
+    if (
+      // dont check for winnersHistory, because it could be null if no decisions have been made yet even though the ranking has been started
+      localStorage.getItem("maxCombos") &&
+      localStorage.getItem("rankingType") &&
+      localStorage.getItem("utensilsArray") &&
+      localStorage.getItem("combosArray")
+    ) {
+      const savedMaxCombos = Number(localStorage.getItem("maxCombos") ?? "1");
+      const savedRankingType = localStorage.getItem("rankingType") ?? "";
+      const savedUtensilsArray = JSON.parse(
+        localStorage.getItem("utensilsArray") ?? "[]"
+      );
+      const savedCombosArray = JSON.parse(
+        localStorage.getItem("combosArray") ?? "[]"
+      );
+      const savedWinnersHistory = JSON.parse(
+        localStorage.getItem("winnersHistory") ?? "[]"
+      );
+
+      setMaxCombos(savedMaxCombos);
+      setRankingType(savedRankingType);
+      setUtensilsArray(savedUtensilsArray);
+      setCombosArray(savedCombosArray);
+      setWinnersHistory(savedWinnersHistory);
+      setCurrentComboIndex(savedWinnersHistory.length - 1);
+
+      setNextCombo(
+        savedCombosArray,
+        savedUtensilsArray,
+        savedWinnersHistory.length - 1,
+        savedMaxCombos
+      );
+
+      setSelectionVisibility("visibleFade");
+      setStartVisibility("invisibleFade");
+    }
   }, []);
 
   // click first option, second option, previous, or skip based on keyboard input (WASD, arrows)
@@ -201,7 +241,9 @@ export default function Home() {
       score: number;
       wins: number;
       losses: number;
-    }[]
+    }[],
+    currentComboIndex: number,
+    maxCombos: number
   ) {
     if (currentComboIndex + 1 < maxCombos) {
       // go to next combo in array
@@ -216,7 +258,12 @@ export default function Home() {
       setSelectionVisibility("invisibleFade");
       setFinalRankingVisibility("visibleFade");
       setCurrentComboIndex(-1);
-      setPrevComboWinners([-1]);
+      setWinnersHistory([]);
+      localStorage.setItem("winnersHistory", JSON.stringify([]));
+      localStorage.setItem("combosArray", JSON.stringify([]));
+      localStorage.setItem("utensilsArray", JSON.stringify([]));
+      localStorage.setItem("maxCombos", "1");
+      localStorage.setItem("rankingType", "");
 
       const savedRankingsArray = JSON.parse(
         localStorage.getItem("savedRankings") ?? "[]"
@@ -283,7 +330,12 @@ export default function Home() {
           setFinalRankingVisibility("invisibleFade");
           setStartVisibility("visibleFade");
           setCurrentComboIndex(-1);
-          setPrevComboWinners([-1]);
+          setWinnersHistory([]);
+          localStorage.setItem("combosArray", JSON.stringify([]));
+          localStorage.setItem("utensilsArray", JSON.stringify([]));
+          localStorage.setItem("winnersHistory", JSON.stringify([]));
+          localStorage.setItem("rankingType", "");
+          localStorage.setItem("maxCombos", "1");
 
           setConfirmRestartModalVisibility(false);
         }}
@@ -293,13 +345,13 @@ export default function Home() {
       />
 
       <div className="flex justify-center items-center h-screen lg:min-h-screen">
-        <div className="relative">
+        <div className="relative w-full">
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
+            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-96`}
           >
             <label
-              className="block text-black/60 dark:text-white/60 text-xs lg:text-sm px-2"
+              className="block text-black/60 dark:text-white/60 text-xs lg:text-sm text-pretty px-2"
               htmlFor="utensil-input"
             >
               Enter a list of things separated by line or comma
@@ -310,7 +362,7 @@ export default function Home() {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
-              className="min-h-[17rem] max-h-[17rem] md:max-h-[27.25rem] w-[85vw] lg:w-96" // 1 line = 2.125 rem
+              className="min-h-[17rem] max-h-[17rem] md:max-h-[27.25rem] w-full" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
@@ -368,7 +420,27 @@ export default function Home() {
 
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
-                    setNextCombo(newCombosArray, newUtensilsArray);
+
+                    localStorage.setItem(
+                      "maxCombos",
+                      String(Math.ceil(newCombosArray.length / 2))
+                    );
+                    localStorage.setItem("rankingType", "hurry");
+                    localStorage.setItem(
+                      "utensilsArray",
+                      JSON.stringify(newUtensilsArray)
+                    );
+                    localStorage.setItem(
+                      "combosArray",
+                      JSON.stringify(newCombosArray)
+                    );
+
+                    setNextCombo(
+                      newCombosArray,
+                      newUtensilsArray,
+                      currentComboIndex,
+                      maxCombos
+                    );
 
                     setSelectionVisibility("visibleFade");
                     setStartVisibility("invisibleFade");
@@ -428,7 +500,27 @@ export default function Home() {
 
                     setUtensilsArray(newUtensilsArray);
                     setCombosArray(newCombosArray);
-                    setNextCombo(newCombosArray, newUtensilsArray);
+
+                    localStorage.setItem(
+                      "maxCombos",
+                      String(newCombosArray.length)
+                    );
+                    localStorage.setItem("rankingType", "concentrate");
+                    localStorage.setItem(
+                      "utensilsArray",
+                      JSON.stringify(newUtensilsArray)
+                    );
+                    localStorage.setItem(
+                      "combosArray",
+                      JSON.stringify(newCombosArray)
+                    );
+
+                    setNextCombo(
+                      newCombosArray,
+                      newUtensilsArray,
+                      currentComboIndex,
+                      maxCombos
+                    );
 
                     setSelectionVisibility("visibleFade");
                     setStartVisibility("invisibleFade");
@@ -453,8 +545,21 @@ export default function Home() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
+            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-auto`}
           >
+            <div className="text-sm text-center text-gray-600 dark:text-gray-400 px-2 w-full mb-4">
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className={`${
+                  rankingType == "hurry" ? "text-orange-500" : "text-blue-500"
+                } mr-2`}
+                aria-hidden
+              />
+              <p className="inline text-pretty">
+                Progress auto-saved. It is safe to leave and continue later.
+              </p>
+            </div>
+
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
                 ref={firstOptionRef}
@@ -481,8 +586,21 @@ export default function Home() {
                     }
                   );
                   setUtensilsArray(updatedUtensilsArray);
-                  setNextCombo(combosArray, updatedUtensilsArray);
-                  setPrevComboWinners((ogArray) => [...ogArray, 0]);
+                  localStorage.setItem(
+                    "utensilsArray",
+                    JSON.stringify(updatedUtensilsArray)
+                  );
+                  setNextCombo(
+                    combosArray,
+                    updatedUtensilsArray,
+                    currentComboIndex,
+                    maxCombos
+                  );
+                  setWinnersHistory((ogArray) => [...ogArray, 0]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 0])
+                  );
                 }}
               >
                 <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
@@ -514,8 +632,21 @@ export default function Home() {
                     }
                   );
                   setUtensilsArray(updatedUtensilsArray);
-                  setNextCombo(combosArray, updatedUtensilsArray);
-                  setPrevComboWinners((ogArray) => [...ogArray, 1]);
+                  localStorage.setItem(
+                    "utensilsArray",
+                    JSON.stringify(updatedUtensilsArray)
+                  );
+                  setNextCombo(
+                    combosArray,
+                    updatedUtensilsArray,
+                    currentComboIndex,
+                    maxCombos
+                  );
+                  setWinnersHistory((ogArray) => [...ogArray, 1]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 1])
+                  );
                 }}
               >
                 <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
@@ -530,42 +661,58 @@ export default function Home() {
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
-                    if (prevComboWinners[currentComboIndex] != 2) {
+                    if (winnersHistory[currentComboIndex - 1] != 2) {
+                      // if not skipped
                       setUtensilsArray((prevArray) => {
-                        return prevArray.map((item, index) => {
-                          // undo previous action by removing 1 from wins and removing 1 from score for the previous winner
-                          if (
-                            index ===
-                            combosArray[currentComboIndex - 1][
-                              prevComboWinners[currentComboIndex]
-                            ]
-                          ) {
-                            return {
-                              ...item,
-                              score: item.score - 1,
-                              wins: item.wins - 1,
-                            };
-                            // undo previous action by removing 1 from losses and adding 1 to score for the previous loser
-                          } else if (
-                            index ===
-                            combosArray[currentComboIndex - 1][
-                              Math.abs(prevComboWinners[currentComboIndex] - 1)
-                            ]
-                          ) {
-                            return {
-                              ...item,
-                              score: item.score + 1,
-                              losses: item.losses - 1,
-                            };
+                        const newUtensilsArray = [...prevArray].map(
+                          (item, index) => {
+                            // undo previous action by removing 1 from wins and removing 1 from score for the previous winner
+                            if (
+                              index ===
+                              combosArray[currentComboIndex - 1][
+                                winnersHistory[currentComboIndex - 1]
+                              ]
+                            ) {
+                              return {
+                                ...item,
+                                score: item.score - 1,
+                                wins: item.wins - 1,
+                              };
+                              // undo previous action by removing 1 from losses and adding 1 to score for the previous loser
+                            } else if (
+                              index ===
+                              combosArray[currentComboIndex - 1][
+                                Math.abs(
+                                  winnersHistory[currentComboIndex - 1] - 1
+                                )
+                              ]
+                            ) {
+                              return {
+                                ...item,
+                                score: item.score + 1,
+                                losses: item.losses - 1,
+                              };
+                            }
+                            return item;
                           }
-                          return item;
-                        });
+                        );
+
+                        localStorage.setItem(
+                          "utensilsArray",
+                          JSON.stringify(newUtensilsArray)
+                        );
+
+                        return newUtensilsArray;
                       });
                     }
 
                     setPrevCombo(combosArray, utensilsArray);
 
-                    setPrevComboWinners((ogArray) => ogArray.slice(0, -1));
+                    setWinnersHistory((ogArray) => ogArray.slice(0, -1));
+                    localStorage.setItem(
+                      "winnersHistory",
+                      JSON.stringify([...winnersHistory].slice(0, -1))
+                    );
                   }
                 }}
               >
@@ -584,7 +731,7 @@ export default function Home() {
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
-                    "By restarting, you'll lose all of your progress so far."
+                    "If you restart, you'll lose all of your progress so far in this ranking."
                   );
                   setConfirmRestartModalVisibility(true);
                 }}
@@ -604,8 +751,17 @@ export default function Home() {
                 ref={skipOptionRef}
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
-                  setNextCombo(combosArray, utensilsArray);
-                  setPrevComboWinners((ogArray) => [...ogArray, 2]);
+                  setNextCombo(
+                    combosArray,
+                    utensilsArray,
+                    currentComboIndex,
+                    maxCombos
+                  );
+                  setWinnersHistory((ogArray) => [...ogArray, 2]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 2])
+                  );
                 }}
               >
                 <div className="flex justify-center items-center">
@@ -621,28 +777,28 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center mt-8 lg:mt-6">
+            <div className="flex items-center justify-center mt-6">
               <progress
-                className="progress-bar w-full h-2"
+                className="progress-bar w-[20rem] sm:w-[25rem] lg:w-full h-2"
                 value={currentComboIndex / maxCombos}
               />
             </div>
-            <h3 className="text-center mt-2">
+            <p className="text-center mt-2">
               Pair {currentComboIndex + 1} / {maxCombos}
-            </h3>
+            </p>
           </div>
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2`}
+            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-auto`}
           >
             <div className="flex w-full px-2 mb-1">
-              <h2 className="leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+              <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
                 Final ranking
               </h2>
             </div>
             <div className="h-max overflow-y-auto overflow-x-hidden border-gray-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="max-h-[19rem] md:max-h-[29rem] w-full lg:w-[45rem]">
+              <ul className="max-h-[19rem] md:max-h-[29rem] w-full md:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
@@ -674,7 +830,7 @@ export default function Home() {
                       </span>
                       {/* show "(tie)" if tied */}
                       <span
-                        className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-2 ${
+                        className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-1 md:ml-1.5 ${
                           ([...utensilsArray].sort(sortUtensils)[index - 1] &&
                             [...utensilsArray].sort(sortUtensils)[index - 1][
                               "score"
@@ -683,7 +839,7 @@ export default function Home() {
                             [...utensilsArray].sort(sortUtensils)[index + 1][
                               "score"
                             ] == utensil["score"])
-                            ? "mr-2"
+                            ? "mr-1 md:mr-1.5"
                             : ""
                         }`}
                       >
@@ -698,7 +854,9 @@ export default function Home() {
                           ? "(tie)"
                           : ""}
                       </span>
-                      <span className="w-fit">{utensil["title"]}</span>
+                      <p className="w-fit text-sm md:text-base">
+                        {utensil["title"]}
+                      </p>
                     </div>
 
                     <div className="relative flex ml-auto">
@@ -738,18 +896,24 @@ export default function Home() {
               </ul>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400 px-2 mt-1">
-              <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
-              <span className="hidden lg:inline">
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className={`${
+                  rankingType == "hurry" ? "text-orange-500" : "text-blue-500"
+                } mr-2`}
+                aria-hidden
+              />
+              <p className="hidden lg:inline text-pretty">
                 {`This ranking has been saved. Go to "Your rankings" to see it.`}
-              </span>
-              <span className="lg:hidden">
+              </p>
+              <p className="inline lg:hidden text-pretty">
                 {`This ranking has been saved. Go to "Saved" to see it.`}
-              </span>
+              </p>
             </div>
             <button
               onClick={() => {
                 setConfirmRestartModalSubtext(
-                  "You will NOT lose this ranking if you restart because it has already been saved in your rankings."
+                  'This ranking has already been saved in "Your rankings," so it will not be lost.'
                 );
                 setConfirmRestartModalVisibility(true);
               }}
@@ -764,8 +928,7 @@ export default function Home() {
             </button>
             {/* <button
               onClick={() => {
-                let text =
-                  "Ranking from Pairckle \nhttps://pairckle.jakeo.dev \n\n";
+                let text = "Pairckle ranking \nhttps://pairckle.jakeo.dev \n\n";
                 [...utensilsArray]
                   .sort(sortUtensils)
                   .forEach(

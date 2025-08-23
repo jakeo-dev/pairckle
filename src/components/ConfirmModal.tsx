@@ -14,17 +14,17 @@ export default function ConfirmModal({
   titleText: string;
   subtitleText: string;
   primaryButtonText: string;
-  secondaryButtonText: string;
+  secondaryButtonText?: string;
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 }) {
   return (
     <div
-      className={`bg-black/40 flex justify-center items-center fixed top-0 left-0 z-30 w-full h-full overflow-auto ${
+      className={`bg-black/50 flex justify-center items-center fixed top-0 left-0 z-30 w-full h-full overflow-auto ${
         visibility ? "visibleFade" : "invisibleFade"
       }`}
       onKeyDown={(e) => {
-        if (e.key === "Escape") {
+        if (e.key === "Escape" && onCancel) {
           onCancel();
         }
       }}
@@ -34,16 +34,18 @@ export default function ConfirmModal({
         <button
           className="absolute top-7 right-8 text-lg hover:text-gray-500 active:text-gray-400 dark:active:text-gray-600 transition"
           onClick={() => {
-            onCancel();
+            if (onCancel) onCancel();
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="text-xl font-medium pr-4">{titleText}</h1>
-        <p className="mt-4">{subtitleText}</p>
+        <h1 className="text-xl font-medium text-pretty pr-4">{titleText}</h1>
+        <p className="text-pretty mt-4">{subtitleText}</p>
         <div className="flex gap-2 float-right mt-6">
           <button
-            className="bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/40 px-4 py-2 transition"
+            className={`${
+              secondaryButtonText ? "" : "hidden"
+            } bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/40 px-4 py-2 transition`}
             onClick={onCancel}
           >
             {secondaryButtonText}

@@ -54,6 +54,8 @@ export default function Rankings() {
 
   const [confirmDeleteModalVisibility, setConfirmDeleteModalVisibility] =
     useState<boolean>(false);
+  const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
@@ -156,16 +158,29 @@ export default function Rankings() {
         }}
       />
 
+      {/* error ranking modal */}
+      <ConfirmModal
+        visibility={errorRankingModalVisibility}
+        titleText="Ranking already in progress"
+        subtitleText="You already have a ranking in progress. Finish or restart the current ranking before beginning a new one."
+        primaryButtonText="Got it"
+        onConfirm={() => setErrorRankingModalVisibility(false)}
+      />
+
       <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
-          <div className={savedRankings.length < 1 ? "hidden" : ""}>
+        <div className="w-full h-full flex justify-center items-center mt-48 px-6 pb-16">
+          <div
+            className={`w-full md:w-auto ${
+              savedRankings.length < 1 ? "hidden" : ""
+            }`}
+          >
             {[...savedRankings].map((ranking, index1) => (
               <div className="w-full lg:w-[45rem] mb-8 lg:mb-10" key={index1}>
                 <div className="flex gap-3 items-end px-2 mb-1">
-                  <h2 className="leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+                  <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
                     {ranking["rankingName"]}
                   </h2>
-                  <h3 className="text-sm leading-6 text-gray-700 dark:text-gray-400 text-right min-w-max ml-auto">
+                  <h3 className="text-xs md:text-sm leading-6 text-gray-700 dark:text-gray-400 text-right min-w-max ml-auto">
                     {ranking["rankingDate"]
                       ? `${monthName(ranking["rankingDate"]["month"]).slice(
                           0,
@@ -201,7 +216,7 @@ export default function Rankings() {
                       >
                         <div className="flex items-center">
                           {/* shows place in ranking */}
-                          <span className="text-xs lg:text-sm font-semibold">
+                          <span className="text-xs md:text-sm font-semibold">
                             {[...ranking["rankedUtensils"]].sort(sortUtensils)[
                               index2 - 1
                             ] &&
@@ -214,7 +229,7 @@ export default function Rankings() {
                           </span>
                           {/* show "(tie)" if tied */}
                           <span
-                            className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 mr-1.5 ${
+                            className={`text-xs md:text-sm text-gray-700 dark:text-gray-400 mr-1 md:mr-1.5 ${
                               ([...ranking["rankedUtensils"]].sort(
                                 sortUtensils
                               )[index2 - 1] &&
@@ -227,7 +242,7 @@ export default function Rankings() {
                                 [...ranking["rankedUtensils"]].sort(
                                   sortUtensils
                                 )[index2 + 1]["score"] == utensil["score"])
-                                ? "ml-1.5"
+                                ? "ml-1 md:ml-1.5"
                                 : ""
                             }`}
                           >
@@ -246,7 +261,9 @@ export default function Rankings() {
                               ? "(tie)"
                               : ""}
                           </span>
-                          <span className="w-fit">{utensil["title"]}</span>
+                          <p className="w-fit text-sm md:text-base">
+                            {utensil["title"]}
+                          </p>
                         </div>
                         <div className="relative flex ml-auto">
                           <progress
@@ -286,29 +303,37 @@ export default function Rankings() {
                 </ul>
                 <div className="flex gap-2">
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     href="/"
-                    onClick={() => {
-                      localStorage.setItem(
-                        "utensilInput",
-                        shuffle(
-                          ranking["rankedUtensils"].map(
-                            (utensil) => utensil.title
-                          )
-                        ).join("\n")
-                      );
+                    onClick={(event) => {
+                      if (
+                        localStorage.getItem("combosArray") &&
+                        localStorage.getItem("combosArray") !== "[]"
+                      ) {
+                        event.preventDefault();
+                        setErrorRankingModalVisibility(true);
+                      } else {
+                        localStorage.setItem(
+                          "utensilInput",
+                          shuffle(
+                            ranking["rankedUtensils"].map(
+                              (utensil) => utensil.title
+                            )
+                          ).join("\n")
+                        );
+                      }
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-gray-800 dark:text-gray-300 rotate-90 mr-2"
+                      className="text-gray-800 dark:text-gray-300 rotate-90 mr-1.5 md:mr-2"
                       aria-labelledby="re-rank-text"
                     />
                     <span id="re-rank-text">Re-rank</span>
                   </Link>
 
                   <button
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       const randomNewRankingName =
                         randomElement(["Best", "Greatest", "Top"]) +
@@ -468,13 +493,13 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faPen}
-                      className="text-gray-800 dark:text-gray-300 mr-2"
+                      className="text-gray-800 dark:text-gray-300 mr-1.5 md:mr-2"
                       aria-labelledby="edit-title-text"
                     />
                     <span id="edit-title-text">Edit title</span>
                   </button>
                   <button
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       setCurrentRanking(ranking);
                       setConfirmDeleteModalVisibility(true);
@@ -482,7 +507,7 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
-                      className="text-gray-800 dark:text-gray-300 mr-2"
+                      className="text-gray-800 dark:text-gray-300 mr-1.5 md:mr-2"
                       aria-labelledby="delete-text"
                     />
                     <span id="delete-text">Delete</span>
@@ -493,7 +518,7 @@ export default function Rankings() {
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
-            <h2 className="text-gray-600 dark:text-gray-400 text-xl lg:text-3xl text-center">
+            <h2 className="text-gray-600 dark:text-gray-400 text-xl md:text-3xl text-center">
               {`You haven't saved any rankings yet...`}
             </h2>
           </div>

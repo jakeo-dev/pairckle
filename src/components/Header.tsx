@@ -19,7 +19,7 @@ export default function Header() {
           <span className="text-blue-500">ckle</span>
         </h1>
         <h2 className="block text-xs lg:text-sm text-gray-800 dark:text-gray-300 mt-1">
-          Rank your favorites pairwisely
+          Rank your favorite things pairwisely
         </h2>
       </div>
 

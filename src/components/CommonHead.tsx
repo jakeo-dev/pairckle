@@ -21,7 +21,7 @@ export default function CommonHead(props: { children?: React.ReactNode }) {
         property="og:description"
         content="Rank your favorite things easily, accurately, and pairwisely."
       />
-      <meta name="theme-color" content="#00c951" />
+      <meta name="theme-color" content="#f97316" />
       <meta property="og:url" content="https://pairckle.jakeo.dev" />
       <meta
         property="og:image"

@@ -1,4 +1,5 @@
 import CommonHead from "@/components/CommonHead";
+import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import MasonryLayout from "@/components/MasonryLayout";
 import { useEffect, useState } from "react";
@@ -13,6 +14,9 @@ export default function Sets() {
       utensilSet: { title: string }[];
     }[]
   >([]);
+
+  const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setStarterSets(
@@ -831,8 +835,17 @@ export default function Sets() {
     <>
       <CommonHead />
 
-      <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="w-full h-full flex justify-center items-center mt-48 px-4 pb-16">
+      {/* error ranking modal */}
+      <ConfirmModal
+        visibility={errorRankingModalVisibility}
+        titleText="Ranking already in progress"
+        subtitleText="You already have a ranking in progress. Finish or restart the current ranking before beginning a new one."
+        primaryButtonText="Got it"
+        onConfirm={() => setErrorRankingModalVisibility(false)}
+      />
+
+      <div className="min-h-screen lg:min-h-[94.6vh] ">
+        <div className="w-full h-full flex justify-center items-center mt-48 pb-16">
           <div>
             <MasonryLayout
               defaultCols={1}
@@ -840,13 +853,13 @@ export default function Sets() {
               mdCols={1}
               lgCols={2}
               xlCols={2}
-              className="flex w-full"
-              columnClassName="bg-clip-padding px-4 lg:px-5"
+              className="flex"
+              columnClassName="bg-clip-padding px-6"
             >
               {[...starterSets].map((set, index1) => (
-                <div className="w-80 lg:w-96 mb-8 lg:mb-10" key={index1}>
+                <div className="w-full lg:w-96 mb-8 lg:mb-10" key={index1}>
                   <div className="flex gap-2 items-end px-2 mb-1">
-                    <h2 className="leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis">
+                    <h2 className="text-sm md:text-base leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis">
                       {set["setName"]}
                     </h2>
                   </div>
@@ -857,20 +870,30 @@ export default function Sets() {
                         key={index2}
                         className="flex items-center justify-center odd:bg-gray-500/10 dark:odd:bg-gray-500/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
                       >
-                        <span className="w-full">{utensil["title"]}</span>
+                        <p className="w-full text-sm md:text-base">
+                          {utensil["title"]}
+                        </p>
                       </li>
                     ))}
                   </ul>
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm lg:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
                     href="/"
-                    onClick={() => {
-                      localStorage.setItem(
-                        "utensilInput",
-                        set["utensilSet"]
-                          .map((utensil) => utensil.title)
-                          .join("\n")
-                      );
+                    onClick={(event) => {
+                      if (
+                        localStorage.getItem("combosArray") &&
+                        localStorage.getItem("combosArray") !== "[]"
+                      ) {
+                        event.preventDefault();
+                        setErrorRankingModalVisibility(true);
+                      } else {
+                        localStorage.setItem(
+                          "utensilInput",
+                          set["utensilSet"]
+                            .map((utensil) => utensil.title)
+                            .join("\n")
+                        );
+                      }
                     }}
                   >
                     <FontAwesomeIcon
