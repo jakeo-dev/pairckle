@@ -2,7 +2,7 @@ import CommonHead from "@/components/CommonHead";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -62,6 +62,50 @@ export default function Home() {
 
   useEffect(() => {
     setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+  }, []);
+
+  // click first option, second option, previous, or skip based on keyboard input (WASD, arrows)
+  const firstOptionRef = useRef<HTMLButtonElement>(null);
+  const secondOptionRef = useRef<HTMLButtonElement>(null);
+  const previousOptionRef = useRef<HTMLButtonElement>(null);
+  const skipOptionRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        localStorage.getItem("combosArray") == null ||
+        localStorage.getItem("combosArray") == "[]"
+      )
+        return;
+
+      if (
+        (event.key === "a" || event.key === "ArrowLeft") &&
+        firstOptionRef.current
+      ) {
+        firstOptionRef.current.click();
+      } else if (
+        (event.key === "d" || event.key === "ArrowRight") &&
+        secondOptionRef.current
+      ) {
+        secondOptionRef.current.click();
+      } else if (
+        (event.key === "s" || event.key === "ArrowDown") &&
+        previousOptionRef.current
+      ) {
+        previousOptionRef.current.click();
+      } else if (
+        (event.key === "w" || event.key === "ArrowUp") &&
+        skipOptionRef.current
+      ) {
+        skipOptionRef.current.click();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   function sortUtensils(
@@ -413,7 +457,8 @@ export default function Home() {
           >
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
-                className="w-[20rem] min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                ref={firstOptionRef}
+                className="w-full min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -445,7 +490,8 @@ export default function Home() {
                 </span>
               </button>
               <button
-                className="w-[20rem] min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                ref={secondOptionRef}
+                className="w-full min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -480,6 +526,7 @@ export default function Home() {
 
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
+                ref={previousOptionRef}
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
@@ -554,6 +601,7 @@ export default function Home() {
                 </div>
               </button>
               <button
+                ref={skipOptionRef}
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setNextCombo(combosArray, utensilsArray);
