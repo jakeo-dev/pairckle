@@ -243,7 +243,8 @@ export default function Home() {
       losses: number;
     }[],
     currentComboIndex: number,
-    maxCombos: number
+    maxCombos: number,
+    winnersHistory?: number[]
   ) {
     if (currentComboIndex + 1 < maxCombos) {
       // go to next combo in array
@@ -282,6 +283,8 @@ export default function Home() {
         },
         rankingType: rankingType,
         rankedUtensils: [...utensilsArray].sort(sortUtensils),
+        rankingCombos: combosArray,
+        rankingWinnersHistory: winnersHistory,
       });
 
       localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
@@ -594,7 +597,8 @@ export default function Home() {
                     combosArray,
                     updatedUtensilsArray,
                     currentComboIndex,
-                    maxCombos
+                    maxCombos,
+                    [...winnersHistory, 0]
                   );
                   setWinnersHistory((ogArray) => [...ogArray, 0]);
                   localStorage.setItem(
@@ -640,7 +644,8 @@ export default function Home() {
                     combosArray,
                     updatedUtensilsArray,
                     currentComboIndex,
-                    maxCombos
+                    maxCombos,
+                    [...winnersHistory, 1]
                   );
                   setWinnersHistory((ogArray) => [...ogArray, 1]);
                   localStorage.setItem(
@@ -755,7 +760,8 @@ export default function Home() {
                     combosArray,
                     utensilsArray,
                     currentComboIndex,
-                    maxCombos
+                    maxCombos,
+                    [...winnersHistory, 2]
                   );
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
