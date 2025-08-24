@@ -244,7 +244,7 @@ export default function Home() {
     }[],
     currentComboIndex: number,
     maxCombos: number,
-    winnersHistory?: number[]
+    winnersHistory?: number[] // winnersHistory only needed if setNextCombo is called when the ranking could be finished next combo
   ) {
     if (currentComboIndex + 1 < maxCombos) {
       // go to next combo in array
@@ -593,17 +593,18 @@ export default function Home() {
                     "utensilsArray",
                     JSON.stringify(updatedUtensilsArray)
                   );
+                  setWinnersHistory((ogArray) => [...ogArray, 0]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 0])
+                  );
+
                   setNextCombo(
                     combosArray,
                     updatedUtensilsArray,
                     currentComboIndex,
                     maxCombos,
                     [...winnersHistory, 0]
-                  );
-                  setWinnersHistory((ogArray) => [...ogArray, 0]);
-                  localStorage.setItem(
-                    "winnersHistory",
-                    JSON.stringify([...winnersHistory, 0])
                   );
                 }}
               >
@@ -640,17 +641,18 @@ export default function Home() {
                     "utensilsArray",
                     JSON.stringify(updatedUtensilsArray)
                   );
+                  setWinnersHistory((ogArray) => [...ogArray, 1]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 1])
+                  );
+
                   setNextCombo(
                     combosArray,
                     updatedUtensilsArray,
                     currentComboIndex,
                     maxCombos,
                     [...winnersHistory, 1]
-                  );
-                  setWinnersHistory((ogArray) => [...ogArray, 1]);
-                  localStorage.setItem(
-                    "winnersHistory",
-                    JSON.stringify([...winnersHistory, 1])
                   );
                 }}
               >
@@ -711,13 +713,13 @@ export default function Home() {
                       });
                     }
 
-                    setPrevCombo(combosArray, utensilsArray);
-
                     setWinnersHistory((ogArray) => ogArray.slice(0, -1));
                     localStorage.setItem(
                       "winnersHistory",
                       JSON.stringify([...winnersHistory].slice(0, -1))
                     );
+
+                    setPrevCombo(combosArray, utensilsArray);
                   }
                 }}
               >
@@ -756,17 +758,18 @@ export default function Home() {
                 ref={skipOptionRef}
                 className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
+                  setWinnersHistory((ogArray) => [...ogArray, 2]);
+                  localStorage.setItem(
+                    "winnersHistory",
+                    JSON.stringify([...winnersHistory, 2])
+                  );
+
                   setNextCombo(
                     combosArray,
                     utensilsArray,
                     currentComboIndex,
                     maxCombos,
                     [...winnersHistory, 2]
-                  );
-                  setWinnersHistory((ogArray) => [...ogArray, 2]);
-                  localStorage.setItem(
-                    "winnersHistory",
-                    JSON.stringify([...winnersHistory, 2])
                   );
                 }}
               >
