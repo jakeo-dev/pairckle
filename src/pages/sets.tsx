@@ -842,10 +842,11 @@ export default function Sets() {
         subtitleText="You already have a ranking in progress. Finish or restart the current ranking before beginning a new one."
         primaryButtonText="Got it"
         onConfirm={() => setErrorRankingModalVisibility(false)}
+        onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh] ">
-        <div className="w-full h-full flex justify-center items-center mt-48 pb-16">
+        <div className="w-full h-full flex justify-center items-center mt-24 md:mt-48 pb-16">
           <div>
             <MasonryLayout
               defaultCols={1}
@@ -863,12 +864,12 @@ export default function Sets() {
                       {set["setName"]}
                     </h2>
                   </div>
-                  <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
+                  <ul className="h-max overflow-y-auto border-neutral-400/40 border-2 rounded-lg">
                     {/* create shallow copy of set["utensilSet"] (so it wont actually change the set["utensilSet"] variable), sort utensils by their score */}
                     {[...set["utensilSet"]].map((utensil, index2) => (
                       <li
                         key={index2}
-                        className="flex items-center justify-center odd:bg-gray-500/10 dark:odd:bg-gray-500/20 first:rounded-t-md last:rounded-b-md px-2 py-1"
+                        className="flex items-center justify-center odd:bg-neutral-500/10 dark:odd:bg-neutral-500/20 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5"
                       >
                         <p className="w-full text-sm md:text-base">
                           {utensil["title"]}
@@ -877,7 +878,7 @@ export default function Sets() {
                     ))}
                   </ul>
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -898,7 +899,7 @@ export default function Sets() {
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-gray-800 dark:text-gray-300 rotate-90 mr-2"
+                      className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-2"
                       aria-labelledby="use-this-text"
                     />
                     <span id="use-this-text">Rank this set</span>

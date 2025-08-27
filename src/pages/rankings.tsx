@@ -165,10 +165,11 @@ export default function Rankings() {
         subtitleText="You already have a ranking in progress. Finish or restart the current ranking before beginning a new one."
         primaryButtonText="Got it"
         onConfirm={() => setErrorRankingModalVisibility(false)}
+        onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="w-full h-full flex justify-center items-center mt-48 px-6 pb-16">
+        <div className="w-full h-full flex justify-center items-center mt-24 md:mt-48 px-6 pb-16">
           <div
             className={`w-full md:w-auto ${
               savedRankings.length < 1 ? "hidden" : ""
@@ -180,7 +181,7 @@ export default function Rankings() {
                   <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
                     {ranking["rankingName"]}
                   </h2>
-                  <h3 className="text-xs md:text-sm leading-6 text-gray-700 dark:text-gray-400 text-right min-w-max ml-auto">
+                  <h3 className="text-xs md:text-sm leading-6 text-neutral-700 dark:text-neutral-400 text-right min-w-max ml-auto">
                     {ranking["rankingDate"]
                       ? `${monthName(ranking["rankingDate"]["month"]).slice(
                           0,
@@ -191,7 +192,7 @@ export default function Rankings() {
                       : ""}
                   </h3>
                 </div>
-                <ul className="h-max overflow-y-auto border-gray-400/40 border-2 rounded-lg">
+                <ul className="h-max overflow-y-auto border-neutral-400/40 border-2 rounded-lg">
                   {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score */}
                   {[...ranking["rankedUtensils"]]
                     .sort(sortUtensils)
@@ -199,7 +200,7 @@ export default function Rankings() {
                       <li
                         key={index2}
                         // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                        className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2.5 py-1.5 ${
+                        className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5 ${
                           [...ranking["rankedUtensils"]].sort(sortUtensils)[
                             index2 - 1
                           ] &&
@@ -207,10 +208,10 @@ export default function Rankings() {
                             index2 - 1
                           ]["score"] == utensil["score"]
                             ? (rankingPlaces[index1] - 1) % 2 !== 0
-                              ? "bg-gray-400/20"
+                              ? "bg-neutral-400/20"
                               : ""
                             : rankingPlaces[index1] % 2 !== 0
-                            ? "bg-gray-400/20"
+                            ? "bg-neutral-400/20"
                             : ""
                         }`}
                       >
@@ -229,7 +230,7 @@ export default function Rankings() {
                           </span>
                           {/* show "(tie)" if tied */}
                           <span
-                            className={`text-xs md:text-sm text-gray-700 dark:text-gray-400 mr-1 md:mr-1.5 ${
+                            className={`text-xs md:text-sm text-neutral-700 dark:text-neutral-400 mr-1 md:mr-1.5 ${
                               ([...ranking["rankedUtensils"]].sort(
                                 sortUtensils
                               )[index2 - 1] &&
@@ -303,7 +304,7 @@ export default function Rankings() {
                 </ul>
                 <div className="flex gap-2">
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -326,14 +327,14 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-gray-800 dark:text-gray-300 rotate-90 mr-1.5 md:mr-2"
+                      className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-1.5 md:mr-2"
                       aria-labelledby="re-rank-text"
                     />
                     <span id="re-rank-text">Re-rank</span>
                   </Link>
 
                   <button
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       const randomNewRankingName =
                         randomElement(["Best", "Greatest", "Top"]) +
@@ -493,13 +494,13 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faPen}
-                      className="text-gray-800 dark:text-gray-300 mr-1.5 md:mr-2"
+                      className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
                       aria-labelledby="edit-title-text"
                     />
                     <span id="edit-title-text">Edit title</span>
                   </button>
                   <button
-                    className="h-min w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       setCurrentRanking(ranking);
                       setConfirmDeleteModalVisibility(true);
@@ -507,7 +508,7 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
-                      className="text-gray-800 dark:text-gray-300 mr-1.5 md:mr-2"
+                      className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
                       aria-labelledby="delete-text"
                     />
                     <span id="delete-text">Delete</span>
@@ -518,7 +519,7 @@ export default function Rankings() {
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
-            <h2 className="text-gray-600 dark:text-gray-400 text-xl md:text-3xl text-center">
+            <h2 className="text-neutral-600 dark:text-neutral-400 text-xl md:text-3xl text-center">
               {`You haven't saved any rankings yet...`}
             </h2>
           </div>

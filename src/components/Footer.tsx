@@ -7,7 +7,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } bg-gray-400/10 w-full p-3 lg:p-4 mt-auto lg:mt-0`}
+      } z-10 bg-neutral-200 dark:bg-neutral-900 border-t border-t-neutral-300 dark:border-t-neutral-800 md:border-none w-full p-3 lg:p-4 mt-auto lg:mt-0`}
     >
       <div className="flex justify-center items-center text-xs lg:text-sm text-center">
         <a
@@ -29,7 +29,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
         </a>
         <span className="mx-3">•</span>
         <a
-          className="text-gray-800 hover:text-gray-700 active:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400 transition"
+          className="text-neutral-800 hover:text-neutral-700 active:text-neutral-600 dark:text-neutral-200 dark:hover:text-neutral-300 dark:active:text-neutral-400 transition"
           href="https://github.com/jakeo-dev/pairckle"
           target="_blank"
         >
@@ -42,7 +42,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
         </a>
         <span className="mx-3">•</span>
         <button
-          className="text-gray-800 hover:text-gray-700 active:text-gray-600 dark:text-gray-200 dark:hover:text-gray-300 dark:active:text-gray-400 transition"
+          className="text-neutral-800 hover:text-neutral-700 active:text-neutral-600 dark:text-neutral-200 dark:hover:text-neutral-300 dark:active:text-neutral-400 transition"
           onClick={() => {
             if (localStorage.getItem("theme") === "dark") {
               document.documentElement.classList.remove("dark");

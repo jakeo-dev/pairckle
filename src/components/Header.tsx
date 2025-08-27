@@ -12,24 +12,24 @@ export default function Header() {
   const { pathname } = useRouter();
 
   return (
-    <div className="absolute top-0 w-full text-center lg:flex justify-between p-8">
-      <div className="text-left cursor-default">
-        <h1 className="block text-2xl lg:text-3xl font-bold">
+    <div className="z-20 absolute top-0 w-full text-center flex gap-2 justify-between px-5 py-4 md:p-8">
+      <div className="flex md:block items-center text-left cursor-default">
+        <h1 className="block text-xl md:text-3xl font-bold">
           <span className="text-orange-500">Pair</span>
           <span className="text-blue-500">ckle</span>
         </h1>
-        <h2 className="block text-xs lg:text-sm text-gray-800 dark:text-gray-300 mt-1">
+        <h2 className="hidden lg:block text-sm text-neutral-800 dark:text-neutral-300 mt-0.5 md:mt-1">
           Rank your favorite things pairwisely
         </h2>
       </div>
 
-      <div className="h-min flex gap-2 mt-4 lg:mt-0">
+      <div className="h-min flex gap-0.5 md:gap-2">
         <Link
           className={`${
             pathname == "/"
-              ? "bg-gray-400/20 dark:bg-gray-300/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+              ? "bg-neutral-400/20 dark:bg-neutral-300/20"
+              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 dark:hover:bg-neutral-300/15 dark:active:bg-neutral-300/20"
+          } h-min flex justify-center items-center rounded-md text-sm md:text-base text-left transition px-2.5 py-1.5 md:px-3 md:py-2`}
           href="/"
         >
           <FontAwesomeIcon
@@ -37,27 +37,27 @@ export default function Header() {
             className="rotate-90 mr-2"
             aria-hidden
           />
-          <span className="hidden lg:inline">Create a ranking</span>
-          <span className="lg:hidden">Rank</span>
+          <span className="hidden md:inline">Create a ranking</span>
+          <span className="md:hidden">Rank</span>
         </Link>
         <Link
           className={`${
             pathname == "/rankings"
-              ? "bg-gray-400/20 dark:bg-gray-300/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+              ? "bg-neutral-400/20 dark:bg-neutral-300/20"
+              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 dark:hover:bg-neutral-300/15 dark:active:bg-neutral-300/20"
+          } h-min flex justify-center items-center rounded-md text-sm md:text-base text-left transition px-2.5 py-1.5 md:px-3 md:py-2`}
           href="/rankings"
         >
           <FontAwesomeIcon icon={faBookmark} className="mr-2" aria-hidden />
-          <span className="hidden lg:inline">Your rankings</span>
-          <span className="lg:hidden">Saved</span>
+          <span className="hidden md:inline">Your rankings</span>
+          <span className="md:hidden">Saved</span>
         </Link>
         <Link
           className={`${
             pathname == "/sets"
-              ? "bg-gray-400/20 dark:bg-gray-300/20"
-              : "hover:bg-gray-400/15 active:bg-gray-400/20 dark:hover:bg-gray-300/15 dark:active:bg-gray-300/20"
-          } h-min flex justify-center items-center rounded-md text-sm lg:text-base text-left transition px-2.5 py-1.5 lg:px-3 lg:py-2`}
+              ? "bg-neutral-400/20 dark:bg-neutral-300/20"
+              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 dark:hover:bg-neutral-300/15 dark:active:bg-neutral-300/20"
+          } h-min flex justify-center items-center rounded-md text-sm md:text-base text-left transition px-2.5 py-1.5 md:px-3 md:py-2`}
           href="/sets"
         >
           <FontAwesomeIcon
@@ -65,8 +65,8 @@ export default function Header() {
             className="mr-2"
             aria-hidden
           />
-          <span className="hidden lg:inline">Starter sets</span>
-          <span className="lg:hidden">Sets</span>
+          <span className="hidden md:inline">Starter sets</span>
+          <span className="md:hidden">Sets</span>
         </Link>
       </div>
     </div>

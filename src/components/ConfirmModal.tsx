@@ -13,9 +13,9 @@ export default function ConfirmModal({
   visibility: boolean;
   titleText: string;
   subtitleText: string;
-  primaryButtonText: string;
+  primaryButtonText?: string;
   secondaryButtonText?: string;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   onCancel?: () => void;
 }) {
   return (
@@ -30,28 +30,32 @@ export default function ConfirmModal({
       }}
       tabIndex={0}
     >
-      <div className="bg-gray-100 dark:bg-black dark:border-2 dark:border-gray-500/50 relative rounded-xl w-11/12 lg:max-w-xl shadow-md px-8 py-8 lg:px-11 lg:py-10">
+      <div className="bg-neutral-100 dark:bg-black dark:border-2 dark:border-neutral-500/50 relative rounded-xl w-[90vw] md:max-w-xl shadow-md px-8 py-8 lg:px-11 lg:py-10">
         <button
-          className="absolute top-7 right-8 text-lg hover:text-gray-500 active:text-gray-400 dark:active:text-gray-600 transition"
+          className="absolute top-7 right-8 text-lg hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600 transition"
           onClick={() => {
             if (onCancel) onCancel();
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="text-xl font-medium text-pretty pr-4">{titleText}</h1>
-        <p className="text-pretty mt-4">{subtitleText}</p>
+        <h1 className="text-lg md:text-xl font-medium text-pretty pr-4">
+          {titleText}
+        </h1>
+        <p className="text-sm md:text-base text-pretty mt-4">{subtitleText}</p>
         <div className="flex gap-2 float-right mt-6">
           <button
             className={`${
               secondaryButtonText ? "" : "hidden"
-            } bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 rounded-md border-2 border-gray-400/40 px-4 py-2 transition`}
+            } bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 rounded-md border-2 border-neutral-400/40 text-sm md:text-base px-4 py-2 transition`}
             onClick={onCancel}
           >
             {secondaryButtonText}
           </button>
           <button
-            className="bg-gray-900/70 hover:bg-gray-900/60 active:bg-gray-900/50 text-white dark:bg-gray-100/80 dark:hover:bg-gray-100/70 dark:active:bg-gray-100/60 dark:text-black rounded-md px-4 py-2 transition"
+            className={`${
+              primaryButtonText ? "" : "hidden"
+            } bg-neutral-900/70 hover:bg-neutral-900/60 active:bg-neutral-900/50 text-white dark:bg-neutral-100/80 text-sm md:text-base dark:hover:bg-neutral-100/70 dark:active:bg-neutral-100/60 dark:text-black rounded-md px-4 py-2 transition`}
             onClick={onConfirm}
           >
             {primaryButtonText}

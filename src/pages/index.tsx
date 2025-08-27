@@ -192,26 +192,24 @@ export default function Home() {
     const combinations: number[][] = [];
 
     for (const utensil1 of array) {
-      const firstUtensil = array.indexOf(utensil1);
+      const firstUtensilIndex = array.indexOf(utensil1);
 
       for (const utensil2 of array) {
-        const secondUtensil = array.indexOf(utensil2);
+        const secondUtensilIndex = array.indexOf(utensil2);
 
         if (
           // checks if combo is the same utensil twice
-          firstUtensil != secondUtensil &&
+          firstUtensilIndex != secondUtensilIndex &&
           // checks if duplicate combos in other orders already exists in combinations
           !combinations
             .map((combo) => JSON.stringify(combo))
-            .includes(JSON.stringify([secondUtensil, firstUtensil]))
+            .includes(JSON.stringify([secondUtensilIndex, firstUtensilIndex]))
         ) {
-          combinations.push([firstUtensil, secondUtensil]);
+          // shuffles order of numbers in each combo
+          combinations.push(shuffle([firstUtensilIndex, secondUtensilIndex]));
         }
       }
     }
-
-    // shuffles order of numbers in each combo
-    combinations.forEach((combo) => shuffle(combo));
 
     // shuffles order of combos
     return shuffle(combinations);
@@ -348,10 +346,10 @@ export default function Home() {
       />
 
       <div className="flex justify-center items-center h-screen lg:min-h-screen">
-        <div className="relative w-full">
+        <div className="relative w-full h-screen mt-48 md:mt-0">
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-96`}
+            className={`${startVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-96`}
           >
             <label
               className="block text-black/60 dark:text-white/60 text-xs lg:text-sm text-pretty px-2"
@@ -365,7 +363,7 @@ export default function Home() {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
-              className="min-h-[17rem] max-h-[17rem] md:max-h-[27.25rem] w-full" // 1 line = 2.125 rem
+              className="min-h-[20.5rem] max-h-[21rem] md:max-h-[28rem] w-full text-sm leading-6 md:leading-7 md:text-base" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
@@ -373,7 +371,7 @@ export default function Home() {
             />
             <Link
               href="/sets"
-              className="block w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
+              className="block w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
             >
               <FontAwesomeIcon
                 icon={faBarsStaggered}
@@ -449,17 +447,19 @@ export default function Home() {
                     setStartVisibility("invisibleFade");
                   }
                 }}
-                className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="block text-xl lg:text-3xl text-orange-500 mr-1.5 lg:mx-auto"
+                    className="block text-lg md:text-xl lg:text-3xl text-orange-500 mr-1.5 lg:mx-auto"
                     aria-hidden
                   />
-                  <span className="block lg:mt-2">Hurry</span>
+                  <span className="block text-sm md:text-base lg:mt-2">
+                    Hurry
+                  </span>
                 </div>
-                <span className="block text-sm text-gray-800 dark:text-gray-300">
+                <span className="block text-xs md:text-sm text-neutral-800 dark:text-neutral-300">
                   Quicker session
                 </span>
               </button>
@@ -529,17 +529,19 @@ export default function Home() {
                     setStartVisibility("invisibleFade");
                   }
                 }}
-                className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="block text-xl lg:text-3xl text-blue-500 mr-1.5 lg:mx-auto"
+                    className="block text-lg md:text-xl lg:text-3xl text-blue-500 mr-1.5 lg:mx-auto"
                     aria-hidden
                   />
-                  <span className="block lg:mt-2">Concentrate</span>
+                  <span className="block text-sm md:text-base lg:mt-2">
+                    Concentrate
+                  </span>
                 </div>
-                <span className="block text-sm text-gray-800 dark:text-gray-300">
+                <span className="block text-xs md:text-sm text-neutral-800 dark:text-neutral-300">
                   More accurate
                 </span>
               </button>
@@ -548,25 +550,25 @@ export default function Home() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-auto`}
+            className={`${selectionVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-auto`}
           >
-            <div className="text-sm text-center text-gray-600 dark:text-gray-400 px-2 w-full mb-4">
+            <p className="text-xs md:text-sm text-center text-neutral-600 dark:text-neutral-400 text-pretty px-2 mb-4">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
-                  rankingType == "hurry" ? "text-orange-500" : "text-blue-500"
+                  rankingType == "hurry"
+                    ? "text-orange-500 dark:text-orange-400"
+                    : "text-blue-500 dark:text-blue-400"
                 } mr-2`}
                 aria-hidden
               />
-              <p className="inline text-pretty">
-                Progress auto-saved. It is safe to leave and continue later.
-              </p>
-            </div>
+              Progress auto-saved. It is safe to leave and continue later.
+            </p>
 
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="w-full min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/80 active:bg-orange-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/90 active:bg-orange-500/80 md:hover:bg-orange-500/80 active:hover:bg-orange-500/70 shadow-sm hover:shadow-sm active:shadow-none md:hover:shadow-md md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -614,7 +616,7 @@ export default function Home() {
               </button>
               <button
                 ref={secondOptionRef}
-                className="w-full min-h-[8rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/80 active:bg-blue-500/70 shadow-sm hover:shadow-md active:shadow-none flex justify-center items-center p-6 lg:p-8 transition"
+                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/90 active:bg-blue-500/80 md:hover:bg-blue-500/80 active:hover:bg-blue-500/70 shadow-sm hover:shadow-sm active:shadow-none md:hover:shadow-md md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -665,7 +667,7 @@ export default function Home() {
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (winnersHistory[currentComboIndex - 1] != 2) {
@@ -735,7 +737,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "If you restart, you'll lose all of your progress so far in this ranking."
@@ -756,7 +758,7 @@ export default function Home() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-gray-500/30 dark:border-gray-500/50 bg-transparent hover:bg-gray-400/20 active:bg-gray-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
@@ -792,37 +794,37 @@ export default function Home() {
                 value={currentComboIndex / maxCombos}
               />
             </div>
-            <p className="text-center mt-2">
+            <p className="text-sm md:text-base text-center mt-2">
               Pair {currentComboIndex + 1} / {maxCombos}
             </p>
           </div>
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] lg:-translate-y-1/2 w-[85vw] md:w-auto`}
+            className={`${finalRankingVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-auto`}
           >
             <div className="flex w-full px-2 mb-1">
               <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
                 Final ranking
               </h2>
             </div>
-            <div className="h-max overflow-y-auto overflow-x-hidden border-gray-400/40 border-2 rounded-lg thin-scrollbar">
+            <div className="h-max overflow-y-auto overflow-x-hidden border-neutral-400/40 border-2 rounded-lg thin-scrollbar">
               <ul className="max-h-[19rem] md:max-h-[29rem] w-full md:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
                     // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                    className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2.5 py-1.5 ${
+                    className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5 ${
                       [...utensilsArray].sort(sortUtensils)[index - 1] &&
                       [...utensilsArray].sort(sortUtensils)[index - 1][
                         "score"
                       ] == utensil["score"]
                         ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-gray-500/10 dark:bg-gray-500/20"
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                           : ""
                         : rankingPlace % 2 !== 0
-                        ? "bg-gray-500/10 dark:bg-gray-500/20"
+                        ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                         : ""
                     }`}
                   >
@@ -839,7 +841,7 @@ export default function Home() {
                       </span>
                       {/* show "(tie)" if tied */}
                       <span
-                        className={`text-xs lg:text-sm text-gray-700 dark:text-gray-400 ml-1 md:ml-1.5 ${
+                        className={`text-xs lg:text-sm text-neutral-700 dark:text-neutral-400 ml-1 md:ml-1.5 ${
                           ([...utensilsArray].sort(sortUtensils)[index - 1] &&
                             [...utensilsArray].sort(sortUtensils)[index - 1][
                               "score"
@@ -904,21 +906,32 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 px-2 mt-1">
+
+            <p className="hidden lg:block text-xs md:text-sm text-neutral-600 dark:text-neutral-400 text-pretty px-2 mt-1">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
-                  rankingType == "hurry" ? "text-orange-500" : "text-blue-500"
+                  rankingType == "hurry"
+                    ? "text-orange-500 dark:text-orange-400"
+                    : "text-blue-500 dark:text-blue-400"
                 } mr-2`}
                 aria-hidden
               />
-              <p className="hidden lg:inline text-pretty">
-                {`This ranking has been saved. Go to "Your rankings" to see it.`}
-              </p>
-              <p className="inline lg:hidden text-pretty">
-                {`This ranking has been saved. Go to "Saved" to see it.`}
-              </p>
-            </div>
+              {`This ranking has been saved. Go to "Your rankings" to see it.`}
+            </p>
+            <p className="lg:hidden text-xs md:text-sm text-neutral-600 dark:text-neutral-400 text-pretty px-2 mt-1">
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className={`${
+                  rankingType == "hurry"
+                    ? "text-orange-500 dark:text-orange-400"
+                    : "text-blue-500 dark:text-blue-400"
+                } mr-2`}
+                aria-hidden
+              />
+              {`This ranking has been saved. Go to "Saved" to see it.`}
+            </p>
+
             <button
               onClick={() => {
                 setConfirmRestartModalSubtext(
@@ -926,7 +939,7 @@ export default function Home() {
                 );
                 setConfirmRestartModalVisibility(true);
               }}
-              className="w-full flex justify-center items-center bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-4"
+              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min transition px-3 py-2 mt-4"
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
@@ -954,7 +967,7 @@ export default function Home() {
                   );
                 navigator.clipboard.writeText(text);
               }}
-              className="w-full bg-gray-400/20 hover:bg-gray-400/30 active:bg-gray-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+              className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min transition px-3 py-2 mt-2"
             >
               Share
             </button> */}
