@@ -206,10 +206,13 @@ export default function Home() {
             .includes(JSON.stringify([secondUtensilIndex, firstUtensilIndex]))
         ) {
           // shuffles order of numbers in each combo
-          combinations.push(shuffle([firstUtensilIndex, secondUtensilIndex]));
+          combinations.push([firstUtensilIndex, secondUtensilIndex]);
         }
       }
     }
+
+    // shuffles order of numbers in each combo
+    combinations.forEach((combo) => shuffle(combo));
 
     // shuffles order of combos
     return shuffle(combinations);
