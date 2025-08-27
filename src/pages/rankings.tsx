@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBolt,
+  faBullseye,
   faChartSimple,
   faPen,
   faTrashCan,
@@ -179,6 +181,22 @@ export default function Rankings() {
               <div className="w-full lg:w-[45rem] mb-8 lg:mb-10" key={index1}>
                 <div className="flex gap-3 items-end px-2 mb-1">
                   <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+                    <FontAwesomeIcon
+                      icon={faBolt}
+                      className={`${
+                        ranking["rankingType"] == "hurry" ? "" : "hidden"
+                      } text-orange-500 dark:text-orange-400 mr-1.5`}
+                      aria-label="Type: hurry"
+                      title="Type: hurry"
+                    />
+                    <FontAwesomeIcon
+                      icon={faBullseye}
+                      className={`${
+                        ranking["rankingType"] == "concentrate" ? "" : "hidden"
+                      } text-blue-500 dark:text-blue-400 mr-1.5`}
+                      aria-label="Type: concentrate"
+                      title="Type: concentrate"
+                    />
                     {ranking["rankingName"]}
                   </h2>
                   <h3 className="text-xs md:text-sm leading-6 text-neutral-700 dark:text-neutral-400 text-right min-w-max ml-auto">

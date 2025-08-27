@@ -942,7 +942,7 @@ export default function Home() {
                 );
                 setConfirmRestartModalVisibility(true);
               }}
-              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min transition px-3 py-2 mt-4"
+              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-4"
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
