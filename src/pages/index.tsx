@@ -670,7 +670,7 @@ export default function Home() {
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (winnersHistory[currentComboIndex - 1] != 2) {
@@ -740,7 +740,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "If you restart, you'll lose all of your progress so far in this ranking."
@@ -761,7 +761,7 @@ export default function Home() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md border-2 border-neutral-500/30 dark:border-neutral-500/50 bg-transparent hover:bg-neutral-400/20 active:bg-neutral-400/30 hover:shadow-sm active:shadow-none px-3 py-1 transition"
+                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
@@ -812,7 +812,7 @@ export default function Home() {
               </h2>
             </div>
             <div className="h-max overflow-y-auto overflow-x-hidden border-neutral-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="max-h-[19rem] md:max-h-[29rem] w-full md:w-[45rem]">
+              <ul className="max-h-[19rem] md:max-h-[28.25rem] w-full md:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
@@ -824,10 +824,10 @@ export default function Home() {
                         "score"
                       ] == utensil["score"]
                         ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                           : ""
                         : rankingPlace % 2 !== 0
-                        ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                        ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                         : ""
                     }`}
                   >

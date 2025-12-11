@@ -30,7 +30,7 @@ export default function ConfirmModal({
       }}
       tabIndex={0}
     >
-      <div className="bg-neutral-100 dark:bg-black dark:border-2 dark:border-neutral-500/50 relative rounded-xl w-[90vw] md:max-w-xl shadow-md px-8 py-8 lg:px-11 lg:py-10">
+      <div className="bg-neutral-100 dark:bg-black dark:border-2 dark:border-neutral-500/50 relative rounded-xl w-[90vw] md:max-w-xl shadow-md px-8 py-8 lg:p-10">
         <button
           className="absolute top-7 right-8 text-lg hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600 transition"
           onClick={() => {
