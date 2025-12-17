@@ -358,7 +358,7 @@ export default function Home() {
               className="block text-black/60 dark:text-white/60 text-xs lg:text-sm text-pretty px-2"
               htmlFor="utensil-input"
             >
-              Enter a list of things separated by line or comma
+              Enter items to rank, separated by line or comma
             </label>
             <ResponsiveTextArea
               value={utensilInput}
@@ -374,14 +374,14 @@ export default function Home() {
             />
             <Link
               href="/sets"
-              className="block w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
+              className="block w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
             >
               <FontAwesomeIcon
                 icon={faBarsStaggered}
                 className="mr-2"
-                aria-labelledby="browse-lists-text"
+                aria-labelledby="browse-lists-button-text"
               />
-              <span id="browse-lists-text">Browse starter sets</span>
+              <span id="browse-lists-button-text">Browse starter sets</span>
             </Link>
             <div className="flex gap-2 mt-2">
               <button
@@ -450,7 +450,7 @@ export default function Home() {
                     setStartVisibility("invisibleFade");
                   }
                 }}
-                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
@@ -532,7 +532,7 @@ export default function Home() {
                     setStartVisibility("invisibleFade");
                   }
                 }}
-                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md transition px-3 py-4 lg:py-6"
               >
                 <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
                   <FontAwesomeIcon
@@ -562,7 +562,7 @@ export default function Home() {
                   rankingType == "hurry"
                     ? "text-orange-500 dark:text-orange-400"
                     : "text-blue-500 dark:text-blue-400"
-                } mr-2`}
+                } mr-1.5 md:mr-2`}
                 aria-hidden
               />
               Progress auto-saved. It is safe to leave and continue later.
@@ -571,7 +571,7 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/90 active:bg-orange-500/80 md:hover:bg-orange-500/80 active:hover:bg-orange-500/70 shadow-sm hover:shadow-sm active:shadow-none md:hover:shadow-md md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
+                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/90 active:bg-orange-500/80 md:hover:bg-orange-500/80 active:hover:bg-orange-500/70 shadow-md hover:shadow-md active:shadow-none md:hover:shadow-lg md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -619,7 +619,7 @@ export default function Home() {
               </button>
               <button
                 ref={secondOptionRef}
-                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/90 active:bg-blue-500/80 md:hover:bg-blue-500/80 active:hover:bg-blue-500/70 shadow-sm hover:shadow-sm active:shadow-none md:hover:shadow-md md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
+                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/90 active:bg-blue-500/80 md:hover:bg-blue-500/80 active:hover:bg-blue-500/70 shadow-md hover:shadow-md active:shadow-none md:hover:shadow-lg md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -670,7 +670,11 @@ export default function Home() {
             <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
+                className={`w-8 h-8 lg:w-32 lg:flex-1 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition ${
+                  currentComboIndex < 1
+                    ? "opacity-70 pointer-events-none cursor-not-allowed"
+                    : ""
+                }`}
                 onClick={() => {
                   if (currentComboIndex > 0) {
                     if (winnersHistory[currentComboIndex - 1] != 2) {
@@ -740,7 +744,7 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
+                className="w-8 h-8 lg:w-32 lg:flex-[0.5] lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "If you restart, you'll lose all of your progress so far in this ranking."
@@ -761,7 +765,7 @@ export default function Home() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="w-8 h-8 lg:w-32 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
+                className="w-8 h-8 lg:w-32 lg:flex-1 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
@@ -793,7 +797,7 @@ export default function Home() {
 
             <div className="flex items-center justify-center mt-6">
               <progress
-                className="progress-bar w-[20rem] sm:w-[25rem] lg:w-full h-2"
+                className="progress-bar progress-bar-gray w-[20rem] sm:w-[25rem] lg:w-full h-2"
                 value={currentComboIndex / maxCombos}
               />
             </div>
@@ -824,10 +828,10 @@ export default function Home() {
                         "score"
                       ] == utensil["score"]
                         ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                           : ""
                         : rankingPlace % 2 !== 0
-                        ? "bg-neutral-500/10 dark:bg-neutral-500/25"
+                        ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                         : ""
                     }`}
                   >
@@ -942,7 +946,7 @@ export default function Home() {
                 );
                 setConfirmRestartModalVisibility(true);
               }}
-              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-4"
+              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-4"
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
@@ -970,7 +974,7 @@ export default function Home() {
                   );
                 navigator.clipboard.writeText(text);
               }}
-              className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md h-min transition px-3 py-2 mt-2"
+              className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min transition px-3 py-2 mt-2"
             >
               Share
             </button> */}

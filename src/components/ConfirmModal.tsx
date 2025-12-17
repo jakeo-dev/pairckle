@@ -30,7 +30,7 @@ export default function ConfirmModal({
       }}
       tabIndex={0}
     >
-      <div className="bg-neutral-100 dark:bg-black dark:border-2 dark:border-neutral-500/50 relative rounded-xl w-[90vw] md:max-w-xl shadow-md px-8 py-8 lg:p-10">
+      <div className="bg-neutral-100 dark:bg-black dark:border-2 dark:border-neutral-800 relative rounded-xl w-[90vw] md:max-w-xl shadow-md px-8 py-8 lg:p-10">
         <button
           className="absolute top-7 right-8 text-lg hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600 transition"
           onClick={() => {
@@ -55,7 +55,7 @@ export default function ConfirmModal({
           <button
             className={`${
               primaryButtonText ? "" : "hidden"
-            } bg-neutral-900/70 hover:bg-neutral-900/60 active:bg-neutral-900/50 text-white dark:bg-neutral-100/80 text-sm md:text-base dark:hover:bg-neutral-100/70 dark:active:bg-neutral-100/60 dark:text-black rounded-md px-4 py-2 transition`}
+            } bg-neutral-700/90 hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 text-white dark:text-black text-sm md:text-base rounded-md px-4 py-2 transition`}
             onClick={onConfirm}
           >
             {primaryButtonText}

@@ -3,6 +3,12 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { Gabarito } from "next/font/google";
+const gabarito = Gabarito({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
@@ -179,8 +185,10 @@ export default function Rankings() {
           >
             {[...savedRankings].map((ranking, index1) => (
               <div className="w-full lg:w-[45rem] mb-8 lg:mb-10" key={index1}>
-                <div className="flex gap-3 items-end px-2 mb-1">
-                  <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+                <div className="flex gap-3 items-end px-2 mb-0.5 md:mb-1">
+                  <h2
+                    className={`text-base md:text-lg flex items-center font-medium leading-6 lg:line-clamp-1 overflow-ellipsis ${gabarito.className}`}
+                  >
                     <FontAwesomeIcon
                       icon={faBolt}
                       className={`${
@@ -226,10 +234,10 @@ export default function Rankings() {
                             index2 - 1
                           ]["score"] == utensil["score"]
                             ? (rankingPlaces[index1] - 1) % 2 !== 0
-                              ? "bg-neutral-400/20"
+                              ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                               : ""
                             : rankingPlaces[index1] % 2 !== 0
-                            ? "bg-neutral-400/20"
+                            ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                             : ""
                         }`}
                       >
@@ -322,7 +330,7 @@ export default function Rankings() {
                 </ul>
                 <div className="flex gap-2">
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -346,13 +354,13 @@ export default function Rankings() {
                     <FontAwesomeIcon
                       icon={faChartSimple}
                       className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-1.5 md:mr-2"
-                      aria-labelledby="re-rank-text"
+                      aria-labelledby="re-rank-button-text"
                     />
-                    <span id="re-rank-text">Re-rank</span>
+                    <span id="re-rank-button-text">Re-rank</span>
                   </Link>
 
                   <button
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       const randomNewRankingName =
                         randomElement(["Best", "Greatest", "Top"]) +
@@ -513,12 +521,12 @@ export default function Rankings() {
                     <FontAwesomeIcon
                       icon={faPen}
                       className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
-                      aria-labelledby="edit-title-text"
+                      aria-labelledby="edit-title-button-text"
                     />
-                    <span id="edit-title-text">Edit title</span>
+                    <span id="edit-title-button-text">Edit title</span>
                   </button>
                   <button
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
                     onClick={() => {
                       setCurrentRanking(ranking);
                       setConfirmDeleteModalVisibility(true);
@@ -527,9 +535,9 @@ export default function Rankings() {
                     <FontAwesomeIcon
                       icon={faTrashCan}
                       className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
-                      aria-labelledby="delete-text"
+                      aria-labelledby="delete-button-text"
                     />
-                    <span id="delete-text">Delete</span>
+                    <span id="delete-button-text">Delete</span>
                   </button>
                 </div>
               </div>

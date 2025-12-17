@@ -4,6 +4,12 @@ import Link from "next/link";
 import MasonryLayout from "@/components/MasonryLayout";
 import { useEffect, useState } from "react";
 
+import { Gabarito } from "next/font/google";
+const gabarito = Gabarito({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 
@@ -845,7 +851,7 @@ export default function Sets() {
         onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
-      <div className="min-h-screen lg:min-h-[94.6vh] ">
+      <div className="min-h-screen lg:min-h-[94.6vh]">
         <div className="w-full h-full flex justify-center items-center mt-24 md:mt-48 pb-16">
           <div>
             <MasonryLayout
@@ -859,8 +865,10 @@ export default function Sets() {
             >
               {[...starterSets].map((set, index1) => (
                 <div className="w-full lg:w-96 mb-8 lg:mb-10" key={index1}>
-                  <div className="flex gap-2 items-end px-2 mb-1">
-                    <h2 className="text-sm md:text-base leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis">
+                  <div className="flex gap-2 items-end px-2 mb-0.5 md:mb-1">
+                    <h2
+                      className={`text-base md:text-lg leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis ${gabarito.className}`}
+                    >
                       {set["setName"]}
                     </h2>
                   </div>
@@ -878,7 +886,7 @@ export default function Sets() {
                     ))}
                   </ul>
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -900,9 +908,9 @@ export default function Sets() {
                     <FontAwesomeIcon
                       icon={faChartSimple}
                       className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-2"
-                      aria-labelledby="use-this-text"
+                      aria-labelledby="rank-this-set-button-text"
                     />
-                    <span id="use-this-text">Rank this set</span>
+                    <span id="rank-this-set-button-text">Rank this set</span>
                   </Link>
                 </div>
               ))}
