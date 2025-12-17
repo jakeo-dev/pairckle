@@ -27,7 +27,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
   }, []);
 
   return (
-    <main className={`${lexend.className} flex flex-col min-h-screen`}>
+    <main className={`${lexend.className} flex min-h-screen flex-col`}>
       <Header fixed={true} />
       <Component {...pageProps} />
       <Analytics />

@@ -817,7 +817,301 @@ export default function Sets() {
             { title: "Buffalo Bills" },
           ]),
         },
-      ])
+        {
+          setName: "Energy sources",
+          utensilSet: shuffle([
+            { title: "Solar" },
+            { title: "Wind" },
+            { title: "Biomass" },
+            { title: "Hydropower" },
+            { title: "Geothermal" },
+            { title: "Nuclear" },
+            { title: "Coal" },
+            { title: "Natural gas" },
+            { title: "Petroleum" },
+          ]),
+        },
+        {
+          setName: "Among Us maps",
+          utensilSet: shuffle([
+            { title: "The Skeld" },
+            { title: "MIRA HQ" },
+            { title: "Polus" },
+            { title: "The Airship" },
+            { title: "The Fungle" },
+          ]),
+        },
+        {
+          setName: "Spotify features",
+          utensilSet: shuffle([
+            { title: "Spotify Wrapped" },
+            { title: "DJ" },
+            { title: "Smart Shuffle" },
+            { title: "Jams" },
+            { title: "Blend" },
+            { title: "Radio" },
+            { title: "Discover Weekly" },
+          ]),
+        },
+        {
+          setName: "Types of fries",
+          utensilSet: shuffle([
+            { title: "Standard" },
+            { title: "Curly" },
+            { title: "Steak" },
+            { title: "Waffle" },
+            { title: "Tater tots" },
+            { title: "Smiley" },
+            { title: "Crinkle-cut" },
+            { title: "Sweet potato" },
+            { title: "Shoestring" },
+          ]),
+        },
+        {
+          setName: "Crayola crayon color names",
+          utensilSet: shuffle([
+            { title: "Razzmatazz" },
+            { title: "Sunset Orange" },
+            { title: "Fuzzy Wuzzy" },
+            { title: "Wild Blue Yonder" },
+            { title: "Inchworm" },
+            { title: "Antique Brass" },
+            { title: "Jazzberry Jam" },
+            { title: "Purple Mountains' Majesty" },
+            { title: "Mango Tango" },
+            { title: "Raw Sienna" },
+          ]),
+        },
+        {
+          setName: "Largest subreddits",
+          utensilSet: shuffle([
+            { title: "r/funny" },
+            { title: "r/AskReddit" },
+            { title: "r/gaming" },
+            { title: "r/worldnews" },
+            { title: "r/todayilearned" },
+            { title: "r/Music" },
+            { title: "r/aww" },
+            { title: "r/movies" },
+            { title: "r/memes" },
+            { title: "r/science" },
+          ]),
+        },
+        {
+          setName: "Popular musicals",
+          utensilSet: shuffle([
+            { title: "The Book of Mormon" },
+            { title: "Hamilton" },
+            { title: "Rent" },
+            { title: "Mamma Mia!" },
+            { title: "Hairspray" },
+            { title: "In the Heights" },
+            { title: "Wicked" },
+            { title: "Dear Evan Hansen" },
+            { title: "Moulin Rouge!" },
+          ]),
+        },
+        {
+          setName: "Food mascots",
+          utensilSet: shuffle([
+            { title: "Keebler Elves" },
+            { title: "Colonel Sanders" },
+            { title: "Mr. Peanut" },
+            { title: "Tony the Tiger" },
+            { title: "Kool Aid Man" },
+            { title: "Wendy" },
+            { title: "Lucky" },
+            { title: "Grimace" },
+            { title: "Toucan Sam" },
+          ]),
+        },
+        {
+          setName: "Popular Cartoon Network shows",
+          utensilSet: shuffle([
+            { title: "The Marvelous Misadventures of Flapjack" },
+            { title: "Ed, Edd n Eddy" },
+            { title: "Adventure Time" },
+            { title: "Steven Universe" },
+            { title: "Johnny Bravo" },
+            { title: "Powerpuff Girls" },
+            { title: "Regular Show" },
+            { title: "Courage the Cowardly Dog" },
+            { title: "The Amazing World of Gumball" },
+            { title: "Chowder" },
+            { title: "Dexter's Laboratory" },
+            { title: "Johnny Bravo" },
+            { title: "Teen Titans" },
+            { title: "Foster's Home for Imaginary Friends" },
+          ]),
+        },
+        {
+          setName: "Colors of the rainbow",
+          utensilSet: shuffle([
+            { title: "Red" },
+            { title: "Orange" },
+            { title: "Yellow" },
+            { title: "Green" },
+            { title: "Blue" },
+            { title: "Indigo" },
+            { title: "Violet" },
+          ]),
+        },
+        {
+          setName: "The Beatles albums",
+          utensilSet: shuffle([
+            { title: "Please Please Me" },
+            { title: "With the Beatles" },
+            { title: "A Hard Day's Night" },
+            { title: "Beatles for Sale" },
+            { title: "Help!" },
+            { title: "Rubber Soul" },
+            { title: "Revolver" },
+            { title: "Sgt. Pepper's Lonely Hearts Club Band" },
+            { title: "The Beatles" },
+            { title: "Yellow Submarine" },
+            { title: "Abbey Road" },
+            { title: "Let It Be" },
+          ]),
+        },
+        {
+          setName: "Common sounds",
+          utensilSet: shuffle([
+            { title: "Cat purr" },
+            { title: "Nails on a chalkboard" },
+            { title: "Rain" },
+            { title: "Snoring" },
+            { title: "Car horn" },
+            { title: "Ocean waves" },
+            { title: "Birds chirping" },
+            { title: "Crackling fire" },
+            { title: "Food sizzling" },
+            { title: "Keyboard tapping" },
+            { title: "Clock ticking" },
+          ]),
+        },
+        {
+          setName: "Characters from The Office",
+          utensilSet: shuffle([
+            { title: "Michael Scott" },
+            { title: "Dwight Schrute" },
+            { title: "Jim Halpert" },
+            { title: "Pam Beesly" },
+            { title: "Ryan Howard" },
+            { title: "Andy Bernard" },
+            { title: "Robert California" },
+            { title: "Stanley Hudson" },
+            { title: "Kevin Malone" },
+            { title: "Meredith Palmer" },
+            { title: "Angela Martin" },
+            { title: "Oscar Martinez" },
+            { title: "Phyllis Vance" },
+            { title: "Roy Anderson" },
+            { title: "Jan Levinson" },
+            { title: "Kelly Kapoor" },
+          ]),
+        },
+        {
+          setName: "Formula 1 circuits",
+          utensilSet: shuffle([
+            { title: "Monza" },
+            { title: "Spa-Francorchamps" },
+            { title: "Suzuka" },
+            { title: "Interlagos" },
+            { title: "Silverstone" },
+            { title: "Circuit of the Americas" },
+            { title: "Red Bull Ring" },
+            { title: "Circuit de Monaco" },
+            { title: "Circuit Gilles Villeneuve" },
+            { title: "Marina Bay Street Circuit" },
+            { title: "Circuit de Barcelona-Catalunya" },
+          ]),
+        },
+        {
+          setName: "Types of coffee drinks",
+          utensilSet: shuffle([
+            { title: "Black" },
+            { title: "Latte" },
+            { title: "Cappucino" },
+            { title: "Americano" },
+            { title: "Espresso" },
+            { title: "Doppio" },
+            { title: "Cortado" },
+            { title: "Flat white" },
+            { title: "Mocha" },
+            { title: "Macchiato" },
+            { title: "Affogato" },
+          ]),
+        },
+        {
+          setName: "Common pets",
+          utensilSet: shuffle([
+            { title: "Cat" },
+            { title: "Dog" },
+            { title: "Parrot" },
+            { title: "Fish" },
+            { title: "Hamster" },
+            { title: "Horse" },
+            { title: "Cockatoo" },
+          ]),
+        },
+        {
+          setName: "Popular programming languages",
+          utensilSet: shuffle([
+            { title: "JavaScript" },
+            { title: "Python" },
+            { title: "TypeScript" },
+            { title: "Java" },
+            { title: "C#" },
+            { title: "C++" },
+            { title: "C" },
+            { title: "PHP" },
+            { title: "Go" },
+            { title: "Rust" },
+            { title: "Assembly" },
+            { title: "Swift" },
+          ]),
+        },
+        {
+          setName: "Popular Christmas songs",
+          utensilSet: shuffle([
+            { title: "Sleigh Ride" },
+            { title: "White Christmas" },
+            { title: "All I Want for Christmas Is You" },
+            { title: "Jingle Bells" },
+            { title: "Grandma Got Run Over by a Reindeer" },
+            { title: "Santa Claus Is Comin' to Town" },
+            { title: "Feliz Navidad" },
+            { title: "O Holy Night" },
+            { title: "Wonderful Christmastime" },
+            { title: "Winter Wonderland" },
+            { title: "It's Beginning to Look a Lot Like Christmas" },
+            { title: "Last Christmas" },
+          ]),
+        },
+        {
+          setName: "Hogwarts houses",
+          utensilSet: shuffle([
+            { title: "Gryffindor" },
+            { title: "Hufflepuff" },
+            { title: "Ravenclaw" },
+            { title: "Slytherin" },
+          ]),
+        },
+        {
+          setName: "Knife cuts",
+          utensilSet: shuffle([
+            { title: "Dice" },
+            { title: "Julienne" },
+            { title: "Mince" },
+            { title: "Chiffonade" },
+            { title: "Oblique" },
+            { title: "Batonnet" },
+            { title: "Brunoise" },
+            { title: "Rondelle" },
+            { title: "Paysanne" },
+          ]),
+        },
+      ]),
     );
   }, []);
 
@@ -852,7 +1146,7 @@ export default function Sets() {
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="w-full h-full flex justify-center items-center mt-24 md:mt-48 pb-16">
+        <div className="mt-24 flex h-full w-full items-center justify-center pb-16 md:mt-48">
           <div>
             <MasonryLayout
               defaultCols={1}
@@ -864,20 +1158,20 @@ export default function Sets() {
               columnClassName="bg-clip-padding px-6"
             >
               {[...starterSets].map((set, index1) => (
-                <div className="w-full lg:w-96 mb-8 lg:mb-10" key={index1}>
-                  <div className="flex gap-2 items-end px-2 mb-0.5 md:mb-1">
+                <div className="mb-8 w-full lg:mb-10 lg:w-96" key={index1}>
+                  <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1">
                     <h2
-                      className={`text-base md:text-lg leading-6 font-medium w-full lg:line-clamp-1 overflow-ellipsis ${gabarito.className}`}
+                      className={`w-full overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
                     >
                       {set["setName"]}
                     </h2>
                   </div>
-                  <ul className="h-max overflow-y-auto border-neutral-400/40 border-2 rounded-lg">
+                  <ul className="h-max overflow-y-auto rounded-lg border-2 border-neutral-400/40">
                     {/* create shallow copy of set["utensilSet"] (so it wont actually change the set["utensilSet"] variable), sort utensils by their score */}
                     {[...set["utensilSet"]].map((utensil, index2) => (
                       <li
                         key={index2}
-                        className="flex items-center justify-center odd:bg-neutral-500/10 dark:odd:bg-neutral-500/20 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5"
+                        className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/20 md:px-2.5 md:py-1.5"
                       >
                         <p className="w-full text-sm md:text-base">
                           {utensil["title"]}
@@ -886,7 +1180,7 @@ export default function Sets() {
                     ))}
                   </ul>
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-2"
+                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -900,14 +1194,14 @@ export default function Sets() {
                           "utensilInput",
                           set["utensilSet"]
                             .map((utensil) => utensil.title)
-                            .join("\n")
+                            .join("\n"),
                         );
                       }
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-2"
+                      className="mr-2 rotate-90 text-neutral-800 dark:text-neutral-300"
                       aria-labelledby="rank-this-set-button-text"
                     />
                     <span id="rank-this-set-button-text">Rank this set</span>

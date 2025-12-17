@@ -23,11 +23,11 @@ export default function Header({ fixed }: { fixed: boolean }) {
     <div
       className={`${
         fixed ? "fixed" : "absolute"
-      } z-20 bg-neutral-100 dark:bg-neutral-900 border-b-2 border-neutral-200 dark:border-neutral-800 top-0 w-full text-center flex items-center gap-2 justify-between px-3.5 py-2 md:px-6 md:py-4`}
+      } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-200 bg-neutral-100 px-3.5 py-2 text-center dark:border-neutral-800 dark:bg-neutral-900 md:px-6 md:py-4`}
     >
-      <div className="flex text-left cursor-default">
+      <div className="flex cursor-default text-left">
         <h1
-          className={`block text-xl md:text-3xl font-extrabold ${gabarito.className}`}
+          className={`block text-xl font-extrabold md:text-3xl ${gabarito.className}`}
         >
           <span className="text-orange-500">Pair</span>
           <span className="text-blue-500">ckle</span>
@@ -37,18 +37,18 @@ export default function Header({ fixed }: { fixed: boolean }) {
         </h2> */}
       </div>
 
-      <div className="h-min flex gap-0.5 md:gap-1">
+      <div className="flex h-min gap-0.5 md:gap-1">
         <Link
           className={`${
             pathname == "/"
               ? "bg-neutral-400/20"
-              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 text-neutral-600 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
-          } h-min flex justify-center items-center rounded-full text-sm md:text-base text-left transition px-2.5 py-1 md:px-4 md:py-2`}
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
           href="/"
         >
           <FontAwesomeIcon
             icon={faChartSimple}
-            className="rotate-90 mr-1.5 md:mr-2"
+            className="mr-1.5 rotate-90 md:mr-2"
             aria-hidden
           />
           <span className="hidden md:inline">Create a ranking</span>
@@ -58,8 +58,8 @@ export default function Header({ fixed }: { fixed: boolean }) {
           className={`${
             pathname == "/rankings"
               ? "bg-neutral-400/20"
-              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 text-neutral-600 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
-          } h-min flex justify-center items-center rounded-full text-sm md:text-base text-left transition px-2.5 py-1 md:px-4 md:py-2`}
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
           href="/rankings"
         >
           <FontAwesomeIcon
@@ -74,8 +74,8 @@ export default function Header({ fixed }: { fixed: boolean }) {
           className={`${
             pathname == "/sets"
               ? "bg-neutral-400/20"
-              : "hover:bg-neutral-400/15 active:bg-neutral-400/20 text-neutral-600 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
-          } h-min flex justify-center items-center rounded-full text-sm md:text-base text-left transition px-2.5 py-1 md:px-4 md:py-2`}
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
           href="/sets"
         >
           <FontAwesomeIcon
@@ -87,7 +87,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
           <span className="md:hidden">Sets</span>
         </Link>
         <button
-          className="bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 hover:shadow-sm active:shadow-none transition flex justify-center items-center rounded-full text-sm md:text-base px-2.5 py-1 md:px-4 md:py-2 w-7 md:w-10"
+          className="flex w-7 items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none md:w-10 md:px-4 md:py-2 md:text-base"
           onClick={() => {
             if (localStorage.getItem("theme") === "dark") {
               document.documentElement.classList.remove("dark");

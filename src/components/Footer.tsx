@@ -6,35 +6,35 @@ export default function Footer({ fixed }: { fixed: boolean }) {
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } z-10 bg-neutral-100 dark:bg-neutral-900 border-t-2 border-neutral-200 dark:border-neutral-800 dark:border-t-neutral-800 w-full p-3 lg:p-4 mt-auto lg:mt-0`}
+      } z-10 mt-auto w-full border-t-2 border-neutral-200 bg-neutral-100 p-3 dark:border-neutral-800 dark:border-t-neutral-800 dark:bg-neutral-900 lg:mt-0 lg:p-4`}
     >
-      <div className="flex justify-center items-center text-xs lg:text-sm text-center">
+      <div className="flex items-center justify-center text-center text-xs lg:text-sm">
         <a
-          className="hover:drop-shadow-md active:drop-shadow-none transition flex items-center"
+          className="flex items-center transition hover:drop-shadow-md active:drop-shadow-none"
           href="https://jakeo.dev"
           target="_blank"
           aria-label="Go to JakeO.dev"
         >
           <img
             src="https://www.jakeo.dev/logos/bunny-jakeo-wordmark.png"
-            className="w-[3.25rem] lg:w-16 dark:hidden"
+            className="w-[3.25rem] dark:hidden lg:w-16"
             alt="JakeO.dev logo"
           />
           <img
             src="https://www.jakeo.dev/logos/bunny-jakeo-wordmark-light.png"
-            className="w-[3.25rem] lg:w-16 hidden dark:inline"
+            className="hidden w-[3.25rem] dark:inline lg:w-16"
             alt="JakeO.dev logo"
           />
         </a>
         <span className="mx-3">•</span>
         <a
-          className="text-neutral-800 hover:text-neutral-600 active:text-neutral-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:active:text-neutral-500 transition"
+          className="text-neutral-800 transition hover:text-neutral-600 active:text-neutral-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:active:text-neutral-500"
           href="https://github.com/jakeo-dev/pairckle"
           target="_blank"
         >
           <FontAwesomeIcon
             icon={faGithub}
-            className="text-xs lg:text-sm mr-1"
+            className="mr-1 text-xs lg:text-sm"
             aria-hidden
           />
           GitHub

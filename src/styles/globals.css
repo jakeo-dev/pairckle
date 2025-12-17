@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @layer components {
-  .invisibleFade {
+  .invisible-fade {
     @apply invisible opacity-0 transition-all;
   }
 
-  .visibleFade {
+  .visible-fade {
     @apply visible opacity-100 transition-all;
   }
 }
@@ -46,7 +46,6 @@
     border-radius: 9999px;
   }
   .progress-bar-orange::-webkit-progress-value {
-    /* background: linear-gradient(90deg, rgb(249 115 22 / 0.6) 5%, rgba(239, 68, 68, 0.6) 35%, rgba(99, 102, 241, 0.6) 65%, rgb(59 130 246 / 0.6) 95%); */
     background-color: rgb(249 115 22 / 0.6);
     border-radius: 9999px;
   }
@@ -55,7 +54,6 @@
     border-radius: 9999px;
   }
   .progress-bar-blue::-webkit-progress-value {
-    /* background: linear-gradient(90deg, rgb(249 115 22 / 0.6) 5%, rgba(239, 68, 68, 0.6) 35%, rgba(99, 102, 241, 0.6) 65%, rgb(59 130 246 / 0.6) 95%); */
     background-color: rgb(59 130 246 / 0.6);
     border-radius: 9999px;
   }

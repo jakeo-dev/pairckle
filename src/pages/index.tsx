@@ -19,17 +19,18 @@ export default function Home() {
   // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
   let rankingPlace = 1;
 
-  const [startVisibility, setStartVisibility] = useState<string>("visibleFade");
+  const [startVisibility, setStartVisibility] =
+    useState<string>("visible-fade");
   const [selectionVisibility, setSelectionVisibility] =
-    useState<string>("invisibleFade");
+    useState<string>("invisible-fade");
   const [finalRankingVisibility, setFinalRankingVisibility] =
-    useState<string>("invisibleFade");
+    useState<string>("invisible-fade");
 
   const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
     useState<boolean>(false);
   const [confirmRestartModalSubtext, setConfirmRestartModalSubtext] =
     useState<string>(
-      "If you restart, you'll lose all of your progress so far in this ranking."
+      "If you restart, you'll lose all of your progress so far in this ranking.",
     );
 
   // index of the current combo in combosArray; how far along in the selection process
@@ -76,13 +77,13 @@ export default function Home() {
       const savedMaxCombos = Number(localStorage.getItem("maxCombos") ?? "1");
       const savedRankingType = localStorage.getItem("rankingType") ?? "";
       const savedUtensilsArray = JSON.parse(
-        localStorage.getItem("utensilsArray") ?? "[]"
+        localStorage.getItem("utensilsArray") ?? "[]",
       );
       const savedCombosArray = JSON.parse(
-        localStorage.getItem("combosArray") ?? "[]"
+        localStorage.getItem("combosArray") ?? "[]",
       );
       const savedWinnersHistory = JSON.parse(
-        localStorage.getItem("winnersHistory") ?? "[]"
+        localStorage.getItem("winnersHistory") ?? "[]",
       );
 
       setMaxCombos(savedMaxCombos);
@@ -96,11 +97,11 @@ export default function Home() {
         savedCombosArray,
         savedUtensilsArray,
         savedWinnersHistory.length - 1,
-        savedMaxCombos
+        savedMaxCombos,
       );
 
-      setSelectionVisibility("visibleFade");
-      setStartVisibility("invisibleFade");
+      setSelectionVisibility("visible-fade");
+      setStartVisibility("invisible-fade");
     }
   }, []);
 
@@ -160,7 +161,7 @@ export default function Home() {
       score: number;
       wins: number;
       losses: number;
-    }
+    },
   ) {
     // sort by SCORE, highest to lowest
     if (a.score !== b.score) {
@@ -187,7 +188,7 @@ export default function Home() {
       score: number;
       wins: number;
       losses: number;
-    }[]
+    }[],
   ) {
     const combinations: number[][] = [];
 
@@ -245,7 +246,7 @@ export default function Home() {
     }[],
     currentComboIndex: number,
     maxCombos: number,
-    winnersHistory?: number[] // winnersHistory only needed if setNextCombo is called when the ranking could be finished next combo
+    winnersHistory?: number[], // winnersHistory only needed if setNextCombo is called when the ranking could be finished next combo
   ) {
     if (currentComboIndex + 1 < maxCombos) {
       // go to next combo in array
@@ -257,8 +258,8 @@ export default function Home() {
       setSecondOption(utensilsArray[combosArray[nextComboIndex][1]]["title"]);
     } else {
       // done with all combos
-      setSelectionVisibility("invisibleFade");
-      setFinalRankingVisibility("visibleFade");
+      setSelectionVisibility("invisible-fade");
+      setFinalRankingVisibility("visible-fade");
       setCurrentComboIndex(-1);
       setWinnersHistory([]);
       localStorage.setItem("winnersHistory", JSON.stringify([]));
@@ -268,7 +269,7 @@ export default function Home() {
       localStorage.setItem("rankingType", "");
 
       const savedRankingsArray = JSON.parse(
-        localStorage.getItem("savedRankings") ?? "[]"
+        localStorage.getItem("savedRankings") ?? "[]",
       );
 
       const rankingsArray = Array.isArray(savedRankingsArray)
@@ -299,7 +300,7 @@ export default function Home() {
       score: number;
       wins: number;
       losses: number;
-    }[]
+    }[],
   ) {
     // go to previous combo in array
     const prevComboIndex = currentComboIndex - 1;
@@ -330,9 +331,9 @@ export default function Home() {
         primaryButtonText="Restart"
         secondaryButtonText="Cancel"
         onConfirm={() => {
-          setSelectionVisibility("invisibleFade");
-          setFinalRankingVisibility("invisibleFade");
-          setStartVisibility("visibleFade");
+          setSelectionVisibility("invisible-fade");
+          setFinalRankingVisibility("invisible-fade");
+          setStartVisibility("visible-fade");
           setCurrentComboIndex(-1);
           setWinnersHistory([]);
           localStorage.setItem("combosArray", JSON.stringify([]));
@@ -348,14 +349,14 @@ export default function Home() {
         }}
       />
 
-      <div className="flex justify-center items-center h-screen lg:min-h-screen">
-        <div className="relative w-full h-screen mt-48 md:mt-0">
+      <div className="flex h-screen items-center justify-center lg:min-h-screen">
+        <div className="relative mt-48 h-screen w-full md:mt-0">
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-96`}
+            className={`${startVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
           >
             <label
-              className="block text-black/60 dark:text-white/60 text-xs lg:text-sm text-pretty px-2"
+              className="block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
               htmlFor="utensil-input"
             >
               Enter items to rank, separated by line or comma
@@ -366,7 +367,7 @@ export default function Home() {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
-              className="min-h-[20.5rem] max-h-[21rem] md:max-h-[28rem] w-full text-sm leading-6 md:leading-7 md:text-base" // 1 line = 2.125 rem
+              className="max-h-[21rem] min-h-[20.5rem] w-full text-sm leading-6 md:max-h-[28rem] md:text-base md:leading-7" // 1 line = 2.125 rem
               placeholder="Enter a list here..."
               maxLength={-1}
               required={true}
@@ -374,7 +375,7 @@ export default function Home() {
             />
             <Link
               href="/sets"
-              className="block w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-sm lg:text-base text-center transition px-3 py-2 lg:py-3 mt-0.5"
+              className="mt-0.5 block w-full rounded-md bg-neutral-400/20 px-3 py-2 text-center text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-3 lg:text-base"
             >
               <FontAwesomeIcon
                 icon={faBarsStaggered}
@@ -383,7 +384,7 @@ export default function Home() {
               />
               <span id="browse-lists-button-text">Browse starter sets</span>
             </Link>
-            <div className="flex gap-2 mt-2">
+            <div className="mt-2 flex gap-2">
               <button
                 onClick={() => {
                   if (
@@ -427,42 +428,42 @@ export default function Home() {
 
                     localStorage.setItem(
                       "maxCombos",
-                      String(Math.ceil(newCombosArray.length / 2))
+                      String(Math.ceil(newCombosArray.length / 2)),
                     );
                     localStorage.setItem("rankingType", "hurry");
                     localStorage.setItem(
                       "utensilsArray",
-                      JSON.stringify(newUtensilsArray)
+                      JSON.stringify(newUtensilsArray),
                     );
                     localStorage.setItem(
                       "combosArray",
-                      JSON.stringify(newCombosArray)
+                      JSON.stringify(newCombosArray),
                     );
 
                     setNextCombo(
                       newCombosArray,
                       newUtensilsArray,
                       currentComboIndex,
-                      maxCombos
+                      maxCombos,
                     );
 
-                    setSelectionVisibility("visibleFade");
-                    setStartVisibility("invisibleFade");
+                    setSelectionVisibility("visible-fade");
+                    setStartVisibility("invisible-fade");
                   }
                 }}
-                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
               >
-                <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
+                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="block text-lg md:text-xl lg:text-3xl text-orange-500 mr-1.5 lg:mx-auto"
+                    className="mr-1.5 block text-lg text-orange-500 md:text-xl lg:mx-auto lg:text-3xl"
                     aria-hidden
                   />
                   <span className="block text-sm md:text-base lg:mt-2">
                     Hurry
                   </span>
                 </div>
-                <span className="block text-xs md:text-sm text-neutral-800 dark:text-neutral-300">
+                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
                   Quicker session
                 </span>
               </button>
@@ -509,42 +510,42 @@ export default function Home() {
 
                     localStorage.setItem(
                       "maxCombos",
-                      String(newCombosArray.length)
+                      String(newCombosArray.length),
                     );
                     localStorage.setItem("rankingType", "concentrate");
                     localStorage.setItem(
                       "utensilsArray",
-                      JSON.stringify(newUtensilsArray)
+                      JSON.stringify(newUtensilsArray),
                     );
                     localStorage.setItem(
                       "combosArray",
-                      JSON.stringify(newCombosArray)
+                      JSON.stringify(newCombosArray),
                     );
 
                     setNextCombo(
                       newCombosArray,
                       newUtensilsArray,
                       currentComboIndex,
-                      maxCombos
+                      maxCombos,
                     );
 
-                    setSelectionVisibility("visibleFade");
-                    setStartVisibility("invisibleFade");
+                    setSelectionVisibility("visible-fade");
+                    setStartVisibility("invisible-fade");
                   }
                 }}
-                className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md transition px-3 py-4 lg:py-6"
+                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
               >
-                <div className="flex items-center justify-center lg:block mb-1 lg:mb-0">
+                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="block text-lg md:text-xl lg:text-3xl text-blue-500 mr-1.5 lg:mx-auto"
+                    className="mr-1.5 block text-lg text-blue-500 md:text-xl lg:mx-auto lg:text-3xl"
                     aria-hidden
                   />
                   <span className="block text-sm md:text-base lg:mt-2">
                     Concentrate
                   </span>
                 </div>
-                <span className="block text-xs md:text-sm text-neutral-800 dark:text-neutral-300">
+                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
                   More accurate
                 </span>
               </button>
@@ -553,9 +554,9 @@ export default function Home() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-auto`}
+            className={`${selectionVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
-            <p className="text-xs md:text-sm text-center text-neutral-600 dark:text-neutral-400 text-pretty px-2 mb-4">
+            <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -568,10 +569,10 @@ export default function Home() {
               Progress auto-saved. It is safe to leave and continue later.
             </p>
 
-            <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
+            <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-orange-500/90 hover:bg-orange-500/90 active:bg-orange-500/80 md:hover:bg-orange-500/80 active:hover:bg-orange-500/70 shadow-md hover:shadow-md active:shadow-none md:hover:shadow-lg md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-orange-500/90 p-6 text-white shadow-md transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:active:scale-100 md:active:shadow-none lg:h-[12rem] lg:w-[25rem] lg:p-8 xl:h-[14rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -591,17 +592,17 @@ export default function Home() {
                         };
                       }
                       return item;
-                    }
+                    },
                   );
                   setUtensilsArray(updatedUtensilsArray);
                   localStorage.setItem(
                     "utensilsArray",
-                    JSON.stringify(updatedUtensilsArray)
+                    JSON.stringify(updatedUtensilsArray),
                   );
                   setWinnersHistory((ogArray) => [...ogArray, 0]);
                   localStorage.setItem(
                     "winnersHistory",
-                    JSON.stringify([...winnersHistory, 0])
+                    JSON.stringify([...winnersHistory, 0]),
                   );
 
                   setNextCombo(
@@ -609,17 +610,17 @@ export default function Home() {
                     updatedUtensilsArray,
                     currentComboIndex,
                     maxCombos,
-                    [...winnersHistory, 0]
+                    [...winnersHistory, 0],
                   );
                 }}
               >
-                <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
+                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl xl:py-1 xl:text-4xl">
                   {firstOption}
                 </span>
               </button>
               <button
                 ref={secondOptionRef}
-                className="w-full min-h-[10rem] lg:w-[25rem] lg:h-[12rem] xl:w-[30rem] xl:h-[14rem] rounded-2xl text-white bg-blue-500/90 hover:bg-blue-500/90 active:bg-blue-500/80 md:hover:bg-blue-500/80 active:hover:bg-blue-500/70 shadow-md hover:shadow-md active:shadow-none md:hover:shadow-lg md:active:shadow-none hover:scale-100 active:scale-[0.98] md:hover:scale-[1.02] md:active:scale-100 flex justify-center items-center p-6 lg:p-8 transition duration-200"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-blue-500/90 p-6 text-white shadow-md transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:active:scale-100 md:active:shadow-none lg:h-[12rem] lg:w-[25rem] lg:p-8 xl:h-[14rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -639,17 +640,17 @@ export default function Home() {
                         };
                       }
                       return item;
-                    }
+                    },
                   );
                   setUtensilsArray(updatedUtensilsArray);
                   localStorage.setItem(
                     "utensilsArray",
-                    JSON.stringify(updatedUtensilsArray)
+                    JSON.stringify(updatedUtensilsArray),
                   );
                   setWinnersHistory((ogArray) => [...ogArray, 1]);
                   localStorage.setItem(
                     "winnersHistory",
-                    JSON.stringify([...winnersHistory, 1])
+                    JSON.stringify([...winnersHistory, 1]),
                   );
 
                   setNextCombo(
@@ -657,22 +658,22 @@ export default function Home() {
                     updatedUtensilsArray,
                     currentComboIndex,
                     maxCombos,
-                    [...winnersHistory, 1]
+                    [...winnersHistory, 1],
                   );
                 }}
               >
-                <span className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-center line-clamp-3 lg:line-clamp-4 overflow-ellipsis xl:py-1">
+                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl xl:py-1 xl:text-4xl">
                   {secondOption}
                 </span>
               </button>
             </div>
 
-            <div className="flex gap-2 justify-center items-center mt-4 lg:mt-6">
+            <div className="mt-4 flex items-center justify-center gap-2 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className={`w-8 h-8 lg:w-32 lg:flex-1 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition ${
+                className={`h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md ${
                   currentComboIndex < 1
-                    ? "opacity-70 pointer-events-none cursor-not-allowed"
+                    ? "pointer-events-none cursor-not-allowed opacity-70"
                     : ""
                 }`}
                 onClick={() => {
@@ -699,7 +700,7 @@ export default function Home() {
                               index ===
                               combosArray[currentComboIndex - 1][
                                 Math.abs(
-                                  winnersHistory[currentComboIndex - 1] - 1
+                                  winnersHistory[currentComboIndex - 1] - 1,
                                 )
                               ]
                             ) {
@@ -710,12 +711,12 @@ export default function Home() {
                               };
                             }
                             return item;
-                          }
+                          },
                         );
 
                         localStorage.setItem(
                           "utensilsArray",
-                          JSON.stringify(newUtensilsArray)
+                          JSON.stringify(newUtensilsArray),
                         );
 
                         return newUtensilsArray;
@@ -725,14 +726,14 @@ export default function Home() {
                     setWinnersHistory((ogArray) => ogArray.slice(0, -1));
                     localStorage.setItem(
                       "winnersHistory",
-                      JSON.stringify([...winnersHistory].slice(0, -1))
+                      JSON.stringify([...winnersHistory].slice(0, -1)),
                     );
 
                     setPrevCombo(combosArray, utensilsArray);
                   }
                 }}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                   <FontAwesomeIcon
                     icon={faBackward}
                     className="text-sm lg:mr-2"
@@ -744,15 +745,15 @@ export default function Home() {
                 </div>
               </button>
               <button
-                className="w-8 h-8 lg:w-32 lg:flex-[0.5] lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
+                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-[0.5] lg:rounded-md"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
-                    "If you restart, you'll lose all of your progress so far in this ranking."
+                    "If you restart, you'll lose all of your progress so far in this ranking.",
                   );
                   setConfirmRestartModalVisibility(true);
                 }}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                   <FontAwesomeIcon
                     icon={faRotateRight}
                     className="text-sm lg:mr-2"
@@ -765,12 +766,12 @@ export default function Home() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="w-8 h-8 lg:w-32 lg:flex-1 lg:h-auto rounded-full lg:rounded-md bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 hover:shadow-sm active:shadow-none px-3 py-1.5 transition"
+                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
                     "winnersHistory",
-                    JSON.stringify([...winnersHistory, 2])
+                    JSON.stringify([...winnersHistory, 2]),
                   );
 
                   setNextCombo(
@@ -778,11 +779,11 @@ export default function Home() {
                     utensilsArray,
                     currentComboIndex,
                     maxCombos,
-                    [...winnersHistory, 2]
+                    [...winnersHistory, 2],
                   );
                 }}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                   <FontAwesomeIcon
                     icon={faForward}
                     className="text-sm lg:mr-2"
@@ -795,34 +796,34 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center mt-6">
+            <div className="mt-6 flex items-center justify-center">
               <progress
-                className="progress-bar progress-bar-gray w-[20rem] sm:w-[25rem] lg:w-full h-2"
+                className="progress-bar progress-bar-gray h-2 w-[20rem] sm:w-[25rem] lg:w-full"
                 value={currentComboIndex / maxCombos}
               />
             </div>
-            <p className="text-sm md:text-base text-center mt-2">
+            <p className="mt-2 text-center text-sm md:text-base">
               Pair {currentComboIndex + 1} / {maxCombos}
             </p>
           </div>
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-[85vw] md:w-auto`}
+            className={`${finalRankingVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
-            <div className="flex w-full px-2 mb-1">
-              <h2 className="text-sm md:text-base leading-6 font-medium lg:line-clamp-1 overflow-ellipsis">
+            <div className="mb-1 flex w-full px-2">
+              <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
                 Final ranking
               </h2>
             </div>
-            <div className="h-max overflow-y-auto overflow-x-hidden border-neutral-400/40 border-2 rounded-lg thin-scrollbar">
-              <ul className="max-h-[19rem] md:max-h-[28.25rem] w-full md:w-[45rem]">
+            <div className="thin-scrollbar h-max overflow-y-auto overflow-x-hidden rounded-lg border-2 border-neutral-400/40">
+              <ul className="max-h-[19rem] w-full md:max-h-[28.25rem] md:w-[45rem]">
                 {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
                 {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
                   <li
                     key={index}
                     // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                    className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5 ${
+                    className={`flex items-center gap-3 px-2 py-1 first:rounded-t-md last:rounded-b-md md:px-2.5 md:py-1.5 ${
                       [...utensilsArray].sort(sortUtensils)[index - 1] &&
                       [...utensilsArray].sort(sortUtensils)[index - 1][
                         "score"
@@ -831,13 +832,13 @@ export default function Home() {
                           ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                           : ""
                         : rankingPlace % 2 !== 0
-                        ? "bg-neutral-500/10 dark:bg-neutral-500/20"
-                        : ""
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                          : ""
                     }`}
                   >
                     <div className="flex items-center">
                       {/* shows place in ranking */}
-                      <span className="text-xs lg:text-sm font-semibold">
+                      <span className="text-xs font-semibold lg:text-sm">
                         {[...utensilsArray].sort(sortUtensils)[index - 1] &&
                         [...utensilsArray].sort(sortUtensils)[index - 1][
                           "score"
@@ -848,7 +849,7 @@ export default function Home() {
                       </span>
                       {/* show "(tie)" if tied */}
                       <span
-                        className={`text-xs lg:text-sm text-neutral-700 dark:text-neutral-400 ml-1 md:ml-1.5 ${
+                        className={`ml-1 text-xs text-neutral-700 dark:text-neutral-400 md:ml-1.5 lg:text-sm ${
                           ([...utensilsArray].sort(sortUtensils)[index - 1] &&
                             [...utensilsArray].sort(sortUtensils)[index - 1][
                               "score"
@@ -877,9 +878,9 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="relative flex ml-auto">
+                    <div className="relative ml-auto flex">
                       <progress
-                        className="win-rate-bar w-32 md:w-72 lg:w-96 appearance-none h-6"
+                        className="win-rate-bar h-6 w-32 appearance-none md:w-72 lg:w-96"
                         value={
                           typeof utensil["wins"] === "number"
                             ? utensil["wins"] /
@@ -888,20 +889,18 @@ export default function Home() {
                         }
                       />
 
-                      <div className="absolute inset-0 flex justify-between text-xs lg:text-sm text-white dark:text-black px-1">
+                      <div className="absolute inset-0 flex justify-between px-1 text-xs text-white dark:text-black lg:text-sm">
                         <span className="px-2 py-1 lg:py-0.5">
                           {typeof utensil["wins"] === "number"
                             ? `${utensil["wins"]} won`
                             : `${utensil["score"]} won`}
                         </span>
                         <span
-                          className={`px-2 py-1 lg:py-0.5 
-                                  ${
-                                    typeof utensil["losses"] === "number"
-                                      ? ""
-                                      : "hidden"
-                                  }
-                                `}
+                          className={`px-2 py-1 lg:py-0.5 ${
+                            typeof utensil["losses"] === "number"
+                              ? ""
+                              : "hidden"
+                          } `}
                         >
                           {typeof utensil["losses"] === "number"
                             ? `${utensil["losses"]} lost`
@@ -914,7 +913,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <p className="hidden lg:block text-xs md:text-sm text-neutral-600 dark:text-neutral-400 text-pretty px-2 mt-1">
+            <p className="mt-1 hidden text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm lg:block">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -926,7 +925,7 @@ export default function Home() {
               />
               {`This ranking has been saved. Go to "Your rankings" to see it.`}
             </p>
-            <p className="lg:hidden text-xs md:text-sm text-neutral-600 dark:text-neutral-400 text-pretty px-2 mt-1">
+            <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm lg:hidden">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -942,15 +941,15 @@ export default function Home() {
             <button
               onClick={() => {
                 setConfirmRestartModalSubtext(
-                  'This ranking has already been saved in "Your rankings," so it will not be lost.'
+                  'This ranking has already been saved in "Your rankings," so it will not be lost.',
                 );
                 setConfirmRestartModalVisibility(true);
               }}
-              className="w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min text-sm md:text-base transition px-2.5 py-1.5 lg:px-3 lg:py-2 mt-4"
+              className="mt-4 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
-                className="text-sm mr-2"
+                className="mr-2 text-sm"
                 aria-labelledby="restart-button-text-2"
               />
               <span id="restart-button-text-2">Restart</span>

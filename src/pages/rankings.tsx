@@ -81,7 +81,7 @@ export default function Rankings() {
       score: number;
       wins: number;
       losses: number;
-    }
+    },
   ) {
     // sort by SCORE, highest to lowest
     if (a.score !== b.score) {
@@ -151,12 +151,12 @@ export default function Rankings() {
         secondaryButtonText="Cancel"
         onConfirm={() => {
           const newSavedRankings = savedRankings.filter(
-            (r) => r !== currentRanking
+            (r) => r !== currentRanking,
           );
           setSavedRankings(newSavedRankings);
           localStorage.setItem(
             "savedRankings",
-            JSON.stringify(newSavedRankings)
+            JSON.stringify(newSavedRankings),
           );
 
           setConfirmDeleteModalVisibility(false);
@@ -177,23 +177,23 @@ export default function Rankings() {
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="w-full h-full flex justify-center items-center mt-24 md:mt-48 px-6 pb-16">
+        <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
           <div
             className={`w-full md:w-auto ${
               savedRankings.length < 1 ? "hidden" : ""
             }`}
           >
             {[...savedRankings].map((ranking, index1) => (
-              <div className="w-full lg:w-[45rem] mb-8 lg:mb-10" key={index1}>
-                <div className="flex gap-3 items-end px-2 mb-0.5 md:mb-1">
+              <div className="mb-8 w-full lg:mb-10 lg:w-[45rem]" key={index1}>
+                <div className="mb-0.5 flex items-end gap-3 px-2 md:mb-1">
                   <h2
-                    className={`text-base md:text-lg flex items-center font-medium leading-6 lg:line-clamp-1 overflow-ellipsis ${gabarito.className}`}
+                    className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
                   >
                     <FontAwesomeIcon
                       icon={faBolt}
                       className={`${
                         ranking["rankingType"] == "hurry" ? "" : "hidden"
-                      } text-orange-500 dark:text-orange-400 mr-1.5`}
+                      } mr-1.5 text-orange-500 dark:text-orange-400`}
                       aria-label="Type: hurry"
                       title="Type: hurry"
                     />
@@ -201,24 +201,24 @@ export default function Rankings() {
                       icon={faBullseye}
                       className={`${
                         ranking["rankingType"] == "concentrate" ? "" : "hidden"
-                      } text-blue-500 dark:text-blue-400 mr-1.5`}
+                      } mr-1.5 text-blue-500 dark:text-blue-400`}
                       aria-label="Type: concentrate"
                       title="Type: concentrate"
                     />
                     {ranking["rankingName"]}
                   </h2>
-                  <h3 className="text-xs md:text-sm leading-6 text-neutral-700 dark:text-neutral-400 text-right min-w-max ml-auto">
+                  <h3 className="ml-auto min-w-max text-right text-xs leading-6 text-neutral-700 dark:text-neutral-400 md:text-sm">
                     {ranking["rankingDate"]
                       ? `${monthName(ranking["rankingDate"]["month"]).slice(
                           0,
-                          3
+                          3,
                         )}. ${ranking["rankingDate"]["day"]}, ${
                           ranking["rankingDate"]["year"]
                         }`
                       : ""}
                   </h3>
                 </div>
-                <ul className="h-max overflow-y-auto border-neutral-400/40 border-2 rounded-lg">
+                <ul className="h-max overflow-y-auto rounded-lg border-2 border-neutral-400/40">
                   {/* create shallow copy of ranking["rankedUtensils"] (so it wont actually change the ranking["rankedUtensils"] variable), sort utensils by their score */}
                   {[...ranking["rankedUtensils"]]
                     .sort(sortUtensils)
@@ -226,7 +226,7 @@ export default function Rankings() {
                       <li
                         key={index2}
                         // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                        className={`flex items-center gap-3 first:rounded-t-md last:rounded-b-md px-2 md:px-2.5 py-1 md:py-1.5 ${
+                        className={`flex items-center gap-3 px-2 py-1 first:rounded-t-md last:rounded-b-md md:px-2.5 md:py-1.5 ${
                           [...ranking["rankedUtensils"]].sort(sortUtensils)[
                             index2 - 1
                           ] &&
@@ -237,13 +237,13 @@ export default function Rankings() {
                               ? "bg-neutral-500/10 dark:bg-neutral-500/20"
                               : ""
                             : rankingPlaces[index1] % 2 !== 0
-                            ? "bg-neutral-500/10 dark:bg-neutral-500/20"
-                            : ""
+                              ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                              : ""
                         }`}
                       >
                         <div className="flex items-center">
                           {/* shows place in ranking */}
-                          <span className="text-xs md:text-sm font-semibold">
+                          <span className="text-xs font-semibold md:text-sm">
                             {[...ranking["rankedUtensils"]].sort(sortUtensils)[
                               index2 - 1
                             ] &&
@@ -256,18 +256,18 @@ export default function Rankings() {
                           </span>
                           {/* show "(tie)" if tied */}
                           <span
-                            className={`text-xs md:text-sm text-neutral-700 dark:text-neutral-400 mr-1 md:mr-1.5 ${
+                            className={`mr-1 text-xs text-neutral-700 dark:text-neutral-400 md:mr-1.5 md:text-sm ${
                               ([...ranking["rankedUtensils"]].sort(
-                                sortUtensils
+                                sortUtensils,
                               )[index2 - 1] &&
                                 [...ranking["rankedUtensils"]].sort(
-                                  sortUtensils
+                                  sortUtensils,
                                 )[index2 - 1]["score"] == utensil["score"]) ||
                               ([...ranking["rankedUtensils"]].sort(
-                                sortUtensils
+                                sortUtensils,
                               )[index2 + 1] &&
                                 [...ranking["rankedUtensils"]].sort(
-                                  sortUtensils
+                                  sortUtensils,
                                 )[index2 + 1]["score"] == utensil["score"])
                                 ? "ml-1 md:ml-1.5"
                                 : ""
@@ -292,9 +292,9 @@ export default function Rankings() {
                             {utensil["title"]}
                           </p>
                         </div>
-                        <div className="relative flex ml-auto">
+                        <div className="relative ml-auto flex">
                           <progress
-                            className="win-rate-bar w-32 md:w-72 lg:w-96 appearance-none h-6"
+                            className="win-rate-bar h-6 w-32 appearance-none md:w-72 lg:w-96"
                             value={
                               typeof utensil["wins"] === "number"
                                 ? utensil["wins"] /
@@ -304,20 +304,18 @@ export default function Rankings() {
                             }
                           />
 
-                          <div className="absolute inset-0 flex justify-between text-xs lg:text-sm text-white dark:text-black px-1">
+                          <div className="absolute inset-0 flex justify-between px-1 text-xs text-white dark:text-black lg:text-sm">
                             <span className="px-2 py-1 lg:py-0.5">
                               {typeof utensil["wins"] === "number"
                                 ? `${utensil["wins"]} won`
                                 : `${utensil["score"]} won`}
                             </span>
                             <span
-                              className={`px-2 py-1 lg:py-0.5 
-                                  ${
-                                    typeof utensil["losses"] === "number"
-                                      ? ""
-                                      : "hidden"
-                                  }
-                                `}
+                              className={`px-2 py-1 lg:py-0.5 ${
+                                typeof utensil["losses"] === "number"
+                                  ? ""
+                                  : "hidden"
+                              } `}
                             >
                               {typeof utensil["losses"] === "number"
                                 ? `${utensil["losses"]} lost`
@@ -330,7 +328,7 @@ export default function Rankings() {
                 </ul>
                 <div className="flex gap-2">
                   <Link
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
                     href="/"
                     onClick={(event) => {
                       if (
@@ -344,23 +342,23 @@ export default function Rankings() {
                           "utensilInput",
                           shuffle(
                             ranking["rankedUtensils"].map(
-                              (utensil) => utensil.title
-                            )
-                          ).join("\n")
+                              (utensil) => utensil.title,
+                            ),
+                          ).join("\n"),
                         );
                       }
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faChartSimple}
-                      className="text-neutral-800 dark:text-neutral-300 rotate-90 mr-1.5 md:mr-2"
+                      className="mr-1.5 rotate-90 text-neutral-800 dark:text-neutral-300 md:mr-2"
                       aria-labelledby="re-rank-button-text"
                     />
                     <span id="re-rank-button-text">Re-rank</span>
                   </Link>
 
                   <button
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
                     onClick={() => {
                       const randomNewRankingName =
                         randomElement(["Best", "Greatest", "Top"]) +
@@ -487,7 +485,7 @@ export default function Rankings() {
                         "Enter a title for this ranking",
                         ranking["rankingName"].includes("New ranking #")
                           ? randomNewRankingName
-                          : ranking["rankingName"]
+                          : ranking["rankingName"],
                       );
                       let rankingNewName = "";
 
@@ -495,7 +493,7 @@ export default function Rankings() {
                         rankingNewName = rankingNewNameInput;
 
                         const savedRankingsArray = JSON.parse(
-                          localStorage.getItem("savedRankings") ?? "[]"
+                          localStorage.getItem("savedRankings") ?? "[]",
                         );
 
                         const rankingsArray = Array.isArray(savedRankingsArray)
@@ -513,20 +511,20 @@ export default function Rankings() {
 
                         localStorage.setItem(
                           "savedRankings",
-                          JSON.stringify(rankingsArray)
+                          JSON.stringify(rankingsArray),
                         );
                       }
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faPen}
-                      className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
+                      className="mr-1.5 text-neutral-800 dark:text-neutral-300 md:mr-2"
                       aria-labelledby="edit-title-button-text"
                     />
                     <span id="edit-title-button-text">Edit title</span>
                   </button>
                   <button
-                    className="h-min w-full flex justify-center items-center bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md text-xs md:text-sm text-left transition px-2.5 py-1.5 mt-2"
+                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
                     onClick={() => {
                       setCurrentRanking(ranking);
                       setConfirmDeleteModalVisibility(true);
@@ -534,7 +532,7 @@ export default function Rankings() {
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
-                      className="text-neutral-800 dark:text-neutral-300 mr-1.5 md:mr-2"
+                      className="mr-1.5 text-neutral-800 dark:text-neutral-300 md:mr-2"
                       aria-labelledby="delete-button-text"
                     />
                     <span id="delete-button-text">Delete</span>
@@ -545,7 +543,7 @@ export default function Rankings() {
           </div>
 
           <div className={savedRankings.length < 1 ? "" : "hidden"}>
-            <h2 className="text-neutral-600 dark:text-neutral-400 text-xl md:text-3xl text-center">
+            <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-3xl">
               {`You haven't saved any rankings yet...`}
             </h2>
           </div>

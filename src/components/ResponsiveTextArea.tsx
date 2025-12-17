@@ -44,7 +44,7 @@ export default function ResponsiveTextArea({
       onInput={onInput}
       value={value}
       placeholder={placeholder}
-      className={`bg-neutral-400/10 hover:bg-neutral-400/20 focus:bg-neutral-400/20 border-neutral-400/30 border-2 rounded-md text-left transition px-3 py-2 overflow-auto resize-none pb-3 ${className}`}
+      className={`resize-none overflow-auto rounded-md border-2 border-neutral-400/30 bg-neutral-400/10 px-3 py-2 pb-3 text-left transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 ${className}`}
       ref={textAreaRef}
       rows={1}
       maxLength={maxLength != -1 ? maxLength : undefined}
