@@ -462,7 +462,7 @@ export default function Rankings() {
                           "lobster rolls",
                           "shrimp scampis",
                           "mozzarella sticks",
-                          "jalapeno poppers",
+                          "jalapeño poppers",
                           "stuffed mushrooms",
                           "deviled eggs",
                           "bruschettas",
