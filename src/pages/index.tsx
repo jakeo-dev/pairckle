@@ -572,7 +572,7 @@ export default function Home() {
             <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-orange-500/90 p-6 text-white shadow-md transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:active:scale-100 md:active:shadow-none lg:h-[12rem] lg:w-[25rem] lg:p-8 xl:h-[14rem] xl:w-[30rem]"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -614,13 +614,13 @@ export default function Home() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl xl:py-1 xl:text-4xl">
+                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {firstOption}
                 </span>
               </button>
               <button
                 ref={secondOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-blue-500/90 p-6 text-white shadow-md transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:active:scale-100 md:active:shadow-none lg:h-[12rem] lg:w-[25rem] lg:p-8 xl:h-[14rem] xl:w-[30rem]"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -662,7 +662,7 @@ export default function Home() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl xl:py-1 xl:text-4xl">
+                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {secondOption}
                 </span>
               </button>
@@ -796,15 +796,61 @@ export default function Home() {
               </button>
             </div>
 
+            {/* progress bar */}
             <div className="mt-6 flex items-center justify-center">
-              <progress
-                className="progress-bar progress-bar-gray h-2 w-[20rem] sm:w-[25rem] lg:w-full"
-                value={currentComboIndex / maxCombos}
-              />
+              {[...Array(maxCombos)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] == 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] == 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i == currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r-[1px]" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
+                >
+                  <div
+                    className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform whitespace-nowrap rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs shadow-sm dark:bg-black md:text-sm`}
+                  >
+                    <div className="flex gap-3 px-1 text-neutral-500 dark:text-neutral-400">
+                      <p>Pair {i + 1}</p>
+                      <p
+                        className={`${winnersHistory[i] == 2 ? "" : "hidden"} w-full text-right italic`}
+                      >
+                        Skipped
+                      </p>
             </div>
-            <p className="mt-2 text-center text-sm md:text-base">
-              Pair {currentComboIndex + 1} / {maxCombos}
+                    {i < currentComboIndex ? (
+                      <div className="mt-1 flex flex-col gap-0.5">
+                        <p
+                          className={`${
+                            winnersHistory[i] != 2 &&
+                            utensilsArray[combosArray[i][winnersHistory[i]]][
+                              "title"
+                            ] == utensilsArray[combosArray[i][0]]["title"]
+                              ? "bg-orange-400/60 dark:bg-orange-500/60"
+                              : ""
+                          } rounded-md px-2 py-0.5 text-left`}
+                        >
+                          {utensilsArray[combosArray[i][0]]["title"]}
+                        </p>
+                        <p
+                          className={`${
+                            winnersHistory[i] != 2 &&
+                            utensilsArray[combosArray[i][winnersHistory[i]]][
+                              "title"
+                            ] == utensilsArray[combosArray[i][1]]["title"]
+                              ? "bg-blue-400/60 dark:bg-blue-500/60"
+                              : ""
+                          } rounded-md px-2 py-0.5 text-left`}
+                        >
+                          {utensilsArray[combosArray[i][1]]["title"]}
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                  <p
+                    className={`${i == currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
+                  >
+                    {currentComboIndex + 1} / {maxCombos}
             </p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* final ranking screen */}
