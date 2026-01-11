@@ -169,8 +169,8 @@ export default function Rankings() {
       {/* error ranking modal */}
       <ConfirmModal
         visibility={errorRankingModalVisibility}
-        titleText="Ranking already in progress"
-        subtitleText="You already have a ranking in progress. Finish or restart the current ranking before beginning a new one."
+        titleText="You already have a ranking in progress"
+        subtitleText="Finish or restart the current ranking before beginning a new one."
         primaryButtonText="Got it"
         onConfirm={() => setErrorRankingModalVisibility(false)}
         onCancel={() => setErrorRankingModalVisibility(false)}
