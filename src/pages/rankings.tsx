@@ -234,10 +234,10 @@ export default function Rankings() {
                             index2 - 1
                           ]["score"] == utensil["score"]
                             ? (rankingPlaces[index1] - 1) % 2 !== 0
-                              ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                              ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                               : ""
                             : rankingPlaces[index1] % 2 !== 0
-                              ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                              ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                               : ""
                         }`}
                       >

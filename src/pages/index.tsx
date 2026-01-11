@@ -875,10 +875,10 @@ export default function Home() {
                         "score"
                       ] == utensil["score"]
                         ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                           : ""
                         : rankingPlace % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/20"
+                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
                           : ""
                     }`}
                   >

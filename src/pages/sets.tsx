@@ -1171,7 +1171,7 @@ export default function Sets() {
                     {[...set["utensilSet"]].map((utensil, index2) => (
                       <li
                         key={index2}
-                        className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/20 md:px-2.5 md:py-1.5"
+                        className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
                       >
                         <p className="w-full text-sm md:text-base">
                           {utensil["title"]}
