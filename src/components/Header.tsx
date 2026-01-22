@@ -37,13 +37,13 @@ export default function Header({ fixed }: { fixed: boolean }) {
         </h2> */}
       </div>
 
-      <div className="flex h-min gap-0.5 md:gap-1">
+      <div className="flex h-min">
         <Link
           className={`${
             pathname == "/"
-              ? "bg-neutral-400/20"
-              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
-          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
+              ? "bg-neutral-400/20 dark:border-transparent"
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center rounded-l-full border-2 border-r border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
           href="/"
         >
           <FontAwesomeIcon
@@ -57,9 +57,9 @@ export default function Header({ fixed }: { fixed: boolean }) {
         <Link
           className={`${
             pathname == "/rankings"
-              ? "bg-neutral-400/20"
-              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
-          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
+              ? "bg-neutral-400/20 dark:border-transparent"
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center border-2 border-x border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
           href="/rankings"
         >
           <FontAwesomeIcon
@@ -73,9 +73,9 @@ export default function Header({ fixed }: { fixed: boolean }) {
         <Link
           className={`${
             pathname == "/sets"
-              ? "bg-neutral-400/20"
-              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:text-neutral-400 dark:hover:text-neutral-300"
-          } flex h-min items-center justify-center rounded-full px-2.5 py-1 text-left text-sm transition md:px-4 md:py-2 md:text-base`}
+              ? "bg-neutral-400/20 dark:border-transparent"
+              : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
+          } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
           href="/sets"
         >
           <FontAwesomeIcon
@@ -87,7 +87,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
           <span className="md:hidden">Sets</span>
         </Link>
         <button
-          className="flex w-7 items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none md:w-10 md:px-4 md:py-2 md:text-base"
+          className="ml-1 flex w-8 items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none md:ml-1.5 md:w-11 md:px-4 md:py-2 md:text-base"
           onClick={() => {
             if (localStorage.getItem("theme") === "dark") {
               document.documentElement.classList.remove("dark");
