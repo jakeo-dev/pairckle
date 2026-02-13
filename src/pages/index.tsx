@@ -363,7 +363,7 @@ export default function Home() {
             </label>
             <ResponsiveTextArea
               value={utensilInput}
-              onInput={(e) => {
+              onChange={(e) => {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
@@ -572,7 +572,7 @@ export default function Home() {
             <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -584,7 +584,9 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for second option
-                      } else if (index === combosArray[currentComboIndex][1]) {
+                        } else if (
+                          index === combosArray[currentComboIndex][1]
+                        ) {
                         return {
                           ...item,
                           score: item.score - 1,
@@ -620,7 +622,7 @@ export default function Home() {
               </button>
               <button
                 ref={secondOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -632,7 +634,9 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for first option
-                      } else if (index === combosArray[currentComboIndex][0]) {
+                        } else if (
+                          index === combosArray[currentComboIndex][0]
+                        ) {
                         return {
                           ...item,
                           score: item.score - 1,

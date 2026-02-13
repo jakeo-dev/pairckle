@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef } from "react";
 
 export default function ResponsiveTextArea({
-  onInput,
+  onChange,
   value,
   className,
   placeholder,
@@ -11,7 +11,7 @@ export default function ResponsiveTextArea({
   required,
   id,
 }: {
-  onInput: (arg: FormEvent<HTMLTextAreaElement>) => void;
+  onChange: (arg: FormEvent<HTMLTextAreaElement>) => void;
   value: string;
   className: string;
   placeholder: string;
@@ -41,7 +41,7 @@ export default function ResponsiveTextArea({
 
   return (
     <textarea
-      onInput={onInput}
+      onChange={onChange}
       value={value}
       placeholder={placeholder}
       className={`resize-none overflow-auto rounded-md border-2 border-neutral-400/30 bg-neutral-400/10 px-3 py-2 pb-3 text-left transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 ${className}`}
