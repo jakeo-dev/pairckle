@@ -294,7 +294,7 @@ export default function Rankings() {
                         </div>
                         <div className="relative ml-auto flex">
                           <progress
-                            className="win-rate-bar h-6 w-32 appearance-none md:w-72 lg:w-96"
+                            className="win-rate-bar h-6 w-32 appearance-none overflow-hidden rounded-full md:w-72 lg:w-96"
                             value={
                               typeof utensil["wins"] === "number"
                                 ? utensil["wins"] /
