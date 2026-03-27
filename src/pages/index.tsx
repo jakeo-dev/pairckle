@@ -33,6 +33,9 @@ export default function Home() {
       "If you restart, you'll lose all of your progress so far in this ranking.",
     );
 
+  const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
+    useState<boolean>(false);
+
   // index of the current combo in combosArray; how far along in the selection process
   const [currentComboIndex, setCurrentComboIndex] = useState<number>(-1);
 
@@ -64,8 +67,28 @@ export default function Home() {
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
   useEffect(() => {
-    // set initial input empty if not already saved
-    setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+    // set initial input to given thing in url or empty if not already saved
+    const urlParameters = new URLSearchParams(window.location.search);
+    const utensilParameters = urlParameters.get("set");
+
+    if (
+      utensilParameters &&
+      localStorage.getItem("combosArray") &&
+      localStorage.getItem("combosArray") !== "[]"
+    ) {
+      setErrorRankingModalVisibility(true);
+      setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+    } else if (utensilParameters) {
+      setUtensilInput(
+        decodeURIComponent(atob(utensilParameters)).replaceAll(",", "\n"),
+      );
+      localStorage.setItem(
+        "utensilInput",
+        decodeURIComponent(atob(utensilParameters)).replaceAll(",", "\n"),
+      );
+    } else {
+      setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+    }
 
     if (
       // dont check for winnersHistory, because it could be null if no decisions have been made yet even though the ranking has been started
@@ -287,6 +310,7 @@ export default function Home() {
         rankedUtensils: [...utensilsArray].sort(sortUtensils),
         rankingCombos: combosArray,
         rankingWinnersHistory: winnersHistory,
+        code: "",
       });
 
       localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
@@ -347,6 +371,16 @@ export default function Home() {
         onCancel={() => {
           setConfirmRestartModalVisibility(false);
         }}
+      />
+
+      {/* error ranking modal */}
+      <ConfirmModal
+        visibility={errorRankingModalVisibility}
+        titleText="You already have a ranking in progress"
+        subtitleText="Finish or restart the current ranking before beginning a new one."
+        primaryButtonText="Got it"
+        onConfirm={() => setErrorRankingModalVisibility(false)}
+        onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
       <div className="flex h-screen items-center justify-center lg:min-h-screen">
@@ -584,9 +618,7 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for second option
-                        } else if (
-                          index === combosArray[currentComboIndex][1]
-                        ) {
+                      } else if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
                           score: item.score - 1,
@@ -634,9 +666,7 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for first option
-                        } else if (
-                          index === combosArray[currentComboIndex][0]
-                        ) {
+                      } else if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
                           score: item.score - 1,
@@ -817,7 +847,7 @@ export default function Home() {
                       >
                         Skipped
                       </p>
-            </div>
+                    </div>
                     {i < currentComboIndex ? (
                       <div className="mt-1 flex flex-col gap-0.5">
                         <p
@@ -851,7 +881,7 @@ export default function Home() {
                     className={`${i == currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
                   >
                     {currentComboIndex + 1} / {maxCombos}
-            </p>
+                  </p>
                 </div>
               ))}
             </div>

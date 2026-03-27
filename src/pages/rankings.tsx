@@ -15,6 +15,7 @@ import {
   faBullseye,
   faChartSimple,
   faPen,
+  faShare,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -30,6 +31,7 @@ export default function Rankings() {
         wins: number;
         losses: number;
       }[];
+      code: string;
     }[]
   >([]);
 
@@ -46,6 +48,7 @@ export default function Rankings() {
       wins: number;
       losses: number;
     }[];
+    code: string;
   }>({
     rankingName: "",
     rankingDate: { month: -1, day: -1, year: -1 },
@@ -58,11 +61,14 @@ export default function Rankings() {
         losses: 0,
       },
     ],
+    code: "",
   });
 
   const [confirmDeleteModalVisibility, setConfirmDeleteModalVisibility] =
     useState<boolean>(false);
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
+    useState<boolean>(false);
+  const [linkCopiedModalVisibility, setLinkCopiedModalVisibility] =
     useState<boolean>(false);
 
   useEffect(() => {
@@ -174,6 +180,16 @@ export default function Rankings() {
         primaryButtonText="Got it"
         onConfirm={() => setErrorRankingModalVisibility(false)}
         onCancel={() => setErrorRankingModalVisibility(false)}
+      />
+
+      {/* error ranking modal */}
+      <ConfirmModal
+        visibility={linkCopiedModalVisibility}
+        titleText="Link copied!"
+        subtitleText="The link to use this set has been copied to your clipboard."
+        primaryButtonText="Got it"
+        onConfirm={() => setLinkCopiedModalVisibility(false)}
+        onCancel={() => setLinkCopiedModalVisibility(false)}
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
@@ -523,6 +539,40 @@ export default function Rankings() {
                     />
                     <span id="edit-title-button-text">Edit title</span>
                   </button>
+
+                  <button
+                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
+                    onClick={() => {
+                      /* const linkThing = shuffle(
+                        ranking["rankedUtensils"].map(
+                          (utensil) => utensil.title,
+                        ),
+                      ).join(","); */
+                      if (savedRankings[index1].code == "") {
+                        const linkThing = Math.random()
+                          .toString(36)
+                          .substring(2, 12);
+                        let newSavedRankings = [...savedRankings];
+                        newSavedRankings[index1].code = linkThing;
+                        setSavedRankings(newSavedRankings);
+                      }
+
+                      console.log(linkThing);
+
+                      navigator.clipboard.writeText(
+                        "https://pairckle.jakeo.dev?set=" + linkThing,
+                      );
+                      setLinkCopiedModalVisibility(true);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faShare}
+                      className="mr-1.5 text-neutral-800 dark:text-neutral-300 md:mr-2"
+                      aria-labelledby="share-set-button-text"
+                    />
+                    <span id="share-set-button-text">Share set</span>
+                  </button>
+
                   <button
                     className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
                     onClick={() => {
