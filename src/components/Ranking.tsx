@@ -1,0 +1,136 @@
+import { useEffect, useState } from "react";
+import { sortUtensils } from "@/utilities";
+import { Utensil } from "@/types";
+
+export default function Ranking({
+  ranking,
+  index1,
+  className = "",
+}: {
+  ranking: Utensil[];
+  index1: number;
+  className?: string;
+}) {
+  const [savedRankings, setSavedRankings] = useState<
+    {
+      rankingName: string;
+      rankingDate: { month: number; day: number; year: number };
+      rankingType: string;
+      rankedUtensils: Utensil[];
+    }[]
+  >([]);
+
+  // each number element in rankingPlaces represents the rankingPlace for each saved ranking; the number starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the corresponding saved ranking
+  const rankingPlaces = new Array(savedRankings.length).fill(1);
+
+  useEffect(() => {
+    setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
+  }, []);
+
+  return (
+    <ul
+      className={`rounded-lg border-2 border-neutral-500/15 text-neutral-50 dark:border-neutral-500/40 ${className || "h-max overflow-hidden"}`}
+    >
+      {/* create shallow copy of ranking (so it wont actually change the ranking variable), sort utensils by their score */}
+      {[...ranking].sort(sortUtensils).map((utensil, index2) => (
+        <li
+          key={index2}
+          className="border-b-2 border-transparent last:border-b-0"
+        >
+          {(() => {
+            const newRankingPlace =
+              [...ranking].sort(sortUtensils)[index2 - 1] &&
+              [...ranking].sort(sortUtensils)[index2 - 1]["score"] ==
+                utensil["score"]
+                ? rankingPlaces[index1] - 1
+                : rankingPlaces[index1]++;
+
+            return (
+              <div className="relative flex h-12 w-full items-center justify-center">
+                <progress
+                  className={`${index2 % 2 !== 0 ? "win-rate-bar-blue" : "win-rate-bar-orange"} ${utensil["losses"] > 0 ? "win-rate-bar-rounded" : ""} absolute inset-0 h-full w-full appearance-none`}
+                  value={
+                    typeof utensil["wins"] === "number"
+                      ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
+                      : utensil["score"] / (ranking.length - 1)
+                  }
+                />
+
+                <div className="absolute inset-0 flex items-center justify-between px-4">
+                  <div className="flex min-w-0 items-center">
+                    {/* shows place in ranking */}
+                    <span
+                      className={`text-xl font-light italic md:text-2xl ${
+                        [...ranking].sort(sortUtensils)[index2 - 1] &&
+                        [...ranking].sort(sortUtensils)[index2 - 1]["score"] ==
+                          utensil["score"]
+                          ? "text-neutral-500/80 dark:text-neutral-200/80"
+                          : "text-black dark:text-neutral-50"
+                      }`}
+                    >
+                      #{newRankingPlace}
+                    </span>
+                    <p className="truncate text-base font-semibold text-black dark:text-neutral-50 md:ml-3 md:text-lg">
+                      {utensil["title"]}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className="absolute inset-0 flex items-center justify-between px-4 font-bold"
+                  style={{
+                    clipPath: `inset(0 ${
+                      100 -
+                      100 *
+                        (typeof utensil["wins"] === "number"
+                          ? utensil["wins"] /
+                            (utensil["wins"] + utensil["losses"])
+                          : utensil["score"] / (ranking.length - 1))
+                    }% 0 0)`,
+                  }}
+                >
+                  <div className="flex min-w-0 items-center">
+                    {/* shows place in ranking */}
+                    <span
+                      className={`text-xl font-light italic md:text-2xl ${
+                        [...ranking].sort(sortUtensils)[index2 - 1] &&
+                        [...ranking].sort(sortUtensils)[index2 - 1]["score"] ==
+                          utensil["score"]
+                          ? "text-neutral-200/80"
+                          : ""
+                      }`}
+                    >
+                      #{newRankingPlace}
+                    </span>
+                    <p className="truncate text-base font-semibold text-neutral-50 md:ml-3 md:text-lg">
+                      {utensil["title"]}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="absolute right-3 ml-auto flex-col items-center">
+                  <div className="ml-3 flex justify-between rounded-full bg-neutral-600/50 text-xs text-white dark:bg-neutral-400/50 dark:text-black lg:text-sm">
+                    <span className="px-2 py-1 lg:py-0.5">
+                      {typeof utensil["wins"] === "number"
+                        ? `${utensil["wins"]} won`
+                        : `${utensil["score"]} won`}
+                    </span>
+                    <span
+                      className={`border-l border-neutral-300/50 px-2 py-1 dark:border-neutral-700/50 lg:py-0.5 ${
+                        typeof utensil["losses"] === "number" ? "" : "hidden"
+                      }`}
+                    >
+                      {typeof utensil["losses"] === "number"
+                        ? `${utensil["losses"]} lost`
+                        : ""}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </li>
+      ))}
+    </ul>
+  );
+}

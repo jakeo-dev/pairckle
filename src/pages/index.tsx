@@ -2,6 +2,8 @@ import CommonHead from "@/components/CommonHead";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
+import Ranking from "@/components/Ranking";
+import { shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,11 +16,9 @@ import {
   faForward,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { Utensil } from "@/types";
 
 export default function Home() {
-  // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
-  let rankingPlace = 1;
-
   const [startVisibility, setStartVisibility] =
     useState<string>("visible-fade");
   const [selectionVisibility, setSelectionVisibility] =
@@ -51,14 +51,9 @@ export default function Home() {
   const [utensilInput, setUtensilInput] = useState<string>("");
 
   // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
-  const [utensilsArray, setUtensilsArray] = useState<
-    {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    }[]
-  >([{ title: "", score: 0, wins: 0, losses: 0 }]);
+  const [utensilsArray, setUtensilsArray] = useState<Utensil[]>([
+    { title: "", score: 0, wins: 0, losses: 0 },
+  ]);
 
   // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
@@ -149,47 +144,7 @@ export default function Home() {
     };
   }, []);
 
-  function sortUtensils(
-    a: {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    },
-    b: {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    },
-  ) {
-    // sort by SCORE, highest to lowest
-    if (a.score !== b.score) {
-      return b.score - a.score;
-    }
-
-    // sort by WIN RATE, highest to lowest
-    if (b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)) {
-      return b.wins / (b.wins + b.losses) - a.wins / (a.wins + a.losses);
-    }
-
-    // sort by NUMBER OF WINS, highest to lowest
-    if (a.wins !== b.wins) {
-      return b.wins - a.wins;
-    }
-
-    // sort alphabetically
-    return a.title.localeCompare(b.title);
-  }
-
-  function generateCombos(
-    array: {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    }[],
-  ) {
+  function generateCombos(array: Utensil[]) {
     const combinations: number[][] = [];
 
     for (const utensil1 of array) {
@@ -219,31 +174,9 @@ export default function Home() {
     return shuffle(combinations);
   }
 
-  // https://stackoverflow.com/a/2450976
-  function shuffle<T>(array: T[]): T[] {
-    let currentIndex = array.length;
-
-    while (currentIndex != 0) {
-      const randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
-  }
-
   function setNextCombo(
     combosArray: number[][],
-    utensilsArray: {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    }[],
+    utensilsArray: Utensil[],
     currentComboIndex: number,
     maxCombos: number,
     winnersHistory?: number[], // winnersHistory only needed if setNextCombo is called when the ranking could be finished next combo
@@ -293,15 +226,7 @@ export default function Home() {
     }
   }
 
-  function setPrevCombo(
-    combosArray: number[][],
-    utensilsArray: {
-      title: string;
-      score: number;
-      wins: number;
-      losses: number;
-    }[],
-  ) {
+  function setPrevCombo(combosArray: number[][], utensilsArray: Utensil[]) {
     // go to previous combo in array
     const prevComboIndex = currentComboIndex - 1;
     setCurrentComboIndex(prevComboIndex);
@@ -584,9 +509,7 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for second option
-                        } else if (
-                          index === combosArray[currentComboIndex][1]
-                        ) {
+                      } else if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
                           score: item.score - 1,
@@ -634,9 +557,7 @@ export default function Home() {
                           wins: item.wins + 1,
                         };
                         // add 1 to losses and remove 1 from score for first option
-                        } else if (
-                          index === combosArray[currentComboIndex][0]
-                        ) {
+                      } else if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
                           score: item.score - 1,
@@ -817,7 +738,7 @@ export default function Home() {
                       >
                         Skipped
                       </p>
-            </div>
+                    </div>
                     {i < currentComboIndex ? (
                       <div className="mt-1 flex flex-col gap-0.5">
                         <p
@@ -851,7 +772,7 @@ export default function Home() {
                     className={`${i == currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
                   >
                     {currentComboIndex + 1} / {maxCombos}
-            </p>
+                  </p>
                 </div>
               ))}
             </div>
@@ -866,102 +787,12 @@ export default function Home() {
                 Final ranking
               </h2>
             </div>
-            <div className="thin-scrollbar h-max overflow-y-auto overflow-x-hidden rounded-lg border-2 border-neutral-400/40">
-              <ul className="max-h-[19rem] w-full md:max-h-[28.25rem] md:w-[45rem]">
-                {/* create shallow copy of utensilsArray (so it wont actually change the utensilsArray variable), sort utensils by their score */}
-                {[...utensilsArray].sort(sortUtensils).map((utensil, index) => (
-                  <li
-                    key={index}
-                    // make the utensil a darker color if the place is odd (multiple utensils can have the same place)
-                    className={`flex items-center gap-3 px-2 py-1 first:rounded-t-md last:rounded-b-md md:px-2.5 md:py-1.5 ${
-                      [...utensilsArray].sort(sortUtensils)[index - 1] &&
-                      [...utensilsArray].sort(sortUtensils)[index - 1][
-                        "score"
-                      ] == utensil["score"]
-                        ? (rankingPlace - 1) % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
-                          : ""
-                        : rankingPlace % 2 !== 0
-                          ? "bg-neutral-500/10 dark:bg-neutral-500/25"
-                          : ""
-                    }`}
-                  >
-                    <div className="flex items-center">
-                      {/* shows place in ranking */}
-                      <span className="text-xs font-semibold lg:text-sm">
-                        {[...utensilsArray].sort(sortUtensils)[index - 1] &&
-                        [...utensilsArray].sort(sortUtensils)[index - 1][
-                          "score"
-                        ] == utensil["score"]
-                          ? rankingPlace - 1
-                          : rankingPlace++}
-                        .
-                      </span>
-                      {/* show "(tie)" if tied */}
-                      <span
-                        className={`ml-1 text-xs text-neutral-700 dark:text-neutral-400 md:ml-1.5 lg:text-sm ${
-                          ([...utensilsArray].sort(sortUtensils)[index - 1] &&
-                            [...utensilsArray].sort(sortUtensils)[index - 1][
-                              "score"
-                            ] == utensil["score"]) ||
-                          ([...utensilsArray].sort(sortUtensils)[index + 1] &&
-                            [...utensilsArray].sort(sortUtensils)[index + 1][
-                              "score"
-                            ] == utensil["score"])
-                            ? "mr-1 md:mr-1.5"
-                            : ""
-                        }`}
-                      >
-                        {([...utensilsArray].sort(sortUtensils)[index - 1] &&
-                          [...utensilsArray].sort(sortUtensils)[index - 1][
-                            "score"
-                          ] == utensil["score"]) ||
-                        ([...utensilsArray].sort(sortUtensils)[index + 1] &&
-                          [...utensilsArray].sort(sortUtensils)[index + 1][
-                            "score"
-                          ] == utensil["score"])
-                          ? "(tie)"
-                          : ""}
-                      </span>
-                      <p className="w-fit text-sm md:text-base">
-                        {utensil["title"]}
-                      </p>
-                    </div>
 
-                    <div className="relative ml-auto flex">
-                      <progress
-                        className="win-rate-bar h-6 w-32 appearance-none overflow-hidden rounded-full md:w-72 lg:w-96"
-                        value={
-                          typeof utensil["wins"] === "number"
-                            ? utensil["wins"] /
-                              (utensil["wins"] + utensil["losses"])
-                            : utensil["score"] / utensilsArray.length
-                        }
-                      />
-
-                      <div className="absolute inset-0 flex justify-between px-1 text-xs text-white dark:text-black lg:text-sm">
-                        <span className="px-2 py-1 lg:py-0.5">
-                          {typeof utensil["wins"] === "number"
-                            ? `${utensil["wins"]} won`
-                            : `${utensil["score"]} won`}
-                        </span>
-                        <span
-                          className={`px-2 py-1 lg:py-0.5 ${
-                            typeof utensil["losses"] === "number"
-                              ? ""
-                              : "hidden"
-                          } `}
-                        >
-                          {typeof utensil["losses"] === "number"
-                            ? `${utensil["losses"]} lost`
-                            : ""}
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Ranking
+              className="thin-scrollbar max-h-[19rem] w-full overflow-x-hidden overflow-y-scroll md:max-h-[30rem] md:w-[45rem]"
+              ranking={utensilsArray}
+              index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
+            />
 
             <p className="mt-1 hidden text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm lg:block">
               <FontAwesomeIcon

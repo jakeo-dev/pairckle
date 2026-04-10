@@ -17,31 +17,61 @@
     width: 5px;
   }
   .thin-scrollbar::-webkit-scrollbar-track {
-    background: rgb(107 114 128 / 0.05);
+    background: rgba(107, 114, 128, 0.05);
     border-radius: 100vh;
   }
   .thin-scrollbar::-webkit-scrollbar-thumb {
-    background: rgb(107 114 128 / 0.4);
+    background: rgba(107, 114, 128, 0.4);
     border-radius: 100vh;
   }
   .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgb(107 114 128 / 0.6);
+    background: rgba(107, 114, 128, 0.6);
   }
 
-  .win-rate-bar {
-    background-color: rgb(59 130 246 / 0.65);
+  .win-rate-bar-orange {
+    /* bg color */
+    background-color: rgba(162, 162, 162, 0.15);
   }
-  .win-rate-bar::-webkit-progress-bar {
-    background-color: rgba(255, 255, 255, 0);
+  .win-rate-bar-orange::-webkit-progress-bar {
+    /* bg color */
+    background-color: rgba(162, 162, 162, 0.15);
   }
-  .win-rate-bar::-webkit-progress-value {
-    background-color: rgb(249 115 22 / 0.8);
+  .win-rate-bar-orange::-webkit-progress-value {
+    background-color: rgba(249, 115, 22, 0.9);
+  }
+  .win-rate-bar-orange::-moz-progress-bar {
+    background-color: rgba(249, 115, 22, 0.9);
+  }
+
+  .win-rate-bar-blue {
+    /* bg color */
+    background-color: transparent;
+  }
+  .win-rate-bar-blue::-webkit-progress-bar {
+    /* bg color */
+    background-color: transparent;
+  }
+  .win-rate-bar-blue::-webkit-progress-value {
+    background-color: rgba(59, 130, 246, 0.9);
+  }
+  .win-rate-bar-blue::-moz-progress-bar {
+    background-color: rgba(59, 130, 246, 0.9);
+  }
+
+  .win-rate-bar-rounded::-webkit-progress-value {
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
   }
-  .win-rate-bar::-moz-progress-bar {
-    background-color: rgb(249 115 22 / 0.8);
+  .win-rate-bar-rounded::-moz-progress-bar {
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
+  }
+
+  .text-border {
+    text-shadow:
+      -1px -1px 0.5px rgba(0, 0, 0, 0.15),
+      1px -1px 0.5px rgba(0, 0, 0, 0.15),
+      -1px 1px 1px rgba(0, 0, 0, 0.5),
+      1px 1px 1px rgba(0, 0, 0, 0.5);
   }
 }
