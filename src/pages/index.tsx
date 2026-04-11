@@ -780,84 +780,90 @@ export default function Home() {
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${finalRankingVisibility} ${finalRankingVisibility == "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"}`}
           >
-            <div className="mb-1 flex w-full px-2">
-              <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
-                Final ranking
-              </h2>
-            </div>
+            <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
+              <div className="mb-8 w-full md:mb-10 md:w-auto">
+                <div className="mb-1 flex w-full px-2">
+                  <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
+                    Final ranking
+                  </h2>
+                </div>
 
-            <Ranking
-              className="thin-scrollbar max-h-[19rem] w-full overflow-x-hidden overflow-y-scroll md:max-h-[30rem] md:w-[45rem]"
-              ranking={utensilsArray}
-              index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
-            />
+                <Ranking
+                  className="w-full overflow-hidden md:w-[45rem]"
+                  ranking={utensilsArray}
+                  index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
+                />
 
-            <p className="mt-1 hidden text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:block md:text-sm">
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className={`${
-                  rankingType == "hurry"
-                    ? "text-orange-500 dark:text-orange-400"
-                    : "text-blue-500 dark:text-blue-400"
-                } mr-2`}
-                aria-hidden
-              />
-              {`This ranking has been saved. Go to "Your rankings" to see it.`}
-            </p>
-            <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:hidden md:text-sm">
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className={`${
-                  rankingType == "hurry"
-                    ? "text-orange-500 dark:text-orange-400"
-                    : "text-blue-500 dark:text-blue-400"
-                } mr-2`}
-                aria-hidden
-              />
-              {`This ranking has been saved. Go to "Saved" to see it.`}
-            </p>
+                <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    className={`${
+                      rankingType == "hurry"
+                        ? "text-orange-500 dark:text-orange-400"
+                        : "text-blue-500 dark:text-blue-400"
+                    } mr-2`}
+                    aria-hidden
+                  />
+                  This ranking has been saved.
+                </p>
 
-            <button
-              onClick={() => {
-                setConfirmRestartModalSubtext(
-                  'This ranking has already been saved in "Your rankings," so it will not be lost.',
-                );
-                setConfirmRestartModalVisibility(true);
-              }}
-              className="mt-4 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
-            >
-              <FontAwesomeIcon
-                icon={faRotateRight}
-                className="mr-2 text-sm"
-                aria-labelledby="restart-button-text-2"
-              />
-              <span id="restart-button-text-2">Restart</span>
-            </button>
-            {/* <button
-              onClick={() => {
-                let text = "Pairckle ranking \nhttps://pairckle.jakeo.dev \n\n";
-                [...utensilsArray]
-                  .sort(sortUtensils)
-                  .forEach(
-                    (utensil) =>
-                      (text +=
-                        "#" +
-                        ([...utensilsArray]
+                <div className="mt-4 flex gap-2">
+                  <button
+                    onClick={() => {
+                      setConfirmRestartModalSubtext(
+                        "This ranking has already been saved, so it will not be lost.",
+                      );
+                      setConfirmRestartModalVisibility(true);
+                    }}
+                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
+                  >
+                    <FontAwesomeIcon
+                      icon={faRotateRight}
+                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
+                      aria-labelledby="restart-button-text-2"
+                    />
+                    <span id="restart-button-text-2">Restart</span>
+                  </button>
+
+                  <Link
+                    href="/rankings"
+                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
+                  >
+                    <FontAwesomeIcon
+                      icon={faBookmark}
+                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
+                      aria-labelledby="all-rankings-button-text"
+                    />
+                    <span id="all-rankings-button-text">See all rankings</span>
+                  </Link>
+                </div>
+                {/* <button
+                      onClick={() => {
+                        let text = "Pairckle ranking \nhttps://pairckle.jakeo.dev \n\n";
+                        [...utensilsArray]
                           .sort(sortUtensils)
-                          .indexOf(utensil) +
-                          1) +
-                        " " +
-                        utensil.title +
-                        "\n")
-                  );
-                navigator.clipboard.writeText(text);
-              }}
-              className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min transition px-3 py-2 mt-2"
-            >
-              Share
-            </button> */}
+                          .forEach(
+                            (utensil) =>
+                              (text +=
+                                "#" +
+                                ([...utensilsArray]
+                                  .sort(sortUtensils)
+                                  .indexOf(utensil) +
+                                  1) +
+                                " " +
+                                utensil.title +
+                                "\n")
+                          );
+                        navigator.clipboard.writeText(text);
+                      }}
+                      className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min transition px-3 py-2 mt-2"
+                    >
+                      Share
+                    </button> */}
+              </div>
+            </div>
           </div>
         </div>
       </div>
