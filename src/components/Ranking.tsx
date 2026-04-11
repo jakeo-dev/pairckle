@@ -49,8 +49,12 @@ export default function Ranking({
 
             const progress =
               typeof utensil["wins"] === "number"
-                ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
-                : utensil["score"] / (ranking.length - 1);
+                ? utensil["wins"] + utensil["losses"] !== 0
+                  ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
+                  : 0
+                : ranking.length - 1 !== 0
+                  ? utensil["score"] / (ranking.length - 1)
+                  : 0;
 
             return (
               <div
@@ -88,7 +92,7 @@ export default function Ranking({
                   }}
                 >
                   <div className="flex min-w-0 items-center">
-                    {/* place in ranking, light text */}
+                    {/* place in ranking, light text overlays dark text */}
                     <span
                       className={`text-xl font-light italic md:text-2xl ${
                         [...ranking].sort(sortUtensils)[index2 - 1] &&
