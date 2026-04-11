@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { sortUtensils } from "@/utilities";
-import { Utensil } from "@/types";
+import { Utensil, Ranking } from "@/types";
 
-export default function Ranking({
+export default function RankingBoard({
   ranking,
   index1,
   className = "",
@@ -11,14 +11,7 @@ export default function Ranking({
   index1: number;
   className?: string;
 }) {
-  const [savedRankings, setSavedRankings] = useState<
-    {
-      rankingName: string;
-      rankingDate: { month: number; day: number; year: number };
-      rankingType: string;
-      rankedUtensils: Utensil[];
-    }[]
-  >([]);
+  const [savedRankings, setSavedRankings] = useState<Ranking[]>([]);
 
   // each number element in rankingPlaces represents the rankingPlace for each saved ranking; the number starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the corresponding saved ranking
   const rankingPlaces = new Array(

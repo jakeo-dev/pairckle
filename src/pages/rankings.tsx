@@ -1,8 +1,8 @@
 import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
-import Ranking from "@/components/Ranking";
-import { Utensil } from "@/types";
+import RankingBoard from "@/components/RankingBoard";
+import { Ranking } from "@/types";
 import { monthName, randomElement, shuffle } from "@/utilities";
 import { useEffect, useState } from "react";
 
@@ -22,21 +22,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Rankings() {
-  const [savedRankings, setSavedRankings] = useState<
-    {
-      rankingName: string;
-      rankingDate: { month: number; day: number; year: number };
-      rankingType: string;
-      rankedUtensils: Utensil[];
-    }[]
-  >([]);
+  const [savedRankings, setSavedRankings] = useState<Ranking[]>([]);
 
-  const [currentRanking, setCurrentRanking] = useState<{
-    rankingName: string;
-    rankingDate: { month: number; day: number; year: number };
-    rankingType: string;
-    rankedUtensils: Utensil[];
-  }>({
+  const [currentRanking, setCurrentRanking] = useState<Ranking>({
     rankingName: "",
     rankingDate: { month: -1, day: -1, year: -1 },
     rankingType: "",
@@ -146,7 +134,10 @@ export default function Rankings() {
                   </h3>
                 </div>
 
-                <Ranking ranking={ranking["rankedUtensils"]} index1={index1} />
+                <RankingBoard
+                  ranking={ranking["rankedUtensils"]}
+                  index1={index1}
+                />
 
                 <div className="flex gap-2">
                   <Link

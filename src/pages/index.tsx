@@ -2,7 +2,7 @@ import CommonHead from "@/components/CommonHead";
 import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
-import Ranking from "@/components/Ranking";
+import RankingBoard from "@/components/RankingBoard";
 import { shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
 
@@ -786,11 +786,11 @@ export default function Home() {
               <div className="mb-8 w-full md:mb-10 md:w-auto">
                 <div className="mb-1 flex w-full px-2">
                   <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
-                    Final ranking
+                    Your final ranking
                   </h2>
                 </div>
 
-                <Ranking
+                <RankingBoard
                   className="w-full overflow-hidden md:w-[45rem]"
                   ranking={utensilsArray}
                   index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
