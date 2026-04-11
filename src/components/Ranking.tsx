@@ -45,15 +45,16 @@ export default function Ranking({
                 ? rankingPlaces[index1] - 1
                 : rankingPlaces[index1]++;
 
+            const progress =
+              typeof utensil["wins"] === "number"
+                ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
+                : utensil["score"] / (ranking.length - 1);
+
             return (
               <div className="relative flex h-12 w-full items-center justify-center">
                 <progress
-                  className={`${index2 % 2 !== 0 ? "win-rate-bar-blue" : "win-rate-bar-orange"} ${utensil["losses"] > 0 ? "win-rate-bar-rounded" : ""} absolute inset-0 h-full w-full appearance-none`}
-                  value={
-                    typeof utensil["wins"] === "number"
-                      ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
-                      : utensil["score"] / (ranking.length - 1)
-                  }
+                  className={`${index2 % 2 !== 0 ? "win-rate-bar-blue" : "win-rate-bar-orange"} ${progress !== 1 ? "win-rate-bar-rounded" : ""} absolute inset-0 h-full w-full appearance-none`}
+                  value={progress}
                 />
 
                 <div className="absolute inset-0 flex items-center justify-between px-4">
@@ -79,14 +80,7 @@ export default function Ranking({
                 <div
                   className="absolute inset-0 flex items-center justify-between px-4 font-bold"
                   style={{
-                    clipPath: `inset(0 ${
-                      100 -
-                      100 *
-                        (typeof utensil["wins"] === "number"
-                          ? utensil["wins"] /
-                            (utensil["wins"] + utensil["losses"])
-                          : utensil["score"] / (ranking.length - 1))
-                    }% 0 0)`,
+                    clipPath: `inset(0 ${100 - 100 * progress}% 0 0)`,
                   }}
                 >
                   <div className="flex min-w-0 items-center">
