@@ -21,7 +21,9 @@ export default function Ranking({
   >([]);
 
   // each number element in rankingPlaces represents the rankingPlace for each saved ranking; the number starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the corresponding saved ranking
-  const rankingPlaces = new Array(savedRankings.length).fill(1);
+  const rankingPlaces = new Array(
+    savedRankings.length > 0 ? savedRankings.length : 1,
+  ).fill(1);
 
   useEffect(() => {
     setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
@@ -51,7 +53,9 @@ export default function Ranking({
                 : utensil["score"] / (ranking.length - 1);
 
             return (
-              <div className={`relative flex h-11 w-full items-center justify-center md:h-12 ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}>
+              <div
+                className={`relative flex h-11 w-full items-center justify-center md:h-12 ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}
+              >
                 <progress
                   className={`${index2 % 2 !== 0 ? "win-rate-bar-blue" : "win-rate-bar-orange"} ${progress !== 1 ? "win-rate-bar-rounded" : ""} absolute inset-0 h-full w-full appearance-none`}
                   value={progress}
@@ -59,7 +63,7 @@ export default function Ranking({
 
                 <div className="absolute inset-0 flex items-center justify-between px-3 md:px-4">
                   <div className="flex min-w-0 items-center">
-                    {/* shows place in ranking */}
+                    {/* place in ranking, dark text */}
                     <span
                       className={`text-xl font-light italic md:text-2xl ${
                         [...ranking].sort(sortUtensils)[index2 - 1] &&
@@ -84,7 +88,7 @@ export default function Ranking({
                   }}
                 >
                   <div className="flex min-w-0 items-center">
-                    {/* shows place in ranking */}
+                    {/* place in ranking, light text */}
                     <span
                       className={`text-xl font-light italic md:text-2xl ${
                         [...ranking].sort(sortUtensils)[index2 - 1] &&
