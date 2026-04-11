@@ -275,10 +275,10 @@ export default function Home() {
       />
 
       <div className="flex h-screen items-center justify-center lg:min-h-screen">
-        <div className="relative mt-48 h-screen w-full md:mt-0">
+        <div className="relative h-screen w-full">
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${startVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
           >
             <label
               className="block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
@@ -479,7 +479,7 @@ export default function Home() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute left-1/2 top-0 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${selectionVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
             <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
               <FontAwesomeIcon
@@ -780,9 +780,9 @@ export default function Home() {
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} ${finalRankingVisibility == "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"}`}
+            className={`${finalRankingVisibility} ${finalRankingVisibility == "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
           >
-            <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
+            <div className="flex h-full w-full items-center justify-center px-6 pb-16">
               <div className="mb-8 w-full md:mb-10 md:w-auto">
                 <div className="mb-1 flex w-full px-2">
                   <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
