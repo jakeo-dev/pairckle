@@ -236,14 +236,6 @@ export default function Home() {
     setSecondOption(utensilsArray[combosArray[prevComboIndex][1]]["title"]);
   }
 
-  /* function getNumCombos(numUtensils: number) {
-    let sum = 0;
-    for (let i = 1; i < numUtensils; i++) {
-      sum += i;
-    }
-    return sum;
-  } */
-
   return (
     <>
       <CommonHead />
@@ -293,7 +285,7 @@ export default function Home() {
                 localStorage.setItem("utensilInput", e.currentTarget.value);
               }}
               className="max-h-[21rem] min-h-[20.5rem] w-full text-sm leading-6 md:max-h-[28rem] md:text-base md:leading-7" // 1 line = 2.125 rem
-              placeholder="Enter a list here..."
+              placeholder="Rank anything..."
               maxLength={-1}
               required={true}
               id="utensil-input"

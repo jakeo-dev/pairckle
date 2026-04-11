@@ -29,7 +29,7 @@ export function sortUtensils(a: Utensil, b: Utensil): number {
 /**
  * Sort utensils by their score, then win rate, then number of wins, then alphabetically.
  * @param {number} num Month number 1 to 12.
- * @return {string} Name of corresponding month, empty if number out of range.
+ * @returns {string} Name of corresponding month, empty if number out of range.
  */
 export function monthName(num: number): string {
   if (num == 1) return "January";
@@ -50,7 +50,7 @@ export function monthName(num: number): string {
 /**
  * Get random element from array.
  * @param {Object[]} array Array to select random element from.
- * @return {Object} Random element from the array.
+ * @returns {Object} Random element from the array.
  */
 export function randomElement<T>(array: T[]): T {
   return array[Math.floor(Math.random() * array.length)];
@@ -59,7 +59,7 @@ export function randomElement<T>(array: T[]): T {
 /**
  * Randomly shuffle elements in array.
  * @param {Object[]} array Array to shuffle.
- * @return {Object[]} Shuffled array.
+ * @returns {Object[]} Shuffled array.
  */
 // https://stackoverflow.com/a/2450976
 export function shuffle<T>(array: T[]): T[] {
@@ -76,4 +76,17 @@ export function shuffle<T>(array: T[]): T[] {
   }
 
   return array;
+}
+
+/**
+ * Gets number of combinations of pairs for a given number of utensils.
+ * @param {number} numUtensils Numer of utensils.
+ * @returns {number} Number of combinations.
+ */
+export function getNumCombos(numUtensils: number): number {
+  let sum = 0;
+  for (let i = 1; i < numUtensils; i++) {
+    sum += i;
+  }
+  return sum;
 }
