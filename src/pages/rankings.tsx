@@ -105,7 +105,7 @@ export default function Rankings() {
             }`}
           >
             {[...savedRankings].map((ranking, index1) => (
-              <div className="mb-8 w-full lg:mb-10 lg:w-[45rem]" key={index1}>
+              <div className="mb-8 w-full md:mb-10 md:w-[45rem]" key={index1}>
                 <div className="mb-0.5 flex items-end gap-3 px-2 md:mb-1">
                   <h2
                     className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}

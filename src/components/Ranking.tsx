@@ -51,13 +51,13 @@ export default function Ranking({
                 : utensil["score"] / (ranking.length - 1);
 
             return (
-              <div className="relative flex h-12 w-full items-center justify-center">
+              <div className={`relative flex h-11 w-full items-center justify-center md:h-12 ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}>
                 <progress
                   className={`${index2 % 2 !== 0 ? "win-rate-bar-blue" : "win-rate-bar-orange"} ${progress !== 1 ? "win-rate-bar-rounded" : ""} absolute inset-0 h-full w-full appearance-none`}
                   value={progress}
                 />
 
-                <div className="absolute inset-0 flex items-center justify-between px-4">
+                <div className="absolute inset-0 flex items-center justify-between px-3 md:px-4">
                   <div className="flex min-w-0 items-center">
                     {/* shows place in ranking */}
                     <span
@@ -71,14 +71,14 @@ export default function Ranking({
                     >
                       #{newRankingPlace}
                     </span>
-                    <p className="truncate text-base font-semibold text-black dark:text-neutral-50 md:ml-3 md:text-lg">
+                    <p className="ml-2.5 truncate text-base font-semibold text-black dark:text-neutral-50 md:ml-3 md:text-lg">
                       {utensil["title"]}
                     </p>
                   </div>
                 </div>
 
                 <div
-                  className="absolute inset-0 flex items-center justify-between px-4 font-bold"
+                  className="absolute inset-0 flex items-center justify-between px-3 font-bold md:px-4"
                   style={{
                     clipPath: `inset(0 ${100 - 100 * progress}% 0 0)`,
                   }}
@@ -96,29 +96,45 @@ export default function Ranking({
                     >
                       #{newRankingPlace}
                     </span>
-                    <p className="truncate text-base font-semibold text-neutral-50 md:ml-3 md:text-lg">
+                    <p className="ml-2.5 truncate text-base font-semibold text-neutral-50 md:ml-3 md:text-lg">
                       {utensil["title"]}
                     </p>
                   </div>
                 </div>
 
-                <div className="absolute right-3 ml-auto flex-col items-center">
-                  <div className="ml-3 flex justify-between rounded-full bg-neutral-600/50 text-xs text-white dark:bg-neutral-400/50 dark:text-black lg:text-sm">
-                    <span className="px-2 py-1 lg:py-0.5">
-                      {typeof utensil["wins"] === "number"
-                        ? `${utensil["wins"]} won`
-                        : `${utensil["score"]} won`}
-                    </span>
-                    <span
-                      className={`border-l border-neutral-300/50 px-2 py-1 dark:border-neutral-700/50 lg:py-0.5 ${
-                        typeof utensil["losses"] === "number" ? "" : "hidden"
-                      }`}
-                    >
-                      {typeof utensil["losses"] === "number"
-                        ? `${utensil["losses"]} lost`
-                        : ""}
-                    </span>
-                  </div>
+                <div className="absolute right-3 ml-auto hidden items-center justify-between rounded-full bg-neutral-600/50 text-sm text-white dark:bg-neutral-400/50 dark:text-black md:flex">
+                  <span className="px-2.5 py-0.5">
+                    {typeof utensil["wins"] === "number"
+                      ? `${utensil["wins"]} won`
+                      : `${utensil["score"]} won`}
+                  </span>
+                  <span
+                    className={`border-l border-neutral-300/50 px-2.5 py-0.5 dark:border-neutral-700/50 ${
+                      typeof utensil["losses"] === "number" ? "" : "hidden"
+                    }`}
+                  >
+                    {typeof utensil["losses"] === "number"
+                      ? `${utensil["losses"]} lost`
+                      : ""}
+                  </span>
+                </div>
+
+                <div className="absolute right-2.5 ml-auto items-center justify-between rounded-full bg-neutral-600/50 px-2 py-0.5 text-xs text-white dark:bg-neutral-400/50 dark:text-black md:hidden">
+                  <span className="">
+                    {typeof utensil["wins"] === "number"
+                      ? `${utensil["wins"]}`
+                      : `${utensil["score"]}`}
+                  </span>
+                  {" - "}
+                  <span
+                    className={
+                      typeof utensil["losses"] === "number" ? "" : "hidden"
+                    }
+                  >
+                    {typeof utensil["losses"] === "number"
+                      ? `${utensil["losses"]}`
+                      : ""}
+                  </span>
                 </div>
               </div>
             );
