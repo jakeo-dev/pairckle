@@ -2,6 +2,7 @@ import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import MasonryLayout from "@/components/MasonryLayout";
+import { randomElement, shuffle } from "@/utilities";
 import { useEffect, useState } from "react";
 
 import { Gabarito } from "next/font/google";
@@ -1111,25 +1112,23 @@ export default function Sets() {
             { title: "Paysanne" },
           ]),
         },
-      ]),
+      ]).toSpliced(1, 0, {
+        setName: "Random mix",
+        utensilSet: shuffle([
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+          { title: "????????" },
+        ]),
+      }),
     );
   }, []);
-
-  function shuffle<T>(array: T[]): T[] {
-    let currentIndex = array.length;
-
-    while (currentIndex != 0) {
-      const randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
-  }
 
   return (
     <>
@@ -1173,7 +1172,9 @@ export default function Sets() {
                         key={index2}
                         className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
                       >
-                        <p className="w-full text-sm md:text-base">
+                        <p
+                          className={`w-full text-sm md:text-base ${utensil["title"] === "????????" ? `animate-pulse text-neutral-500` : ""}`}
+                        >
                           {utensil["title"]}
                         </p>
                       </li>
@@ -1193,7 +1194,13 @@ export default function Sets() {
                         localStorage.setItem(
                           "utensilInput",
                           set["utensilSet"]
-                            .map((utensil) => utensil.title)
+                            .map((utensil) =>
+                              utensil.title !== "????????"
+                                ? utensil.title
+                                : randomElement(
+                                    randomElement(starterSets)["utensilSet"],
+                                  )["title"],
+                            )
                             .join("\n"),
                         );
                       }

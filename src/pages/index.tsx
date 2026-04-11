@@ -794,7 +794,7 @@ export default function Home() {
               index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
             />
 
-            <p className="mt-1 hidden text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm md:block">
+            <p className="mt-1 hidden text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:block md:text-sm">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -806,7 +806,7 @@ export default function Home() {
               />
               {`This ranking has been saved. Go to "Your rankings" to see it.`}
             </p>
-            <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm md:hidden">
+            <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:hidden md:text-sm">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
