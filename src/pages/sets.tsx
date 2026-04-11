@@ -1198,7 +1198,11 @@ export default function Sets() {
                               utensil.title !== "????????"
                                 ? utensil.title
                                 : randomElement(
-                                    randomElement(starterSets)["utensilSet"],
+                                    randomElement(
+                                      [...starterSets].filter(
+                                        (s) => s["setName"] !== "Random mix",
+                                      ),
+                                    )["utensilSet"],
                                   )["title"],
                             )
                             .join("\n"),
