@@ -49,8 +49,6 @@ export default function RankingBoard({
   const rankingRef = useRef<HTMLDivElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
 
-  const [showTitle, setShowTitle] = useState<boolean>(false);
-
   return (
     <div className={`w-full md:w-[45rem] ${className || ""}`}>
       <div className="mb-0.5 flex items-end gap-3 px-2 md:mb-1">
@@ -90,7 +88,6 @@ export default function RankingBoard({
       </div>
 
       <div ref={rankingRef}>
-        {showTitle ? <Title className="px-3 py-1.5 text-right" /> : null}
         <ul
           className="h-max overflow-hidden rounded-lg border-2 border-neutral-500/15 text-neutral-50 dark:border-neutral-500/40"
           ref={ulRef}
