@@ -18,8 +18,6 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Title from "./Title";
-
 export default function RankingBoard({
   ranking,
   onReRank,
