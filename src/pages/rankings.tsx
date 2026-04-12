@@ -1,25 +1,9 @@
 import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
-import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import { Ranking } from "@/types";
-import { monthName, randomElement, shuffle } from "@/utilities";
+import { randomElement, shuffle } from "@/utilities";
 import { useEffect, useState } from "react";
-
-import { Gabarito } from "next/font/google";
-const gabarito = Gabarito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBolt,
-  faBullseye,
-  faChartSimple,
-  faPen,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
 
 export default function Rankings() {
   const [savedRankings, setSavedRankings] = useState<Ranking[]>([]);
@@ -54,7 +38,7 @@ export default function Rankings() {
       {/* confirm to delete modal */}
       <ConfirmModal
         visibility={confirmDeleteModalVisibility}
-        titleText={`Are you sure you want to delete "${currentRanking["rankingName"]}"?`}
+        titleText={`Are you sure you want to delete "${currentRanking.rankingName}"?`}
         subtitleText="This ranking will be lost forever!"
         primaryButtonText="Delete"
         secondaryButtonText="Cancel"
@@ -93,265 +77,188 @@ export default function Rankings() {
             }`}
           >
             {[...savedRankings].map((ranking, index1) => (
-              <div className="mb-8 w-full md:mb-10 md:w-[45rem]" key={index1}>
-                <div className="mb-0.5 flex items-end gap-3 px-2 md:mb-1">
-                  <h2
-                    className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={
-                        ranking["rankingType"] == "hurry" ? faBolt : faBullseye
-                      }
-                      className={`${
-                        ranking["rankingType"] == "hurry"
-                          ? "text-orange-500 dark:text-orange-400"
-                          : ranking["rankingType"] == "concentrate"
-                            ? "text-blue-500 dark:text-blue-400"
-                            : "hidden"
-                      } mr-1.5`}
-                      aria-label={
-                        ranking["rankingType"] == "hurry"
-                          ? "Type: hurry"
-                          : "Type: concentrate"
-                      }
-                      title={
-                        ranking["rankingType"] == "hurry"
-                          ? "Type: hurry"
-                          : "Type: concentrate"
-                      }
-                    />
-                    {ranking["rankingName"]}
-                  </h2>
-                  <h3 className="ml-auto min-w-max text-right text-xs leading-6 text-neutral-700 dark:text-neutral-400 md:text-sm">
-                    {ranking["rankingDate"]
-                      ? `${monthName(ranking["rankingDate"]["month"]).slice(
-                          0,
-                          3,
-                        )}. ${ranking["rankingDate"]["day"]}, ${
-                          ranking["rankingDate"]["year"]
-                        }`
-                      : ""}
-                  </h3>
-                </div>
+              <RankingBoard
+                key={index1}
+                className="mb-8 md:mb-10"
+                ranking={ranking}
+                onReRank={(event) => {
+                  if (
+                    localStorage.getItem("combosArray") &&
+                    localStorage.getItem("combosArray") !== "[]"
+                  ) {
+                    event.preventDefault();
+                    setErrorRankingModalVisibility(true);
+                  } else {
+                    localStorage.setItem(
+                      "utensilInput",
+                      shuffle(
+                        ranking.rankedUtensils.map((utensil) => utensil.title),
+                      ).join("\n"),
+                    );
+                  }
+                }}
+                onEditTitle={() => {
+                  const randomNewRankingName =
+                    randomElement(["Best", "Greatest", "Top"]) +
+                    " " +
+                    randomElement([
+                      "pickles",
+                      "spaghetti and meatballs",
+                      "fettuccine alfredos",
+                      "penne pastas",
+                      "macaroni and cheeses",
+                      "raviolis",
+                      "lasagnas",
+                      "udons",
+                      "ramens",
+                      "carbonaras",
+                      "baked zitis",
+                      "gnocchis",
+                      "pizzas",
+                      "calzones",
+                      "garlic breads",
+                      "focaccias",
+                      "cheese breads",
+                      "flatbreads",
+                      "french bread pizzas",
+                      "deep-dish pizzas",
+                      "pepperoni rolls",
+                      "burgers",
+                      "cheeseburgers",
+                      "chicken sandwiches",
+                      "grilled cheeses",
+                      "tuna melts",
+                      "sloppy joes",
+                      "philly cheesesteaks",
+                      "paninis",
+                      "shawarmas",
+                      "gyros",
+                      "falafels",
+                      "bánh mis",
+                      "tacos",
+                      "burritos",
+                      "quesadillas",
+                      "fajitas",
+                      "enchiladas",
+                      "tamales",
+                      "nachos",
+                      "tostadas",
+                      "sushis",
+                      "sashimis",
+                      "teriyakis",
+                      "tempuras",
+                      "spring rolls",
+                      "egg rolls",
+                      "dumplings",
+                      "orange chickens",
+                      "fried rices",
+                      "chow meins",
+                      "bulgogis",
+                      "chicken soups",
+                      "tomato soups",
+                      "french onion soups",
+                      "clam chowders",
+                      "lobster bisques",
+                      "beef stews",
+                      "vegetable stews",
+                      "lentil soups",
+                      "gazpachos",
+                      "minestrones",
+                      "tortilla soups",
+                      "jambalayas",
+                      "miso soups",
+                      "ribs",
+                      "briskets",
+                      "steaks",
+                      "meatloaves",
+                      "chicken parmesans",
+                      "fried chickens",
+                      "buffalo wings",
+                      "honey garlic wings",
+                      "beef bourguignons",
+                      "chicken pot pies",
+                      "casseroles",
+                      "stuffed peppers",
+                      "baked pastas",
+                      "pot pies",
+                      "pastitsios",
+                      "ratatouilles",
+                      "eggplant parmesans",
+                      "pancakes",
+                      "waffles",
+                      "french toasts",
+                      "crepes",
+                      "scrambled eggs",
+                      "omelets",
+                      "eggs benedicts",
+                      "breakfast burritos",
+                      "breakfast sandwiches",
+                      "hash browns",
+                      "fish and chips",
+                      "grilled salmons",
+                      "crab cakes",
+                      "lobster rolls",
+                      "shrimp scampis",
+                      "mozzarella sticks",
+                      "jalapeño poppers",
+                      "stuffed mushrooms",
+                      "deviled eggs",
+                      "bruschettas",
+                      "caprese salads",
+                      "chicken tenders",
+                    ]) +
+                    " " +
+                    randomElement([
+                      "of all time",
+                      "ever",
+                      "of the year",
+                      "of the century",
+                      "in history",
+                      "in the country",
+                      "in the world",
+                      "on Earth",
+                    ]);
 
-                <RankingBoard
-                  ranking={ranking["rankedUtensils"]}
-                  index1={index1}
-                />
+                  const rankingNewNameInput = prompt(
+                    "Enter a title for this ranking",
+                    ranking.rankingName.includes("New ranking #")
+                      ? randomNewRankingName
+                      : ranking.rankingName,
+                  );
+                  let rankingNewName = "";
 
-                <div className="flex gap-2">
-                  <Link
-                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
-                    href="/"
-                    onClick={(event) => {
-                      if (
-                        localStorage.getItem("combosArray") &&
-                        localStorage.getItem("combosArray") !== "[]"
-                      ) {
-                        event.preventDefault();
-                        setErrorRankingModalVisibility(true);
-                      } else {
-                        localStorage.setItem(
-                          "utensilInput",
-                          shuffle(
-                            ranking["rankedUtensils"].map(
-                              (utensil) => utensil.title,
-                            ),
-                          ).join("\n"),
-                        );
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faChartSimple}
-                      className="mr-1.5 rotate-90 text-neutral-800 dark:text-neutral-300 md:mr-2"
-                      aria-labelledby="re-rank-button-text"
-                    />
-                    <span id="re-rank-button-text">Re-rank</span>
-                  </Link>
+                  if (rankingNewNameInput !== null) {
+                    rankingNewName = rankingNewNameInput;
 
-                  <button
-                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
-                    onClick={() => {
-                      const randomNewRankingName =
-                        randomElement(["Best", "Greatest", "Top"]) +
-                        " " +
-                        randomElement([
-                          "pickles",
-                          "spaghetti and meatballs",
-                          "fettuccine alfredos",
-                          "penne pastas",
-                          "macaroni and cheeses",
-                          "raviolis",
-                          "lasagnas",
-                          "udons",
-                          "ramens",
-                          "carbonaras",
-                          "baked zitis",
-                          "gnocchis",
-                          "pizzas",
-                          "calzones",
-                          "garlic breads",
-                          "focaccias",
-                          "cheese breads",
-                          "flatbreads",
-                          "french bread pizzas",
-                          "deep-dish pizzas",
-                          "pepperoni rolls",
-                          "burgers",
-                          "cheeseburgers",
-                          "chicken sandwiches",
-                          "grilled cheeses",
-                          "tuna melts",
-                          "sloppy joes",
-                          "philly cheesesteaks",
-                          "paninis",
-                          "shawarmas",
-                          "gyros",
-                          "falafels",
-                          "bánh mis",
-                          "tacos",
-                          "burritos",
-                          "quesadillas",
-                          "fajitas",
-                          "enchiladas",
-                          "tamales",
-                          "nachos",
-                          "tostadas",
-                          "sushis",
-                          "sashimis",
-                          "teriyakis",
-                          "tempuras",
-                          "spring rolls",
-                          "egg rolls",
-                          "dumplings",
-                          "orange chickens",
-                          "fried rices",
-                          "chow meins",
-                          "bulgogis",
-                          "chicken soups",
-                          "tomato soups",
-                          "french onion soups",
-                          "clam chowders",
-                          "lobster bisques",
-                          "beef stews",
-                          "vegetable stews",
-                          "lentil soups",
-                          "gazpachos",
-                          "minestrones",
-                          "tortilla soups",
-                          "jambalayas",
-                          "miso soups",
-                          "ribs",
-                          "briskets",
-                          "steaks",
-                          "meatloaves",
-                          "chicken parmesans",
-                          "fried chickens",
-                          "buffalo wings",
-                          "honey garlic wings",
-                          "beef bourguignons",
-                          "chicken pot pies",
-                          "casseroles",
-                          "stuffed peppers",
-                          "baked pastas",
-                          "pot pies",
-                          "pastitsios",
-                          "ratatouilles",
-                          "eggplant parmesans",
-                          "pancakes",
-                          "waffles",
-                          "french toasts",
-                          "crepes",
-                          "scrambled eggs",
-                          "omelets",
-                          "eggs benedicts",
-                          "breakfast burritos",
-                          "breakfast sandwiches",
-                          "hash browns",
-                          "fish and chips",
-                          "grilled salmons",
-                          "crab cakes",
-                          "lobster rolls",
-                          "shrimp scampis",
-                          "mozzarella sticks",
-                          "jalapeño poppers",
-                          "stuffed mushrooms",
-                          "deviled eggs",
-                          "bruschettas",
-                          "caprese salads",
-                          "chicken tenders",
-                        ]) +
-                        " " +
-                        randomElement([
-                          "of all time",
-                          "ever",
-                          "of the year",
-                          "of the century",
-                          "in history",
-                          "in the country",
-                          "in the world",
-                          "on Earth",
-                        ]);
+                    const savedRankingsArray = JSON.parse(
+                      localStorage.getItem("savedRankings") ?? "[]",
+                    );
 
-                      const rankingNewNameInput = prompt(
-                        "Enter a title for this ranking",
-                        ranking["rankingName"].includes("New ranking #")
-                          ? randomNewRankingName
-                          : ranking["rankingName"],
-                      );
-                      let rankingNewName = "";
+                    const rankingsArray = Array.isArray(savedRankingsArray)
+                      ? savedRankingsArray
+                      : [];
 
-                      if (rankingNewNameInput !== null) {
-                        rankingNewName = rankingNewNameInput;
+                    rankingsArray[index1] = {
+                      rankingName: rankingNewName,
+                      rankingDate: ranking.rankingDate,
+                      rankingType: ranking.rankingType,
+                      rankedUtensils: ranking.rankedUtensils,
+                    };
 
-                        const savedRankingsArray = JSON.parse(
-                          localStorage.getItem("savedRankings") ?? "[]",
-                        );
+                    setSavedRankings(rankingsArray);
 
-                        const rankingsArray = Array.isArray(savedRankingsArray)
-                          ? savedRankingsArray
-                          : [];
-
-                        rankingsArray[index1] = {
-                          rankingName: rankingNewName,
-                          rankingDate: ranking["rankingDate"],
-                          rankingType: ranking["rankingType"],
-                          rankedUtensils: ranking["rankedUtensils"],
-                        };
-
-                        setSavedRankings(rankingsArray);
-
-                        localStorage.setItem(
-                          "savedRankings",
-                          JSON.stringify(rankingsArray),
-                        );
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      className="mr-1.5 text-neutral-800 dark:text-neutral-300 md:mr-2"
-                      aria-labelledby="edit-title-button-text"
-                    />
-                    <span id="edit-title-button-text">Edit title</span>
-                  </button>
-                  <button
-                    className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-sm"
-                    onClick={() => {
-                      setCurrentRanking(ranking);
-                      setConfirmDeleteModalVisibility(true);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTrashCan}
-                      className="mr-1.5 text-neutral-800 dark:text-neutral-300 md:mr-2"
-                      aria-labelledby="delete-button-text"
-                    />
-                    <span id="delete-button-text">Delete</span>
-                  </button>
-                </div>
-              </div>
+                    localStorage.setItem(
+                      "savedRankings",
+                      JSON.stringify(rankingsArray),
+                    );
+                  }
+                }}
+                onDelete={() => {
+                  setCurrentRanking(ranking);
+                  setConfirmDeleteModalVisibility(true);
+                }}
+                index1={index1}
+              />
             ))}
           </div>
 

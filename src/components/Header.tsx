@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Gabarito } from "next/font/google";
-const gabarito = Gabarito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBarsStaggered,
@@ -15,6 +9,7 @@ import {
   faMoon,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
+import Title from "./Title";
 
 export default function Header({ fixed }: { fixed: boolean }) {
   const { pathname } = useRouter();
@@ -26,12 +21,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
       } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-200 bg-neutral-100 px-3.5 py-2 text-center dark:border-neutral-800 dark:bg-neutral-900 md:px-6 md:py-4`}
     >
       <div className="flex cursor-default text-left">
-        <h1
-          className={`block text-xl font-extrabold md:text-3xl ${gabarito.className}`}
-        >
-          <span className="text-orange-500">Pair</span>
-          <span className="text-blue-500">ckle</span>
-        </h1>
+        <Title />
         {/* <h2 className="hidden lg:block text-sm text-neutral-800 dark:text-neutral-300 mt-0.5 md:mt-1">
           Rank your favorite things pairwisely
         </h2> */}

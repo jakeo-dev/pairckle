@@ -3,6 +3,7 @@ import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
+import { Utensil } from "@/types";
 import { shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
 
@@ -16,7 +17,6 @@ import {
   faForward,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { Utensil } from "@/types";
 
 export default function Home() {
   const [startVisibility, setStartVisibility] =
@@ -775,16 +775,18 @@ export default function Home() {
             className={`${finalRankingVisibility} ${finalRankingVisibility == "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
           >
             <div className="flex h-full w-full items-center justify-center px-6 pb-16">
-              <div className="mb-8 w-full md:mb-10 md:w-auto">
-                <div className="mb-1 flex w-full px-2">
-                  <h2 className="overflow-ellipsis text-sm font-medium leading-6 md:text-base lg:line-clamp-1">
-                    Your final ranking
-                  </h2>
-                </div>
-
+              <div className="w-full md:w-auto">
                 <RankingBoard
-                  className="w-full overflow-hidden md:w-[45rem]"
-                  ranking={utensilsArray}
+                  ranking={{
+                    rankedUtensils: utensilsArray,
+                    rankingName: "My final ranking",
+                    rankingDate: {
+                      month: new Date().getMonth() + 1,
+                      day: new Date().getDate(),
+                      year: new Date().getFullYear(),
+                    },
+                    rankingType: rankingType,
+                  }}
                   index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
                 />
 
@@ -831,29 +833,6 @@ export default function Home() {
                     <span id="all-rankings-button-text">See all rankings</span>
                   </Link>
                 </div>
-                {/* <button
-                      onClick={() => {
-                        let text = "Pairckle ranking \nhttps://pairckle.jakeo.dev \n\n";
-                        [...utensilsArray]
-                          .sort(sortUtensils)
-                          .forEach(
-                            (utensil) =>
-                              (text +=
-                                "#" +
-                                ([...utensilsArray]
-                                  .sort(sortUtensils)
-                                  .indexOf(utensil) +
-                                  1) +
-                                " " +
-                                utensil.title +
-                                "\n")
-                          );
-                        navigator.clipboard.writeText(text);
-                      }}
-                      className="w-full bg-neutral-400/20 hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 rounded-md h-min transition px-3 py-2 mt-2"
-                    >
-                      Share
-                    </button> */}
               </div>
             </div>
           </div>
