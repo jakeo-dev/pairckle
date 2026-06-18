@@ -57,13 +57,13 @@ export default function Home() {
       <CommonHead />
 
       <div className="min-h-screen bg-gradient-to-br from-orange-200 to-blue-200 dark:from-orange-950 dark:to-blue-950">
-        <div className="mx-auto mt-48 w-[85rem] px-8 md:w-[60rem]">
+        <div className="mx-auto mt-16 w-full px-8 md:mt-48 lg:w-[60rem]">
           <div className="flex flex-col gap-12 lg:flex-row">
-            <div className="min-w-[26rem]">
-              <h1 className="mt-8 text-4xl font-bold text-neutral-900 dark:text-neutral-50 md:text-7xl md:leading-[0.9]">
+            <div className="min-w-full lg:min-w-[26rem]">
+              <h1 className="mt-8 text-center text-6xl font-bold text-neutral-900 dark:text-neutral-50 lg:text-left lg:text-7xl lg:leading-[0.9]">
                 Rank anything
               </h1>
-              <p className="mt-8 text-neutral-700 dark:text-neutral-300 md:text-lg">
+              <p className="mt-6 text-center text-neutral-700 dark:text-neutral-300 lg:mt-8 lg:text-left lg:text-lg">
                 Pairckle makes it easy to create definitive rankings using
                 pairwise comparisons.
               </p>
@@ -78,7 +78,7 @@ export default function Home() {
                 >
                   <div>
                     <div
-                      className="flex flex-col overflow-hidden"
+                      className="flex flex-col overflow-hidden text-stone-700 dark:text-stone-300"
                       style={{
                         transform: `translateY(${translateY}px)`,
                       }}
@@ -86,7 +86,7 @@ export default function Home() {
                       {currentSets?.map((set, i) => (
                         <p
                           key={i}
-                          className={`w-75 h-9 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium text-stone-700 transition dark:text-stone-300 ${i == 2 ? "group-hover:text-orange-600 group-hover:dark:text-orange-400" : ""}`}
+                          className={`w-75 h-9 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium transition ${i == 2 ? "text-orange-600 dark:text-orange-400 lg:text-stone-700 lg:group-hover:text-orange-600 lg:dark:text-stone-300 lg:group-hover:dark:text-orange-400" : ""}`}
                         >
                           {set?.setName}
                         </p>
@@ -94,9 +94,9 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 lg:flex-row">
                   <Link
-                    className="relative flex h-12 w-full items-center justify-center overflow-hidden rounded-full bg-orange-500 px-5 py-4 font-medium text-white transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-md hover:shadow-orange-500/30 active:translate-y-0"
+                    className="relative flex h-12 w-full items-center justify-center overflow-hidden rounded-full bg-orange-500 px-5 py-4 font-medium text-white shadow-lg shadow-orange-500/30 transition hover:-translate-y-0.5 hover:bg-orange-600 active:translate-y-0"
                     href="/create"
                     onClick={() => {
                       if (
@@ -118,7 +118,7 @@ export default function Home() {
                     <div className="animate-shine absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                   </Link>
                   <Link
-                    className="flex h-12 min-w-fit items-center rounded-full border-2 border-neutral-400 px-5 py-4 font-medium transition hover:-translate-y-0.5 hover:bg-neutral-400 hover:text-white hover:shadow-md active:translate-y-0 dark:border-neutral-300 dark:hover:bg-neutral-300 dark:hover:text-black"
+                    className="flex h-12 min-w-fit items-center justify-center rounded-full border-2 border-neutral-400 px-5 py-4 font-medium transition hover:-translate-y-0.5 hover:bg-neutral-400 hover:text-white hover:shadow-md active:translate-y-0 dark:border-neutral-300 dark:hover:bg-neutral-300 dark:hover:text-black"
                     href="/create"
                   >
                     <span>Make your own</span>
@@ -127,22 +127,22 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="fade-edges-bottom -mt-6 max-h-screen animate-wiggle overflow-hidden">
+            <div className="fade-edges-bottom mt-6 max-h-screen animate-wiggle overflow-hidden lg:-mt-6">
               {/* image in dark mode */}
               <Image
                 src={`/pairckle-best-cereals-dark.png`}
                 alt="Ranking of the best cereals"
-                width={1796 / 2}
-                height={928 / 2}
-                className="hidden rounded-xl border-2 border-neutral-700 object-cover shadow-lg dark:block"
+                width={1796}
+                height={928}
+                className="hidden w-full rounded-xl border-2 border-neutral-700 object-cover shadow-lg dark:block lg:w-[898px]"
               />
               {/* image in light mode */}
               <Image
                 src={`/pairckle-best-cereals-light.png`}
                 alt="Ranking of the best cereals"
-                width={1796 / 2}
-                height={928 / 2}
-                className="rounded-xl border-2 border-neutral-300 object-cover shadow-lg dark:hidden"
+                width={1796}
+                height={928}
+                className="w-full rounded-xl border-2 border-neutral-300 object-cover shadow-lg dark:hidden lg:w-[898px]"
               />
             </div>
           </div>

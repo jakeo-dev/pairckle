@@ -92,7 +92,7 @@ export default function Header({
               className={`flex h-min items-center justify-center rounded-full border-2 border-transparent bg-neutral-400/20 px-2.5 py-1 text-left text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:border-neutral-700 dark:border-transparent md:px-4 md:py-2 md:text-base`}
               href="/create"
             >
-              <span className="hidden md:inline">Start ranking!</span>
+              <span>Start ranking</span>
               <FontAwesomeIcon
                 icon={faArrowRight}
                 className="ml-1.5 md:ml-2.5"
