@@ -35,4 +35,23 @@
       -1px 1px 1px rgba(0, 0, 0, 0.5),
       1px 1px 1px rgba(0, 0, 0, 0.5);
   }
+
+  .fade-edges-bottom {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 0%,
+      black 50%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 0%,
+      black 50%,
+      transparent
+    );
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+  }
 }

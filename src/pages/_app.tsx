@@ -23,15 +23,17 @@ export default function App({ Component, pageProps, router }: AppProps) {
         window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     document.documentElement.classList.toggle("dark", isDarkMode);
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    localStorage.setItem("theme", !isDarkMode ? "light" : "dark");
   }, []);
 
   return (
     <main className={`${lexend.className} flex min-h-screen flex-col`}>
-      <Header fixed={true} />
+      <Header fixed showTabs={router.pathname !== "/"} />
       <Component {...pageProps} />
       <Analytics />
-      <Footer fixed={router.pathname == "/" ? true : false} />
+      <Footer
+        fixed={router.pathname === "/create" || router.pathname === "/"}
+      />
     </main>
   );
 }
