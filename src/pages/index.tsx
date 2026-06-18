@@ -128,12 +128,21 @@ export default function Home() {
             </div>
 
             <div className="fade-edges-bottom -mt-6 max-h-screen animate-wiggle overflow-hidden">
+              {/* image in dark mode */}
               <Image
-                src="/pairckle-best-cereals-2.png"
+                src={`/pairckle-best-cereals-dark.png`}
                 alt="Ranking of the best cereals"
                 width={1796 / 2}
                 height={928 / 2}
-                className="rounded-xl border-2 border-neutral-200 object-cover shadow-lg"
+                className="hidden rounded-xl border-2 border-neutral-700 object-cover shadow-lg dark:block"
+              />
+              {/* image in light mode */}
+              <Image
+                src={`/pairckle-best-cereals-light.png`}
+                alt="Ranking of the best cereals"
+                width={1796 / 2}
+                height={928 / 2}
+                className="rounded-xl border-2 border-neutral-300 object-cover shadow-lg dark:hidden"
               />
             </div>
           </div>
