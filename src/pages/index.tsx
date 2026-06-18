@@ -18,7 +18,7 @@ import {
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Home() {
+export default function Create() {
   const [startVisibility, setStartVisibility] =
     useState<string>("visible-fade");
   const [selectionVisibility, setSelectionVisibility] =
@@ -109,8 +109,8 @@ export default function Home() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
-        localStorage.getItem("combosArray") == null ||
-        localStorage.getItem("combosArray") == "[]"
+        localStorage.getItem("combosArray") === null ||
+        localStorage.getItem("combosArray") === "[]"
       )
         return;
 
@@ -253,6 +253,7 @@ export default function Home() {
           setStartVisibility("visible-fade");
           setCurrentComboIndex(-1);
           setWinnersHistory([]);
+          setUtensilsArray([{ title: "", score: 0, wins: 0, losses: 0 }]);
           localStorage.setItem("combosArray", JSON.stringify([]));
           localStorage.setItem("utensilsArray", JSON.stringify([]));
           localStorage.setItem("winnersHistory", JSON.stringify([]));
@@ -305,7 +306,7 @@ export default function Home() {
               <button
                 onClick={() => {
                   if (
-                    utensilInput.trim() == "" ||
+                    utensilInput.trim() === "" ||
                     (utensilInput.trim().split("\n").length < 2 &&
                       utensilInput.trim().split(",").length < 2)
                   ) {
@@ -387,7 +388,7 @@ export default function Home() {
               <button
                 onClick={() => {
                   if (
-                    utensilInput.trim() == "" ||
+                    utensilInput.trim() === "" ||
                     (utensilInput.trim().split("\n").length < 2 &&
                       utensilInput.trim().split(",").length < 2)
                   ) {
@@ -477,7 +478,7 @@ export default function Home() {
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
-                  rankingType == "hurry"
+                  rankingType === "hurry"
                     ? "text-orange-500 dark:text-orange-400"
                     : "text-blue-500 dark:text-blue-400"
                 } mr-1.5 md:mr-2`}
@@ -718,7 +719,7 @@ export default function Home() {
               {[...Array(maxCombos)].map((_, i) => (
                 <div
                   key={i}
-                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] == 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] == 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i == currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r-[1px]" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
+                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] === 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] === 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i === currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r-[1px]" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
                 >
                   <div
                     className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform whitespace-nowrap rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs shadow-sm dark:bg-black md:text-sm`}
@@ -726,7 +727,7 @@ export default function Home() {
                     <div className="flex gap-3 px-1 text-neutral-500 dark:text-neutral-400">
                       <p>Pair {i + 1}</p>
                       <p
-                        className={`${winnersHistory[i] == 2 ? "" : "hidden"} w-full text-right italic`}
+                        className={`${winnersHistory[i] === 2 ? "" : "hidden"} w-full text-right italic`}
                       >
                         Skipped
                       </p>
@@ -738,7 +739,7 @@ export default function Home() {
                             winnersHistory[i] != 2 &&
                             utensilsArray[combosArray[i][winnersHistory[i]]][
                               "title"
-                            ] == utensilsArray[combosArray[i][0]]["title"]
+                            ] === utensilsArray[combosArray[i][0]]["title"]
                               ? "bg-orange-400/60 dark:bg-orange-500/60"
                               : ""
                           } rounded-md px-2 py-0.5 text-left`}
@@ -750,7 +751,7 @@ export default function Home() {
                             winnersHistory[i] != 2 &&
                             utensilsArray[combosArray[i][winnersHistory[i]]][
                               "title"
-                            ] == utensilsArray[combosArray[i][1]]["title"]
+                            ] === utensilsArray[combosArray[i][1]]["title"]
                               ? "bg-blue-400/60 dark:bg-blue-500/60"
                               : ""
                           } rounded-md px-2 py-0.5 text-left`}
@@ -761,7 +762,7 @@ export default function Home() {
                     ) : null}
                   </div>
                   <p
-                    className={`${i == currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
+                    className={`${i === currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
                   >
                     {currentComboIndex + 1} / {maxCombos}
                   </p>
@@ -772,10 +773,10 @@ export default function Home() {
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} ${finalRankingVisibility == "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
+            className={`${finalRankingVisibility} ${finalRankingVisibility === "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
           >
             <div className="flex h-full w-full items-center justify-center px-6 pb-16">
-              <div className="w-full md:w-auto">
+              <div className="mb-10 w-full md:w-auto lg:mb-12">
                 <RankingBoard
                   ranking={{
                     rankedUtensils: utensilsArray,
@@ -794,7 +795,7 @@ export default function Home() {
                   <FontAwesomeIcon
                     icon={faBookmark}
                     className={`${
-                      rankingType == "hurry"
+                      rankingType === "hurry"
                         ? "text-orange-500 dark:text-orange-400"
                         : "text-blue-500 dark:text-blue-400"
                     } mr-2`}
@@ -803,7 +804,7 @@ export default function Home() {
                   This ranking has been saved.
                 </p>
 
-                <div className="mt-4 flex gap-2">
+                <div className="mt-4 flex gap-2 lg:mt-6">
                   <button
                     onClick={() => {
                       setConfirmRestartModalSubtext(

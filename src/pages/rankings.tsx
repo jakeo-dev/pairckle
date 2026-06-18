@@ -79,7 +79,7 @@ export default function Rankings() {
             {[...savedRankings].map((ranking, index1) => (
               <RankingBoard
                 key={index1}
-                className="mb-8 md:mb-10"
+                className="mb-10 md:mb-12"
                 ranking={ranking}
                 onReRank={(event) => {
                   if (

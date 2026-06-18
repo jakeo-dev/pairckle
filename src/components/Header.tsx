@@ -18,7 +18,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
     <div
       className={`${
         fixed ? "fixed" : "absolute"
-      } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-200 bg-neutral-100 px-3.5 py-2 text-center dark:border-neutral-800 dark:bg-neutral-900 md:px-6 md:py-4`}
+      } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-400/20 bg-neutral-400/10 px-3.5 py-2 text-center md:px-6 md:py-4`}
     >
       <div className="flex cursor-default text-left">
         <Title />
@@ -38,7 +38,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
         >
           <FontAwesomeIcon
             icon={faChartSimple}
-            className="mr-1.5 rotate-90 md:mr-2"
+                className="mr-1.5 rotate-90 md:mr-2.5"
             aria-hidden
           />
           <span className="hidden md:inline">Create a ranking</span>
@@ -54,7 +54,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
         >
           <FontAwesomeIcon
             icon={faBookmark}
-            className="mr-1.5 md:mr-2"
+                className="mr-1.5 md:mr-2.5"
             aria-hidden
           />
           <span className="hidden md:inline">Your rankings</span>
@@ -70,7 +70,7 @@ export default function Header({ fixed }: { fixed: boolean }) {
         >
           <FontAwesomeIcon
             icon={faBarsStaggered}
-            className="mr-1.5 md:mr-2"
+                className="mr-1.5 md:mr-2.5"
             aria-hidden
           />
           <span className="hidden md:inline">Starter sets</span>
