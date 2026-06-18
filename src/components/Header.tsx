@@ -25,7 +25,7 @@ export default function Header({
     <div
       className={`${
         fixed ? "fixed" : "absolute"
-      } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-400/20 bg-neutral-400/10 px-3.5 py-2 text-center md:px-6 md:py-4`}
+      } top-0 z-20 flex w-full items-center justify-between gap-2 border-b-2 border-neutral-400/20 ${showTabs ? "bg-neutral-100/80 dark:bg-neutral-900/80" : "bg-neutral-400/10"} px-3.5 py-2 text-center backdrop-blur-lg md:px-6 md:py-4`}
     >
       <div className="flex cursor-default text-left">
         <Title />
@@ -40,7 +40,7 @@ export default function Header({
             <Link
               className={`${
                 pathname === "/create"
-                  ? "bg-neutral-400/20 dark:border-transparent"
+                  ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                   : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
               } flex h-min items-center justify-center rounded-l-full border-2 border-r border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
               href="/create"
@@ -56,7 +56,7 @@ export default function Header({
             <Link
               className={`${
                 pathname === "/rankings"
-                  ? "bg-neutral-400/20 dark:border-transparent"
+                  ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                   : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
               } flex h-min items-center justify-center border-2 border-x border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
               href="/rankings"
@@ -72,7 +72,7 @@ export default function Header({
             <Link
               className={`${
                 pathname === "/sets"
-                  ? "bg-neutral-400/20 dark:border-transparent"
+                  ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                   : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
               } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-1 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
               href="/sets"

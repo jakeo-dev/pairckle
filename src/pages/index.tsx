@@ -45,7 +45,7 @@ export default function Home() {
           prev?.slice(1).concat(randomElement(STARTER_SETS)),
         );
       } else {
-        setTranslateY(-(elapsedTime / 3000) * (8 * 4)); // each item is h-8, 8*4px
+        setTranslateY(-(elapsedTime / 3000) * (9 * 4)); // each item is h-8, 8*4px
       }
     }, 10);
 
@@ -86,7 +86,7 @@ export default function Home() {
                       {currentSets?.map((set, i) => (
                         <p
                           key={i}
-                          className={`w-75 h-8 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium text-stone-700 transition dark:text-stone-300 ${i == 2 ? "group-hover:text-orange-600 group-hover:dark:text-orange-400" : ""}`}
+                          className={`w-75 h-9 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium text-stone-700 transition dark:text-stone-300 ${i == 2 ? "group-hover:text-orange-600 group-hover:dark:text-orange-400" : ""}`}
                         >
                           {set?.setName}
                         </p>
@@ -96,7 +96,7 @@ export default function Home() {
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    className="relative flex h-12 w-full items-center justify-center overflow-hidden rounded-full bg-orange-500 px-5 py-4 font-medium text-white transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-md active:translate-y-0"
+                    className="relative flex h-12 w-full items-center justify-center overflow-hidden rounded-full bg-orange-500 px-5 py-4 font-medium text-white transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-md hover:shadow-orange-500/30 active:translate-y-0"
                     href="/create"
                     onClick={() => {
                       if (
