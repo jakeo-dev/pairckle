@@ -6,7 +6,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-3 backdrop-blur lg:mt-0 lg:p-4`}
+      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-3 backdrop-blur-sm lg:mt-0 lg:p-4`}
     >
       <div className="flex items-center justify-center text-center text-xs lg:text-sm">
         <a

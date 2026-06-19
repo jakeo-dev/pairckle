@@ -202,7 +202,7 @@ export default function RankingBoard({
                 {onReRank && (
                   <Link
                     className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
-                    href="/"
+                    href="/create"
                     onClick={(e) => onReRank(e)}
                   >
                     <FontAwesomeIcon
