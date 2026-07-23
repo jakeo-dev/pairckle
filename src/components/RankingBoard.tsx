@@ -141,9 +141,9 @@ export default function RankingBoard({
                 name: inputValue1,
                 username: inputValue2,
                 public: checkboxValue,
-                utensils: shuffle(
-                  ranking.rankedUtensils.map((utensil) => utensil.title),
-                ),
+                utensils: ranking.rankedUtensils.map((utensil) => ({
+                  title: utensil.title,
+                })),
               },
             ])
             .select();
@@ -361,12 +361,15 @@ export default function RankingBoard({
 
                     const progress =
                       typeof utensil["wins"] === "number"
-                        ? utensil["wins"] + utensil["losses"] !== 0
+                        ? utensil["wins"] +
+                            (utensil["losses"] ? utensil["losses"] : 0) !==
+                          0
                           ? utensil["wins"] /
-                            (utensil["wins"] + utensil["losses"])
+                            (utensil["wins"] +
+                              (utensil["losses"] ? utensil["losses"] : 0))
                           : 0
                         : ranking.rankedUtensils.length - 1 !== 0
-                          ? utensil["score"] /
+                          ? (utensil["score"] ? utensil["score"] : 0) /
                             (ranking.rankedUtensils.length - 1)
                           : 0;
 
@@ -530,11 +533,16 @@ export function ExportView({
 
                 const progress =
                   typeof utensil["wins"] === "number"
-                    ? utensil["wins"] + utensil["losses"] !== 0
-                      ? utensil["wins"] / (utensil["wins"] + utensil["losses"])
+                    ? utensil["wins"] +
+                        (utensil["losses"] ? utensil["losses"] : 0) !==
+                      0
+                      ? utensil["wins"] /
+                        (utensil["wins"] +
+                          (utensil["losses"] ? utensil["losses"] : 0))
                       : 0
                     : ranking.rankedUtensils.length - 1 !== 0
-                      ? utensil["score"] / (ranking.rankedUtensils.length - 1)
+                      ? (utensil["score"] ? utensil["score"] : 0) /
+                        (ranking.rankedUtensils.length - 1)
                       : 0;
 
                 return (

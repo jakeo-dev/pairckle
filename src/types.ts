@@ -1,8 +1,8 @@
 export type Utensil = {
   title: string;
-  score: number;
-  wins: number;
-  losses: number;
+  score?: number;
+  wins?: number;
+  losses?: number;
 };
 
 export type Ranking = {
@@ -17,8 +17,8 @@ export type Ranking = {
 };
 
 export type Set = {
-  setName: string;
-  utensils: string[];
+  name: string;
+  utensils: Utensil[];
   username?: string;
   sharedAt?: string;
 };
@@ -28,5 +28,5 @@ export interface SharedSetData {
   shared_at: string;
   name: string;
   username: string;
-  utensils: string[];
+  utensils: Utensil[];
 }

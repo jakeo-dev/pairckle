@@ -4,6 +4,7 @@ import { randomElement } from "@/utilities";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Set } from "@/types";
 
 import { Gabarito } from "next/font/google";
 const gabarito = Gabarito({
@@ -12,14 +13,7 @@ const gabarito = Gabarito({
 });
 
 export default function Home() {
-  const [currentSets, setCurrentSets] = useState<
-    {
-      setName: string;
-      utensilSet: {
-        title: string;
-      }[];
-    }[]
-  >();
+  const [currentSets, setCurrentSets] = useState<Set[]>();
   const [translateY, setTranslateY] = useState(0);
 
   useEffect(() => {
@@ -107,7 +101,7 @@ export default function Home() {
                       } else {
                         localStorage.setItem(
                           "utensilInput",
-                          currentSets?.[2]?.utensilSet
+                          currentSets?.[2]?.utensils
                             ?.map((utensil) => utensil.title)
                             .join("\n") || "",
                         );
@@ -115,7 +109,7 @@ export default function Home() {
                     }}
                   >
                     <span className="relative z-10">Rank it!</span>
-                    <div className="animate-shine absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <div className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                   </Link>
                   <Link
                     className="flex h-12 min-w-fit items-center justify-center rounded-full border-2 border-neutral-400 px-5 py-4 font-medium transition hover:-translate-y-0.5 hover:bg-neutral-400 hover:text-white hover:shadow-md active:translate-y-0 dark:border-neutral-300 dark:hover:bg-neutral-300 dark:hover:text-black"

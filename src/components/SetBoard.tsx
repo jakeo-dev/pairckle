@@ -70,7 +70,7 @@ export default function SetBoard({
             <h2
               className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
             >
-              {set.setName}
+              {set.name}
             </h2>
           </div>
 
@@ -109,15 +109,15 @@ export default function SetBoard({
           {/* create shallow copy of set.utensils (so it wont actually change the set.utensils variable), sort randomly */}
           {shuffle([...set.utensils])
             .slice(0, 8)
-            .map((utensil, index2) => (
+            .map((utensil, index) => (
               <li
-                key={index2}
+                key={index}
                 className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
               >
                 <p
-                  className={`w-full text-sm md:text-base ${utensil === "????????" ? `animate-pulse text-neutral-500` : ""}`}
+                  className={`w-full text-sm md:text-base ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
                 >
-                  {utensil}
+                  {utensil.title}
                 </p>
               </li>
             ))}

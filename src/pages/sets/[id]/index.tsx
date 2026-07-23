@@ -60,7 +60,7 @@ export default function SharedSet() {
                 <SetBoard
                   className="mb-10 md:mb-12"
                   set={{
-                    setName: currentSet.name,
+                    name: currentSet.name,
                     utensils: currentSet.utensils,
                     username: currentSet.username,
                     sharedAt: currentSet.shared_at,
