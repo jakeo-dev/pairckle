@@ -13,6 +13,21 @@
 }
 
 @layer utilities {
+  .fade-text {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 25%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 25%,
+      transparent 100%
+    );
+  }
+
   .thin-scrollbar::-webkit-scrollbar {
     width: 5px;
   }

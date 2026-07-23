@@ -274,7 +274,7 @@ export default function Create() {
             className={`${startVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
           >
             <label
-              className="block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
+              className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
               htmlFor="utensil-input"
             >
               Enter items to rank, separated by line or comma
@@ -300,7 +300,7 @@ export default function Create() {
                 className="mr-2"
                 aria-labelledby="browse-lists-button-text"
               />
-              <span id="browse-lists-button-text">Browse starter sets</span>
+              <span id="browse-lists-button-text">Browse sets</span>
             </Link>
             <div className="mt-2 flex gap-2">
               <button

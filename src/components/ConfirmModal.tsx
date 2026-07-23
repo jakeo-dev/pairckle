@@ -12,7 +12,7 @@ export default function ConfirmModal({
 }: {
   visibility: boolean;
   titleText: string;
-  subtitleText: string;
+  subtitleText?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
   onConfirm?: () => void;
@@ -42,7 +42,11 @@ export default function ConfirmModal({
         <h1 className="text-pretty pr-4 text-lg font-medium md:text-xl">
           {titleText}
         </h1>
-        <p className="mt-4 text-pretty text-sm md:text-base">{subtitleText}</p>
+        {subtitleText && (
+          <p className="mt-4 text-pretty text-sm md:text-base">
+            {subtitleText}
+          </p>
+        )}
         <div className="float-right mt-6 flex gap-2">
           <button
             className={`${

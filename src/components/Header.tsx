@@ -82,7 +82,7 @@ export default function Header({
                 className="mr-1.5 md:mr-2.5"
                 aria-hidden
               />
-              <span className="hidden md:inline">Starter sets</span>
+              <span className="hidden md:inline">Browse sets</span>
               <span className="md:hidden">Sets</span>
             </Link>
           </>

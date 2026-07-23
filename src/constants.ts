@@ -3,7 +3,7 @@ import { shuffle } from "./utilities";
 export const STARTER_SETS = shuffle([
   {
     setName: "Ice cream flavors",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Vanilla" },
       { title: "Chocolate" },
       { title: "Strawberry" },
@@ -19,11 +19,11 @@ export const STARTER_SETS = shuffle([
       { title: "Dulce de leche" },
       { title: "Bubblegum" },
       { title: "Neapolitan" },
-    ]),
+    ],
   },
   {
     setName: "Highest-grossing films",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Gone with the Wind" },
       { title: "Avatar" },
       { title: "Titanic" },
@@ -34,11 +34,11 @@ export const STARTER_SETS = shuffle([
       { title: "The Ten Commandments" },
       { title: "Doctor Zhivago" },
       { title: "Star Wars: The Force Awakens" },
-    ]),
+    ],
   },
   {
     setName: "Popular versions of Monopoly",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Classic Monopoly" },
       { title: "Monopoly Junior" },
       { title: "Monopoly Mega Edition" },
@@ -49,11 +49,11 @@ export const STARTER_SETS = shuffle([
       { title: "Monopoly Speed" },
       { title: "Monopoly Empire" },
       { title: "Monopoly Millionaire" },
-    ]),
+    ],
   },
   {
     setName: "Common dog breeds",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Labrador Retriever" },
       { title: "German Shepherd" },
       { title: "Golden Retriever" },
@@ -69,11 +69,11 @@ export const STARTER_SETS = shuffle([
       { title: "Doberman Pinscher" },
       { title: "Chihuahua" },
       { title: "Australian Shepherd" },
-    ]),
+    ],
   },
   {
     setName: "Aquatic animals",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Dolphin" },
       { title: "Shark" },
       { title: "Whale" },
@@ -86,11 +86,11 @@ export const STARTER_SETS = shuffle([
       { title: "Manatee" },
       { title: "Squid" },
       { title: "Manta ray" },
-    ]),
+    ],
   },
   {
     setName: "Face emojis",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "😊" },
       { title: "😂" },
       { title: "😍" },
@@ -111,11 +111,11 @@ export const STARTER_SETS = shuffle([
       { title: "😤" },
       { title: "😵" },
       { title: "🤯" },
-    ]),
+    ],
   },
   {
     setName: "Seven Wonders of the Ancient World",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Great Pyramid of Giza" },
       { title: "Hanging Gardens of Babylon" },
       { title: "Statue of Zeus at Olympia" },
@@ -123,11 +123,11 @@ export const STARTER_SETS = shuffle([
       { title: "Mausoleum at Halicarnassus" },
       { title: "Colossus of Rhodes" },
       { title: "Lighthouse of Alexandria" },
-    ]),
+    ],
   },
   {
     setName: "Popular vacation spots",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Paris, France" },
       { title: "Bali, Indonesia" },
       { title: "Kyoto, Japan" },
@@ -136,11 +136,11 @@ export const STARTER_SETS = shuffle([
       { title: "Santorini, Greece" },
       { title: "Dubai, UAE" },
       { title: "Sydney, Australia" },
-    ]),
+    ],
   },
   {
     setName: "Harry Potter books",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Sorcerer's Stone" },
       { title: "Chamber of Secrets" },
       { title: "Prisoner of Azkaban" },
@@ -148,11 +148,11 @@ export const STARTER_SETS = shuffle([
       { title: "Order of the Phoenix" },
       { title: "Half-Blood Prince" },
       { title: "Deathly Hallows" },
-    ]),
+    ],
   },
   {
     setName: "Summer Olympic sports",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Archery" },
       { title: "Badminton" },
       { title: "Equestrian" },
@@ -165,11 +165,11 @@ export const STARTER_SETS = shuffle([
       { title: "Table tennis" },
       { title: "Volleyball" },
       { title: "Wrestling" },
-    ]),
+    ],
   },
   {
     setName: "Best-selling video games",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Minecraft" },
       { title: "Grand Theft Auto V" },
       { title: "Wii Sports" },
@@ -180,11 +180,11 @@ export const STARTER_SETS = shuffle([
       { title: "Super Mario Bros." },
       { title: "Human: Fall Flat" },
       { title: "The Witcher 3: Wild Hunt" },
-    ]),
+    ],
   },
   {
     setName: "Popular Disney movies",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "The Lion King" },
       { title: "Aladdin" },
       { title: "Beauty and the Beast" },
@@ -202,11 +202,11 @@ export const STARTER_SETS = shuffle([
       { title: "Zootopia" },
       { title: "Toy Story" },
       { title: "Up" },
-    ]),
+    ],
   },
   {
     setName: "Popular fast food chains",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "McDonald's" },
       { title: "Burger King" },
       { title: "Taco Bell" },
@@ -216,22 +216,22 @@ export const STARTER_SETS = shuffle([
       { title: "Chick-fil-A" },
       { title: "Domino's" },
       { title: "Popeyes" },
-    ]),
+    ],
   },
   {
     setName: "Popular works of art by Leonardo da Vinci",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "The Last Supper" },
       { title: "Mona Lisa" },
       { title: "Vitruvian Man" },
       { title: "The Virgin of the Rocks" },
       { title: "Lady with an Ermine" },
       { title: "Saint John the Baptist" },
-    ]),
+    ],
   },
   {
     setName: "Types of lighting fixtures",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Chandelier" },
       { title: "Pendant light" },
       { title: "Recessed light" },
@@ -244,11 +244,11 @@ export const STARTER_SETS = shuffle([
       { title: "Spotlight" },
       { title: "String lights" },
       { title: "LED strip lights" },
-    ]),
+    ],
   },
   {
     setName: "String instruments",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Violin" },
       { title: "Guitar" },
       { title: "Cello" },
@@ -257,11 +257,11 @@ export const STARTER_SETS = shuffle([
       { title: "Mandolin" },
       { title: "Double bass" },
       { title: "Sitar" },
-    ]),
+    ],
   },
   {
     setName: "McDonald's menu items",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Big Mac" },
       { title: "Quarter Pounder with Cheese" },
       { title: "McChicken" },
@@ -274,11 +274,11 @@ export const STARTER_SETS = shuffle([
       { title: "Chicken McNuggets" },
       { title: "Egg McMuffin" },
       { title: "Sausage McMuffin" },
-    ]),
+    ],
   },
   {
     setName: "Popular cereals",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Frosted Flakes" },
       { title: "Cheerios" },
       { title: "Cinnamon Toast Crunch" },
@@ -297,11 +297,11 @@ export const STARTER_SETS = shuffle([
       { title: "Mini Wheats" },
       { title: "Kix" },
       { title: "Life" },
-    ]),
+    ],
   },
   {
     setName: "Types of clouds",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Cumulus" },
       { title: "Stratus" },
       { title: "Cirrus" },
@@ -312,11 +312,11 @@ export const STARTER_SETS = shuffle([
       { title: "Nimbostratus" },
       { title: "Cirrostratus" },
       { title: "Cirrocumulus" },
-    ]),
+    ],
   },
   {
     setName: "Famous optical illusions",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Checker shadow illusion" },
       { title: "Café wall illusion" },
       { title: "Ebbinghaus illusion" },
@@ -330,11 +330,11 @@ export const STARTER_SETS = shuffle([
       { title: "Spinning dancer" },
       { title: "Troxler's fading" },
       { title: "Impossible trident" },
-    ]),
+    ],
   },
   {
     setName: "Minecraft wood types",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Oak" },
       { title: "Spruce" },
       { title: "Birch" },
@@ -345,11 +345,11 @@ export const STARTER_SETS = shuffle([
       { title: "Cherry" },
       { title: "Crimson" },
       { title: "Warped" },
-    ]),
+    ],
   },
   {
     setName: "Best-selling studio albums",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Thriller (Michael Jackson)" },
       { title: "Back in Black (AC/DC)" },
       { title: "The Dark Side of the Moon (Pink Floyd)" },
@@ -360,11 +360,11 @@ export const STARTER_SETS = shuffle([
       { title: "Led Zeppelin IV (Led Zeppelin)" },
       { title: "Bad (Michael Jackson)" },
       { title: "Jagged Little Pill (Alanis Morissette)" },
-    ]),
+    ],
   },
   {
     setName: "Ivy League universities",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Brown University" },
       { title: "Columbia University" },
       { title: "Cornell University" },
@@ -373,11 +373,11 @@ export const STARTER_SETS = shuffle([
       { title: "University of Pennsylvania" },
       { title: "Princeton University" },
       { title: "Yale University" },
-    ]),
+    ],
   },
   {
     setName: "Popular sans-serif typefaces",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Arial" },
       { title: "Helvetica" },
       { title: "Poppins" },
@@ -387,11 +387,11 @@ export const STARTER_SETS = shuffle([
       { title: "Montserrat" },
       { title: "Open Sans" },
       { title: "Inter" },
-    ]),
+    ],
   },
   {
     setName: "Days of the week",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Sunday" },
       { title: "Monday" },
       { title: "Tuesday" },
@@ -399,11 +399,11 @@ export const STARTER_SETS = shuffle([
       { title: "Thursday" },
       { title: "Friday" },
       { title: "Saturday" },
-    ]),
+    ],
   },
   {
     setName: "Months of the year",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "January" },
       { title: "February" },
       { title: "March" },
@@ -416,11 +416,11 @@ export const STARTER_SETS = shuffle([
       { title: "October" },
       { title: "November" },
       { title: "December" },
-    ]),
+    ],
   },
   {
     setName: "Common types of knots",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Square knot" },
       { title: "Clove hitch" },
       { title: "Bowline" },
@@ -436,11 +436,11 @@ export const STARTER_SETS = shuffle([
       { title: "Artillery loop" },
       { title: "Carrick bend" },
       { title: "Sheepshank" },
-    ]),
+    ],
   },
   {
     setName: "Types of denim",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Raw" },
       { title: "Selvedge" },
       { title: "Acid-wash" },
@@ -448,11 +448,11 @@ export const STARTER_SETS = shuffle([
       { title: "Crushed" },
       { title: "Bull" },
       { title: "Colored" },
-    ]),
+    ],
   },
   {
     setName: "Types of bread",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Sourdough" },
       { title: "Baguette" },
       { title: "Ciabatta" },
@@ -468,11 +468,11 @@ export const STARTER_SETS = shuffle([
       { title: "Pita" },
       { title: "Flatbread" },
       { title: "Cornbread" },
-    ]),
+    ],
   },
   {
     setName: "Types of puppets",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Hand puppet" },
       { title: "Finger puppet" },
       { title: "Marionette" },
@@ -480,11 +480,11 @@ export const STARTER_SETS = shuffle([
       { title: "Ventriloquist puppet" },
       { title: "Sock puppet" },
       { title: "Rod puppet" },
-    ]),
+    ],
   },
   {
     setName: "Common figures of speech",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Alliteration" },
       { title: "Circumlocution" },
       { title: "Euphemism" },
@@ -496,11 +496,11 @@ export const STARTER_SETS = shuffle([
       { title: "Oxymoron" },
       { title: "Personification" },
       { title: "Simile" },
-    ]),
+    ],
   },
   {
     setName: "Popular card games",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Poker" },
       { title: "Blackjack" },
       { title: "Solitaire" },
@@ -510,11 +510,11 @@ export const STARTER_SETS = shuffle([
       { title: "Spoons" },
       { title: "Spades" },
       { title: "Whist" },
-    ]),
+    ],
   },
   {
     setName: "Popular web development technologies",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "React" },
       { title: "Angular" },
       { title: "Vue" },
@@ -523,11 +523,11 @@ export const STARTER_SETS = shuffle([
       { title: "Next.js" },
       { title: "Nuxt.js" },
       { title: "Remix" },
-    ]),
+    ],
   },
   {
     setName: "Yoga poses",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Downward dog" },
       { title: "Warrior I" },
       { title: "Warrior II" },
@@ -540,11 +540,11 @@ export const STARTER_SETS = shuffle([
       { title: "Bridge pose" },
       { title: "Lotus pose" },
       { title: "Plank pose" },
-    ]),
+    ],
   },
   {
     setName: "Wind instruments",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Flute" },
       { title: "Clarinet" },
       { title: "Saxophone" },
@@ -556,11 +556,11 @@ export const STARTER_SETS = shuffle([
       { title: "Piccolo" },
       { title: "Bass clarinet" },
       { title: "Didgeridoo" },
-    ]),
+    ],
   },
   {
     setName: "Common logical fallacies",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Ad hominem" },
       { title: "Strawman" },
       { title: "Appeal to authority" },
@@ -574,11 +574,11 @@ export const STARTER_SETS = shuffle([
       { title: "Tu quoque" },
       { title: "Anecdotal" },
       { title: "Burden of proof" },
-    ]),
+    ],
   },
   {
     setName: "Popular types of hats",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Fedora" },
       { title: "Beanie" },
       { title: "Baseball cap" },
@@ -591,11 +591,11 @@ export const STARTER_SETS = shuffle([
       { title: "Sun hat" },
       { title: "Cowboy hat" },
       { title: "Cloche hat" },
-    ]),
+    ],
   },
   {
     setName: "Popular skateboarding tricks",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Ollie" },
       { title: "Kickflip" },
       { title: "Heelflip" },
@@ -604,11 +604,11 @@ export const STARTER_SETS = shuffle([
       { title: "360 flip" },
       { title: "Nollie" },
       { title: "Laser flip" },
-    ]),
+    ],
   },
   {
     setName: "Pokémon types",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Normal" },
       { title: "Fire" },
       { title: "Water" },
@@ -628,22 +628,22 @@ export const STARTER_SETS = shuffle([
       { title: "Steel" },
       { title: "Fairy" },
       { title: "Stellar" },
-    ]),
+    ],
   },
   {
     setName: "Chess pieces",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "King" },
       { title: "Queen" },
       { title: "Rook" },
       { title: "Bishop" },
       { title: "Knight" },
       { title: "Pawn" },
-    ]),
+    ],
   },
   {
     setName: "The Twelve Olympians",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Zeus" },
       { title: "Hera" },
       { title: "Poseidon" },
@@ -656,11 +656,11 @@ export const STARTER_SETS = shuffle([
       { title: "Hephaestus" },
       { title: "Hermes" },
       { title: "Dionysus" },
-    ]),
+    ],
   },
   {
     setName: "Common types of birds",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Eagle" },
       { title: "Hawk" },
       { title: "Owl" },
@@ -673,11 +673,11 @@ export const STARTER_SETS = shuffle([
       { title: "Flamingo" },
       { title: "Peacock" },
       { title: "Hummingbird" },
-    ]),
+    ],
   },
   {
     setName: "Noble gases",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Helium" },
       { title: "Neon" },
       { title: "Argon" },
@@ -685,11 +685,11 @@ export const STARTER_SETS = shuffle([
       { title: "Xenon" },
       { title: "Radon" },
       { title: "Oganesson" },
-    ]),
+    ],
   },
   {
     setName: "Main characters in SpongeBob SquarePants",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "SpongeBob SquarePants" },
       { title: "Patrick Star" },
       { title: "Squidward Tentacles" },
@@ -702,21 +702,21 @@ export const STARTER_SETS = shuffle([
       { title: "Larry the Lobster" },
       { title: "Mermaid Man" },
       { title: "Barnacle Boy" },
-    ]),
+    ],
   },
   {
     setName: "Games in Jackbox Party Pack 3",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Guesspionage" },
       { title: "Tee K.O." },
       { title: "Trivia Murder Party" },
       { title: "Quiplash 2" },
       { title: "Fakin' It" },
-    ]),
+    ],
   },
   {
     setName: "Playground equipment",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Swings" },
       { title: "Slide" },
       { title: "Monkey bars" },
@@ -726,11 +726,11 @@ export const STARTER_SETS = shuffle([
       { title: "Rock wall" },
       { title: "Merry-go-round" },
       { title: "Spring riders" },
-    ]),
+    ],
   },
   {
     setName: "Shrek characters",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Shrek" },
       { title: "Donkey" },
       { title: "Princess Fiona" },
@@ -739,11 +739,11 @@ export const STARTER_SETS = shuffle([
       { title: "Dragon" },
       { title: "Gingerbread Man" },
       { title: "Pinocchio" },
-    ]),
+    ],
   },
   {
     setName: "Popular pop tart flavors",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Frosted s'mores" },
       { title: "Frosted cherry" },
       { title: "Frosted blueberry" },
@@ -754,11 +754,11 @@ export const STARTER_SETS = shuffle([
       { title: "Frosted raspberry" },
       { title: "Frosted chocolate chip" },
       { title: "Frosted confetti cupcake" },
-    ]),
+    ],
   },
   {
     setName: "Well-known football/soccer players",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Pelé" },
       { title: "Diego Maradona" },
       { title: "Lionel Messi" },
@@ -771,11 +771,11 @@ export const STARTER_SETS = shuffle([
       { title: "Ronaldo Nazário" },
       { title: "David Beckham" },
       { title: "Kylian Mbappé" },
-    ]),
+    ],
   },
   {
     setName: "Well-known NFL teams",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Dallas Cowboys" },
       { title: "New England Patriots" },
       { title: "Pittsburgh Steelers" },
@@ -789,11 +789,11 @@ export const STARTER_SETS = shuffle([
       { title: "Philadelphia Eagles" },
       { title: "Minnesota Vikings" },
       { title: "Buffalo Bills" },
-    ]),
+    ],
   },
   {
     setName: "Energy sources",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Solar" },
       { title: "Wind" },
       { title: "Biomass" },
@@ -803,21 +803,21 @@ export const STARTER_SETS = shuffle([
       { title: "Coal" },
       { title: "Natural gas" },
       { title: "Petroleum" },
-    ]),
+    ],
   },
   {
     setName: "Among Us maps",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "The Skeld" },
       { title: "MIRA HQ" },
       { title: "Polus" },
       { title: "The Airship" },
       { title: "The Fungle" },
-    ]),
+    ],
   },
   {
     setName: "Spotify features",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Spotify Wrapped" },
       { title: "DJ" },
       { title: "Smart Shuffle" },
@@ -825,11 +825,11 @@ export const STARTER_SETS = shuffle([
       { title: "Blend" },
       { title: "Radio" },
       { title: "Discover Weekly" },
-    ]),
+    ],
   },
   {
     setName: "Types of fries",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Standard" },
       { title: "Curly" },
       { title: "Steak" },
@@ -839,11 +839,11 @@ export const STARTER_SETS = shuffle([
       { title: "Crinkle-cut" },
       { title: "Sweet potato" },
       { title: "Shoestring" },
-    ]),
+    ],
   },
   {
     setName: "Crayola crayon color names",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Razzmatazz" },
       { title: "Sunset Orange" },
       { title: "Fuzzy Wuzzy" },
@@ -854,11 +854,11 @@ export const STARTER_SETS = shuffle([
       { title: "Purple Mountains' Majesty" },
       { title: "Mango Tango" },
       { title: "Raw Sienna" },
-    ]),
+    ],
   },
   {
     setName: "Largest subreddits",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "r/funny" },
       { title: "r/AskReddit" },
       { title: "r/gaming" },
@@ -869,11 +869,11 @@ export const STARTER_SETS = shuffle([
       { title: "r/movies" },
       { title: "r/memes" },
       { title: "r/science" },
-    ]),
+    ],
   },
   {
     setName: "Popular musicals",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "The Book of Mormon" },
       { title: "Hamilton" },
       { title: "Rent" },
@@ -883,11 +883,11 @@ export const STARTER_SETS = shuffle([
       { title: "Wicked" },
       { title: "Dear Evan Hansen" },
       { title: "Moulin Rouge!" },
-    ]),
+    ],
   },
   {
     setName: "Food mascots",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Keebler Elves" },
       { title: "Colonel Sanders" },
       { title: "Mr. Peanut" },
@@ -897,11 +897,11 @@ export const STARTER_SETS = shuffle([
       { title: "Lucky" },
       { title: "Grimace" },
       { title: "Toucan Sam" },
-    ]),
+    ],
   },
   {
     setName: "Popular Cartoon Network shows",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "The Marvelous Misadventures of Flapjack" },
       { title: "Ed, Edd n Eddy" },
       { title: "Adventure Time" },
@@ -916,11 +916,11 @@ export const STARTER_SETS = shuffle([
       { title: "Johnny Bravo" },
       { title: "Teen Titans" },
       { title: "Foster's Home for Imaginary Friends" },
-    ]),
+    ],
   },
   {
     setName: "Colors of the rainbow",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Red" },
       { title: "Orange" },
       { title: "Yellow" },
@@ -928,11 +928,11 @@ export const STARTER_SETS = shuffle([
       { title: "Blue" },
       { title: "Indigo" },
       { title: "Violet" },
-    ]),
+    ],
   },
   {
     setName: "The Beatles albums",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Please Please Me" },
       { title: "With the Beatles" },
       { title: "A Hard Day's Night" },
@@ -945,11 +945,11 @@ export const STARTER_SETS = shuffle([
       { title: "Yellow Submarine" },
       { title: "Abbey Road" },
       { title: "Let It Be" },
-    ]),
+    ],
   },
   {
     setName: "Common sounds",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Cat purr" },
       { title: "Nails on a chalkboard" },
       { title: "Rain" },
@@ -961,11 +961,11 @@ export const STARTER_SETS = shuffle([
       { title: "Food sizzling" },
       { title: "Keyboard tapping" },
       { title: "Clock ticking" },
-    ]),
+    ],
   },
   {
     setName: "Characters from The Office",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Michael Scott" },
       { title: "Dwight Schrute" },
       { title: "Jim Halpert" },
@@ -982,11 +982,11 @@ export const STARTER_SETS = shuffle([
       { title: "Roy Anderson" },
       { title: "Jan Levinson" },
       { title: "Kelly Kapoor" },
-    ]),
+    ],
   },
   {
     setName: "Formula 1 circuits",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Monza" },
       { title: "Spa-Francorchamps" },
       { title: "Suzuka" },
@@ -998,11 +998,11 @@ export const STARTER_SETS = shuffle([
       { title: "Circuit Gilles Villeneuve" },
       { title: "Marina Bay Street Circuit" },
       { title: "Circuit de Barcelona-Catalunya" },
-    ]),
+    ],
   },
   {
     setName: "Types of coffee drinks",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Black" },
       { title: "Latte" },
       { title: "Cappucino" },
@@ -1014,11 +1014,11 @@ export const STARTER_SETS = shuffle([
       { title: "Mocha" },
       { title: "Macchiato" },
       { title: "Affogato" },
-    ]),
+    ],
   },
   {
     setName: "Common pets",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Cat" },
       { title: "Dog" },
       { title: "Parrot" },
@@ -1026,11 +1026,11 @@ export const STARTER_SETS = shuffle([
       { title: "Hamster" },
       { title: "Horse" },
       { title: "Cockatoo" },
-    ]),
+    ],
   },
   {
     setName: "Popular programming languages",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "JavaScript" },
       { title: "Python" },
       { title: "TypeScript" },
@@ -1043,11 +1043,11 @@ export const STARTER_SETS = shuffle([
       { title: "Rust" },
       { title: "Assembly" },
       { title: "Swift" },
-    ]),
+    ],
   },
   {
     setName: "Popular Christmas songs",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Sleigh Ride" },
       { title: "White Christmas" },
       { title: "All I Want for Christmas Is You" },
@@ -1060,20 +1060,20 @@ export const STARTER_SETS = shuffle([
       { title: "Winter Wonderland" },
       { title: "It's Beginning to Look a Lot Like Christmas" },
       { title: "Last Christmas" },
-    ]),
+    ],
   },
   {
     setName: "Hogwarts houses",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Gryffindor" },
       { title: "Hufflepuff" },
       { title: "Ravenclaw" },
       { title: "Slytherin" },
-    ]),
+    ],
   },
   {
     setName: "Knife cuts",
-    utensilSet: shuffle([
+    utensilSet: [
       { title: "Dice" },
       { title: "Julienne" },
       { title: "Mince" },
@@ -1083,6 +1083,91 @@ export const STARTER_SETS = shuffle([
       { title: "Brunoise" },
       { title: "Rondelle" },
       { title: "Paysanne" },
-    ]),
+    ],
+  },
+  {
+    setName: "Spanish verb conjugations",
+    utensilSet: [
+      { title: "Present" },
+      { title: "Preterite" },
+      { title: "Imperfect" },
+      { title: "Conditional" },
+      { title: "Future" },
+      { title: "Present subjunctive" },
+      { title: "Imperfect subjunctive" },
+      { title: "Future subjunctive" },
+      { title: "Affirmative imperative" },
+      { title: "Negative imperative" },
+      { title: "Present progressive" },
+      { title: "Imperfect progressive" },
+      { title: "Conditional progressive" },
+      { title: "Future progressive" },
+      { title: "Present perfect" },
+      { title: "Past perfect" },
+      { title: "Preterite perfect" },
+      { title: "Future perfect" },
+      { title: "Conditional perfect" },
+      { title: "Present perfect subjunctive" },
+      { title: "Past perfect subjunctive" },
+      { title: "Future perfect subjunctive" },
+    ],
+  },
+  {
+    setName: "Pizza toppings",
+    utensilSet: [
+      { title: "Pepperoni" },
+      { title: "Mushrooms" },
+      { title: "Onions" },
+      { title: "Sausage" },
+      { title: "Black olives" },
+      { title: "Green peppers" },
+      { title: "Pineapple" },
+      { title: "Spinach" },
+      { title: "Ham" },
+      { title: "Bacon" },
+      { title: "Anchovies" },
+    ],
+  },
+  {
+    setName: "Papa Louie Games",
+    utensilSet: [
+      { title: "Papa's Pizzeria" },
+      { title: "Papa's Burgeria" },
+      { title: "Papa's Taco Mia" },
+      { title: "Papa's Freezeria" },
+      { title: "Papa's Pancakeria" },
+      { title: "Papa's Wingeria" },
+      { title: "Papa's Hot Doggeria" },
+      { title: "Papa's Cupcakeria" },
+      { title: "Papa's Pastaria" },
+      { title: "Papa's Donuteria" },
+      { title: "Papa's Cheeseria" },
+      { title: "Papa's Bakeria" },
+      { title: "Papa's Sushiria" },
+      { title: "Papa's Scooperia" },
+      { title: "Papa's Mocharia" },
+      { title: "Papa's Cluckeria" },
+      { title: "Papa's Paleteria" },
+    ],
+  },
+  {
+    setName: "Doritos flavors",
+    utensilSet: [
+      { title: "Cool Ranch" },
+      { title: "Nacho Cheese" },
+      { title: "Flamas" },
+      { title: "Tapatío" },
+      { title: "Taco" },
+      { title: "Salsa Verde" },
+      { title: "Sweet & Tangy BBQ" },
+      { title: "Spicy Nacho" },
+      { title: "Spicy Sweet Chili" },
+      { title: "Golden Sriracha" },
+      { title: "Limón" },
+      { title: "Blazin' Buffalo & Ranch" },
+      { title: "Flamin' Hot Nacho Cheese" },
+      { title: "Flamin' Hot Cool Ranch" },
+      { title: "Flamin' Hot Limón" },
+    ],
   },
 ]);
