@@ -112,7 +112,7 @@ export default function RankingBoard({
         inputValue1Placeholder="Common types of pickles"
         inputValue2Placeholder="Jimmy Pickle"
         inputValue1Label="Name for this set"
-        inputValue2Label="Your display name"
+        inputValue2Label="Your display name (optional)"
         checkboxValueLabel="Make discoverable"
         checkboxValueDescription="With this enabled, this set may be discoverable by people with whom you have not shared your link."
         primaryButtonText="Get link"

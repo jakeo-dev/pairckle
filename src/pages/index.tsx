@@ -82,7 +82,7 @@ export default function Home() {
                           key={i}
                           className={`w-75 h-9 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium transition ${i == 2 ? "text-orange-600 dark:text-orange-400 lg:text-stone-700 lg:group-hover:text-orange-600 lg:dark:text-stone-300 lg:group-hover:dark:text-orange-400" : ""}`}
                         >
-                          {set?.setName}
+                          {set?.name}
                         </p>
                       ))}
                     </div>

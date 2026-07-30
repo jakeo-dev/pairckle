@@ -203,15 +203,27 @@ export default function InputModal({
           </button>
           <button
             type="submit"
-            className={`${
-              primaryButtonText ? "" : "hidden"
-            } ${!captchaToken || isSubmitting ? "cursor-not-allowed opacity-50" : ""} rounded-md bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
+            className={`${primaryButtonText ? "" : "hidden"} ${
+              !captchaToken ||
+              isSubmitting ||
+              inputValue1.length > 50 ||
+              inputValue2.length > 50 ||
+              inputValue1.length < 1
+                ? "cursor-not-allowed opacity-50"
+                : ""
+            } rounded-md bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
             onClick={
               onConfirm
                 ? () => onConfirm({ inputValue1, inputValue2, checkboxValue })
                 : undefined
             }
-            disabled={!captchaToken || isSubmitting}
+            disabled={
+              !captchaToken ||
+              isSubmitting ||
+              inputValue1.length > 50 ||
+              inputValue2.length > 50 ||
+              inputValue1.length < 1
+            }
           >
             {primaryButtonText}
           </button>
