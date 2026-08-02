@@ -52,7 +52,9 @@ export default function ConfirmModal({
             className={`${
               secondaryButtonText ? "" : "hidden"
             } rounded-md border-2 border-neutral-400/40 bg-transparent px-4 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
-            onClick={onCancel}
+            onClick={() => {
+              if (onCancel) onCancel();
+            }}
           >
             {secondaryButtonText}
           </button>

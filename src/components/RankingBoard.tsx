@@ -3,7 +3,7 @@ import Link from "next/link";
 import InputModal from "./InputModal";
 import ConfirmModal from "./ConfirmModal";
 import { useEffect, useRef, useState } from "react";
-import { monthName, shuffle, sortUtensils } from "@/utilities";
+import { monthName, sortUtensils } from "@/utilities";
 import { Ranking } from "@/types";
 
 import { Gabarito } from "next/font/google";
@@ -147,6 +147,7 @@ export default function RankingBoard({
               },
             ])
             .select();
+          console.log(data, error);
 
           setShareLinkModalVisibility(false);
           setCopyLinkModalVisibility(true);

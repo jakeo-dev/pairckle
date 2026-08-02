@@ -11,7 +11,11 @@ const gabarito = Gabarito({
 });
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartSimple, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartSimple,
+  faShare,
+  faFlag,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function SetBoard({
   set,
@@ -125,7 +129,7 @@ export default function SetBoard({
 
         <div className="mt-2 flex gap-2">
           <Link
-            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
+            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
             onClick={(e) => onRank(e)}
             href="/create"
           >
@@ -134,11 +138,16 @@ export default function SetBoard({
               className="mr-2 rotate-90 text-neutral-800 dark:text-neutral-300"
               aria-labelledby="rank-this-set-button-text"
             />
-            <span id="rank-this-set-button-text">Rank this set</span>
+            <span id="rank-this-set-button-text" className="hidden md:inline">
+              Rank this set
+            </span>
+            <span id="rank-this-set-button-text" className="md:hidden">
+              Rank
+            </span>
           </Link>
 
           <button
-            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
+            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
             onClick={() => {
               setCopyLinkModalVisibility(true);
             }}
@@ -150,6 +159,18 @@ export default function SetBoard({
             />
             <span id="share-button-text">Share</span>
           </button>
+
+          <a
+            className="flex min-h-max w-min items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+            href="report@jakeo.dev"
+            target="_blank"
+          >
+            <FontAwesomeIcon
+              icon={faFlag}
+              className="text-neutral-800 dark:text-neutral-300"
+              aria-label="Report this set"
+            />
+          </a>
         </div>
       </div>
     </>

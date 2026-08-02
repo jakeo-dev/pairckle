@@ -77,8 +77,9 @@ export default function InputModal({
         setStatus(`Error: ${data.message}`);
         turnstileRef.current?.reset();
       }
-    } catch (err) {
+    } catch (error) {
       setStatus("Something went wrong. Please try again.");
+      console.error("Error involving turnstile:", error);
       turnstileRef.current?.reset();
     } finally {
       setIsSubmitting(false);
@@ -103,7 +104,9 @@ export default function InputModal({
       >
         <button
           className="absolute right-8 top-7 text-lg transition hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+
             if (onCancel) onCancel();
           }}
         >
@@ -162,7 +165,9 @@ export default function InputModal({
         {checkboxValueLabel && (
           <div className="mt-6">
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+
                 if (checkboxValue) setCheckboxValue(false);
                 else setCheckboxValue(true);
               }}
@@ -198,7 +203,11 @@ export default function InputModal({
             className={`${
               secondaryButtonText ? "" : "hidden"
             } rounded-md border-2 border-neutral-400/40 bg-transparent px-4 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
-            onClick={onCancel}
+            onClick={(e) => {
+              e.preventDefault();
+
+              if (onCancel) onCancel();
+            }}
           >
             {secondaryButtonText}
           </button>
