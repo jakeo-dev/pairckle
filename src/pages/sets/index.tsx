@@ -79,7 +79,7 @@ export default function Sets() {
               {[...discoverableSets].map((set, index1) => (
                 <SetBoard
                   key={index1}
-                  id=""
+                  id={set.id}
                   dontShowAll
                   showReportButton
                   className="mb-10 w-full md:mb-12 lg:w-96"

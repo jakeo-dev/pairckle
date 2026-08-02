@@ -80,33 +80,35 @@ export default function SetBoard({
             </h2>
           </div>
 
-          {/* <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
-            <Link
-              className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-sm"
-              onClick={(e) => onRank(e)}
-              href="/create"
-            >
-              <FontAwesomeIcon
-                icon={faChartSimple}
-                className="mr-1 rotate-90 md:mr-1.5"
-                aria-labelledby="rank-button-text"
-              />
-              <span id="rank-button-text">Rank</span>
-            </Link>
-
+          <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
             <button
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-7 md:w-7 md:p-1 md:text-sm"
+              className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-sm"
               onClick={() => {
-                setShareLinkModalVisibility(true);
+                setCopyLinkModalVisibility(true);
               }}
             >
               <FontAwesomeIcon
                 icon={faShare}
-                aria-label="Share set"
-                title="Share set"
+                className="mr-1 md:mr-1.5"
+                aria-labelledby="share-button-text"
               />
+              <span id="share-button-text">Share</span>
             </button>
-          </div> */}
+
+            {showReportButton && (
+              <a
+                className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-7 md:w-7 md:p-1 md:text-sm"
+                href="mailto:report@jakeo.dev"
+                target="_blank"
+              >
+                <FontAwesomeIcon
+                  icon={faFlag}
+                  aria-label="Report this set"
+                  title="Report this set"
+                />
+              </a>
+            )}
+          </div>
         </div>
 
         <ul
@@ -147,34 +149,6 @@ export default function SetBoard({
               Rank
             </span>
           </Link>
-
-          <button
-            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
-            onClick={() => {
-              setCopyLinkModalVisibility(true);
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faShare}
-              className="mr-2 text-neutral-800 dark:text-neutral-300"
-              aria-labelledby="share-button-text"
-            />
-            <span id="share-button-text">Share</span>
-          </button>
-
-          {showReportButton && (
-            <a
-              className="flex min-h-max w-min items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
-              href="mailto:report@jakeo.dev"
-              target="_blank"
-            >
-              <FontAwesomeIcon
-                icon={faFlag}
-                className="text-neutral-800 dark:text-neutral-300"
-                aria-label="Report this set"
-              />
-            </a>
-          )}
         </div>
       </div>
     </>
