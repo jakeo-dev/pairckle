@@ -20,7 +20,7 @@ export default async function handler(
   if (!captchaToken) {
     return res
       .status(400)
-      .json({ success: false, message: "CAPTCHA token missing." });
+      .json({ success: false, message: "CAPTCHA token missing" });
   }
 
   try {
@@ -50,10 +50,11 @@ export default async function handler(
     // Token verified! Process rest of form payload here (e.g., save to DB)
     return res
       .status(200)
-      .json({ success: true, message: "Verification successful!" });
+      .json({ success: true, message: "Verification successful" });
   } catch (error) {
+    console.error("Internal server error:", error);
     return res
       .status(500)
-      .json({ success: false, message: "Internal server error." });
+      .json({ success: false, message: "Internal server error" });
   }
 }

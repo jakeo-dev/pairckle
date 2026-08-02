@@ -498,15 +498,15 @@ export default function Create() {
                       if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
-                          score: item.score + 1,
-                          wins: item.wins + 1,
+                          score: item.score ? item.score + 1 : -1,
+                          wins: item.wins ? item.wins + 1 : -1,
                         };
                         // add 1 to losses and remove 1 from score for second option
                       } else if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
-                          score: item.score - 1,
-                          losses: item.losses + 1,
+                          score: item.score ? item.score - 1 : -1,
+                          losses: item.losses ? item.losses + 1 : -1,
                         };
                       }
                       return item;
@@ -546,15 +546,15 @@ export default function Create() {
                       if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
-                          score: item.score + 1,
-                          wins: item.wins + 1,
+                          score: item.score ? item.score + 1 : -1,
+                          wins: item.wins ? item.wins + 1 : -1,
                         };
                         // add 1 to losses and remove 1 from score for first option
                       } else if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
-                          score: item.score - 1,
-                          losses: item.losses + 1,
+                          score: item.score ? item.score - 1 : -1,
+                          losses: item.losses ? item.losses + 1 : -1,
                         };
                       }
                       return item;
@@ -610,8 +610,8 @@ export default function Create() {
                             ) {
                               return {
                                 ...item,
-                                score: item.score - 1,
-                                wins: item.wins - 1,
+                                score: item.score ? item.score - 1 : -1,
+                                wins: item.wins ? item.wins - 1 : -1,
                               };
                               // undo previous action by removing 1 from losses and adding 1 to score for the previous loser
                             } else if (
@@ -624,8 +624,8 @@ export default function Create() {
                             ) {
                               return {
                                 ...item,
-                                score: item.score + 1,
-                                losses: item.losses - 1,
+                                score: item.score ? item.score + 1 : -1,
+                                losses: item.losses ? item.losses - 1 : -1,
                               };
                             }
                             return item;

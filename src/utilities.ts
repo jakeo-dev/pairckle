@@ -8,17 +8,23 @@ import { Utensil } from "./types";
  */
 export function sortUtensils(a: Utensil, b: Utensil): number {
   // sort by SCORE, highest to lowest
-  if (a.score !== b.score) {
+  if (a.score && b.score && a.score !== b.score) {
     return b.score - a.score;
   }
 
   // sort by WIN RATE, highest to lowest
-  if (b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)) {
+  if (
+    a.wins &&
+    b.wins &&
+    a.losses &&
+    b.losses &&
+    b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)
+  ) {
     return b.wins / (b.wins + b.losses) - a.wins / (a.wins + a.losses);
   }
 
   // sort by NUMBER OF WINS, highest to lowest
-  if (a.wins !== b.wins) {
+  if (a.wins && b.wins && a.wins !== b.wins) {
     return b.wins - a.wins;
   }
 

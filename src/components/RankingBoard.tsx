@@ -363,14 +363,14 @@ export default function RankingBoard({
                     const progress =
                       typeof utensil["wins"] === "number"
                         ? utensil["wins"] +
-                            (utensil["losses"] ? utensil["losses"] : 0) !==
+                            (utensil["losses"] ? utensil["losses"] : -1) !==
                           0
                           ? utensil["wins"] /
                             (utensil["wins"] +
-                              (utensil["losses"] ? utensil["losses"] : 0))
+                              (utensil["losses"] ? utensil["losses"] : -1))
                           : 0
                         : ranking.rankedUtensils.length - 1 !== 0
-                          ? (utensil["score"] ? utensil["score"] : 0) /
+                          ? (utensil["score"] ? utensil["score"] : -1) /
                             (ranking.rankedUtensils.length - 1)
                           : 0;
 
@@ -535,14 +535,14 @@ export function ExportView({
                 const progress =
                   typeof utensil["wins"] === "number"
                     ? utensil["wins"] +
-                        (utensil["losses"] ? utensil["losses"] : 0) !==
+                        (utensil["losses"] ? utensil["losses"] : -1) !==
                       0
                       ? utensil["wins"] /
                         (utensil["wins"] +
-                          (utensil["losses"] ? utensil["losses"] : 0))
+                          (utensil["losses"] ? utensil["losses"] : -1))
                       : 0
                     : ranking.rankedUtensils.length - 1 !== 0
-                      ? (utensil["score"] ? utensil["score"] : 0) /
+                      ? (utensil["score"] ? utensil["score"] : -1) /
                         (ranking.rankedUtensils.length - 1)
                       : 0;
 
