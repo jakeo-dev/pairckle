@@ -58,6 +58,8 @@ export default function SharedSet() {
             {currentSet && (
               <>
                 <SetBoard
+                  id={currentSet.id}
+                  showReportButton
                   className="mb-10 md:mb-12"
                   set={{
                     name: currentSet.name,
@@ -65,7 +67,6 @@ export default function SharedSet() {
                     username: currentSet.username,
                     sharedAt: currentSet.shared_at,
                   }}
-                  id={currentSet.id}
                   onRank={(event) => {
                     if (
                       localStorage.getItem("combosArray") &&

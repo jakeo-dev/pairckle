@@ -21,12 +21,14 @@ export default function SetBoard({
   set,
   onRank,
   dontShowAll = false,
+  showReportButton = false,
   className = "",
   id,
 }: {
   set: Set;
   onRank: (event: React.MouseEvent<HTMLElement>) => void;
   dontShowAll?: boolean;
+  showReportButton?: boolean;
   className?: string;
   id: string;
 }) {
@@ -66,7 +68,7 @@ export default function SetBoard({
                       ).slice(
                         0,
                         3,
-                      )}. ${set.sharedAt.split("T")[0].split("-")[2]} ${set.sharedAt.split("T")[0].split("-")[0]}`
+                      )}. ${Number(set.sharedAt.split("T")[0].split("-")[2])} ${Number(set.sharedAt.split("T")[0].split("-")[0])}`
                     : ""}
                 </h3>
               </div>
@@ -160,17 +162,19 @@ export default function SetBoard({
             <span id="share-button-text">Share</span>
           </button>
 
-          <a
-            className="flex min-h-max w-min items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
-            href="report@jakeo.dev"
-            target="_blank"
-          >
-            <FontAwesomeIcon
-              icon={faFlag}
-              className="text-neutral-800 dark:text-neutral-300"
-              aria-label="Report this set"
-            />
-          </a>
+          {showReportButton && (
+            <a
+              className="flex min-h-max w-min items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+              href="mailto:report@jakeo.dev"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={faFlag}
+                className="text-neutral-800 dark:text-neutral-300"
+                aria-label="Report this set"
+              />
+            </a>
+          )}
         </div>
       </div>
     </>

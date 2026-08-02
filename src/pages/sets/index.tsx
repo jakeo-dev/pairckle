@@ -81,6 +81,7 @@ export default function Sets() {
                   key={index1}
                   id=""
                   dontShowAll
+                  showReportButton
                   className="mb-10 w-full md:mb-12 lg:w-96"
                   set={{
                     name: set.name,
