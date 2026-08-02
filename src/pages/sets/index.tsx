@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { Set, SharedSetData } from "@/types";
 
 import { supabase } from "../../utils/supabase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBoxArchive, faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<Set[]>([]);
@@ -65,8 +67,12 @@ export default function Sets() {
       />
 
       <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="mt-24 flex h-full w-full items-center justify-center pb-16 md:mt-48">
+        <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
           <div>
+            <h2 className="mb-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
+              <FontAwesomeIcon icon={faGlobe} className="mr-3" />
+              Discoverable sets
+            </h2>
             <MasonryLayout
               defaultCols={1}
               smCols={1}
@@ -74,7 +80,7 @@ export default function Sets() {
               lgCols={2}
               xlCols={2}
               className="flex"
-              columnClassName="bg-clip-padding px-6"
+              columnClassName="bg-clip-padding lg:odd:mr-12"
             >
               {[...discoverableSets].map((set, index1) => (
                 <SetBoard
@@ -108,6 +114,11 @@ export default function Sets() {
                 />
               ))}
             </MasonryLayout>
+
+            <h2 className="mb-12 mt-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
+              <FontAwesomeIcon icon={faBoxArchive} className="mr-3" />
+              Pre-made sets
+            </h2>
             <MasonryLayout
               defaultCols={1}
               smCols={1}
@@ -115,7 +126,7 @@ export default function Sets() {
               lgCols={2}
               xlCols={2}
               className="flex"
-              columnClassName="bg-clip-padding px-6"
+              columnClassName="bg-clip-padding lg:odd:mr-12"
             >
               {[...starterSets].map((set, index1) => (
                 <SetBoard
