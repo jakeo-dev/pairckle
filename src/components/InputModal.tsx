@@ -24,15 +24,11 @@ export default function InputModal({
   subtitleText?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  onConfirm?: ({
-    inputValue1,
-    inputValue2,
-    checkboxValue,
-  }: {
-    inputValue1?: string;
-    inputValue2?: string;
-    checkboxValue?: boolean;
-  }) => void;
+  onConfirm?: (
+    inputValue1: string,
+    inputValue2: string,
+    checkboxValue: boolean,
+  ) => void;
   onCancel?: () => void;
   inputValue1Placeholder?: string;
   inputValue1Label?: string;
@@ -59,7 +55,7 @@ export default function InputModal({
     setStatus("");
 
     try {
-      const res = await fetch("../pages/api/verify-turnstile", {
+      const res = await fetch("/api/verify-turnstile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ captchaToken }),
@@ -69,6 +65,11 @@ export default function InputModal({
 
       if (data.success) {
         setStatus("Success! Form submitted.");
+
+        if (onConfirm) {
+          onConfirm(inputValue1, inputValue2, checkboxValue);
+        }
+
         // Reset widget token for security / re-use
         turnstileRef.current?.reset();
         setCaptchaToken("");
@@ -212,11 +213,6 @@ export default function InputModal({
                 ? "cursor-not-allowed opacity-50"
                 : ""
             } rounded-md bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
-            onClick={
-              onConfirm
-                ? () => onConfirm({ inputValue1, inputValue2, checkboxValue })
-                : undefined
-            }
             disabled={
               !captchaToken ||
               isSubmitting ||

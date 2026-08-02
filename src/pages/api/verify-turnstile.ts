@@ -15,9 +15,9 @@ export default async function handler(
       .json({ success: false, message: "Method not allowed" });
   }
 
-  const { token } = req.body;
+  const { captchaToken } = req.body;
 
-  if (!token) {
+  if (!captchaToken) {
     return res
       .status(400)
       .json({ success: false, message: "CAPTCHA token missing." });
@@ -34,7 +34,7 @@ export default async function handler(
         },
         body: new URLSearchParams({
           secret: process.env.TURNSTILE_SECRET_KEY || "",
-          response: token,
+          response: captchaToken,
         }),
       },
     );

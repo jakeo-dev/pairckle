@@ -117,7 +117,7 @@ export default function RankingBoard({
         checkboxValueDescription="With this enabled, this set may be discoverable by people with whom you have not shared your link."
         primaryButtonText="Get link"
         secondaryButtonText="Cancel"
-        onConfirm={async ({ inputValue1, inputValue2, checkboxValue }) => {
+        onConfirm={async (inputValue1, inputValue2, checkboxValue) => {
           const id =
             inputValue1
               ?.replaceAll(/[^\w]/gi, " ")
