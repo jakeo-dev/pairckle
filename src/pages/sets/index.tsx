@@ -17,12 +17,13 @@ export default function Sets() {
 
   useEffect(() => {
     async function getDiscoverableSets() {
-      const { data: sharedSets } = await supabase.from("shared_sets").select();
+      const { data: sharedSets } = await supabase
+        .from("shared_sets")
+        .select()
+        .eq("discoverable", true);
 
       if (sharedSets) {
-        const theseSets = sharedSets.filter((set) => set.discoverable === true);
-
-        setDiscoverableSets(theseSets.toReversed());
+        setDiscoverableSets(sharedSets.toReversed());
       }
     }
 
