@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -6,6 +8,7 @@ export default function ConfirmModal({
   titleText,
   subtitleText,
   primaryButtonText,
+  primaryButtonTextClicked,
   secondaryButtonText,
   onConfirm,
   onCancel,
@@ -14,10 +17,15 @@ export default function ConfirmModal({
   titleText: string;
   subtitleText?: string;
   primaryButtonText?: string;
+  primaryButtonTextClicked?: string;
   secondaryButtonText?: string;
   onConfirm?: () => void;
   onCancel?: () => void;
 }) {
+  const [primaryButtonTextState, setPrimaryButtonTextState] = useState<
+    string | undefined
+  >(primaryButtonText);
+
   return (
     <div
       className={`fixed left-0 top-0 z-30 flex h-full w-full items-center justify-center overflow-auto bg-black/50 ${
@@ -51,7 +59,7 @@ export default function ConfirmModal({
           <button
             className={`${
               secondaryButtonText ? "" : "hidden"
-            } rounded-md border-2 border-neutral-400/40 bg-transparent px-4 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
+            } rounded-full border-2 border-neutral-400/40 bg-transparent px-5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
             onClick={() => {
               if (onCancel) onCancel();
             }}
@@ -61,10 +69,15 @@ export default function ConfirmModal({
           <button
             className={`${
               primaryButtonText ? "" : "hidden"
-            } rounded-md bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
-            onClick={onConfirm}
+            } rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
+            onClick={() => {
+              if (onConfirm) onConfirm();
+              if (primaryButtonTextClicked) {
+                setPrimaryButtonTextState(primaryButtonTextClicked);
+              }
+            }}
           >
-            {primaryButtonText}
+            {primaryButtonTextState}
           </button>
         </div>
       </div>

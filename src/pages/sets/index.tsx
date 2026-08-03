@@ -20,9 +20,9 @@ export default function Sets() {
       const { data: sharedSets } = await supabase.from("shared_sets").select();
 
       if (sharedSets) {
-        const theseSets = sharedSets.filter((set) => set.public === true);
+        const theseSets = sharedSets.filter((set) => set.discoverable === true);
 
-        setDiscoverableSets(theseSets);
+        setDiscoverableSets(theseSets.toReversed());
       }
     }
 
@@ -70,53 +70,66 @@ export default function Sets() {
         <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
           <div>
             <h2 className="mb-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
-              <FontAwesomeIcon icon={faGlobe} className="mr-3" />
+              <FontAwesomeIcon
+                icon={faGlobe}
+                className="mr-3 text-gray-500 dark:text-gray-400"
+              />
               Discoverable sets
             </h2>
-            <MasonryLayout
-              defaultCols={1}
-              smCols={1}
-              mdCols={1}
-              lgCols={2}
-              xlCols={2}
-              className="flex"
-              columnClassName="bg-clip-padding lg:odd:mr-12"
-            >
-              {[...discoverableSets].map((set, index1) => (
-                <SetBoard
-                  key={index1}
-                  id={set.id}
-                  dontShowAll
-                  showReportButton
-                  className="mb-10 w-full md:mb-12 lg:w-96"
-                  set={{
-                    name: set.name,
-                    utensils: set.utensils,
-                    username: set.username,
-                    sharedAt: set.shared_at,
-                  }}
-                  onRank={(event) => {
-                    if (
-                      localStorage.getItem("combosArray") &&
-                      localStorage.getItem("combosArray") !== "[]"
-                    ) {
-                      event.preventDefault();
-                      setErrorRankingModalVisibility(true);
-                    } else {
-                      localStorage.setItem(
-                        "utensilInput",
-                        shuffle(
-                          set.utensils.map((utensil) => utensil.title),
-                        ).join("\n"),
-                      );
-                    }
-                  }}
-                />
-              ))}
-            </MasonryLayout>
+            {discoverableSets.length > 0 ? (
+              <MasonryLayout
+                defaultCols={1}
+                smCols={1}
+                mdCols={1}
+                lgCols={2}
+                xlCols={2}
+                className="flex"
+                columnClassName="bg-clip-padding lg:odd:mr-12"
+              >
+                {[...discoverableSets].map((set, index1) => (
+                  <SetBoard
+                    key={index1}
+                    id={set.id}
+                    dontShowAll
+                    showShareButton
+                    showReportButton
+                    className="mb-10 w-full md:mb-12 lg:w-96"
+                    set={{
+                      name: set.name,
+                      utensils: shuffle(set.utensils),
+                      username: set.username,
+                      sharedAt: set.shared_at,
+                    }}
+                    onRank={(event) => {
+                      if (
+                        localStorage.getItem("combosArray") &&
+                        localStorage.getItem("combosArray") !== "[]"
+                      ) {
+                        event.preventDefault();
+                        setErrorRankingModalVisibility(true);
+                      } else {
+                        localStorage.setItem(
+                          "utensilInput",
+                          shuffle(
+                            set.utensils.map((utensil) => utensil.title),
+                          ).join("\n"),
+                        );
+                      }
+                    }}
+                  />
+                ))}
+              </MasonryLayout>
+            ) : (
+              <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                Loading sets...
+              </h2>
+            )}
 
             <h2 className="mb-12 mt-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
-              <FontAwesomeIcon icon={faBoxArchive} className="mr-3" />
+              <FontAwesomeIcon
+                icon={faBoxArchive}
+                className="mr-3 text-gray-500 dark:text-gray-400"
+              />
               Pre-made sets
             </h2>
             <MasonryLayout

@@ -59,6 +59,7 @@ export default function SharedSet() {
               <>
                 <SetBoard
                   id={currentSet.id}
+                  showShareButton
                   showReportButton
                   className="mb-10 md:mb-12"
                   set={{

@@ -1,6 +1,6 @@
 import Title from "./Title";
 import Link from "next/link";
-import InputModal from "./InputModal";
+import ShareSetModal from "./ShareSetModal";
 import ConfirmModal from "./ConfirmModal";
 import { useEffect, useRef, useState } from "react";
 import { monthName, sortUtensils } from "@/utilities";
@@ -106,17 +106,8 @@ export default function RankingBoard({
   return (
     <>
       {/* share set link modal */}
-      <InputModal
+      <ShareSetModal
         visibility={shareLinkModalVisibility}
-        titleText="Share this set"
-        inputValue1Placeholder="Common types of pickles"
-        inputValue2Placeholder="Jimmy Pickle"
-        inputValue1Label="Name for this set"
-        inputValue2Label="Your display name (optional)"
-        checkboxValueLabel="Make discoverable"
-        checkboxValueDescription="With this enabled, this set may be discoverable by people with whom you have not shared your link."
-        primaryButtonText="Get link"
-        secondaryButtonText="Cancel"
         onConfirm={async (inputValue1, inputValue2, checkboxValue) => {
           const id =
             inputValue1
@@ -140,7 +131,7 @@ export default function RankingBoard({
                 id: id,
                 name: inputValue1,
                 username: inputValue2,
-                public: checkboxValue,
+                discoverable: checkboxValue,
                 utensils: ranking.rankedUtensils.map((utensil) => ({
                   title: utensil.title,
                 })),
@@ -161,6 +152,7 @@ export default function RankingBoard({
         titleText="Here's your link"
         subtitleText={"https://pairckle.jakeo.dev/sets/" + id}
         primaryButtonText="Copy link"
+        primaryButtonTextClicked="Copied!"
         secondaryButtonText="Close"
         onConfirm={() => {
           navigator.clipboard.writeText(
@@ -226,9 +218,9 @@ export default function RankingBoard({
                   <FontAwesomeIcon
                     icon={faLink}
                     className="mr-2 w-4 text-neutral-700 dark:text-neutral-400 md:mr-3"
-                    aria-labelledby="make-public-button-text"
+                    aria-labelledby="share-link-button-text"
                   />
-                  <span id="make-public-button-text">Share link to set</span>
+                  <span id="share-link-button-text">Share link to set</span>
                 </button>
                 <button
                   className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
@@ -363,14 +355,20 @@ export default function RankingBoard({
                     const progress =
                       typeof utensil["wins"] === "number"
                         ? utensil["wins"] +
-                            (utensil["losses"] ? utensil["losses"] : -1) !==
+                            (utensil["losses"] !== undefined
+                              ? utensil["losses"]
+                              : -1) !==
                           0
                           ? utensil["wins"] /
                             (utensil["wins"] +
-                              (utensil["losses"] ? utensil["losses"] : -1))
+                              (utensil["losses"] !== undefined
+                                ? utensil["losses"]
+                                : -1))
                           : 0
                         : ranking.rankedUtensils.length - 1 !== 0
-                          ? (utensil["score"] ? utensil["score"] : -1) /
+                          ? (utensil["score"] !== undefined
+                              ? utensil["score"]
+                              : -1) /
                             (ranking.rankedUtensils.length - 1)
                           : 0;
 
@@ -535,14 +533,20 @@ export function ExportView({
                 const progress =
                   typeof utensil["wins"] === "number"
                     ? utensil["wins"] +
-                        (utensil["losses"] ? utensil["losses"] : -1) !==
+                        (utensil["losses"] !== undefined
+                          ? utensil["losses"]
+                          : -1) !==
                       0
                       ? utensil["wins"] /
                         (utensil["wins"] +
-                          (utensil["losses"] ? utensil["losses"] : -1))
+                          (utensil["losses"] !== undefined
+                            ? utensil["losses"]
+                            : -1))
                       : 0
                     : ranking.rankedUtensils.length - 1 !== 0
-                      ? (utensil["score"] ? utensil["score"] : -1) /
+                      ? (utensil["score"] !== undefined
+                          ? utensil["score"]
+                          : -1) /
                         (ranking.rankedUtensils.length - 1)
                       : 0;
 
