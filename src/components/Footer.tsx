@@ -26,7 +26,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
             alt="JakeO.dev logo"
           />
         </a>
-        <span className="mx-3">•</span>
+        <span className="mx-3 text-gray-500 dark:text-gray-400">•</span>
         <a
           className="text-neutral-800 transition hover:text-neutral-600 active:text-neutral-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:active:text-neutral-500"
           href="https://github.com/jakeo-dev/pairckle"
@@ -34,7 +34,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
         >
           <FontAwesomeIcon
             icon={faGithub}
-            className="mr-1 text-xs lg:text-sm"
+            className="mr-1.5 text-xs lg:text-sm"
             aria-hidden
           />
           GitHub

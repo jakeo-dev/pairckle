@@ -62,8 +62,15 @@ export default function Create() {
     // set initial input empty if not already saved
     setUtensilInput(localStorage.getItem("utensilInput") ?? "");
 
+    if (localStorage.getItem("rankNow") === "hurry") {
+      onHurry(localStorage.getItem("utensilInput") ?? "");
+    } else if (localStorage.getItem("rankNow") === "concentrate") {
+      onConcentrate(localStorage.getItem("utensilInput") ?? "");
+    }
+    localStorage.setItem("rankNow", "");
+
     if (
-      // dont check for winnersHistory, because it could be null if no decisions have been made yet even though the ranking has been started
+      // dont check for winnersHistory, because it could be null if no decisions have been made yet even if the ranking has been started
       localStorage.getItem("maxCombos") &&
       localStorage.getItem("rankingType") &&
       localStorage.getItem("utensilsArray") &&
@@ -236,6 +243,119 @@ export default function Create() {
     setSecondOption(utensilsArray[combosArray[prevComboIndex][1]]["title"]);
   }
 
+  function onHurry(usableUtensilInput: string) {
+    if (
+      usableUtensilInput.trim() === "" ||
+      (usableUtensilInput.trim().split("\n").length < 2 &&
+        usableUtensilInput.trim().split(",").length < 2)
+    ) {
+      alert("Enter a list of things separated by line or comma");
+    } else {
+      const newUtensilsArray = [];
+
+      // if input is not separated by lines, then assume its separated by commas
+      // lines trump commas
+      let splitKey = "\n";
+      if (
+        usableUtensilInput.trim().split("\n").length < 2 &&
+        usableUtensilInput.trim().split(",").length > 1
+      ) {
+        splitKey = ",";
+      }
+
+      for (const utensilTitle of usableUtensilInput.trim().split(splitKey)) {
+        newUtensilsArray.push({
+          title: utensilTitle.trim(),
+          score: 0,
+          wins: 0,
+          losses: 0,
+        });
+      }
+
+      const newCombosArray = generateCombos(newUtensilsArray);
+
+      setMaxCombos(Math.ceil(newCombosArray.length / 2));
+
+      setRankingType("hurry");
+
+      setUtensilsArray(newUtensilsArray);
+      setCombosArray(newCombosArray);
+
+      localStorage.setItem(
+        "maxCombos",
+        String(Math.ceil(newCombosArray.length / 2)),
+      );
+      localStorage.setItem("rankingType", "hurry");
+      localStorage.setItem("utensilsArray", JSON.stringify(newUtensilsArray));
+      localStorage.setItem("combosArray", JSON.stringify(newCombosArray));
+
+      setNextCombo(
+        newCombosArray,
+        newUtensilsArray,
+        currentComboIndex,
+        maxCombos,
+      );
+
+      setSelectionVisibility("visible-fade");
+      setStartVisibility("invisible-fade");
+    }
+  }
+
+  function onConcentrate(usableUtensilInput: string) {
+    if (
+      usableUtensilInput.trim() === "" ||
+      (usableUtensilInput.trim().split("\n").length < 2 &&
+        usableUtensilInput.trim().split(",").length < 2)
+    ) {
+      alert("Enter a list of things separated by line or comma");
+    } else {
+      const newUtensilsArray = [];
+
+      // if input is not separated by lines, then assume its separated by commas
+      // lines trump commas
+      let splitKey = "\n";
+      if (
+        usableUtensilInput.trim().split("\n").length < 2 &&
+        usableUtensilInput.trim().split(",").length > 1
+      ) {
+        splitKey = ",";
+      }
+
+      for (const utensilTitle of usableUtensilInput.trim().split(splitKey)) {
+        newUtensilsArray.push({
+          title: utensilTitle.trim(),
+          score: 0,
+          wins: 0,
+          losses: 0,
+        });
+      }
+
+      const newCombosArray = generateCombos(newUtensilsArray);
+
+      setMaxCombos(newCombosArray.length);
+
+      setRankingType("concentrate");
+
+      setUtensilsArray(newUtensilsArray);
+      setCombosArray(newCombosArray);
+
+      localStorage.setItem("maxCombos", String(newCombosArray.length));
+      localStorage.setItem("rankingType", "concentrate");
+      localStorage.setItem("utensilsArray", JSON.stringify(newUtensilsArray));
+      localStorage.setItem("combosArray", JSON.stringify(newCombosArray));
+
+      setNextCombo(
+        newCombosArray,
+        newUtensilsArray,
+        currentComboIndex,
+        maxCombos,
+      );
+
+      setSelectionVisibility("visible-fade");
+      setStartVisibility("invisible-fade");
+    }
+  }
+
   return (
     <>
       <CommonHead />
@@ -305,69 +425,7 @@ export default function Create() {
             <div className="mt-2 flex gap-2">
               <button
                 onClick={() => {
-                  if (
-                    utensilInput.trim() === "" ||
-                    (utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length < 2)
-                  ) {
-                    alert("Enter a list of things separated by line or comma");
-                  } else {
-                    const newUtensilsArray = [];
-
-                    // if input is not separated by lines, then assume its separated by commas
-                    // lines trump commas
-                    let splitKey = "\n";
-                    if (
-                      utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length > 1
-                    ) {
-                      splitKey = ",";
-                    }
-
-                    for (const utensilTitle of utensilInput
-                      .trim()
-                      .split(splitKey)) {
-                      newUtensilsArray.push({
-                        title: utensilTitle.trim(),
-                        score: 0,
-                        wins: 0,
-                        losses: 0,
-                      });
-                    }
-
-                    const newCombosArray = generateCombos(newUtensilsArray);
-
-                    setMaxCombos(Math.ceil(newCombosArray.length / 2));
-
-                    setRankingType("hurry");
-
-                    setUtensilsArray(newUtensilsArray);
-                    setCombosArray(newCombosArray);
-
-                    localStorage.setItem(
-                      "maxCombos",
-                      String(Math.ceil(newCombosArray.length / 2)),
-                    );
-                    localStorage.setItem("rankingType", "hurry");
-                    localStorage.setItem(
-                      "utensilsArray",
-                      JSON.stringify(newUtensilsArray),
-                    );
-                    localStorage.setItem(
-                      "combosArray",
-                      JSON.stringify(newCombosArray),
-                    );
-
-                    setNextCombo(
-                      newCombosArray,
-                      newUtensilsArray,
-                      currentComboIndex,
-                      maxCombos,
-                    );
-
-                    setSelectionVisibility("visible-fade");
-                    setStartVisibility("invisible-fade");
-                  }
+                  onHurry(utensilInput);
                 }}
                 className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
               >
@@ -387,69 +445,7 @@ export default function Create() {
               </button>
               <button
                 onClick={() => {
-                  if (
-                    utensilInput.trim() === "" ||
-                    (utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length < 2)
-                  ) {
-                    alert("Enter a list of things separated by line or comma");
-                  } else {
-                    const newUtensilsArray = [];
-
-                    // if input is not separated by lines, then assume its separated by commas
-                    // lines trump commas
-                    let splitKey = "\n";
-                    if (
-                      utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length > 1
-                    ) {
-                      splitKey = ",";
-                    }
-
-                    for (const utensilTitle of utensilInput
-                      .trim()
-                      .split(splitKey)) {
-                      newUtensilsArray.push({
-                        title: utensilTitle.trim(),
-                        score: 0,
-                        wins: 0,
-                        losses: 0,
-                      });
-                    }
-
-                    const newCombosArray = generateCombos(newUtensilsArray);
-
-                    setMaxCombos(newCombosArray.length);
-
-                    setRankingType("concentrate");
-
-                    setUtensilsArray(newUtensilsArray);
-                    setCombosArray(newCombosArray);
-
-                    localStorage.setItem(
-                      "maxCombos",
-                      String(newCombosArray.length),
-                    );
-                    localStorage.setItem("rankingType", "concentrate");
-                    localStorage.setItem(
-                      "utensilsArray",
-                      JSON.stringify(newUtensilsArray),
-                    );
-                    localStorage.setItem(
-                      "combosArray",
-                      JSON.stringify(newCombosArray),
-                    );
-
-                    setNextCombo(
-                      newCombosArray,
-                      newUtensilsArray,
-                      currentComboIndex,
-                      maxCombos,
-                    );
-
-                    setSelectionVisibility("visible-fade");
-                    setStartVisibility("invisible-fade");
-                  }
+                  onConcentrate(utensilInput);
                 }}
                 className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
               >

@@ -69,9 +69,7 @@ export default function InputModal({
         visibility ? "visible-fade" : "invisible-fade"
       }`}
       onKeyDown={(e) => {
-        if (e.key === "Escape" && onCancel) {
-          onCancel();
-        }
+        if (e.key === "Escape") onCancel?.();
       }}
       tabIndex={0}
     >
@@ -84,7 +82,7 @@ export default function InputModal({
           onClick={(e) => {
             e.preventDefault();
 
-            if (onCancel) onCancel();
+            onCancel?.();
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
@@ -173,7 +171,7 @@ export default function InputModal({
             onClick={(e) => {
               e.preventDefault();
 
-              if (onCancel) onCancel();
+              onCancel?.();
             }}
           >
             Cancel

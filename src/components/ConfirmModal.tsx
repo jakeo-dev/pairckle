@@ -32,9 +32,7 @@ export default function ConfirmModal({
         visibility ? "visible-fade" : "invisible-fade"
       }`}
       onKeyDown={(e) => {
-        if (e.key === "Escape" && onCancel) {
-          onCancel();
-        }
+        if (e.key === "Escape") onCancel?.();
       }}
       tabIndex={0}
     >
@@ -42,7 +40,7 @@ export default function ConfirmModal({
         <button
           className="absolute right-8 top-7 text-lg transition hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600"
           onClick={() => {
-            if (onCancel) onCancel();
+            onCancel?.();
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
@@ -61,7 +59,7 @@ export default function ConfirmModal({
               secondaryButtonText ? "" : "hidden"
             } rounded-full border-2 border-neutral-400/40 bg-transparent px-5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
             onClick={() => {
-              if (onCancel) onCancel();
+              onCancel?.();
             }}
           >
             {secondaryButtonText}
@@ -71,7 +69,7 @@ export default function ConfirmModal({
               primaryButtonText ? "" : "hidden"
             } rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
             onClick={() => {
-              if (onConfirm) onConfirm();
+              onConfirm?.();
               if (primaryButtonTextClicked) {
                 setPrimaryButtonTextState(primaryButtonTextClicked);
               }

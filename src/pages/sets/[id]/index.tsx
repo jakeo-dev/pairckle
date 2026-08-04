@@ -25,12 +25,13 @@ export default function SharedSet() {
 
   useEffect(() => {
     async function getCurrentSet() {
-      const { data: sharedSets } = await supabase.from("shared_sets").select();
+      const { data: sharedSets } = await supabase
+        .from("shared_sets")
+        .select()
+        .eq("id", id);
 
       if (sharedSets) {
-        const thisSet = sharedSets.filter((set) => set.id === id)[0];
-
-        setCurrentSet(thisSet);
+        setCurrentSet(sharedSets[0]);
       }
     }
 
@@ -78,8 +79,27 @@ export default function SharedSet() {
                     } else {
                       localStorage.setItem(
                         "utensilInput",
-                        shuffle(currentSet.utensils).join("\n"),
+                        shuffle(currentSet.utensils)
+                          .map((utensil) => utensil.title)
+                          .join("\n"),
                       );
+                    }
+                  }}
+                  onRankNow={(event, rankingType) => {
+                    if (
+                      localStorage.getItem("combosArray") &&
+                      localStorage.getItem("combosArray") !== "[]"
+                    ) {
+                      event.preventDefault();
+                      setErrorRankingModalVisibility(true);
+                    } else {
+                      localStorage.setItem(
+                        "utensilInput",
+                        shuffle(currentSet.utensils)
+                          .map((utensil) => utensil.title)
+                          .join("\n"),
+                      );
+                      localStorage.setItem("rankNow", rankingType);
                     }
                   }}
                 />

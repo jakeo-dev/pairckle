@@ -15,11 +15,14 @@ import {
   faChartSimple,
   faShare,
   faFlag,
+  faBolt,
+  faBullseye,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SetBoard({
   set,
   onRank,
+  onRankNow,
   dontShowAll = false,
   showReportButton = false,
   showShareButton = false,
@@ -27,7 +30,11 @@ export default function SetBoard({
   id,
 }: {
   set: Set;
-  onRank: (event: React.MouseEvent<HTMLElement>) => void;
+  onRank?: (event: React.MouseEvent<HTMLElement>) => void;
+  onRankNow?: (
+    event: React.MouseEvent<HTMLElement>,
+    rankingType: string,
+  ) => void;
   dontShowAll?: boolean;
   showShareButton?: boolean;
   showReportButton?: boolean;
@@ -120,24 +127,26 @@ export default function SetBoard({
           className={`${set.utensils.length > 8 && dontShowAll ? "fade-text" : ""} overflow-y-auto rounded-lg border-2 border-neutral-500/15 dark:border-neutral-500/40`}
         >
           {/* create shallow copy of set.utensils (so it wont actually change the set.utensils variable), sort randomly */}
-          {[...set.utensils].slice(0, 6).map((utensil, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
-            >
-              <p
-                className={`w-full text-sm md:text-base ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+          {[...set.utensils]
+            .slice(0, dontShowAll ? 6 : set.utensils.length)
+            .map((utensil, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
               >
-                {utensil.title}
-              </p>
-            </li>
-          ))}
+                <p
+                  className={`w-full text-sm md:text-base ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                >
+                  {utensil.title}
+                </p>
+              </li>
+            ))}
         </ul>
 
         <div className="mt-2 flex gap-2">
           <Link
             className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
-            onClick={(e) => onRank(e)}
+            onClick={(e) => onRank?.(e)}
             href="/create"
           >
             <FontAwesomeIcon
@@ -146,6 +155,43 @@ export default function SetBoard({
               aria-labelledby="rank-this-set-button-text"
             />
             <span id="rank-this-set-button-text">Rank this set</span>
+          </Link>
+          <Link
+            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+            href={`/sets/${id}`}
+          >
+            <FontAwesomeIcon
+              icon={faChartSimple}
+              className="mr-2 rotate-90 text-neutral-800 dark:text-neutral-300"
+              aria-labelledby="see-set-button-text"
+            />
+            <span id="see-set-button-text">See full set</span>
+          </Link>
+        </div>
+        <div className="mt-2 flex gap-2">
+          <Link
+            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+            onClick={(e) => onRankNow?.(e, "hurry")}
+            href="/create"
+          >
+            <FontAwesomeIcon
+              icon={faBolt}
+              className="mr-2 text-neutral-800 dark:text-neutral-300"
+              aria-labelledby="hurry-button-text"
+            />
+            <span id="hurry-button-text">Hurry</span>
+          </Link>
+          <Link
+            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+            onClick={(e) => onRankNow?.(e, "concentrate")}
+            href="/create"
+          >
+            <FontAwesomeIcon
+              icon={faBullseye}
+              className="mr-2 text-neutral-800 dark:text-neutral-300"
+              aria-labelledby="concentrate-button-text"
+            />
+            <span id="concentrate-button-text">Concentrate</span>
           </Link>
         </div>
       </div>
