@@ -162,10 +162,10 @@ export default function RankingBoard({
         onCancel={() => setCopyLinkModalVisibility(false)}
       />
 
-      <div className={`w-full md:w-[45rem] ${className || ""}`}>
+      <div className={`w-full ${className || ""}`}>
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
-            <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400 md:gap-2 md:text-sm">
+            <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 md:gap-2 md:text-sm">
               <h3 className="overflow-ellipsis lg:line-clamp-1">
                 {ranking.rankingType === "hurry" ? "Hurried" : "Concentrated"}
               </h3>

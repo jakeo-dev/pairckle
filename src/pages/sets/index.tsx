@@ -2,14 +2,15 @@ import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
 import MasonryLayout from "@/components/MasonryLayout";
 import SetBoard from "@/components/SetBoard";
-import { randomElement, shuffle } from "@/utilities";
+import Heading from "@/components/Heading";
+import { shuffle } from "@/utilities";
 import { STARTER_SETS } from "@/constants";
 import { useEffect, useState } from "react";
 import { Set, SharedSetData } from "@/types";
 
 import { supabase } from "../../utils/supabase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBoxArchive, faGlobe } from "@fortawesome/free-solid-svg-icons";
+
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<Set[]>([]);
@@ -67,41 +68,33 @@ export default function Sets() {
         onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
-      <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
-          <div>
-            <h2 className="mb-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
-              <FontAwesomeIcon
-                icon={faGlobe}
-                className="mr-3 text-gray-500 dark:text-gray-400"
-              />
-              Discoverable sets
-            </h2>
-            {discoverableSets.length > 0 ? (
-              <MasonryLayout
-                defaultCols={1}
-                smCols={1}
-                mdCols={1}
-                lgCols={2}
-                xlCols={2}
-                className="flex"
-                columnClassName="bg-clip-padding lg:odd:mr-12"
-              >
-                {[...discoverableSets].map((set, index1) => (
-                  <SetBoard
-                    key={index1}
-                    id={set.id}
-                    dontShowAll
-                    showShareButton
-                    showReportButton
-                    className="mb-10 w-full md:mb-12 lg:w-96"
-                    set={{
-                      name: set.name,
-                      utensils: shuffle(set.utensils),
-                      username: set.username,
-                      sharedAt: set.shared_at,
-                    }}
-                    onRank={(event) => {
+      <div className="flex min-h-screen w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
+        <div className="w-full">
+          <Heading icon={faGlobe} text="Community sets" />
+
+          {discoverableSets.length > 0 ? (
+            <MasonryLayout
+              defaultCols={1}
+              smCols={1}
+              mdCols={1}
+              lgCols={2}
+              xlCols={2}
+              className="section flex"
+              columnClassName="bg-clip-padding lg:odd:mr-12"
+            >
+              {[...discoverableSets].map((set, index1) => (
+                <SetBoard
+                  key={index1}
+                  id={set.id}
+                  showSeeSetButton
+                  className="mb-10 md:mb-12"
+                  set={{
+                    name: set.name,
+                    utensils: shuffle(set.utensils),
+                    username: set.username,
+                    sharedAt: set.shared_at,
+                  }}
+                  /* onRank={(event) => {
                       if (
                         localStorage.getItem("combosArray") &&
                         localStorage.getItem("combosArray") !== "[]"
@@ -116,43 +109,38 @@ export default function Sets() {
                           ).join("\n"),
                         );
                       }
-                    }}
-                  />
-                ))}
-              </MasonryLayout>
-            ) : (
-              <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                Loading sets...
-              </h2>
-            )}
-
-            <h2 className="mb-12 mt-12 flex items-center border-b-2 border-gray-400/30 px-2 pb-4 text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
-              <FontAwesomeIcon
-                icon={faBoxArchive}
-                className="mr-3 text-gray-500 dark:text-gray-400"
-              />
-              Pre-made sets
+                    }} */
+                />
+              ))}
+            </MasonryLayout>
+          ) : (
+            <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+              Loading sets...
             </h2>
-            <MasonryLayout
-              defaultCols={1}
-              smCols={1}
-              mdCols={1}
-              lgCols={2}
-              xlCols={2}
-              className="flex"
-              columnClassName="bg-clip-padding lg:odd:mr-12"
-            >
-              {[...starterSets].map((set, index1) => (
-                <SetBoard
-                  key={index1}
-                  id=""
-                  dontShowAll
-                  className="mb-10 w-full md:mb-12 lg:w-96"
-                  set={{
-                    name: set.name,
-                    utensils: set.utensils,
-                  }}
-                  onRank={(event) => {
+          )}
+
+          <div className="mb-10 flex w-full items-center border-b-2 border-neutral-400/30 md:mb-12" />
+
+          <MasonryLayout
+            defaultCols={1}
+            smCols={1}
+            mdCols={1}
+            lgCols={2}
+            xlCols={2}
+            className="section flex"
+            columnClassName="bg-clip-padding lg:odd:mr-12"
+          >
+            {[...starterSets].map((set, index1) => (
+              <SetBoard
+                key={index1}
+                id={String(index1)}
+                showSeeSetButton
+                className="mb-10 md:mb-12"
+                set={{
+                  name: set.name,
+                  utensils: set.utensils,
+                }}
+                /* onRank={(event) => {
                     if (
                       localStorage.getItem("combosArray") &&
                       localStorage.getItem("combosArray") !== "[]"
@@ -177,11 +165,10 @@ export default function Sets() {
                         ).join("\n"),
                       );
                     }
-                  }}
-                />
-              ))}
-            </MasonryLayout>
-          </div>
+                  }} */
+              />
+            ))}
+          </MasonryLayout>
         </div>
       </div>
     </>

@@ -14,9 +14,11 @@ import {
   faBolt,
   faBookmark,
   faBullseye,
+  faChartSimple,
   faForward,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import Heading from "@/components/Heading";
 
 export default function Create() {
   const [startVisibility, setStartVisibility] =
@@ -387,11 +389,15 @@ export default function Create() {
         }}
       />
 
-      <div className="flex h-screen items-center justify-center lg:min-h-screen">
-        <div className="relative h-screen w-full">
+      <div className="flex w-full items-center justify-center pb-16 lg:min-h-full">
+        <div className="w-full">
+          {startVisibility === "visible-fade" && (
+            <Heading icon={faChartSimple} rotateIcon text="Create a ranking" />
+          )}
+
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${startVisibility} absolute left-1/2 top-0 mt-52 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3`}
           >
             <label
               className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
@@ -411,7 +417,7 @@ export default function Create() {
               required={true}
               id="utensil-input"
             />
-            <Link
+            {/* <Link
               href="/sets"
               className="mt-0.5 block w-full rounded-md bg-neutral-400/20 px-3 py-2 text-center text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-3 lg:text-base"
             >
@@ -421,8 +427,8 @@ export default function Create() {
                 aria-labelledby="browse-lists-button-text"
               />
               <span id="browse-lists-button-text">Browse sets</span>
-            </Link>
-            <div className="mt-2 flex gap-2">
+            </Link> */}
+            <div className="mt-0.5 flex gap-2">
               <button
                 onClick={() => {
                   onHurry(utensilInput);
@@ -470,7 +476,7 @@ export default function Create() {
           <div
             className={`${selectionVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
-            <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
+            <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-500 dark:text-neutral-400 md:text-sm">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -820,7 +826,7 @@ export default function Create() {
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
                   >
                     <FontAwesomeIcon
                       icon={faRotateRight}
@@ -832,7 +838,7 @@ export default function Create() {
 
                   <Link
                     href="/rankings"
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base lg:px-3"
+                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
                   >
                     <FontAwesomeIcon
                       icon={faBookmark}

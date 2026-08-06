@@ -195,7 +195,7 @@ export default function InputModal({
               inputValue1.length < 1
             }
           >
-            Get link
+            Publish set
           </button>
         </div>
       </form>

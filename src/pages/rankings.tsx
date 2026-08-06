@@ -1,8 +1,10 @@
 import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
+import Heading from "@/components/Heading";
 import RankingBoard from "@/components/RankingBoard";
 import { Ranking } from "@/types";
 import { randomElement, shuffle } from "@/utilities";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 export default function Rankings() {
@@ -69,12 +71,12 @@ export default function Rankings() {
         onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
-      <div className="min-h-screen lg:min-h-[94.6vh]">
-        <div className="mt-24 flex h-full w-full items-center justify-center px-6 pb-16 md:mt-48">
+      <div className="flex min-h-screen w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
+        <div className="w-full">
+          <Heading icon={faBookmark} text="Your rankings" />
+
           <div
-            className={`w-full md:w-auto ${
-              savedRankings.length < 1 ? "hidden" : ""
-            }`}
+            className={`section ${savedRankings.length < 1 ? "hidden" : ""}`}
           >
             {[...savedRankings].map((ranking, index1) => (
               <RankingBoard
@@ -262,7 +264,9 @@ export default function Rankings() {
             ))}
           </div>
 
-          <div className={savedRankings.length < 1 ? "" : "hidden"}>
+          <div
+            className={`section ${savedRankings.length < 1 ? "" : "hidden"}`}
+          >
             <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
               {`You haven't saved any rankings yet...`}
             </h2>

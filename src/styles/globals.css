@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+  .section {
+    @apply mx-auto w-full px-6 md:w-[50rem];
+  }
+
   .invisible-fade {
     @apply invisible opacity-0 transition-all;
   }
