@@ -4,9 +4,9 @@ import MasonryLayout from "@/components/MasonryLayout";
 import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
 import { shuffle } from "@/utilities";
-import { STARTER_SETS } from "@/constants";
+import { RANDOM_SET, STARTER_SETS } from "@/sets";
 import { useEffect, useState } from "react";
-import { Set, SharedSetData } from "@/types";
+import { Set } from "@/types";
 
 import { supabase } from "../../utils/supabase";
 
@@ -14,7 +14,7 @@ import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<Set[]>([]);
-  const [discoverableSets, setDiscoverableSets] = useState<SharedSetData[]>([]);
+  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
 
   useEffect(() => {
     async function getDiscoverableSets() {
@@ -35,23 +35,7 @@ export default function Sets() {
     useState<boolean>(false);
 
   useEffect(() => {
-    setStarterSets(
-      STARTER_SETS.toSpliced(1, 0, {
-        name: "Random mix",
-        utensils: shuffle([
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-          { title: "????????" },
-        ]),
-      }),
-    );
+    setStarterSets(shuffle(STARTER_SETS).toSpliced(1, 0, RANDOM_SET));
   }, []);
 
   return (
@@ -89,10 +73,11 @@ export default function Sets() {
                   showSeeSetButton
                   className="mb-10 md:mb-12"
                   set={{
+                    id: set.id,
                     name: set.name,
                     utensils: shuffle(set.utensils),
                     username: set.username,
-                    sharedAt: set.shared_at,
+                    sharedAt: set.sharedAt,
                   }}
                   /* onRank={(event) => {
                       if (
@@ -133,10 +118,11 @@ export default function Sets() {
             {[...starterSets].map((set, index1) => (
               <SetBoard
                 key={index1}
-                id={String(index1)}
+                id={set.id}
                 showSeeSetButton
                 className="mb-10 md:mb-12"
                 set={{
+                  id: set.id,
                   name: set.name,
                   utensils: set.utensils,
                 }}

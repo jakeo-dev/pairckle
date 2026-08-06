@@ -3,8 +3,8 @@ import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { SharedSetData } from "@/types";
-import { monthName, shuffle } from "@/utilities";
+import { Set } from "@/types";
+import { monthName, randomElement, shuffle } from "@/utilities";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,14 +14,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { supabase } from "../../../utils/supabase";
+import { RANDOM_SET, STARTER_SETS } from "@/sets";
 
 export default function SharedSet() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [currentSet, setCurrentSet] = useState<SharedSetData>({
+  const [currentSet, setCurrentSet] = useState<Set>({
     id: "",
-    shared_at: "",
+    sharedAt: "",
     name: "",
     username: "",
     utensils: [],
@@ -29,13 +30,23 @@ export default function SharedSet() {
 
   useEffect(() => {
     async function getCurrentSet() {
-      const { data: sharedSets } = await supabase
-        .from("shared_sets")
-        .select()
-        .eq("id", id);
+      if (isNaN(Number(id))) {
+        const { data: sharedSets } = await supabase
+          .from("shared_sets")
+          .select()
+          .eq("id", id);
 
-      if (sharedSets) {
-        setCurrentSet(sharedSets[0]);
+        if (sharedSets) {
+          setCurrentSet(sharedSets[0]);
+        }
+      } else if (Number(id) === 0) {
+        const newCurrentSet = RANDOM_SET;
+        setCurrentSet(newCurrentSet);
+      } else {
+        const newCurrentSet = STARTER_SETS.filter((set) => {
+          return set.id === id;
+        })[0];
+        setCurrentSet(newCurrentSet);
       }
     }
 
@@ -82,13 +93,13 @@ export default function SharedSet() {
             text={currentSet.name}
             subtext1={currentSet.username}
             subtext2={
-              currentSet.shared_at
+              currentSet.sharedAt
                 ? `${monthName(
-                    Number(currentSet.shared_at.split("T")[0].split("-")[1]),
+                    Number(currentSet.sharedAt.split("T")[0].split("-")[1]),
                   ).slice(
                     0,
                     3,
-                  )}. ${Number(currentSet.shared_at.split("T")[0].split("-")[2])} ${Number(currentSet.shared_at.split("T")[0].split("-")[0])}`
+                  )}. ${Number(currentSet.sharedAt.split("T")[0].split("-")[2])} ${Number(currentSet.sharedAt.split("T")[0].split("-")[0])}`
                 : ""
             }
           >
@@ -126,6 +137,7 @@ export default function SharedSet() {
                 id={currentSet.id}
                 showAllUtensils
                 set={{
+                  id: currentSet.id,
                   name: "",
                   utensils: currentSet.utensils,
                 }}
@@ -156,7 +168,13 @@ export default function SharedSet() {
                     localStorage.setItem(
                       "utensilInput",
                       shuffle(currentSet.utensils)
-                        .map((utensil) => utensil.title)
+                        .map((utensil) =>
+                          utensil.title !== "????????"
+                            ? utensil.title
+                            : randomElement(
+                                randomElement(STARTER_SETS).utensils,
+                              ).title,
+                        )
                         .join("\n"),
                     );
                     localStorage.setItem("rankNow", rankingType);

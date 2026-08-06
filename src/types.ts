@@ -17,16 +17,9 @@ export type Ranking = {
 };
 
 export type Set = {
+  id: string;
   name: string;
   utensils: Utensil[];
   username?: string;
   sharedAt?: string;
 };
-
-export interface SharedSetData {
-  id: string;
-  shared_at: string;
-  name: string;
-  username: string;
-  utensils: Utensil[];
-}

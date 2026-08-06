@@ -432,19 +432,19 @@ export default function Create() {
                 onClick={() => {
                   onHurry(utensilInput);
                 }}
-                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
+                className="w-full rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
               >
                 <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="mr-1.5 block text-lg text-orange-500 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="mr-1.5 block text-lg text-neutral-200 dark:text-neutral-700 md:text-xl lg:mx-auto lg:text-3xl"
                     aria-hidden
                   />
                   <span className="block text-sm md:text-base lg:mt-2">
                     Hurry
                   </span>
                 </div>
-                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
+                <span className="block text-xs text-neutral-200 dark:text-neutral-700 md:text-sm">
                   Quicker session
                 </span>
               </button>
@@ -452,19 +452,19 @@ export default function Create() {
                 onClick={() => {
                   onConcentrate(utensilInput);
                 }}
-                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
+                className="w-full rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
               >
                 <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="mr-1.5 block text-lg text-blue-500 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="mr-1.5 block text-lg text-neutral-200 dark:text-neutral-700 md:text-xl lg:mx-auto lg:text-3xl"
                     aria-hidden
                   />
                   <span className="block text-sm md:text-base lg:mt-2">
                     Concentrate
                   </span>
                 </div>
-                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
+                <span className="block text-xs text-neutral-200 dark:text-neutral-700 md:text-sm">
                   More accurate
                 </span>
               </button>
@@ -789,7 +789,7 @@ export default function Create() {
             className={`${finalRankingVisibility} ${finalRankingVisibility === "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
           >
             <div className="flex h-full w-full items-center justify-center px-6 pb-16">
-              <div className="mb-10 w-full md:w-auto lg:mb-12">
+              <div className="section mb-10 lg:mb-12">
                 <RankingBoard
                   ranking={{
                     rankedUtensils: utensilsArray,

@@ -125,7 +125,11 @@ export default function SetBoard({
               onClick={(e) => onRankNow?.(e, "hurry")}
               href="/create"
             >
-              <FontAwesomeIcon icon={faBolt} className="mr-2" aria-hidden />
+              <FontAwesomeIcon
+                icon={faBolt}
+                className="mr-2 text-neutral-200 dark:text-neutral-700"
+                aria-hidden
+              />
               <span>Hurry</span>
             </Link>
             <Link
@@ -133,7 +137,11 @@ export default function SetBoard({
               onClick={(e) => onRankNow?.(e, "concentrate")}
               href="/create"
             >
-              <FontAwesomeIcon icon={faBullseye} className="mr-2" aria-hidden />
+              <FontAwesomeIcon
+                icon={faBullseye}
+                className="mr-2 text-neutral-200 dark:text-neutral-700"
+                aria-hidden
+              />
               <span>Concentrate</span>
             </Link>
           </div>

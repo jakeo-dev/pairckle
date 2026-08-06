@@ -1,5 +1,5 @@
 import CommonHead from "@/components/CommonHead";
-import { STARTER_SETS } from "@/constants";
+import { STARTER_SETS } from "@/sets";
 import { randomElement } from "@/utilities";
 import Image from "next/image";
 import Link from "next/link";

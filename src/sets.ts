@@ -1,7 +1,7 @@
-import { shuffle } from "./utilities";
-
-export const STARTER_SETS = shuffle([
+// id 0 is random mix
+export const STARTER_SETS = [
   {
+    id: "1",
     name: "Ice cream flavors",
     utensils: [
       { title: "Vanilla" },
@@ -22,6 +22,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "2",
     name: "Highest-grossing films",
     utensils: [
       { title: "Gone with the Wind" },
@@ -37,6 +38,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "3",
     name: "Popular versions of Monopoly",
     utensils: [
       { title: "Classic Monopoly" },
@@ -52,6 +54,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "4",
     name: "Common dog breeds",
     utensils: [
       { title: "Labrador Retriever" },
@@ -72,6 +75,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "5",
     name: "Aquatic animals",
     utensils: [
       { title: "Dolphin" },
@@ -89,6 +93,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "6",
     name: "Face emojis",
     utensils: [
       { title: "😊" },
@@ -114,6 +119,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "7",
     name: "Seven Wonders of the Ancient World",
     utensils: [
       { title: "Great Pyramid of Giza" },
@@ -126,6 +132,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "8",
     name: "Popular vacation spots",
     utensils: [
       { title: "Paris, France" },
@@ -139,6 +146,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "9",
     name: "Harry Potter books",
     utensils: [
       { title: "Sorcerer's Stone" },
@@ -151,6 +159,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "10",
     name: "Summer Olympic sports",
     utensils: [
       { title: "Archery" },
@@ -168,6 +177,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "11",
     name: "Best-selling video games",
     utensils: [
       { title: "Minecraft" },
@@ -183,6 +193,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "12",
     name: "Popular Disney movies",
     utensils: [
       { title: "The Lion King" },
@@ -205,6 +216,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "13",
     name: "Popular fast food chains",
     utensils: [
       { title: "McDonald's" },
@@ -219,6 +231,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "14",
     name: "Popular works of art by Leonardo da Vinci",
     utensils: [
       { title: "The Last Supper" },
@@ -230,6 +243,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "15",
     name: "Types of lighting fixtures",
     utensils: [
       { title: "Chandelier" },
@@ -247,6 +261,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "16",
     name: "String instruments",
     utensils: [
       { title: "Violin" },
@@ -260,6 +275,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "17",
     name: "McDonald's menu items",
     utensils: [
       { title: "Big Mac" },
@@ -277,6 +293,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "18",
     name: "Popular cereals",
     utensils: [
       { title: "Frosted Flakes" },
@@ -300,6 +317,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "19",
     name: "Types of clouds",
     utensils: [
       { title: "Cumulus" },
@@ -315,6 +333,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "20",
     name: "Famous optical illusions",
     utensils: [
       { title: "Checker shadow illusion" },
@@ -333,6 +352,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "21",
     name: "Minecraft wood types",
     utensils: [
       { title: "Oak" },
@@ -348,6 +368,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "22",
     name: "Best-selling studio albums",
     utensils: [
       { title: "Thriller (Michael Jackson)" },
@@ -363,6 +384,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "23",
     name: "Ivy League universities",
     utensils: [
       { title: "Brown University" },
@@ -376,6 +398,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "24",
     name: "Popular sans-serif typefaces",
     utensils: [
       { title: "Arial" },
@@ -390,6 +413,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "25",
     name: "Days of the week",
     utensils: [
       { title: "Sunday" },
@@ -402,6 +426,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "26",
     name: "Months of the year",
     utensils: [
       { title: "January" },
@@ -419,6 +444,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "27",
     name: "Common types of knots",
     utensils: [
       { title: "Square knot" },
@@ -439,6 +465,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "28",
     name: "Types of denim",
     utensils: [
       { title: "Raw" },
@@ -451,6 +478,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "29",
     name: "Types of bread",
     utensils: [
       { title: "Sourdough" },
@@ -471,6 +499,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "30",
     name: "Types of puppets",
     utensils: [
       { title: "Hand puppet" },
@@ -483,6 +512,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "31",
     name: "Common figures of speech",
     utensils: [
       { title: "Alliteration" },
@@ -499,6 +529,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "32",
     name: "Popular card games",
     utensils: [
       { title: "Poker" },
@@ -513,6 +544,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "33",
     name: "Popular web development technologies",
     utensils: [
       { title: "React" },
@@ -526,6 +558,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "34",
     name: "Yoga poses",
     utensils: [
       { title: "Downward dog" },
@@ -543,6 +576,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "35",
     name: "Wind instruments",
     utensils: [
       { title: "Flute" },
@@ -559,6 +593,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "36",
     name: "Common logical fallacies",
     utensils: [
       { title: "Ad hominem" },
@@ -577,6 +612,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "37",
     name: "Popular types of hats",
     utensils: [
       { title: "Fedora" },
@@ -594,6 +630,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "38",
     name: "Popular skateboarding tricks",
     utensils: [
       { title: "Ollie" },
@@ -607,6 +644,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "39",
     name: "Pokémon types",
     utensils: [
       { title: "Normal" },
@@ -631,6 +669,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "40",
     name: "Chess pieces",
     utensils: [
       { title: "King" },
@@ -642,6 +681,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "41",
     name: "The Twelve Olympians",
     utensils: [
       { title: "Zeus" },
@@ -659,6 +699,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "42",
     name: "Common types of birds",
     utensils: [
       { title: "Eagle" },
@@ -676,6 +717,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "43",
     name: "Noble gases",
     utensils: [
       { title: "Helium" },
@@ -688,6 +730,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "44",
     name: "Main characters in SpongeBob SquarePants",
     utensils: [
       { title: "SpongeBob SquarePants" },
@@ -705,6 +748,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "45",
     name: "Games in Jackbox Party Pack 3",
     utensils: [
       { title: "Guesspionage" },
@@ -715,6 +759,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "46",
     name: "Playground equipment",
     utensils: [
       { title: "Swings" },
@@ -729,6 +774,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "47",
     name: "Shrek characters",
     utensils: [
       { title: "Shrek" },
@@ -742,6 +788,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "48",
     name: "Popular pop tart flavors",
     utensils: [
       { title: "Frosted s'mores" },
@@ -757,6 +804,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "49",
     name: "Well-known football/soccer players",
     utensils: [
       { title: "Pelé" },
@@ -774,6 +822,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "50",
     name: "Well-known NFL teams",
     utensils: [
       { title: "Dallas Cowboys" },
@@ -792,6 +841,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "51",
     name: "Energy sources",
     utensils: [
       { title: "Solar" },
@@ -806,6 +856,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "52",
     name: "Among Us maps",
     utensils: [
       { title: "The Skeld" },
@@ -816,6 +867,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "53",
     name: "Spotify features",
     utensils: [
       { title: "Spotify Wrapped" },
@@ -828,6 +880,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "54",
     name: "Types of fries",
     utensils: [
       { title: "Standard" },
@@ -842,6 +895,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "55",
     name: "Crayola crayon color names",
     utensils: [
       { title: "Razzmatazz" },
@@ -857,6 +911,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "56",
     name: "Largest subreddits",
     utensils: [
       { title: "r/funny" },
@@ -872,6 +927,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "57",
     name: "Popular musicals",
     utensils: [
       { title: "The Book of Mormon" },
@@ -886,6 +942,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "58",
     name: "Food mascots",
     utensils: [
       { title: "Keebler Elves" },
@@ -900,6 +957,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "59",
     name: "Popular Cartoon Network shows",
     utensils: [
       { title: "The Marvelous Misadventures of Flapjack" },
@@ -919,6 +977,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "60",
     name: "Colors of the rainbow",
     utensils: [
       { title: "Red" },
@@ -931,6 +990,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "61",
     name: "The Beatles albums",
     utensils: [
       { title: "Please Please Me" },
@@ -948,6 +1008,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "62",
     name: "Common sounds",
     utensils: [
       { title: "Cat purr" },
@@ -964,6 +1025,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "63",
     name: "Characters from The Office",
     utensils: [
       { title: "Michael Scott" },
@@ -985,6 +1047,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "64",
     name: "Formula 1 circuits",
     utensils: [
       { title: "Monza" },
@@ -1001,6 +1064,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "65",
     name: "Types of coffee drinks",
     utensils: [
       { title: "Black" },
@@ -1017,6 +1081,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "66",
     name: "Common pets",
     utensils: [
       { title: "Cat" },
@@ -1029,6 +1094,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "67",
     name: "Popular programming languages",
     utensils: [
       { title: "JavaScript" },
@@ -1046,6 +1112,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "68",
     name: "Popular Christmas songs",
     utensils: [
       { title: "Sleigh Ride" },
@@ -1063,6 +1130,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "69",
     name: "Hogwarts houses",
     utensils: [
       { title: "Gryffindor" },
@@ -1072,6 +1140,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "70",
     name: "Knife cuts",
     utensils: [
       { title: "Dice" },
@@ -1086,6 +1155,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "71",
     name: "Spanish verb conjugations",
     utensils: [
       { title: "Present" },
@@ -1113,6 +1183,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "72",
     name: "Pizza toppings",
     utensils: [
       { title: "Pepperoni" },
@@ -1129,6 +1200,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "73",
     name: "Papa Louie Games",
     utensils: [
       { title: "Papa's Pizzeria" },
@@ -1151,6 +1223,7 @@ export const STARTER_SETS = shuffle([
     ],
   },
   {
+    id: "74",
     name: "Doritos flavors",
     utensils: [
       { title: "Cool Ranch" },
@@ -1170,4 +1243,21 @@ export const STARTER_SETS = shuffle([
       { title: "Flamin' Hot Limón" },
     ],
   },
-]);
+];
+
+export const RANDOM_SET = {
+  id: "0",
+  name: "Random mix",
+  utensils: [
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+    { title: "????????" },
+  ],
+};
