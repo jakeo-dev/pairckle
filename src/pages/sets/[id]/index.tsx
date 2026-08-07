@@ -35,9 +35,15 @@ export default function SharedSet() {
           .from("shared_sets")
           .select()
           .eq("id", id);
+        const newSharedSets = sharedSets?.map((set) => {
+          return {
+            ...set,
+            sharedAt: set.shared_at,
+          };
+        });
 
-        if (sharedSets) {
-          setCurrentSet(sharedSets[0]);
+        if (newSharedSets) {
+          setCurrentSet(newSharedSets[0]);
         }
       } else if (Number(id) === 0) {
         const newCurrentSet = RANDOM_SET;

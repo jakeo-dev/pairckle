@@ -22,4 +22,5 @@ export type Set = {
   utensils: Utensil[];
   username?: string;
   sharedAt?: string;
+  discoverable?: boolean;
 };

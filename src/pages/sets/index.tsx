@@ -22,9 +22,15 @@ export default function Sets() {
         .from("shared_sets")
         .select()
         .eq("discoverable", true);
+      const newSharedSets = sharedSets?.map((set) => {
+        return {
+          ...set,
+          sharedAt: set.shared_at,
+        };
+      });
 
-      if (sharedSets) {
-        setDiscoverableSets(sharedSets.toReversed());
+      if (newSharedSets) {
+        setDiscoverableSets(newSharedSets.toReversed());
       }
     }
 
