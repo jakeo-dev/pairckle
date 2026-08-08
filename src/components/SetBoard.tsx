@@ -64,12 +64,12 @@ export default function SetBoard({
           <div>
             <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
               {set.username && (
-                <h3 className="overflow-ellipsis font-semibold lg:line-clamp-1">
+                <h3 className="line-clamp-1 overflow-ellipsis font-semibold">
                   {set.username}
                 </h3>
               )}
               {set.sharedAt && (
-                <h3 className="overflow-ellipsis text-neutral-500 dark:text-neutral-400 lg:line-clamp-1">
+                <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
                   {set.sharedAt
                     ? `${monthName(
                         Number(set.sharedAt.split("T")[0].split("-")[1]),
@@ -82,7 +82,7 @@ export default function SetBoard({
               )}
             </div>
             <h2
-              className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
+              className={`line-clamp-1 overflow-ellipsis text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
             >
               {set.name}
             </h2>
@@ -127,7 +127,7 @@ export default function SetBoard({
             >
               <FontAwesomeIcon
                 icon={faBolt}
-                className="mr-2 text-neutral-200 dark:text-neutral-700"
+                className="mr-2 text-orange-200 dark:text-orange-800"
                 aria-hidden
               />
               <span>Hurry</span>
@@ -139,7 +139,7 @@ export default function SetBoard({
             >
               <FontAwesomeIcon
                 icon={faBullseye}
-                className="mr-2 text-neutral-200 dark:text-neutral-700"
+                className="mr-2 text-blue-200 dark:text-blue-800"
                 aria-hidden
               />
               <span>Concentrate</span>
@@ -159,7 +159,7 @@ export default function SetBoard({
                 className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
               >
                 <p
-                  className={`w-full text-sm md:text-base ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                  className={`w-full text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2 truncate overflow-ellipsis"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
                 >
                   {utensil.title}
                 </p>

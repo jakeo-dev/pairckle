@@ -165,12 +165,11 @@ export default function RankingBoard({
       <div className={`w-full ${className || ""}`}>
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 md:gap-2 md:text-sm">
-              <h3 className="overflow-ellipsis lg:line-clamp-1">
+            <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
+              <h3 className="line-clamp-1 overflow-ellipsis font-semibold">
                 {ranking.rankingType === "hurry" ? "Hurried" : "Concentrated"}
               </h3>
-              <span>•</span>
-              <h3 className="overflow-ellipsis lg:line-clamp-1">
+              <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
                 {ranking.rankingDate
                   ? `${monthName(ranking.rankingDate.month).slice(
                       0,
@@ -180,7 +179,7 @@ export default function RankingBoard({
               </h3>
             </div>
             <h2
-              className={`flex items-center overflow-ellipsis text-base font-medium leading-6 md:text-lg lg:line-clamp-1 ${gabarito.className}`}
+              className={`line-clamp-1 overflow-ellipsis text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
             >
               {ranking.rankingName}
             </h2>
@@ -375,7 +374,7 @@ export default function RankingBoard({
                         className={`relative flex h-11 w-full items-center justify-center md:h-12 ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}
                       >
                         {/* title and ranking place, dark text underneath progress bar */}
-                        <div className="absolute inset-0 flex items-center justify-between px-3 md:px-4">
+                        <div className="absolute inset-0 flex items-center justify-between px-3 pr-14 md:px-4 md:pr-32">
                           <div className="flex min-w-0 items-center">
                             <span
                               className={`text-xl font-light italic md:text-2xl ${
@@ -406,7 +405,7 @@ export default function RankingBoard({
 
                         {/* title and ranking place, light text on top of progress bar */}
                         <div
-                          className="absolute inset-0 flex items-center justify-between px-3 font-bold md:px-4"
+                          className="absolute inset-0 flex items-center justify-between px-3 pr-14 font-bold md:px-4 md:pr-32"
                           style={{
                             clipPath: `inset(0 ${100 - 100 * progress}% 0 0)`,
                           }}
@@ -553,7 +552,7 @@ export function ExportView({
                     className={`relative flex h-11 w-full items-center justify-center md:h-12 ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}
                   >
                     {/* title and ranking place, dark text underneath progress bar */}
-                    <div className="absolute inset-0 flex items-center justify-between px-3 md:px-4">
+                    <div className="absolute inset-0 flex items-center justify-between px-3 pr-14 md:px-4 md:pr-32">
                       <div className="flex min-w-0 items-center">
                         <span
                           className={`text-xl font-light italic md:text-2xl ${
@@ -584,7 +583,7 @@ export function ExportView({
 
                     {/* title and ranking place, light text on top of progress bar */}
                     <div
-                      className="absolute inset-0 flex items-center justify-between px-3 font-bold md:px-4"
+                      className="absolute inset-0 flex items-center justify-between px-3 pr-14 font-bold md:px-4 md:pr-32"
                       style={{
                         clipPath: `inset(0 ${100 - 100 * progress}% 0 0)`,
                       }}
