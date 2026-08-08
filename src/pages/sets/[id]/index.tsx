@@ -94,50 +94,52 @@ export default function SharedSet() {
 
       <div className="flex w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
         <div className="w-full">
-          <Heading
-            icon={faBarsStaggered}
-            text={currentSet.name}
-            subtext1={currentSet.username}
-            subtext2={
-              currentSet.sharedAt
-                ? `${monthName(
-                    Number(currentSet.sharedAt.split("T")[0].split("-")[1]),
-                  ).slice(
-                    0,
-                    3,
-                  )}. ${Number(currentSet.sharedAt.split("T")[0].split("-")[2])} ${Number(currentSet.sharedAt.split("T")[0].split("-")[0])}`
-                : ""
-            }
-          >
-            <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
-              <button
-                className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-base"
-                onClick={() => {
-                  setCopyLinkModalVisibility(true);
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faShare}
-                  className="mr-1.5"
-                  aria-labelledby="share-button-text"
-                />
-                <span id="share-button-text">Share</span>
-              </button>
-              <a
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-8 md:w-8 md:p-1 md:text-base"
-                href="mailto:report@jakeo.dev"
-                target="_blank"
-              >
-                <FontAwesomeIcon
-                  icon={faFlag}
-                  aria-label="Report this set"
-                  title="Report this set"
-                />
-              </a>
-            </div>
-          </Heading>
-
           {currentSet && (
+            <Heading
+              icon={faBarsStaggered}
+              text={currentSet.name}
+              subtext1={currentSet.username}
+              subtext2={
+                currentSet.sharedAt
+                  ? `${monthName(
+                      Number(currentSet.sharedAt.split("T")[0].split("-")[1]),
+                    ).slice(
+                      0,
+                      3,
+                    )}. ${Number(currentSet.sharedAt.split("T")[0].split("-")[2])} ${Number(currentSet.sharedAt.split("T")[0].split("-")[0])}`
+                  : ""
+              }
+            >
+              <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
+                <button
+                  className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-base"
+                  onClick={() => {
+                    setCopyLinkModalVisibility(true);
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    className="mr-1.5"
+                    aria-labelledby="share-button-text"
+                  />
+                  <span id="share-button-text">Share</span>
+                </button>
+                <a
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-8 md:w-8 md:p-1 md:text-base"
+                  href="mailto:report@jakeo.dev"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon
+                    icon={faFlag}
+                    aria-label="Report this set"
+                    title="Report this set"
+                  />
+                </a>
+              </div>
+            </Heading>
+          )}
+
+          {currentSet ? (
             <div className="section mb-10 md:mb-12">
               <SetBoard
                 id={currentSet.id}
@@ -187,23 +189,11 @@ export default function SharedSet() {
                   }
                 }}
               />
-
-              {/* <Link
-                className="mt-2 flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-                href="/sets"
-              >
-                <FontAwesomeIcon
-                  icon={faBarsStaggered}
-                  className="mr-2 text-neutral-800 dark:text-neutral-300"
-                  aria-labelledby="browse-more-sets-button-text"
-                />
-                <span id="browse-more-sets-button-text">Browse more sets</span>
-              </Link> */}
-
-              {/* <h1 className="mt-4 rounded-full bg-neutral-400/20 p-2 text-center text-lg dark:bg-neutral-400/25">
-                  Shared by <strong>{currentSet.username}</strong>
-                </h1> */}
             </div>
+          ) : (
+            <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+              Loading set...
+            </h2>
           )}
         </div>
       </div>
