@@ -106,7 +106,7 @@ export default function Sets() {
             </MasonryLayout>
           ) : (
             <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-              Loading sets...
+              Loading community sets...
             </h2>
           )}
 
@@ -130,7 +130,7 @@ export default function Sets() {
                 set={{
                   id: set.id,
                   name: set.name,
-                  utensils: set.utensils,
+                  utensils: shuffle(set.utensils),
                 }}
                 /* onRank={(event) => {
                     if (

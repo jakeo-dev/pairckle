@@ -30,6 +30,8 @@ export default function SharedSet() {
 
   useEffect(() => {
     async function getCurrentSet() {
+      if (!id) return;
+
       if (isNaN(Number(id))) {
         const { data: sharedSets } = await supabase
           .from("shared_sets")
@@ -147,7 +149,7 @@ export default function SharedSet() {
                 set={{
                   id: currentSet.id,
                   name: "",
-                  utensils: currentSet.utensils,
+                  utensils: shuffle(currentSet.utensils),
                 }}
                 /* onRank={(event) => {
                     if (
