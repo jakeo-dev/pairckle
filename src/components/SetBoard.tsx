@@ -148,7 +148,7 @@ export default function SetBoard({
         )}
 
         <ul
-          className={`${set.utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} overflow-y-auto rounded-lg border-2 border-neutral-500/15 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300`}
+          className={`${set.utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300`}
         >
           {/* create shallow copy of set.utensils (so it wont actually change the set.utensils variable), sort randomly */}
           {[...set.utensils]
@@ -156,10 +156,10 @@ export default function SetBoard({
             .map((utensil, index) => (
               <li
                 key={index}
-                className="flex items-center justify-center px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
+                className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
               >
                 <p
-                  className={`w-full text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2 truncate overflow-ellipsis"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                  className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
                 >
                   {utensil.title}
                 </p>

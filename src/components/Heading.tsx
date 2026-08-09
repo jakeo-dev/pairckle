@@ -22,7 +22,7 @@ export default function Heading(props: {
           <div className="flex items-start gap-3 md:gap-3.5">
             <FontAwesomeIcon
               icon={props.icon}
-              className={`text-2xl text-neutral-600/50 dark:text-neutral-500/50 md:text-3xl ${props.rotateIcon ? "rotate-90" : ""}`}
+              className={`text-2xl text-neutral-600/50 dark:text-neutral-400/50 md:text-3xl ${props.rotateIcon ? "rotate-90" : ""}`}
             />
             <div>
               <h1

@@ -17,7 +17,7 @@ import {
   faChartSimple,
   faCircleDown,
   faEllipsis,
-  faLink,
+  faGlobe,
   faPen,
   faShare,
   faTrashCan,
@@ -166,7 +166,7 @@ export default function RankingBoard({
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
             <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
-              <h3 className="line-clamp-1 overflow-ellipsis font-semibold">
+              <h3 className="line-clamp-1 font-semibold">
                 {ranking.rankingType === "hurry" ? "Hurried" : "Concentrated"}
               </h3>
               <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
@@ -179,7 +179,7 @@ export default function RankingBoard({
               </h3>
             </div>
             <h2
-              className={`line-clamp-1 overflow-ellipsis text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
+              className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
             >
               {ranking.rankingName}
             </h2>
@@ -215,11 +215,11 @@ export default function RankingBoard({
                   }}
                 >
                   <FontAwesomeIcon
-                    icon={faLink}
+                    icon={faGlobe}
                     className="mr-2 w-4 text-neutral-700 dark:text-neutral-400 md:mr-3"
-                    aria-labelledby="share-link-button-text"
+                    aria-labelledby="publish-button-text"
                   />
-                  <span id="share-link-button-text">Share link to set</span>
+                  <span id="publish-button-text">Publish this set</span>
                 </button>
                 <button
                   className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"

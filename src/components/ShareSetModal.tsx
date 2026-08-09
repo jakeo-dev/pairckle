@@ -150,8 +150,7 @@ export default function InputModal({
             </label>
           </button>
           <span className="mt-2 block text-xs text-neutral-500 dark:text-neutral-400">
-            With this enabled, this set may be discoverable by people with whom
-            you have not shared your link.
+            This will allow anyone to find your set on the community page.
           </span>
         </div>
 

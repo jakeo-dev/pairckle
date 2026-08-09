@@ -1,6 +1,7 @@
 import ConfirmModal from "@/components/ConfirmModal";
 import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
+import CommonHead from "@/components/CommonHead";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
@@ -69,6 +70,8 @@ export default function SharedSet() {
 
   return (
     <>
+      <CommonHead />
+
       {/* error ranking modal */}
       <ConfirmModal
         visibility={errorRankingModalVisibility}
@@ -94,8 +97,8 @@ export default function SharedSet() {
         onCancel={() => setCopyLinkModalVisibility(false)}
       />
 
-      <div className="flex w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
-        <div className="w-full">
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="w-full lg:min-h-[88.3vh]">
           {currentSet && (
             <Heading
               icon={faBarsStaggered}

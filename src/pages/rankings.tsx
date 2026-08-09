@@ -71,8 +71,8 @@ export default function Rankings() {
         onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
-      <div className="flex min-h-screen w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
-        <div className="w-full">
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading icon={faBookmark} text="Your rankings" />
 
           <div

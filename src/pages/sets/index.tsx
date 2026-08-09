@@ -58,8 +58,8 @@ export default function Sets() {
         onCancel={() => setErrorRankingModalVisibility(false)}
       />
 
-      <div className="flex min-h-screen w-full items-center justify-center pb-16 lg:min-h-[94.6vh]">
-        <div className="w-full">
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading icon={faGlobe} text="Community sets" />
 
           {discoverableSets.length > 0 ? (
@@ -77,7 +77,7 @@ export default function Sets() {
                   key={index1}
                   id={set.id}
                   showSeeSetButton
-                  className="mb-10 md:mb-12"
+                  className="mb-10 flex-1 md:mb-12"
                   set={{
                     id: set.id,
                     name: set.name,
@@ -106,7 +106,7 @@ export default function Sets() {
             </MasonryLayout>
           ) : (
             <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-              Loading community sets...
+              Loading community...
             </h2>
           )}
 
