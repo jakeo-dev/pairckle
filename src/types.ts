@@ -24,3 +24,8 @@ export type Set = {
   sharedAt?: string;
   discoverable?: boolean;
 };
+
+export type Profile = {
+  username: string;
+  created_at: string;
+};

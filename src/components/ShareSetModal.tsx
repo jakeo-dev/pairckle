@@ -26,7 +26,7 @@ export default function InputModal({
 
   const turnstileRef = useRef<TurnstileInstance>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!captchaToken) return;
 
@@ -61,7 +61,7 @@ export default function InputModal({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
     <div

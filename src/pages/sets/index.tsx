@@ -60,7 +60,7 @@ export default function Sets() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
-          <Heading icon={faGlobe} text="Community sets" />
+          <Heading icon={faGlobe} text="Community" />
 
           {discoverableSets.length > 0 ? (
             <MasonryLayout
