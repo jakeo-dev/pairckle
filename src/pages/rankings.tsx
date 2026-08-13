@@ -26,8 +26,6 @@ export default function Rankings() {
 
   const [confirmDeleteModalVisibility, setConfirmDeleteModalVisibility] =
     useState<boolean>(false);
-  const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
-    useState<boolean>(false);
 
   useEffect(() => {
     setSavedRankings(JSON.parse(localStorage.getItem("savedRankings") ?? "[]"));
@@ -61,16 +59,6 @@ export default function Rankings() {
         }}
       />
 
-      {/* error ranking modal */}
-      <ConfirmModal
-        visibility={errorRankingModalVisibility}
-        titleText="You already have a ranking in progress"
-        subtitleText="Finish or restart the current ranking before beginning a new one."
-        primaryButtonText="Got it"
-        onConfirm={() => setErrorRankingModalVisibility(false)}
-        onCancel={() => setErrorRankingModalVisibility(false)}
-      />
-
       <div className="flex w-full items-center justify-center pb-16">
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading icon={faBookmark} text="Your rankings" />
@@ -83,22 +71,7 @@ export default function Rankings() {
                 key={index1}
                 className="mb-10 md:mb-12"
                 ranking={ranking}
-                onReRank={(event) => {
-                  if (
-                    localStorage.getItem("combosArray") &&
-                    localStorage.getItem("combosArray") !== "[]"
-                  ) {
-                    event.preventDefault();
-                    setErrorRankingModalVisibility(true);
-                  } else {
-                    localStorage.setItem(
-                      "utensilInput",
-                      shuffle(
-                        ranking.rankedUtensils.map((utensil) => utensil.title),
-                      ).join("\n"),
-                    );
-                  }
-                }}
+                showReRank
                 onEditTitle={() => {
                   const randomNewRankingName =
                     randomElement(["Best", "Greatest", "Top"]) +
@@ -268,7 +241,7 @@ export default function Rankings() {
             className={`section ${savedRankings.length < 1 ? "" : "hidden"}`}
           >
             <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-              {`You haven't saved any rankings yet...`}
+              {`You haven't created any rankings yet...`}
             </h2>
           </div>
         </div>

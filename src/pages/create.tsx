@@ -3,9 +3,11 @@ import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
-import { Utensil } from "@/types";
+import { Profile, Utensil } from "@/types";
 import { shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
+import { supabase } from "@/utils/supabase";
+import { useRouter } from "next/router";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -152,6 +154,45 @@ export default function Create() {
     };
   }, []);
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function getProfile() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) return;
+
+      const user = session.user;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("username, rankings, sets, created_at")
+        .eq("id", user.id)
+        .single();
+
+      if (error && error.code !== "PGRST116") {
+        console.error("Error fetching profile:", error);
+      } else if (data) {
+        setProfile(data);
+      } else {
+        setProfile({
+          username: user.user_metadata?.username,
+          rankings: [],
+          sets: [],
+          created_at: user.created_at,
+        });
+      }
+
+      setLoading(false);
+    }
+
+    getProfile();
+  }, [router]);
+
   function generateCombos(array: Utensil[]) {
     const combinations: number[][] = [];
 
@@ -229,8 +270,52 @@ export default function Create() {
         rankingCombos: combosArray,
         rankingWinnersHistory: winnersHistory,
       });
+      if (!profile) {
+        localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
+      } else {
+        
 
-      localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      }
     }
   }
 
@@ -804,6 +889,96 @@ export default function Create() {
                     rankingType: rankingType,
                   }}
                   index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
+                showAllUtensils
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                  savedRankings={[]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 />
 
                 <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">

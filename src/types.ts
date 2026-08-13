@@ -28,4 +28,6 @@ export type Set = {
 export type Profile = {
   username: string;
   created_at: string;
+  rankings: Ranking[],
+  sets: Set[]
 };
