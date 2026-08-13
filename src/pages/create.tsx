@@ -15,8 +15,8 @@ import {
   faBolt,
   faBookmark,
   faBullseye,
-  faChartSimple,
   faForward,
+  faPlusCircle,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Heading from "@/components/Heading";
@@ -480,7 +480,7 @@ export default function Create() {
       <div className="flex w-full items-center justify-center pb-16 lg:min-h-full">
         <div className="w-full">
           {startVisibility === "visible-fade" && (
-            <Heading icon={faChartSimple} rotateIcon text="Create a ranking" />
+            <Heading icon={faPlusCircle} rotateIcon text="Create" />
           )}
 
           {/* utensil input start screen */}

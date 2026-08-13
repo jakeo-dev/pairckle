@@ -24,7 +24,7 @@ const gabarito = Gabarito({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-export default function Profile() {
+export default function ProfilePage() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);

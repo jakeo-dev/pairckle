@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
-  faBookmark,
-  faChartSimple,
   faGlobe,
   faMoon,
+  faPlusCircle,
   faSun,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Title from "./Title";
 
@@ -46,33 +46,18 @@ export default function Header({
               href="/create"
             >
               <FontAwesomeIcon
-                icon={faChartSimple}
+                icon={faPlusCircle}
                 className="rotate-90 md:mr-2.5"
                 aria-hidden
               />
-              <span className="hidden md:inline">Create a ranking</span>
-            </Link>
-            <Link
-              className={`${
-                pathname === "/rankings"
-                  ? "border-transparent bg-neutral-400/20 dark:border-transparent"
-                  : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
-              } flex h-min items-center justify-center border-2 border-x border-neutral-200 px-2.5 py-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
-              href="/rankings"
-            >
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className="md:mr-2.5"
-                aria-hidden
-              />
-              <span className="hidden md:inline">Your rankings</span>
+              <span className="hidden md:inline">Create</span>
             </Link>
             <Link
               className={`${
                 pathname === "/sets"
                   ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                   : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
-              } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
+              } flex h-min items-center justify-center border-2 border-x border-neutral-200 px-2.5 py-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
               href="/sets"
             >
               <FontAwesomeIcon
@@ -81,6 +66,21 @@ export default function Header({
                 aria-hidden
               />
               <span className="hidden md:inline">Community</span>
+            </Link>
+            <Link
+              className={`${
+                pathname === "/profile"
+                  ? "border-transparent bg-neutral-400/20 dark:border-transparent"
+                  : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
+              } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:text-base`}
+              href="/profile"
+            >
+              <FontAwesomeIcon
+                icon={faUser}
+                className="md:mr-2.5"
+                aria-hidden
+              />
+              <span className="hidden md:inline">Profile</span>
             </Link>
           </>
         ) : (
