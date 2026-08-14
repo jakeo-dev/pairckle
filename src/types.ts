@@ -28,8 +28,9 @@ export type Set = {
 };
 
 export type Profile = {
+  id: string;
   username: string;
   createdAt: string;
-  rankings: Ranking[];
-  sets: Set[];
+  ownedRankings: number[];
+  ownedSets: number[];
 };

@@ -33,7 +33,7 @@ export function sortUtensils(a: Utensil, b: Utensil): number {
 }
 
 /**
- * Sort utensils by their score, then win rate, then number of wins, then alphabetically.
+ * Get name of month from number.
  * @param {number} num Month number 1 to 12.
  * @returns {string} Name of corresponding month, empty if number out of range.
  */

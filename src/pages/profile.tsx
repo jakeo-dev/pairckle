@@ -40,64 +40,84 @@ export default function ProfilePage() {
 
   useEffect(() => {
     async function getProfile() {
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-        if (!session) {
-          // if not logged in, set stuff to local storage & return
-          setProfile({
-            username: "Profile",
-            rankings: JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
-            sets: JSON.parse(localStorage.getItem("savedSets") ?? "[]"),
-            createdAt: "",
-          });
+      // if not logged in, set stuff to local storage & stop here
+      if (!session) {
+        setProfile({
+          id: "",
+          username: "Profile",
+          createdAt: "",
+          ownedRankings: [],
+          ownedSets: [],
+        });
 
-          return;
-        }
+        const savedRankingsArray = JSON.parse(
+          localStorage.getItem("savedRankings") ?? "[]",
+        );
+        const rankingsArray: Ranking[] = Array.isArray(savedRankingsArray)
+          ? savedRankingsArray.map((r: any) => ({
+              ...r,
+              // use new format instead of legacy one
+              name: r.name ?? r.rankingName,
+              createdAt:
+                r.createdAt ??
+                new Date(
+                  `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
+                ),
+              type: r.type ?? r.rankingType,
+              combos: r.combos ?? r.rankingCombos,
+              winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
+            }))
+          : [];
+        setOwnedRankings(rankingsArray);
+        setOwnedSets(JSON.parse(localStorage.getItem("savedSets") ?? "[]"));
 
-        const user = session.user;
-        setEmail(user.email ?? null);
+        setLoading(false);
 
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("username, created_at, rankings, sets")
-          .eq("id", user.id)
-          .single();
-        // convert snake case from database to camel case
-        const { created_at, ...rest } = profileData || {};
-        const correctedProfileData = {
-          ...rest,
-          createdAt: created_at,
-        };
+        return;
+      }
 
-        if (profileError && profileError.code !== "PGRST116") {
-          console.error("Error fetching profile:", profileError);
-        } else if (correctedProfileData) {
-          setProfile(correctedProfileData as Profile);
-        } else {
-          // if data falsy
-          setProfile({
-            username: user.user_metadata?.username,
-            rankings: JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
-            sets: JSON.parse(localStorage.getItem("savedSets") ?? "[]"),
-            createdAt: user.created_at,
-          });
-          setOwnedRankings(
-            JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
-          );
-          setOwnedSets(JSON.parse(localStorage.getItem("savedSets") ?? "[]"));
-        }
+      // get user
+      const user = session.user;
+      setEmail(user.email ?? null);
 
-        const { data: userRankingsData, error: userRankingsError } =
-          await supabase
-            .from("user_rankings")
-            .select(
-              "id, name, created_at, ranked_utensils, type, combos, winners_history, user_id, username",
-            )
-            .eq("user_id", user.id);
-        if (userRankingsError) console.error("error:", userRankingsError);
+      // get data from profile of current user
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("username, created_at, owned_rankings, owned_sets")
+        .eq("id", user.id)
+        .single();
+      // convert snake case from database to camel case
+      const { created_at, owned_rankings, owned_sets, ...rest } =
+        profileData || {};
+      const correctedProfileData = {
+        ...rest,
+        createdAt: created_at,
+        ownedRankings: owned_rankings,
+        ownedSets: owned_sets,
+      };
+      // print error if supabase throws error getting profile
+      if (profileError && profileError.code !== "PGRST116") {
+        console.error("error:", profileError);
+      } else {
+        setProfile(correctedProfileData as Profile);
+      }
+
+      // get rankings that are owned by current user
+      const { data: userRankingsData, error: userRankingsError } =
+        await supabase
+          .from("user_rankings")
+          .select(
+            "id, name, created_at, ranked_utensils, type, combos, winners_history, user_id, username",
+          )
+          .eq("user_id", user.id);
+      // print error if supabase throws error getting user rankings
+      if (userRankingsError) {
+        console.error("error:", userRankingsError);
+      } else {
         // convert snake case from database to camel case
         const correctedUserRankingsData = userRankingsData?.map((ranking) => {
           return {
@@ -111,12 +131,17 @@ export default function ProfilePage() {
         setOwnedRankings(
           correctedUserRankingsData ? correctedUserRankingsData : [],
         );
+      }
 
-        const { data: userSetsData, error: userSetsError } = await supabase
-          .from("user_sets")
-          .select("id, name, created_at, utensils, user_id, username")
-          .eq("user_id", user.id);
-        if (userSetsError) console.error("error:", userSetsError);
+      // get sets that are owned by current user
+      const { data: userSetsData, error: userSetsError } = await supabase
+        .from("user_sets")
+        .select("id, name, created_at, utensils, user_id, username")
+        .eq("user_id", user.id);
+      // print error if supabase throws error getting user sets
+      if (userSetsError) {
+        console.error("error:", userSetsError);
+      } else {
         // convert snake case from database to camel case
         const correctedUserSetsData = userSetsData?.map((set) => {
           return {
@@ -126,11 +151,9 @@ export default function ProfilePage() {
           };
         });
         setOwnedSets(correctedUserSetsData ? correctedUserSetsData : []);
-      } catch (error) {
-        console.error("error", error);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     }
 
     getProfile();
@@ -281,7 +304,7 @@ export default function ProfilePage() {
                     <div className="w-full rounded-lg border-2 border-neutral-500/15 px-4 py-3 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300 md:px-5 md:py-4">
                       <div>
                         <label className="text-xs text-neutral-500 md:text-sm">
-                          Display name
+                          Username
                         </label>
                         <p className="text-sm font-medium md:text-base">
                           {profile?.username}

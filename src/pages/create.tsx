@@ -4,7 +4,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
-import { Profile, Utensil } from "@/types";
+import { Profile, Ranking, Utensil } from "@/types";
 import { randomNumber, shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/utils/supabase";
@@ -172,27 +172,23 @@ export default function Create() {
 
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("username, rankings, sets, created_at")
+        .select("username, created_at, owned_rankings, owned_sets")
         .eq("id", user.id)
         .single();
       // convert snake case from database to camel case
-      const { created_at, ...rest } = profileData || {};
+      const { created_at, owned_rankings, owned_sets, ...rest } =
+        profileData || {};
       const correctedProfileData = {
         ...rest,
         createdAt: created_at,
+        ownedRankings: owned_rankings,
+        ownedSets: owned_sets,
       };
 
       if (profileError && profileError.code !== "PGRST116") {
         console.error("error:", correctedProfileData);
-      } else if (correctedProfileData) {
-        setProfile(correctedProfileData as Profile);
       } else {
-        setProfile({
-          username: user.user_metadata?.username,
-          rankings: [],
-          sets: [],
-          createdAt: user.created_at,
-        });
+        setProfile(correctedProfileData as Profile);
       }
 
       //setLoading(false);
@@ -258,29 +254,47 @@ export default function Create() {
       localStorage.setItem("maxCombos", "1");
       localStorage.setItem("rankingType", "");
 
-      const savedRankingsArray = JSON.parse(
-        localStorage.getItem("savedRankings") ?? "[]",
-      );
-
-      const rankingsArray = Array.isArray(savedRankingsArray)
-        ? savedRankingsArray
-        : [];
-
-      rankingsArray.unshift({
-        rankingName: "New ranking", //"New ranking #" + (savedRankingsArray.length + 1),
-        rankingDate: {
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate(),
-          year: new Date().getFullYear(),
-        },
-        rankingType: rankingType,
-        rankedUtensils: [...utensilsArray].sort(sortUtensils),
-        rankingCombos: combosArray,
-        rankingWinnersHistory: winnersHistory,
-      });
       if (!profile) {
-        localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
+        // utilize local storage if not logged in
+        const savedRankingsArray = JSON.parse(
+          localStorage.getItem("savedRankings") ?? "[]",
+        );
+        const correctedSavedRankingsArray: Ranking[] = Array.isArray(
+          savedRankingsArray,
+        )
+          ? savedRankingsArray.map((r: any) => ({
+              ...r,
+              // use new format instead of legacy one
+              name: r.name ?? r.rankingName,
+              createdAt:
+                r.createdAt ??
+                new Date(
+                  `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
+                ),
+              type: r.type ?? r.rankingType,
+              combos: r.combos ?? r.rankingCombos,
+              winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
+            }))
+          : [];
+
+        // add new ranking to array
+        correctedSavedRankingsArray.unshift({
+          id: -1,
+          name: "New ranking", //"New ranking #" + (savedRankingsArray.length + 1),
+          createdAt: new Date().toISOString(),
+          type: rankingType,
+          rankedUtensils: [...utensilsArray].sort(sortUtensils),
+          combos: combosArray,
+          winnersHistory: winnersHistory,
+        });
+
+        localStorage.setItem(
+          "savedRankings",
+          JSON.stringify(correctedSavedRankingsArray),
+        );
       } else {
+        // add new ranking to db if logged in
+
         const rankingID = randomNumber(100000000000, 999999999999);
 
         const { error: userRankingsError } = await supabase
@@ -298,7 +312,6 @@ export default function Create() {
             },
           ])
           .select();
-
         if (userRankingsError) console.error("error:", userRankingsError);
 
         const { data: existingProfileData, error: existingProfileError } =
@@ -307,7 +320,6 @@ export default function Create() {
             .select("owned_rankings")
             .eq("id", userID)
             .single();
-
         if (existingProfileError) console.error("error:", existingProfileError);
 
         await supabase

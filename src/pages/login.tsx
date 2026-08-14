@@ -21,32 +21,28 @@ export default function LogIn() {
 
     setIsSubmitting(true);
 
-    try {
-      const { error: loginError } = await supabase.auth.signInWithOtp({
-        email: emailInput,
-        options: {
-          shouldCreateUser: true, // automatically signs up user if email not in database
-          captchaToken: captchaToken,
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-          data: {
-            username: usernameInput,
-          },
+    const { error: loginError } = await supabase.auth.signInWithOtp({
+      email: emailInput,
+      options: {
+        shouldCreateUser: true, // automatically signs up user if email not in database
+        captchaToken: captchaToken,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        data: {
+          username: usernameInput,
         },
-      });
+      },
+    });
 
-      if (loginError) {
-        console.log("error:", loginError);
-      } else {
-        console.log("sign up successful!");
-        setStep("verify");
-      }
-    } catch (error) {
-      console.error("error:", error);
-    } finally {
-      turnstileRef.current?.reset();
-      setCaptchaToken("");
-      setIsSubmitting(false);
+    if (loginError) {
+      console.log("error:", loginError);
+    } else {
+      console.log("sign up successful!");
+      setStep("verify");
     }
+
+    turnstileRef.current?.reset();
+    setCaptchaToken("");
+    setIsSubmitting(false);
   }
 
   const handleVerifyOtp = async (e: FormEvent) => {
