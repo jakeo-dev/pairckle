@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
-import { Profile } from "@/types";
+import { Profile, Ranking, Set } from "@/types";
 import { shuffle } from "@/utilities";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,6 +31,9 @@ export default function ProfilePage() {
   const [email, setEmail] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
 
+  const [ownedRankings, setOwnedRankings] = useState<Ranking[]>([]);
+  const [ownedSets, setOwnedSets] = useState<Set[]>([]);
+
   const [selectedView, setSelectedView] = useState<
     "rankings" | "sets" | "account"
   >("rankings");
@@ -48,7 +51,7 @@ export default function ProfilePage() {
             username: "Profile",
             rankings: JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
             sets: JSON.parse(localStorage.getItem("savedSets") ?? "[]"),
-            created_at: "",
+            createdAt: "",
           });
 
           return;
@@ -57,25 +60,72 @@ export default function ProfilePage() {
         const user = session.user;
         setEmail(user.email ?? null);
 
-        const { data, error } = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("username, created_at, rankings, sets")
           .eq("id", user.id)
           .single();
+        // convert snake case from database to camel case
+        const { created_at, ...rest } = profileData || {};
+        const correctedProfileData = {
+          ...rest,
+          createdAt: created_at,
+        };
 
-        if (error && error.code !== "PGRST116") {
-          console.error("Error fetching profile:", error);
-        } else if (data) {
-          setProfile(data);
+        if (profileError && profileError.code !== "PGRST116") {
+          console.error("Error fetching profile:", profileError);
+        } else if (correctedProfileData) {
+          setProfile(correctedProfileData as Profile);
         } else {
           // if data falsy
           setProfile({
             username: user.user_metadata?.username,
             rankings: JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
             sets: JSON.parse(localStorage.getItem("savedSets") ?? "[]"),
-            created_at: user.created_at,
+            createdAt: user.created_at,
           });
+          setOwnedRankings(
+            JSON.parse(localStorage.getItem("savedRankings") ?? "[]"),
+          );
+          setOwnedSets(JSON.parse(localStorage.getItem("savedSets") ?? "[]"));
         }
+
+        const { data: userRankingsData, error: userRankingsError } =
+          await supabase
+            .from("user_rankings")
+            .select(
+              "id, name, created_at, ranked_utensils, type, combos, winners_history, user_id, username",
+            )
+            .eq("user_id", user.id);
+        if (userRankingsError) console.error("error:", userRankingsError);
+        // convert snake case from database to camel case
+        const correctedUserRankingsData = userRankingsData?.map((ranking) => {
+          return {
+            ...ranking,
+            createdAt: ranking.created_at,
+            rankedUtensils: ranking.ranked_utensils,
+            winnersHistory: ranking.winners_history,
+            userID: ranking.user_id,
+          };
+        });
+        setOwnedRankings(
+          correctedUserRankingsData ? correctedUserRankingsData : [],
+        );
+
+        const { data: userSetsData, error: userSetsError } = await supabase
+          .from("user_sets")
+          .select("id, name, created_at, utensils, user_id, username")
+          .eq("user_id", user.id);
+        if (userSetsError) console.error("error:", userSetsError);
+        // convert snake case from database to camel case
+        const correctedUserSetsData = userSetsData?.map((set) => {
+          return {
+            ...set,
+            createdAt: set.created_at,
+            userID: set.user_id,
+          };
+        });
+        setOwnedSets(correctedUserSetsData ? correctedUserSetsData : []);
       } catch (error) {
         console.error("error", error);
       } finally {
@@ -102,7 +152,7 @@ export default function ProfilePage() {
       <ConfirmModal
         visibility={confirmSignOutModalVisibility}
         titleText="Are you sure you want to log out?"
-        subtitleText="You can always sign back in; your saved rankings and sets won't be lost."
+        subtitleText="You can always log back in; your saved rankings and sets won't be lost."
         primaryButtonText="Log out"
         secondaryButtonText="Cancel"
         onConfirm={() => {
@@ -129,150 +179,160 @@ export default function ProfilePage() {
               Loading user data...
             </h2>
           ) : (
-            <>
-              <div className="section mb-8 md:mb-10">
-                <div
-                  className={`mb-8 flex items-end justify-center md:mb-10 md:justify-start ${gabarito.className}`}
+            <div className="section mb-8 md:mb-10">
+              <div
+                className={`mb-8 flex items-end justify-center md:mb-10 md:justify-start ${gabarito.className}`}
+              >
+                <button
+                  onClick={() => {
+                    setSelectedView("rankings");
+                  }}
+                  className={`group line-clamp-1 break-all border-b-2 px-3 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "rankings" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 text-neutral-500 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
                 >
-                  <button
-                    onClick={() => {
-                      setSelectedView("rankings");
-                    }}
-                    className={`line-clamp-1 border-b-2 px-2 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "rankings" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faChartSimple}
-                      className="mr-2.5 rotate-90 text-neutral-500 dark:text-neutral-400"
-                    />
-                    <span>Your rankings</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedView("sets");
-                    }}
-                    className={`line-clamp-1 border-b-2 px-2 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "sets" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faBarsStaggered}
-                      className="mr-2.5 text-neutral-500 dark:text-neutral-400"
-                    />
-                    <span>Your sets</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedView("account");
-                    }}
-                    className={`line-clamp-1 border-b-2 px-2 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "account" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faCog}
-                      className="mr-2.5 text-neutral-500 dark:text-neutral-400"
-                    />
-                    <span>Account</span>
-                  </button>
-                </div>
+                  <FontAwesomeIcon
+                    icon={faChartSimple}
+                    className={`mr-2 rotate-90 md:mr-2.5 ${selectedView === "rankings" ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-400 dark:text-neutral-600"}`}
+                  />
+                  <span className="hidden md:inline">Your rankings</span>
+                  <span className="md:hidden">Rankings</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedView("sets");
+                  }}
+                  className={`group line-clamp-1 break-all border-b-2 px-3 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "sets" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 text-neutral-500 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faBarsStaggered}
+                    className={`mr-2 md:mr-2.5 ${selectedView === "sets" ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-400 dark:text-neutral-600"}`}
+                  />
+                  <span className="hidden md:inline">Your sets</span>
+                  <span className="md:hidden">Sets</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedView("account");
+                  }}
+                  className={`group line-clamp-1 break-all border-b-2 px-3 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "account" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 text-neutral-500 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faCog}
+                    className={`mr-2 md:mr-2.5 ${selectedView === "account" ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-400 dark:text-neutral-600"}`}
+                  />
+                  <span>Account</span>
+                </button>
+              </div>
 
-                <div>
-                  {selectedView === "rankings" ? (
-                    profile?.rankings && profile?.rankings.length > 0 ? (
-                      profile?.rankings.map((ranking, i) => {
-                        return (
-                          <RankingBoard
-                            key={i}
-                            className="mb-10 md:mb-12"
-                            ranking={ranking}
-                            index1={i}
-                            showSeeRankingButton
-                            savedRankings={profile?.rankings}
-                          />
-                        );
-                      })
-                    ) : (
-                      <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                        You haven't created any rankings yet...
-                      </h2>
-                    )
-                  ) : selectedView === "sets" ? (
-                    profile?.sets && profile?.sets.length > 0 ? (
-                      profile?.sets.map((set, i) => {
-                        return (
-                          <SetBoard
-                            key={i}
-                            id={set.id}
-                            showSeeSetButton
-                            className="mb-10 flex-1 md:mb-12"
-                            set={{
-                              id: set.id,
-                              name: set.name,
-                              utensils: shuffle(set.utensils),
-                              username: set.username,
-                              sharedAt: set.sharedAt,
-                            }}
-                          />
-                        );
-                      })
-                    ) : (
-                      <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                        You haven't created any sets yet...
-                      </h2>
-                    )
-                  ) : profile?.username !== "Profile" ? (
-                    <div>
-                      <div className="mb-0.5 flex items-end px-2 md:mb-1">
+              <div>
+                {selectedView === "rankings" ? (
+                  ownedRankings && ownedRankings.length > 0 ? (
+                    ownedRankings.map((ranking, i) => {
+                      return (
+                        <RankingBoard
+                          key={i}
+                          className="mb-10 md:mb-12"
+                          ranking={ranking}
+                          index1={i}
+                          showSeeRankingButton
+                          savedRankings={ownedRankings}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                      You haven't created any rankings yet...
+                    </h2>
+                  )
+                ) : selectedView === "sets" ? (
+                  ownedSets && ownedSets.length > 0 ? (
+                    ownedSets.map((set, i) => {
+                      return (
+                        <SetBoard
+                          key={i}
+                          showSeeSetButton
+                          className="mb-10 flex-1 md:mb-12"
+                          set={{
+                            id: set.id,
+                            name: set.name,
+                            createdAt: set.createdAt,
+                            utensils: shuffle(set.utensils),
+                            discoverable: set.discoverable,
+                            userID: set.userID,
+                            username: set.username,
+                          }}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                      You haven't created any sets yet...
+                    </h2>
+                  )
+                ) : profile?.username !== "Profile" ? (
+                  <div>
+                    {/* <div className="mb-0.5 flex items-end px-2 md:mb-1">
                         <h2
-                          className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
+                          className={`line-clamp-1 break-all text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
                         >
                           Account details
                         </h2>
+                      </div> */}
+
+                    <div className="w-full rounded-lg border-2 border-neutral-500/15 px-4 py-3 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300 md:px-5 md:py-4">
+                      <div>
+                        <label className="text-xs text-neutral-500 md:text-sm">
+                          Display name
+                        </label>
+                        <p className="text-sm font-medium md:text-base">
+                          {profile?.username}
+                        </p>
                       </div>
 
-                      <div className="w-full rounded-lg border-2 border-neutral-500/15 px-4 py-2 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300 md:px-4 md:py-3">
-                        <div>
-                          <label className="text-sm text-neutral-500">
-                            Email
-                          </label>
-                          <p className="font-medium">{email}</p>
-                        </div>
-
-                        <div className="mt-3">
-                          <label className="text-sm text-neutral-500">
-                            Pairckler since
-                          </label>
-                          <p className="font-medium">
-                            {profile?.created_at
-                              ? new Date(
-                                  profile.created_at,
-                                ).toLocaleDateString()
-                              : "N/A"}
-                          </p>
-                        </div>
+                      <div className="mt-3 md:mt-4">
+                        <label className="text-xs text-neutral-500 md:text-sm">
+                          Email
+                        </label>
+                        <p className="text-sm font-medium md:text-base">
+                          {email}
+                        </p>
                       </div>
 
-                      <button
-                        onClick={() => {
-                          setConfirmSignOutModalVisibility(true);
-                        }}
-                        className="mt-12 w-full rounded-full border-2 border-neutral-400 px-4 py-2 transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
-                      >
-                        Log out
-                      </button>
+                      <div className="mt-3 md:mt-4">
+                        <label className="text-xs text-neutral-500 md:text-sm">
+                          Pairckler since
+                        </label>
+                        <p className="text-sm font-medium md:text-base">
+                          {profile?.createdAt
+                            ? new Date(profile.createdAt).toLocaleDateString()
+                            : "N/A"}
+                        </p>
+                      </div>
                     </div>
-                  ) : (
-                    <div>
-                      <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                        Sign up or log in to see account details.
-                      </h2>
-                      <Link
-                        href="/login"
-                        className="mt-12 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
-                      >
-                        Log in
-                      </Link>
-                    </div>
-                  )}
-                </div>
+
+                    <button
+                      onClick={() => {
+                        setConfirmSignOutModalVisibility(true);
+                      }}
+                      className="mt-4 w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-sm transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-6 md:text-base"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                      Sign up or log in to see account details.
+                    </h2>
+                    <Link
+                      href="/login"
+                      className="mt-12 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:text-base"
+                    >
+                      Log in
+                    </Link>
+                  </div>
+                )}
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

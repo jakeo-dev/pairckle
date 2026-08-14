@@ -22,22 +22,20 @@ export default function LogIn() {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithOtp({
+      const { error: loginError } = await supabase.auth.signInWithOtp({
         email: emailInput,
         options: {
-          shouldCreateUser: true, // automatically signs up user
+          shouldCreateUser: true, // automatically signs up user if email not in database
           captchaToken: captchaToken,
           emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             username: usernameInput,
-            /* rankings: JSON.parse(localStorage.getItem("savedRankings") ?? "[]"), // automatically add rankings from local storage to user profile
-            sets: JSON.parse("[]"), */
           },
         },
       });
 
-      if (error) {
-        console.log("error", data, error);
+      if (loginError) {
+        console.log("error:", loginError);
       } else {
         console.log("sign up successful!");
         setStep("verify");

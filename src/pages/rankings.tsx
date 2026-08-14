@@ -11,9 +11,10 @@ export default function Rankings() {
   const [savedRankings, setSavedRankings] = useState<Ranking[]>([]);
 
   const [currentRanking, setCurrentRanking] = useState<Ranking>({
-    rankingName: "",
-    rankingDate: { month: -1, day: -1, year: -1 },
-    rankingType: "",
+    id: -1,
+    name: "",
+    createdAt: "",
+    type: "",
     rankedUtensils: [
       {
         title: "",
@@ -38,7 +39,7 @@ export default function Rankings() {
       {/* confirm to delete modal */}
       <ConfirmModal
         visibility={confirmDeleteModalVisibility}
-        titleText={`Are you sure you want to delete "${currentRanking.rankingName}"?`}
+        titleText={`Are you sure you want to delete "${currentRanking.name}"?`}
         subtitleText="This ranking will be lost forever!"
         primaryButtonText="Delete"
         secondaryButtonText="Cancel"
@@ -196,9 +197,9 @@ export default function Rankings() {
 
                   const rankingNewNameInput = prompt(
                     "Enter a title for this ranking",
-                    ranking.rankingName.includes("New ranking #")
+                    ranking.name.includes("New ranking #")
                       ? randomNewRankingName
-                      : ranking.rankingName,
+                      : ranking.name,
                   );
                   let rankingNewName = "";
 
@@ -214,9 +215,9 @@ export default function Rankings() {
                       : [];
 
                     rankingsArray[index1] = {
-                      rankingName: rankingNewName,
-                      rankingDate: ranking.rankingDate,
-                      rankingType: ranking.rankingType,
+                      name: rankingNewName,
+                      createdAt: ranking.createdAt,
+                      type: ranking.type,
                       rankedUtensils: ranking.rankedUtensils,
                     };
 
@@ -233,6 +234,7 @@ export default function Rankings() {
                   setConfirmDeleteModalVisibility(true);
                 }}
                 index1={index1}
+                savedRankings={savedRankings}
               />
             ))}
           </div>

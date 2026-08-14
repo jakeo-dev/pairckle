@@ -8,23 +8,23 @@ import { Utensil } from "./types";
  */
 export function sortUtensils(a: Utensil, b: Utensil): number {
   // sort by SCORE, highest to lowest
-  if (a.score && b.score && a.score !== b.score) {
+  if (a.score !== undefined && b.score !== undefined && a.score !== b.score) {
     return b.score - a.score;
   }
 
   // sort by WIN RATE, highest to lowest
   if (
-    a.wins &&
-    b.wins &&
-    a.losses &&
-    b.losses &&
+    a.wins !== undefined &&
+    b.wins !== undefined &&
+    a.losses !== undefined &&
+    b.losses !== undefined &&
     b.wins / (b.wins + b.losses) !== a.wins / (a.wins + a.losses)
   ) {
     return b.wins / (b.wins + b.losses) - a.wins / (a.wins + a.losses);
   }
 
   // sort by NUMBER OF WINS, highest to lowest
-  if (a.wins && b.wins && a.wins !== b.wins) {
+  if (a.wins !== undefined && b.wins !== undefined && a.wins !== b.wins) {
     return b.wins - a.wins;
   }
 
@@ -95,4 +95,14 @@ export function getNumCombos(numUtensils: number): number {
     sum += i;
   }
   return sum;
+}
+
+/**
+ * Gets number of combinations of pairs for a given number of utensils.
+ * @param {number} min Lowest possible number.
+ * @param {number} max Greatest possible number.
+ * @returns {number} Random number between min and max, inclusive.
+ */
+export function randomNumber(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

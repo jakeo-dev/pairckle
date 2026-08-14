@@ -4,7 +4,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import { Profile, Utensil } from "@/types";
-import { shuffle, sortUtensils } from "@/utilities";
+import { randomNumber, shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/router";
@@ -157,6 +157,7 @@ export default function Create() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [userID, setUserID] = useState<string | null>(null);
 
   useEffect(() => {
     async function getProfile() {
@@ -167,23 +168,30 @@ export default function Create() {
       if (!session) return;
 
       const user = session.user;
+      setUserID(user.id);
 
-      const { data, error } = await supabase
+      const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("username, rankings, sets, created_at")
         .eq("id", user.id)
         .single();
+      // convert snake case from database to camel case
+      const { created_at, ...rest } = profileData || {};
+      const correctedProfileData = {
+        ...rest,
+        createdAt: created_at,
+      };
 
-      if (error && error.code !== "PGRST116") {
-        console.error("Error fetching profile:", error);
-      } else if (data) {
-        setProfile(data);
+      if (profileError && profileError.code !== "PGRST116") {
+        console.error("error:", correctedProfileData);
+      } else if (correctedProfileData) {
+        setProfile(correctedProfileData as Profile);
       } else {
         setProfile({
           username: user.user_metadata?.username,
           rankings: [],
           sets: [],
-          created_at: user.created_at,
+          createdAt: user.created_at,
         });
       }
 
@@ -223,7 +231,7 @@ export default function Create() {
     return shuffle(combinations);
   }
 
-  function setNextCombo(
+  async function setNextCombo(
     combosArray: number[][],
     utensilsArray: Utensil[],
     currentComboIndex: number,
@@ -259,7 +267,7 @@ export default function Create() {
         : [];
 
       rankingsArray.unshift({
-        rankingName: "New ranking #" + (savedRankingsArray.length + 1),
+        rankingName: "New ranking", //"New ranking #" + (savedRankingsArray.length + 1),
         rankingDate: {
           month: new Date().getMonth() + 1,
           day: new Date().getDate(),
@@ -273,48 +281,44 @@ export default function Create() {
       if (!profile) {
         localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
       } else {
-        
+        const rankingID = randomNumber(100000000000, 999999999999);
 
+        const { error: userRankingsError } = await supabase
+          .from("user_rankings")
+          .insert([
+            {
+              id: rankingID,
+              name: "New ranking",
+              ranked_utensils: [...utensilsArray].sort(sortUtensils),
+              type: rankingType,
+              combos: combosArray,
+              winners_history: winnersHistory,
+              user_id: userID,
+              username: profile.username,
+            },
+          ])
+          .select();
 
+        if (userRankingsError) console.error("error:", userRankingsError);
 
+        const { data: existingProfileData, error: existingProfileError } =
+          await supabase
+            .from("profiles")
+            .select("owned_rankings")
+            .eq("id", userID)
+            .single();
 
+        if (existingProfileError)
+          console.error("error:", existingProfileError);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        await supabase
+          .from("profiles")
+          .update({
+            owned_rankings:
+              // add new ranking ID to owned_rankings array
+              [rankingID, ...existingProfileData?.owned_rankings],
+          })
+          .eq("id", userID);
       }
     }
   }
@@ -879,106 +883,14 @@ export default function Create() {
               <div className="section mb-10 lg:mb-12">
                 <RankingBoard
                   ranking={{
+                    id: -1,
                     rankedUtensils: utensilsArray,
-                    rankingName: "My final ranking",
-                    rankingDate: {
-                      month: new Date().getMonth() + 1,
-                      day: new Date().getDate(),
-                      year: new Date().getFullYear(),
-                    },
-                    rankingType: rankingType,
+                    name: "Your final ranking",
+                    type: rankingType,
                   }}
                   index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
-                showAllUtensils
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                  showAllUtensils
                   savedRankings={[]}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 />
 
                 <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">

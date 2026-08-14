@@ -2,39 +2,77 @@ import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
 import MasonryLayout from "@/components/MasonryLayout";
 import SetBoard from "@/components/SetBoard";
+import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import { shuffle } from "@/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/sets";
 import { useEffect, useState } from "react";
-import { Set } from "@/types";
+import { Ranking, Set } from "@/types";
 
 import { supabase } from "../../utils/supabase";
 
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBarsStaggered,
+  faChartSimple,
+  faGlobe,
+} from "@fortawesome/free-solid-svg-icons";
+
+import { Gabarito } from "next/font/google";
+const gabarito = Gabarito({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<Set[]>([]);
   const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+  const [discoverableRankings, setDiscoverableRankings] = useState<Ranking[]>(
+    [],
+  );
+
+  const [selectedView, setSelectedView] = useState<"rankings" | "sets">(
+    "rankings",
+  );
 
   useEffect(() => {
-    async function getDiscoverableSets() {
-      const { data: sharedSets } = await supabase
-        .from("shared_sets")
+    async function getDiscoverableStuff() {
+      const { data: userSetsData, error: userSetsError } = await supabase
+        .from("user_sets")
         .select()
         .eq("discoverable", true);
-      const newSharedSets = sharedSets?.map((set) => {
+      const correctedUserSets = userSetsData?.map((set) => {
         return {
           ...set,
-          sharedAt: set.shared_at,
+          createdAt: set.created_at,
+          userID: set.user_id,
+        };
+      });
+      if (userSetsError) console.error("error:", userSetsError);
+
+      const { data: userRankingsData, error: userRankingsError } =
+        await supabase.from("user_rankings").select().eq("discoverable", true);
+      if (userRankingsError) console.error("error:", userRankingsError);
+      // convert snake case from database to camel case
+      const correctedUserRankings = userRankingsData?.map((ranking) => {
+        return {
+          ...ranking,
+          createdAt: ranking.created_at,
+          rankedUtensils: ranking.ranked_utensils,
+          winnersHistory: ranking.winners_history,
+          userID: ranking.user_id,
         };
       });
 
-      if (newSharedSets) {
-        setDiscoverableSets(newSharedSets.toReversed());
+      if (correctedUserSets) {
+        setDiscoverableSets(correctedUserSets.toReversed());
+      }
+      if (correctedUserRankings) {
+        setDiscoverableRankings(correctedUserRankings.toReversed());
       }
     }
 
-    getDiscoverableSets();
+    getDiscoverableStuff();
   }, []);
 
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
@@ -62,105 +100,124 @@ export default function Sets() {
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading icon={faGlobe} text="Community" />
 
-          {discoverableSets.length > 0 ? (
-            <MasonryLayout
-              defaultCols={1}
-              smCols={1}
-              mdCols={1}
-              lgCols={2}
-              xlCols={2}
-              className="section flex"
-              columnClassName="bg-clip-padding lg:odd:mr-12"
-            >
-              {[...discoverableSets].map((set, index1) => (
-                <SetBoard
-                  key={index1}
-                  id={set.id}
-                  showSeeSetButton
-                  className="mb-10 flex-1 md:mb-12"
-                  set={{
-                    id: set.id,
-                    name: set.name,
-                    utensils: shuffle(set.utensils),
-                    username: set.username,
-                    sharedAt: set.sharedAt,
-                  }}
-                  /* onRank={(event) => {
-                      if (
-                        localStorage.getItem("combosArray") &&
-                        localStorage.getItem("combosArray") !== "[]"
-                      ) {
-                        event.preventDefault();
-                        setErrorRankingModalVisibility(true);
-                      } else {
-                        localStorage.setItem(
-                          "utensilInput",
-                          shuffle(
-                            set.utensils.map((utensil) => utensil.title),
-                          ).join("\n"),
-                        );
-                      }
-                    }} */
-                />
-              ))}
-            </MasonryLayout>
-          ) : (
-            <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-              Loading community...
-            </h2>
-          )}
-
-          <div className="mb-10 flex w-full items-center border-b-2 border-neutral-400/30 md:mb-12" />
-
-          <MasonryLayout
-            defaultCols={1}
-            smCols={1}
-            mdCols={1}
-            lgCols={2}
-            xlCols={2}
-            className="section flex"
-            columnClassName="bg-clip-padding lg:odd:mr-12"
+          <div
+            className={`section mb-8 flex items-end justify-center md:mb-10 md:justify-start ${gabarito.className}`}
           >
-            {[...starterSets].map((set, index1) => (
-              <SetBoard
-                key={index1}
-                id={set.id}
-                showSeeSetButton
-                className="mb-10 md:mb-12"
-                set={{
-                  id: set.id,
-                  name: set.name,
-                  utensils: shuffle(set.utensils),
-                }}
-                /* onRank={(event) => {
-                    if (
-                      localStorage.getItem("combosArray") &&
-                      localStorage.getItem("combosArray") !== "[]"
-                    ) {
-                      event.preventDefault();
-                      setErrorRankingModalVisibility(true);
-                    } else {
-                      localStorage.setItem(
-                        "utensilInput",
-                        shuffle(
-                          set.utensils.map((utensil) =>
-                            utensil.title !== "????????"
-                              ? utensil.title
-                              : randomElement(
-                                  randomElement(
-                                    [...starterSets].filter(
-                                      (s) => s.name !== "Random mix",
-                                    ),
-                                  ).utensils,
-                                ).title,
-                          ),
-                        ).join("\n"),
-                      );
-                    }
-                  }} */
+            <button
+              onClick={() => {
+                setSelectedView("rankings");
+              }}
+              className={`group line-clamp-1 break-all border-b-2 px-3 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "rankings" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 text-neutral-500 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
+            >
+              <FontAwesomeIcon
+                icon={faChartSimple}
+                className={`mr-2 rotate-90 md:mr-2.5 ${selectedView === "rankings" ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-400 dark:text-neutral-600"}`}
               />
-            ))}
-          </MasonryLayout>
+              <span>Rankings</span>
+            </button>
+            <button
+              onClick={() => {
+                setSelectedView("sets");
+              }}
+              className={`group line-clamp-1 break-all border-b-2 px-3 pb-1 text-sm font-medium leading-6 transition md:px-6 md:pb-3 md:text-lg ${selectedView === "sets" ? "border-neutral-500/50 dark:border-neutral-400/50" : "border-neutral-500/20 text-neutral-500 hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30"}`}
+            >
+              <FontAwesomeIcon
+                icon={faBarsStaggered}
+                className={`mr-2 md:mr-2.5 ${selectedView === "sets" ? "text-neutral-500 dark:text-neutral-400" : "text-neutral-400 dark:text-neutral-600"}`}
+              />
+              <span>Sets</span>
+            </button>
+          </div>
+
+          {selectedView === "sets" ? (
+            <>
+              {discoverableSets.length > 0 ? (
+                <MasonryLayout
+                  defaultCols={1}
+                  smCols={1}
+                  mdCols={1}
+                  lgCols={2}
+                  xlCols={2}
+                  className="section flex"
+                  columnClassName="bg-clip-padding lg:odd:mr-12"
+                >
+                  {[...discoverableSets].map((set, index1) => (
+                    <SetBoard
+                      key={index1}
+                      showSeeSetButton
+                      className="mb-10 flex-1 md:mb-12"
+                      set={{
+                        id: set.id,
+                        name: set.name,
+                        utensils: shuffle(set.utensils),
+                        username: set.username,
+                        createdAt: set.createdAt,
+                      }}
+                    />
+                  ))}
+                </MasonryLayout>
+              ) : (
+                <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                  Loading community sets...
+                </h2>
+              )}
+              <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
+
+              <MasonryLayout
+                defaultCols={1}
+                smCols={1}
+                mdCols={1}
+                lgCols={2}
+                xlCols={2}
+                className="section flex"
+                columnClassName="bg-clip-padding lg:odd:mr-12"
+              >
+                {[...starterSets].map((set, index1) => (
+                  <SetBoard
+                    key={index1}
+                    showSeeSetButton
+                    className="mb-10 md:mb-12"
+                    set={{
+                      id: set.id,
+                      name: set.name,
+                      utensils: shuffle(set.utensils),
+                    }}
+                  />
+                ))}
+              </MasonryLayout>
+            </>
+          ) : (
+            <>
+              {discoverableRankings.length > 0 ? (
+                <div className="section">
+                  {[...discoverableRankings].map((ranking, index1) => (
+                    <RankingBoard
+                      key={index1}
+                      index1={index1}
+                      showSeeRankingButton
+                      className="mb-10 flex-1 md:mb-12"
+                      ranking={{
+                        id: ranking.id,
+                        name: ranking.name,
+                        rankedUtensils: ranking.rankedUtensils,
+                        username: ranking.username,
+                        createdAt: ranking.createdAt,
+                        type: ranking.type,
+                        combos: ranking.combos,
+                        winnersHistory: ranking.winnersHistory,
+                        userID: ranking.userID,
+                      }}
+                      savedRankings={discoverableRankings}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                  Loading community rankings...
+                </h2>
+              )}
+            </>
+          )}
         </div>
       </div>
     </>

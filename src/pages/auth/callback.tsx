@@ -24,13 +24,15 @@ export default function AuthCallback() {
               .select("rankings, sets")
               .eq("id", session.user.id)
               .single();
+          if (existingProfileError)
+            console.error("error:", existingProfileError);
 
           if (localRankings.length > 0 || localSets.length > 0) {
             await supabase
               .from("profiles")
               .update({
                 rankings:
-                // append local rankings to database rankings if there are already rankings saved in the database
+                  // append local rankings to database rankings if there are already rankings saved in the database
                   existingProfile?.rankings.length > 0
                     ? [...localRankings, ...existingProfile?.rankings]
                     : localRankings,

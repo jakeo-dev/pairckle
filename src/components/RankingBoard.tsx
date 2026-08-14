@@ -3,7 +3,7 @@ import Link from "next/link";
 import ShareSetModal from "./ShareSetModal";
 import ConfirmModal from "./ConfirmModal";
 import { useEffect, useRef, useState } from "react";
-import { monthName, shuffle, sortUtensils } from "@/utilities";
+import { randomNumber, shuffle, sortUtensils } from "@/utilities";
 import { Ranking } from "@/types";
 
 import { Gabarito } from "next/font/google";
@@ -104,7 +104,7 @@ export default function RankingBoard({
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
     useState<boolean>(false);
 
-  const [id, setID] = useState<string>("");
+  const [setID, setSetID] = useState<string>("");
 
   return (
     <>
@@ -112,7 +112,7 @@ export default function RankingBoard({
       <ShareSetModal
         visibility={shareLinkModalVisibility}
         onConfirm={async (inputValue1, inputValue2, checkboxValue) => {
-          const id =
+          const newSetID =
             inputValue1
               ?.replaceAll(/[^\w]/gi, " ")
               .replaceAll(/\s+/gi, " ")
@@ -122,17 +122,15 @@ export default function RankingBoard({
               .slice(0, 3)
               .join("-") +
             "-" +
-            Math.floor(Math.random() * 100000000)
-              .toString()
-              .padStart(8, "0");
+            randomNumber(10000000, 99999999);
 
-          setID(id);
+          setSetID(newSetID);
 
-          const { data, error } = await supabase
-            .from("shared_sets")
+          const { error: userSetsError } = await supabase
+            .from("user_sets")
             .insert([
               {
-                id: id,
+                id: newSetID,
                 name: inputValue1,
                 username: inputValue2,
                 discoverable: checkboxValue,
@@ -142,7 +140,7 @@ export default function RankingBoard({
               },
             ])
             .select();
-          console.log(data, error);
+          if (userSetsError) console.error("error:", userSetsError);
 
           setShareLinkModalVisibility(false);
           setCopyLinkModalVisibility(true);
@@ -154,13 +152,13 @@ export default function RankingBoard({
       <ConfirmModal
         visibility={copyLinkModalVisibility}
         titleText="Here's your link"
-        subtitleText={"https://pairckle.jakeo.dev/sets/" + id}
+        subtitleText={"https://pairckle.jakeo.dev/sets/" + setID}
         primaryButtonText="Copy link"
         primaryButtonTextClicked="Copied!"
         secondaryButtonText="Close"
         onConfirm={() => {
           navigator.clipboard.writeText(
-            "https://pairckle.jakeo.dev/sets/" + id,
+            "https://pairckle.jakeo.dev/sets/" + setID,
           );
         }}
         onCancel={() => setCopyLinkModalVisibility(false)}
@@ -179,23 +177,22 @@ export default function RankingBoard({
       <div className={`w-full ${className || ""}`}>
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
-              <h3 className="line-clamp-1 font-semibold">
-                {ranking.rankingType === "hurry" ? "Hurried" : "Concentrated"}
-              </h3>
-              <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
-                {ranking.rankingDate
-                  ? `${monthName(ranking.rankingDate.month).slice(
-                      0,
-                      3,
-                    )}. ${ranking.rankingDate.day} ${ranking.rankingDate.year}`
-                  : ""}
-              </h3>
-            </div>
+            {ranking.createdAt && (
+              <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
+                <h3 className="line-clamp-1 font-semibold">
+                  {ranking.type === "hurry" ? "Hurried" : "Concentrated"}
+                </h3>
+                <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
+                  {ranking.createdAt
+                    ? new Date(ranking.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </h3>
+              </div>
+            )}
             <h2
               className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
             >
-              {ranking.rankingName}
+              {ranking.name}
             </h2>
           </div>
 
@@ -251,7 +248,7 @@ export default function RankingBoard({
 
                       const a = document.createElement("a");
                       a.href = dataUrl;
-                      a.download = `pairckle-${ranking.rankingName.toLocaleLowerCase().replace(/\s+/g, "-")}.png`;
+                      a.download = `pairckle-${ranking.name.toLocaleLowerCase().replace(/\s+/g, "-")}.png`;
                       document.body.appendChild(a);
                       a.click();
                       document.body.removeChild(a);
@@ -515,7 +512,7 @@ export default function RankingBoard({
             <div className="mt-2 flex gap-2">
               <Link
                 className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-                href={`/rankings/${id}`}
+                href={`/rankings/${ranking.id}`}
               >
                 <FontAwesomeIcon
                   icon={faChartSimple}

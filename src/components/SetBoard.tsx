@@ -26,7 +26,6 @@ export default function SetBoard({
   showTopButtons,
   showSeeSetButton,
   className = "",
-  id,
 }: {
   set: Set;
   onRankNow?: (
@@ -37,7 +36,6 @@ export default function SetBoard({
   showTopButtons?: boolean;
   showSeeSetButton?: boolean;
   className?: string;
-  id: string;
 }) {
   const [copyLinkModalVisibility, setCopyLinkModalVisibility] =
     useState<boolean>(false);
@@ -48,12 +46,12 @@ export default function SetBoard({
       <ConfirmModal
         visibility={copyLinkModalVisibility}
         titleText="Here's your link"
-        subtitleText={"https://pairckle.jakeo.dev/sets/" + id}
+        subtitleText={"https://pairckle.jakeo.dev/sets/" + set.id}
         primaryButtonText="Copy link"
         secondaryButtonText="Close"
         onConfirm={() => {
           navigator.clipboard.writeText(
-            "https://pairckle.jakeo.dev/sets/" + id,
+            "https://pairckle.jakeo.dev/sets/" + set.id,
           );
         }}
         onCancel={() => setCopyLinkModalVisibility(false)}
@@ -68,15 +66,15 @@ export default function SetBoard({
                   {set.username}
                 </h3>
               )}
-              {set.sharedAt && (
+              {set.createdAt && (
                 <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
-                  {set.sharedAt
+                  {set.createdAt
                     ? `${monthName(
-                        Number(set.sharedAt.split("T")[0].split("-")[1]),
+                        Number(set.createdAt.split("T")[0].split("-")[1]),
                       ).slice(
                         0,
                         3,
-                      )}. ${Number(set.sharedAt.split("T")[0].split("-")[2])} ${Number(set.sharedAt.split("T")[0].split("-")[0])}`
+                      )}. ${Number(set.createdAt.split("T")[0].split("-")[2])} ${Number(set.createdAt.split("T")[0].split("-")[0])}`
                     : ""}
                 </h3>
               )}
@@ -183,7 +181,7 @@ export default function SetBoard({
           </Link> */}
             <Link
               className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-              href={`/sets/${id}`}
+              href={`/sets/${set.id}`}
             >
               <FontAwesomeIcon
                 icon={faChartSimple}

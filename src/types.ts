@@ -6,28 +6,30 @@ export type Utensil = {
 };
 
 export type Ranking = {
-  rankingName: string;
-  rankingDate: {
-    month: number;
-    day: number;
-    year: number;
-  };
-  rankingType: string;
+  id: number;
+  name: string;
+  createdAt?: string;
   rankedUtensils: Utensil[];
+  type: string;
+  combos?: number[][];
+  winnersHistory?: number[];
+  userID?: string;
+  username?: string;
 };
 
 export type Set = {
   id: string;
   name: string;
+  createdAt?: string;
   utensils: Utensil[];
-  username?: string;
-  sharedAt?: string;
   discoverable?: boolean;
+  userID?: string;
+  username?: string;
 };
 
 export type Profile = {
   username: string;
-  created_at: string;
-  rankings: Ranking[],
-  sets: Set[]
+  createdAt: string;
+  rankings: Ranking[];
+  sets: Set[];
 };

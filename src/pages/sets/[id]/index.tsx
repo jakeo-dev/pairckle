@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
 import { monthName, randomElement, shuffle } from "@/utilities";
+import { RANDOM_SET, STARTER_SETS } from "@/sets";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,30 +16,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { supabase } from "../../../utils/supabase";
-import { RANDOM_SET, STARTER_SETS } from "@/sets";
 
 export default function SharedSet() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id: setID } = router.query;
 
   const [currentSet, setCurrentSet] = useState<Set>({
     id: "",
-    sharedAt: "",
+    createdAt: "",
     name: "",
     username: "",
     utensils: [],
+    userID: "",
   });
 
   useEffect(() => {
     async function getCurrentSet() {
-      if (!id) return;
+      if (!setID) return;
 
-      if (isNaN(Number(id))) {
-        const { data: sharedSets } = await supabase
-          .from("shared_sets")
+      if (isNaN(Number(setID))) {
+        const { data: userSetsData, error: userSetsError } = await supabase
+          .from("user_sets")
           .select()
-          .eq("id", id);
-        const newSharedSets = sharedSets?.map((set) => {
+          .eq("id", setID);
+        if (userSetsError) console.error("error:", userSetsError);
+        // convert snake case from database to camel case
+        const newSharedSets = userSetsData?.map((set) => {
           return {
             ...set,
             sharedAt: set.shared_at,
@@ -48,19 +51,19 @@ export default function SharedSet() {
         if (newSharedSets) {
           setCurrentSet(newSharedSets[0]);
         }
-      } else if (Number(id) === 0) {
+      } else if (Number(setID) === 0) {
         const newCurrentSet = RANDOM_SET;
         setCurrentSet(newCurrentSet);
       } else {
         const newCurrentSet = STARTER_SETS.filter((set) => {
-          return set.id === id;
+          return set.id === setID;
         })[0];
         setCurrentSet(newCurrentSet);
       }
     }
 
     getCurrentSet();
-  }, [router.isReady, id]);
+  }, [router.isReady, setID]);
 
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
     useState<boolean>(false);
@@ -86,12 +89,12 @@ export default function SharedSet() {
       <ConfirmModal
         visibility={copyLinkModalVisibility}
         titleText="Here's your link"
-        subtitleText={"https://pairckle.jakeo.dev/sets/" + id}
+        subtitleText={"https://pairckle.jakeo.dev/sets/" + setID}
         primaryButtonText="Copy link"
         secondaryButtonText="Close"
         onConfirm={() => {
           navigator.clipboard.writeText(
-            "https://pairckle.jakeo.dev/sets/" + id,
+            "https://pairckle.jakeo.dev/sets/" + setID,
           );
         }}
         onCancel={() => setCopyLinkModalVisibility(false)}
@@ -105,13 +108,13 @@ export default function SharedSet() {
               text={currentSet.name}
               subtext1={currentSet.username}
               subtext2={
-                currentSet.sharedAt
+                currentSet.createdAt
                   ? `${monthName(
-                      Number(currentSet.sharedAt.split("T")[0].split("-")[1]),
+                      Number(currentSet.createdAt.split("T")[0].split("-")[1]),
                     ).slice(
                       0,
                       3,
-                    )}. ${Number(currentSet.sharedAt.split("T")[0].split("-")[2])} ${Number(currentSet.sharedAt.split("T")[0].split("-")[0])}`
+                    )}. ${Number(currentSet.createdAt.split("T")[0].split("-")[2])} ${Number(currentSet.createdAt.split("T")[0].split("-")[0])}`
                   : ""
               }
             >
@@ -147,7 +150,6 @@ export default function SharedSet() {
           {currentSet ? (
             <div className="section mb-10 md:mb-12">
               <SetBoard
-                id={currentSet.id}
                 showAllUtensils
                 set={{
                   id: currentSet.id,
