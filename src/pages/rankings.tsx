@@ -3,7 +3,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Heading from "@/components/Heading";
 import RankingBoard from "@/components/RankingBoard";
 import { Ranking } from "@/types";
-import { randomElement, shuffle } from "@/utilities";
+import { randomElement } from "@/utilities";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 

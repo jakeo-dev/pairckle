@@ -53,15 +53,15 @@ export default function LogIn() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const { data, error } = await supabase.auth.verifyOtp({
+    const { error: verifyOTPError } = await supabase.auth.verifyOtp({
       token: otp,
       type: "email",
       email: emailInput,
     });
 
     setIsSubmitting(false);
-    if (error) {
-      console.error("error:", error.message);
+    if (verifyOTPError) {
+      console.error("error:", verifyOTPError.message);
     } else {
       console.log("authentication successful!");
       // Session is set in Supabase SDK automatically

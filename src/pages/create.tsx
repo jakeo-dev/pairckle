@@ -3,6 +3,7 @@ import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
+import Heading from "@/components/Heading";
 import { Profile, Utensil } from "@/types";
 import { randomNumber, shuffle, sortUtensils } from "@/utilities";
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +20,6 @@ import {
   faPlusCircle,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Heading from "@/components/Heading";
 
 export default function Create() {
   const [startVisibility, setStartVisibility] =
@@ -155,7 +155,7 @@ export default function Create() {
   }, []);
 
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userID, setUserID] = useState<string | null>(null);
 
@@ -195,7 +195,7 @@ export default function Create() {
         });
       }
 
-      setLoading(false);
+      //setLoading(false);
     }
 
     getProfile();
@@ -308,8 +308,7 @@ export default function Create() {
             .eq("id", userID)
             .single();
 
-        if (existingProfileError)
-          console.error("error:", existingProfileError);
+        if (existingProfileError) console.error("error:", existingProfileError);
 
         await supabase
           .from("profiles")

@@ -240,7 +240,7 @@ export default function ProfilePage() {
                     })
                   ) : (
                     <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                      You haven't created any rankings yet...
+                      {`You haven't created any rankings yet...`}
                     </h2>
                   )
                 ) : selectedView === "sets" ? (
@@ -265,7 +265,7 @@ export default function ProfilePage() {
                     })
                   ) : (
                     <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                      You haven't created any sets yet...
+                      {`You haven't created any sets yet...`}
                     </h2>
                   )
                 ) : profile?.username !== "Profile" ? (
