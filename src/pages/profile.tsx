@@ -202,9 +202,9 @@ export default function ProfilePage() {
               Loading user data...
             </h2>
           ) : (
-            <div className="section mb-8 md:mb-10">
+            <div>
               <div
-                className={`mb-8 flex items-end justify-center md:mb-10 md:justify-start ${gabarito.className}`}
+                className={`wide-section mb-8 flex items-end justify-center md:mb-10 ${gabarito.className}`}
               >
                 <button
                   onClick={() => {
@@ -249,18 +249,19 @@ export default function ProfilePage() {
               <div>
                 {selectedView === "rankings" ? (
                   ownedRankings && ownedRankings.length > 0 ? (
-                    ownedRankings.map((ranking, i) => {
-                      return (
-                        <RankingBoard
-                          key={i}
-                          className="mb-10 md:mb-12"
-                          ranking={ranking}
-                          index1={i}
-                          showSeeRankingButton
-                          savedRankings={ownedRankings}
-                        />
-                      );
-                    })
+                    <div className="wide-section grid grid-cols-4 gap-4">
+                      {ownedRankings.map((ranking, i) => {
+                        return (
+                          <RankingBoard
+                            key={i}
+                            miniView
+                            ranking={ranking}
+                            index1={i}
+                            savedRankings={ownedRankings}
+                          />
+                        );
+                      })}
+                    </div>
                   ) : (
                     <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
                       {`You haven't created any rankings yet...`}
@@ -268,31 +269,32 @@ export default function ProfilePage() {
                   )
                 ) : selectedView === "sets" ? (
                   ownedSets && ownedSets.length > 0 ? (
-                    ownedSets.map((set, i) => {
-                      return (
-                        <SetBoard
-                          key={i}
-                          showSeeSetButton
-                          className="mb-10 flex-1 md:mb-12"
-                          set={{
-                            id: set.id,
-                            name: set.name,
-                            createdAt: set.createdAt,
-                            utensils: shuffle(set.utensils),
-                            discoverable: set.discoverable,
-                            userID: set.userID,
-                            username: set.username,
-                          }}
-                        />
-                      );
-                    })
+                    <div className="wide-section grid grid-cols-3 gap-4">
+                      {ownedSets.map((set, i) => {
+                        return (
+                          <SetBoard
+                            key={i}
+                            miniView
+                            set={{
+                              id: set.id,
+                              name: set.name,
+                              createdAt: set.createdAt,
+                              utensils: shuffle(set.utensils),
+                              discoverable: set.discoverable,
+                              userID: set.userID,
+                              username: set.username,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
                   ) : (
                     <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
                       {`You haven't created any sets yet...`}
                     </h2>
                   )
                 ) : profile?.username !== "Profile" ? (
-                  <div>
+                  <div className="section">
                     {/* <div className="mb-0.5 flex items-end px-2 md:mb-1">
                         <h2
                           className={`line-clamp-1 break-all text-base font-medium leading-6 md:text-lg ${gabarito.className}`}

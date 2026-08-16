@@ -1,7 +1,6 @@
 import CommonHead from "@/components/CommonHead";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
-import MasonryLayout from "@/components/MasonryLayout";
 import SetBoard from "@/components/SetBoard";
 import { Ranking, Set } from "@/types";
 import { shuffle } from "@/utilities";

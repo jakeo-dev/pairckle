@@ -14,7 +14,6 @@ import {
   faCircleDown,
   faEllipsis,
   faFlag,
-  faGlobe,
   faLink,
   faPen,
   faShare,
@@ -244,6 +243,8 @@ export default function SharedRanking() {
     if (rankingNewNameInput !== null) {
       rankingNewName = rankingNewNameInput;
 
+      console.log(rankingNewName);
+
       // logic to rename ranking in database
     }
   }
@@ -252,8 +253,8 @@ export default function SharedRanking() {
     setConfirmDeleteModalVisibility(true);
   }
 
-  const [shareLinkModalVisibility, setShareLinkModalVisibility] =
-    useState<boolean>(false);
+  /* const [shareLinkModalVisibility, setShareLinkModalVisibility] =
+    useState<boolean>(false); */
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
     useState<boolean>(false);
   const [copyLinkModalVisibility, setCopyLinkModalVisibility] =

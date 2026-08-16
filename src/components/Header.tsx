@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
-  faGlobe,
   faHome,
   faMoon,
   faPlusCircle,

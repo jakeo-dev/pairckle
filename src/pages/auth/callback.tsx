@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
-import { Profile, Ranking, Set } from "@/types";
+import { Ranking, Set } from "@/types";
 import { randomNumber } from "@/utilities";
 
 export default function AuthCallback() {
