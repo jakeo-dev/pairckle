@@ -7,8 +7,6 @@ import { randomNumber } from "@/utilities";
 export default function AuthCallback() {
   const router = useRouter();
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
@@ -57,8 +55,6 @@ export default function AuthCallback() {
             // print error if supabase throws error getting profile
             if (profileError && profileError.code !== "PGRST116") {
               console.error("error:", profileError);
-            } else {
-              setProfile(correctedProfileData as Profile);
             }
 
             // insert each ranking from local storage into supabase

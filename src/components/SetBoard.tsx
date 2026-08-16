@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { monthName } from "@/utilities";
-import { Set } from "@/types";
 import Link from "next/link";
 import ConfirmModal from "./ConfirmModal";
+import { Set } from "@/types";
+import { useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
 const gabarito = Gabarito({
@@ -10,22 +12,12 @@ const gabarito = Gabarito({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartSimple,
-  faShare,
-  faFlag,
-  faBolt,
-  faBullseye,
-} from "@fortawesome/free-solid-svg-icons";
-
 export default function SetBoard({
   set,
   onRankNow,
   showAllUtensils = false,
-  showTopButtons,
-  showSeeSetButton,
   className = "",
+  miniView = false,
 }: {
   set: Set;
   onRankNow?: (
@@ -33,9 +25,8 @@ export default function SetBoard({
     rankingType: string,
   ) => void;
   showAllUtensils?: boolean;
-  showTopButtons?: boolean;
-  showSeeSetButton?: boolean;
   className?: string;
+  miniView?: boolean;
 }) {
   const [copyLinkModalVisibility, setCopyLinkModalVisibility] =
     useState<boolean>(false);
@@ -57,7 +48,10 @@ export default function SetBoard({
         onCancel={() => setCopyLinkModalVisibility(false)}
       />
 
-      <div className={`w-full ${className || ""}`}>
+      <Link
+        href={`/sets/${set.id}`}
+        className={`${miniView ? " min-w-72  rounded-lg p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
+      >
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
             <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
@@ -69,12 +63,7 @@ export default function SetBoard({
               {set.createdAt && (
                 <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
                   {set.createdAt
-                    ? `${monthName(
-                        Number(set.createdAt.split("T")[0].split("-")[1]),
-                      ).slice(
-                        0,
-                        3,
-                      )}. ${Number(set.createdAt.split("T")[0].split("-")[2])} ${Number(set.createdAt.split("T")[0].split("-")[0])}`
+                    ? new Date(set.createdAt).toLocaleDateString()
                     : ""}
                 </h3>
               )}
@@ -85,35 +74,6 @@ export default function SetBoard({
               {set.name}
             </h2>
           </div>
-
-          {showTopButtons && (
-            <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
-              <button
-                className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-sm"
-                onClick={() => {
-                  setCopyLinkModalVisibility(true);
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faShare}
-                  className="mr-1 md:mr-1.5"
-                  aria-labelledby="share-button-text"
-                />
-                <span id="share-button-text">Share</span>
-              </button>
-              <a
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-7 md:w-7 md:p-1 md:text-sm"
-                href="mailto:report@jakeo.dev"
-                target="_blank"
-              >
-                <FontAwesomeIcon
-                  icon={faFlag}
-                  aria-label="Report this set"
-                  title="Report this set"
-                />
-              </a>
-            </div>
-          )}
         </div>
 
         {onRankNow && (
@@ -164,35 +124,7 @@ export default function SetBoard({
               </li>
             ))}
         </ul>
-
-        {showSeeSetButton && (
-          <div className="mt-2 flex gap-2">
-            {/* <Link
-            className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-            onClick={(e) => onRank?.(e)}
-            href="/create"
-          >
-            <FontAwesomeIcon
-              icon={faChartSimple}
-              className="mr-2 rotate-90 text-neutral-800 dark:text-neutral-300"
-              aria-labelledby="rank-this-set-button-text"
-            />
-            <span id="rank-this-set-button-text">Rank this set</span>
-          </Link> */}
-            <Link
-              className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-              href={`/sets/${set.id}`}
-            >
-              <FontAwesomeIcon
-                icon={faChartSimple}
-                className="mr-2 rotate-90 text-neutral-800 dark:text-neutral-300"
-                aria-labelledby="see-set-button-text"
-              />
-              <span id="see-set-button-text">View set</span>
-            </Link>
-          </div>
-        )}
-      </div>
+      </Link>
     </>
   );
 }

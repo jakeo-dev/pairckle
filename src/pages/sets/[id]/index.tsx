@@ -5,7 +5,7 @@ import CommonHead from "@/components/CommonHead";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
-import { monthName, randomElement, shuffle } from "@/utilities";
+import { randomElement, shuffle } from "@/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/sets";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ import {
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { supabase } from "../../../utils/supabase";
+import { supabase } from "@/utils/supabase";
 
 export default function SharedSet() {
   const router = useRouter();
@@ -44,7 +44,8 @@ export default function SharedSet() {
         const newSharedSets = userSetsData?.map((set) => {
           return {
             ...set,
-            sharedAt: set.shared_at,
+            createdAt: set.created_at,
+            userID: set.user_id,
           };
         });
 
@@ -109,12 +110,7 @@ export default function SharedSet() {
               subtext1={currentSet.username}
               subtext2={
                 currentSet.createdAt
-                  ? `${monthName(
-                      Number(currentSet.createdAt.split("T")[0].split("-")[1]),
-                    ).slice(
-                      0,
-                      3,
-                    )}. ${Number(currentSet.createdAt.split("T")[0].split("-")[2])} ${Number(currentSet.createdAt.split("T")[0].split("-")[0])}`
+                  ? new Date(currentSet.createdAt).toLocaleDateString()
                   : ""
               }
             >
