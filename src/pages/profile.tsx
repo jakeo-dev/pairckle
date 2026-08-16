@@ -58,7 +58,7 @@ export default function ProfilePage() {
           localStorage.getItem("savedRankings") ?? "[]",
         );
         const rankingsArray: Ranking[] = Array.isArray(savedRankingsArray)
-          ? // eslint-disable-next-line no-explicit-any
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             savedRankingsArray.map((r: any) => ({
               ...r,
               // use new format instead of legacy one

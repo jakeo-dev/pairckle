@@ -20,7 +20,7 @@ export default function AuthCallback() {
           );
 
           const correctedLocalRankings: Ranking[] = Array.isArray(localRankings)
-            ? // eslint-disable-next-line no-explicit-any
+            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
               localRankings.map((r: any) => ({
                 ...r,
                 // use new format instead of legacy one
