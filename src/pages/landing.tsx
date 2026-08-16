@@ -12,7 +12,7 @@ const gabarito = Gabarito({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-export default function Home() {
+export default function Landing() {
   const [currentSets, setCurrentSets] = useState<Set[]>();
   const [translateY, setTranslateY] = useState(0);
 

@@ -1,6 +1,7 @@
+import { useRef, useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
 
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 

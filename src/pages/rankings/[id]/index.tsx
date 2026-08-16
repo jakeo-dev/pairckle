@@ -332,21 +332,23 @@ export default function SharedRanking() {
       />
 
       {/* confirm to delete modal */}
-      <ConfirmModal
-        visibility={confirmDeleteModalVisibility}
-        titleText={`Are you sure you want to delete "${currentRanking.name}"?`}
-        subtitleText="This ranking will be lost forever!"
-        primaryButtonText="Delete"
-        secondaryButtonText="Cancel"
-        onConfirm={() => {
-          // logic to delete ranking from database
+      {currentRanking && (
+        <ConfirmModal
+          visibility={confirmDeleteModalVisibility}
+          titleText={`Are you sure you want to delete "${currentRanking.name}"?`}
+          subtitleText="This ranking will be lost forever!"
+          primaryButtonText="Delete"
+          secondaryButtonText="Cancel"
+          onConfirm={() => {
+            // logic to delete ranking from database
 
-          setConfirmDeleteModalVisibility(false);
-        }}
-        onCancel={() => {
-          setConfirmDeleteModalVisibility(false);
-        }}
-      />
+            setConfirmDeleteModalVisibility(false);
+          }}
+          onCancel={() => {
+            setConfirmDeleteModalVisibility(false);
+          }}
+        />
+      )}
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="w-full lg:min-h-[88.3vh]">

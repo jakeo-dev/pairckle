@@ -46,10 +46,12 @@ export default function RankingBoard({
               <div
                 className={`flex items-center gap-1.5 text-neutral-600 dark:text-neutral-300 md:gap-2 ${miniView ? "text-[0.65rem] md:text-xs" : "text-xs md:text-sm"}`}
               >
-                <h3 className="line-clamp-1 font-semibold">
-                  {ranking.username}
-                  {/* {ranking.type === "hurry" ? "Hurried" : "Concentrated"} */}
-                </h3>
+                {ranking.username && (
+                  <h3 className="line-clamp-1 font-semibold">
+                    {ranking.username}
+                    {/* {ranking.type === "hurry" ? "Hurried" : "Concentrated"} */}
+                  </h3>
+                )}
                 <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
                   {ranking.createdAt
                     ? new Date(ranking.createdAt).toLocaleDateString()

@@ -2,6 +2,7 @@ import CommonHead from "@/components/CommonHead";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
+import Link from "next/link";
 import { Ranking, Set } from "@/types";
 import { shuffle } from "@/utilities";
 import { useEffect, useState } from "react";
@@ -13,12 +14,12 @@ const gabarito = Gabarito({
 });
 
 import { supabase } from "@/utils/supabase";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
-  const [starterSets, setStarterSets] = useState<Set[]>([]);
+  /* const [starterSets, setStarterSets] = useState<Set[]>([]); */
   const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
   const [discoverableRankings, setDiscoverableRankings] = useState<Ranking[]>(
     [],

@@ -80,7 +80,7 @@ export default function Rankings() {
           </div>
 
           {discoverableRankings.length > 0 ? (
-            <div className="wide-section grid grid-cols-4 gap-4">
+            <div className="wide-section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {[...discoverableRankings].map((ranking, index1) => (
                 <RankingBoard
                   key={index1}

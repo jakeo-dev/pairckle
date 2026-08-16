@@ -58,7 +58,8 @@ export default function ProfilePage() {
           localStorage.getItem("savedRankings") ?? "[]",
         );
         const rankingsArray: Ranking[] = Array.isArray(savedRankingsArray)
-          ? savedRankingsArray.map((r: any) => ({
+          ? // eslint-disable-next-line no-explicit-any
+            savedRankingsArray.map((r: any) => ({
               ...r,
               // use new format instead of legacy one
               name: r.name ?? r.rankingName,
@@ -250,7 +251,7 @@ export default function ProfilePage() {
                 {selectedView === "rankings" ? (
                   ownedRankings && ownedRankings.length > 0 ? (
                     <div className="wide-section grid grid-cols-4 gap-4">
-                      {ownedRankings.map((ranking, i) => {
+                      {[...ownedRankings].toReversed().map((ranking, i) => {
                         return (
                           <RankingBoard
                             key={i}
@@ -270,7 +271,7 @@ export default function ProfilePage() {
                 ) : selectedView === "sets" ? (
                   ownedSets && ownedSets.length > 0 ? (
                     <div className="wide-section grid grid-cols-3 gap-4">
-                      {ownedSets.map((set, i) => {
+                      {[...ownedSets].toReversed().map((set, i) => {
                         return (
                           <SetBoard
                             key={i}
@@ -344,7 +345,7 @@ export default function ProfilePage() {
                     </button>
                   </div>
                 ) : (
-                  <div>
+                  <div className="section">
                     <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
                       Sign up or log in to see account details.
                     </h2>

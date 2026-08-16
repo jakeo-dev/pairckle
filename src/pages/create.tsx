@@ -262,7 +262,8 @@ export default function Create() {
         const correctedSavedRankingsArray: Ranking[] = Array.isArray(
           savedRankingsArray,
         )
-          ? savedRankingsArray.map((r: any) => ({
+          ? // eslint-disable-next-line no-explicit-any
+            savedRankingsArray.map((r: any) => ({
               ...r,
               // use new format instead of legacy one
               name: r.name ?? r.rankingName,
@@ -500,7 +501,7 @@ export default function Create() {
 
           {/* utensil input start screen */}
           <div
-            className={`${startVisibility} absolute left-1/2 top-0 mt-52 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3`}
+            className={`${startVisibility} absolute left-1/2 top-0 mt-72 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3`}
           >
             <label
               className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"

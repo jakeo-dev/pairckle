@@ -20,7 +20,8 @@ export default function AuthCallback() {
           );
 
           const correctedLocalRankings: Ranking[] = Array.isArray(localRankings)
-            ? localRankings.map((r: any) => ({
+            ? // eslint-disable-next-line no-explicit-any
+              localRankings.map((r: any) => ({
                 ...r,
                 // use new format instead of legacy one
                 name: r.name ?? r.rankingName,
@@ -145,7 +146,7 @@ export default function AuthCallback() {
 
     // redirect to create page if the user is already signed in
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.replace("/create");
+      if (session) router.replace("/profile");
     });
 
     return () => {
@@ -155,9 +156,9 @@ export default function AuthCallback() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p className="text-sm text-neutral-600 dark:text-neutral-400">
+      <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
         Logging you in...
-      </p>
+      </h2>
     </div>
   );
 }
