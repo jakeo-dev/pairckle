@@ -365,9 +365,9 @@ export default function SharedSet() {
                     )}
 
                     {profile?.id !== currentSet.userID && (
-                      <button
+                      <a
                         className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
-                        onClick={onDelete}
+                        href="mailto:report@jakeo.dev"
                       >
                         <FontAwesomeIcon
                           icon={faFlag}
@@ -375,7 +375,7 @@ export default function SharedSet() {
                           aria-labelledby="report-button-text"
                         />
                         <span id="report-button-text">Report</span>
-                      </button>
+                      </a>
                     )}
                   </div>
                 </div>
