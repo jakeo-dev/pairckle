@@ -7,7 +7,12 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Profile, Ranking } from "@/types";
 import { randomElement, shuffle } from "@/lib/utilities";
-import { deleteRanking, fetchCurrentProfile, fetchRanking } from "@/db";
+import {
+  deleteRanking,
+  fetchCurrentProfile,
+  fetchRanking,
+  renameRanking,
+} from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -107,7 +112,7 @@ export default function SharedRanking() {
     return () => document.removeEventListener("click", handleShareOutsideClick);
   }, []);
 
-  function onEditTitle() {
+  async function onEditTitle() {
     const randomNewRankingName =
       randomElement(["Best", "Greatest", "Top"]) +
       " " +
@@ -235,15 +240,9 @@ export default function SharedRanking() {
         ? randomNewRankingName
         : currentRanking.name,
     );
-    let rankingNewName = "";
+    let rankingNewName = rankingNewNameInput ?? "New ranking";
 
-    if (rankingNewNameInput !== null) {
-      rankingNewName = rankingNewNameInput;
-
-      console.log(rankingNewName);
-
-      // logic to rename ranking in database
-    }
+    await renameRanking(rankingNewName, Number(rankingID));
   }
 
   function onDelete() {

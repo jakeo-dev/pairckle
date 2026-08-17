@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Profile, Set } from "@/types";
 import { randomElement, shuffle } from "@/lib/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
-import { deleteSet, fetchCurrentProfile, fetchSet } from "@/db";
+import { deleteSet, fetchCurrentProfile, fetchSet, renameSet } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -87,7 +87,7 @@ export default function SharedSet() {
       document.removeEventListener("click", handleSettingsOutsideClick);
   }, []);
 
-  function onEditTitle() {
+  async function onEditTitle() {
     const randomNewSetName =
       randomElement([
         "Common",
@@ -208,15 +208,9 @@ export default function SharedSet() {
       "Enter a title for this set",
       currentSet.name === "New set" ? randomNewSetName : currentSet.name,
     );
-    let setNewName = "";
+    let setNewName = setNewNameInput ?? "New set";
 
-    if (setNewNameInput !== null) {
-      setNewName = setNewNameInput;
-
-      console.log(setNewName);
-
-      // logic to rename ranking in database
-    }
+    await renameSet(setNewName, String(setID));
   }
 
   function onDelete() {

@@ -176,7 +176,7 @@ export async function updateCurrentOwnedSets(setID: string, profile: Profile) {
     .from("profiles")
     .update({
       owned_sets:
-        // add new set ID to owned_rankings array
+        // add new set ID to owned_sets array
         [setID, ...profile.ownedSets],
     })
     .eq("id", profile.id);
@@ -244,7 +244,7 @@ export async function deleteRanking(profile: Profile, rankingID: number) {
     .single();
 
   if (error1) {
-    console.error("Failed to delete from user_rankings:", error1);
+    console.error("Failed to delete from user rankings:", error1);
     throw error1;
   }
 
@@ -271,7 +271,7 @@ export async function deleteSet(profile: Profile, setID: string) {
     .single();
 
   if (error1) {
-    console.error("Failed to delete set:", error1);
+    console.error("Failed to delete from user sets:", error1);
     throw error1;
   }
 
@@ -287,5 +287,33 @@ export async function deleteSet(profile: Profile, setID: string) {
   if (error2) {
     console.error("Failed to update owned sets:", error2);
     throw error2;
+  }
+}
+
+export async function renameRanking(newName: string, rankingID: number) {
+  const { error: error1 } = await supabase
+    .from("user_rankings")
+    .update({
+      name: newName,
+    })
+    .eq("id", rankingID);
+
+  if (error1) {
+    console.error("Failed to rename ranking:", error1);
+    throw error1;
+  }
+}
+
+export async function renameSet(newName: string, setID: string) {
+  const { error: error1 } = await supabase
+    .from("user_sets")
+    .update({
+      name: newName,
+    })
+    .eq("id", setID);
+
+  if (error1) {
+    console.error("Failed to rename set:", error1);
+    throw error1;
   }
 }
