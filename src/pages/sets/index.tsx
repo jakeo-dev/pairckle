@@ -2,12 +2,10 @@ import CommonHead from "@/components/CommonHead";
 import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
 import Link from "next/link";
-import { shuffle } from "@/utilities";
-import { RANDOM_SET, STARTER_SETS } from "@/sets";
+import { shuffle } from "@/lib/utilities";
+import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
-
-import { supabase } from "@/utils/supabase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
+import { fetchDiscoverableUserSets } from "@/db";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -27,27 +26,15 @@ export default function Sets() {
   const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
 
   useEffect(() => {
-    async function getDiscoverableStuff() {
-      const { data: userSetsData, error: userSetsError } = await supabase
-        .from("user_sets")
-        .select()
-        .eq("discoverable", true);
-      if (userSetsError) console.error("error:", userSetsError);
-      // convert snake case from database to camel case
-      const correctedUserSets = userSetsData?.map((set) => {
-        return {
-          ...set,
-          createdAt: set.created_at,
-          userID: set.user_id,
-        };
-      });
+    async function getDiscoverableSets() {
+      const userSetsData = await fetchDiscoverableUserSets();
 
-      if (correctedUserSets) {
-        setDiscoverableSets(correctedUserSets.toReversed());
+      if (userSetsData) {
+        setDiscoverableSets(userSetsData.toReversed());
       }
     }
 
-    getDiscoverableStuff();
+    getDiscoverableSets();
   }, []);
 
   useEffect(() => {

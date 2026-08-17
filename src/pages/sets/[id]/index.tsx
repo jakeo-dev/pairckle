@@ -5,8 +5,9 @@ import CommonHead from "@/components/CommonHead";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
-import { randomElement, shuffle } from "@/utilities";
-import { RANDOM_SET, STARTER_SETS } from "@/sets";
+import { randomElement, shuffle } from "@/lib/utilities";
+import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
+import { fetchSet } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,8 +15,6 @@ import {
   faFlag,
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
-
-import { supabase } from "@/utils/supabase";
 
 export default function SharedSet() {
   const router = useRouter();
@@ -35,22 +34,10 @@ export default function SharedSet() {
       if (!setID) return;
 
       if (isNaN(Number(setID))) {
-        const { data: userSetsData, error: userSetsError } = await supabase
-          .from("user_sets")
-          .select()
-          .eq("id", setID);
-        if (userSetsError) console.error("error:", userSetsError);
-        // convert snake case from database to camel case
-        const newSharedSets = userSetsData?.map((set) => {
-          return {
-            ...set,
-            createdAt: set.created_at,
-            userID: set.user_id,
-          };
-        });
+        const currentSetData = await fetchSet(String(setID));
 
-        if (newSharedSets) {
-          setCurrentSet(newSharedSets[0]);
+        if (currentSetData) {
+          setCurrentSet(currentSetData);
         }
       } else if (Number(setID) === 0) {
         const newCurrentSet = RANDOM_SET;

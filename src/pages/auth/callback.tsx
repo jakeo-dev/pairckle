@@ -1,8 +1,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/lib/supabase";
 import { Ranking, Set } from "@/types";
-import { randomNumber } from "@/utilities";
+import { randomNumber } from "@/lib/utilities";
+import {
+  fetchCurrentProfile,
+  insertUserRankings,
+  updateCurrentOwnedRankings,
+  updateCurrentOwnedSets,
+} from "@/db";
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -39,24 +45,8 @@ export default function AuthCallback() {
           // if there are rankings or sets saved in local storage, move them to database
           if (correctedLocalRankings.length > 0 || localSets.length > 0) {
             // get data from profile of current user
-            const { data: profileData, error: profileError } = await supabase
-              .from("profiles")
-              .select("username, created_at, owned_rankings, owned_sets")
-              .eq("id", session.user.id)
-              .single();
-            // convert snake case from database to camel case
-            const { created_at, owned_rankings, owned_sets, ...rest } =
-              profileData || {};
-            const correctedProfileData = {
-              ...rest,
-              createdAt: created_at,
-              ownedRankings: owned_rankings,
-              ownedSets: owned_sets,
-            };
-            // print error if supabase throws error getting profile
-            if (profileError && profileError.code !== "PGRST116") {
-              console.error("error:", profileError);
-            }
+            const result = await fetchCurrentProfile();
+            const profileData = result?.profileData;
 
             // insert each ranking from local storage into supabase
             for (const ranking of correctedLocalRankings) {
@@ -64,32 +54,21 @@ export default function AuthCallback() {
               const rankingID =
                 !ranking.id || ranking.id === -1 ? newRankingID : ranking.id;
 
-              const { error: userRankingsError } = await supabase
-                .from("user_rankings")
-                .insert([
-                  {
-                    id: rankingID,
-                    name: ranking.name ?? "New ranking",
-                    created_at: ranking.createdAt,
-                    ranked_utensils: ranking.rankedUtensils,
-                    type: ranking.type,
-                    combos: ranking.combos,
-                    winners_history: ranking.winnersHistory,
-                    user_id: session.user.id,
-                    username: correctedProfileData?.username,
-                  },
-                ])
-                .select();
-              if (userRankingsError) console.error(userRankingsError);
+              await insertUserRankings([
+                {
+                  id: rankingID,
+                  name: ranking.name ?? "New ranking",
+                  created_at: ranking.createdAt,
+                  ranked_utensils: ranking.rankedUtensils,
+                  type: ranking.type,
+                  combos: ranking.combos,
+                  winners_history: ranking.winnersHistory,
+                  user_id: session.user.id,
+                  username: profileData?.username,
+                },
+              ]);
 
-              await supabase
-                .from("profiles")
-                .update({
-                  owned_rankings:
-                    // add new ranking ID to owned_rankings array
-                    [rankingID, ...profileData?.owned_rankings],
-                })
-                .eq("id", session.user.id);
+              await updateCurrentOwnedRankings(rankingID, profileData);
             }
 
             // insert each set from local storage into supabase
@@ -107,32 +86,18 @@ export default function AuthCallback() {
                 randomNumber(10000000, 99999999);
               const setID = !set.id || set.id === "" ? newSetID : set.id;
 
-              const { error: userSetsError } = await supabase
-                .from("user_sets")
-                .insert([
-                  {
-                    id: setID,
-                    name: set.name ?? "New set",
-                    created_at: set.createdAt,
-                    utensils: set.utensils,
-                    user_id: session.user.id,
-                    username: correctedProfileData?.username,
-                  },
-                ])
-                .select();
-              if (userSetsError) console.error(userSetsError);
+              await insertUserRankings([
+                {
+                  id: setID,
+                  name: set.name ?? "New set",
+                  created_at: set.createdAt,
+                  utensils: set.utensils,
+                  user_id: session.user.id,
+                  username: profileData?.username,
+                },
+              ]);
 
-              await supabase
-                .from("profiles")
-                .update({
-                  owned_sets:
-                    // add new set ID to owned_sets array
-                    [
-                      !set.id || set.id === "" ? setID : set.id,
-                      ...profileData?.owned_sets,
-                    ],
-                })
-                .eq("id", session.user.id);
+              await updateCurrentOwnedSets(setID, profileData);
             }
 
             localStorage.removeItem("savedRankings");

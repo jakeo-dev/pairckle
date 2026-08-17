@@ -50,15 +50,13 @@ export default function SetBoard({
 
       <Link
         href={`/sets/${set.id}`}
-        className={`${miniView ? "min-w-72 rounded-lg p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
+        className={`${miniView ? "min-w-56 rounded-lg p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
       >
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
             <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
               {set.username && (
-                <h3 className="line-clamp-1 overflow-ellipsis font-semibold">
-                  {set.username}
-                </h3>
+                <h3 className="line-clamp-1 font-semibold">{set.username}</h3>
               )}
               {set.createdAt && (
                 <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
@@ -69,7 +67,7 @@ export default function SetBoard({
               )}
             </div>
             <h2
-              className={`line-clamp-1 overflow-ellipsis text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
+              className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
             >
               {set.name}
             </h2>

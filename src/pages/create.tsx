@@ -5,10 +5,14 @@ import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import { Profile, Ranking, Utensil } from "@/types";
-import { randomNumber, shuffle, sortUtensils } from "@/utilities";
+import { randomNumber, shuffle, sortUtensils } from "@/lib/utilities";
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/router";
+import {
+  fetchCurrentProfile,
+  insertUserRankings,
+  updateCurrentOwnedRankings,
+} from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -157,41 +161,14 @@ export default function Create() {
   const router = useRouter();
   //const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [userID, setUserID] = useState<string | null>(null);
 
   useEffect(() => {
     async function getProfile() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const result = await fetchCurrentProfile();
 
-      if (!session) return;
-
-      const user = session.user;
-      setUserID(user.id);
-
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .select("username, created_at, owned_rankings, owned_sets")
-        .eq("id", user.id)
-        .single();
-      // convert snake case from database to camel case
-      const { created_at, owned_rankings, owned_sets, ...rest } =
-        profileData || {};
-      const correctedProfileData = {
-        ...rest,
-        createdAt: created_at,
-        ownedRankings: owned_rankings,
-        ownedSets: owned_sets,
-      };
-
-      if (profileError && profileError.code !== "PGRST116") {
-        console.error("error:", correctedProfileData);
-      } else {
-        setProfile(correctedProfileData as Profile);
+      if (result?.profileData) {
+        setProfile(result?.profileData);
       }
-
-      //setLoading(false);
     }
 
     getProfile();
@@ -298,39 +275,20 @@ export default function Create() {
 
         const rankingID = randomNumber(100000000000, 999999999999);
 
-        const { error: userRankingsError } = await supabase
-          .from("user_rankings")
-          .insert([
-            {
-              id: rankingID,
-              name: "New ranking",
-              ranked_utensils: [...utensilsArray].sort(sortUtensils),
-              type: rankingType,
-              combos: combosArray,
-              winners_history: winnersHistory,
-              user_id: userID,
-              username: profile.username,
-            },
-          ])
-          .select();
-        if (userRankingsError) console.error("error:", userRankingsError);
+        await insertUserRankings([
+          {
+            id: rankingID,
+            name: "New ranking",
+            ranked_utensils: [...utensilsArray].sort(sortUtensils),
+            type: rankingType,
+            combos: combosArray,
+            winners_history: winnersHistory,
+            user_id: profile.id,
+            username: profile.username,
+          },
+        ]);
 
-        const { data: existingProfileData, error: existingProfileError } =
-          await supabase
-            .from("profiles")
-            .select("owned_rankings")
-            .eq("id", userID)
-            .single();
-        if (existingProfileError) console.error("error:", existingProfileError);
-
-        await supabase
-          .from("profiles")
-          .update({
-            owned_rankings:
-              // add new ranking ID to owned_rankings array
-              [rankingID, ...existingProfileData?.owned_rankings],
-          })
-          .eq("id", userID);
+        await updateCurrentOwnedRankings(rankingID, profile);
       }
     }
   }

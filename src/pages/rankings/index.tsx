@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Ranking } from "@/types";
 
-import { supabase } from "@/utils/supabase";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBarsStaggered,
@@ -15,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
+import { fetchDiscoverableUserRankings } from "@/db";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -27,22 +26,10 @@ export default function Rankings() {
 
   useEffect(() => {
     async function getDiscoverableRankings() {
-      const { data: userRankingsData, error: userRankingsError } =
-        await supabase.from("user_rankings").select().eq("discoverable", true);
-      if (userRankingsError) console.error("error:", userRankingsError);
-      // convert snake case from database to camel case
-      const correctedUserRankings = userRankingsData?.map((ranking) => {
-        return {
-          ...ranking,
-          createdAt: ranking.created_at,
-          rankedUtensils: ranking.ranked_utensils,
-          winnersHistory: ranking.winners_history,
-          userID: ranking.user_id,
-        };
-      });
+      const userRankingsData = await fetchDiscoverableUserRankings();
 
-      if (correctedUserRankings) {
-        setDiscoverableRankings(correctedUserRankings.toReversed());
+      if (userRankingsData) {
+        setDiscoverableRankings(userRankingsData.toReversed());
       }
     }
 
@@ -80,7 +67,7 @@ export default function Rankings() {
           </div>
 
           {discoverableRankings.length > 0 ? (
-            <div className="wide-section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="wide-section grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {[...discoverableRankings].map((ranking, index1) => (
                 <RankingBoard
                   key={index1}

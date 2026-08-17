@@ -1,10 +1,10 @@
 import CommonHead from "@/components/CommonHead";
-import { STARTER_SETS } from "@/sets";
-import { randomElement } from "@/utilities";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { STARTER_SETS } from "@/constants/sets";
 import { Set } from "@/types";
+import { randomElement } from "@/lib/utilities";
+import { useEffect, useState } from "react";
 
 import { Gabarito } from "next/font/google";
 const gabarito = Gabarito({

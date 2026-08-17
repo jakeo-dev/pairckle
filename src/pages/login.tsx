@@ -3,23 +3,23 @@ import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import router from "next/router";
+import { randomNumber } from "@/lib/utilities";
 
+import { supabase } from "@/lib/supabase";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { supabase } from "@/utils/supabase";
-
 import { Geist_Mono } from "next/font/google";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { randomNumber } from "@/utilities";
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export default function LogIn() {
+export default function Login() {
   const [emailInput, setEmailInput] = useState<string>("");
   const [usernameInput, setUsernameInput] = useState<string>("");
 
@@ -71,6 +71,7 @@ export default function LogIn() {
 
     setIsSubmitting(true);
 
+    // create user in database and email code
     const { error: loginError } = await supabase.auth.signInWithOtp({
       email: emailInput,
       options: {
@@ -95,6 +96,7 @@ export default function LogIn() {
     setIsSubmitting(false);
   }
 
+  // verify one time passcode
   const handleVerifyOtp = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);

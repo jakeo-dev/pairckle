@@ -6,9 +6,14 @@ import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/lib/supabase";
 import { Profile, Ranking, Set } from "@/types";
-import { shuffle } from "@/utilities";
+import { shuffle } from "@/lib/utilities";
+import {
+  fetchCurrentProfile,
+  fetchOwnedUserRankings,
+  fetchOwnedUserSets,
+} from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -85,74 +90,19 @@ export default function ProfilePage() {
       const user = session.user;
       setEmail(user.email ?? null);
 
-      // get data from profile of current user
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .select("username, created_at, owned_rankings, owned_sets")
-        .eq("id", user.id)
-        .single();
-      // convert snake case from database to camel case
-      const { created_at, owned_rankings, owned_sets, ...rest } =
-        profileData || {};
-      const correctedProfileData = {
-        ...rest,
-        createdAt: created_at,
-        ownedRankings: owned_rankings,
-        ownedSets: owned_sets,
-      };
-      // print error if supabase throws error getting profile
-      if (profileError && profileError.code !== "PGRST116") {
-        console.error("error:", profileError);
-      } else {
-        setProfile(correctedProfileData as Profile);
+      const result = await fetchCurrentProfile();
+
+      if (result?.profileData) {
+        setProfile(result?.profileData);
       }
 
       // get rankings that are owned by current user
-      const { data: userRankingsData, error: userRankingsError } =
-        await supabase
-          .from("user_rankings")
-          .select(
-            "id, name, created_at, ranked_utensils, type, combos, winners_history, user_id, username",
-          )
-          .eq("user_id", user.id);
-      // print error if supabase throws error getting user rankings
-      if (userRankingsError) {
-        console.error("error:", userRankingsError);
-      } else {
-        // convert snake case from database to camel case
-        const correctedUserRankingsData = userRankingsData?.map((ranking) => {
-          return {
-            ...ranking,
-            createdAt: ranking.created_at,
-            rankedUtensils: ranking.ranked_utensils,
-            winnersHistory: ranking.winners_history,
-            userID: ranking.user_id,
-          };
-        });
-        setOwnedRankings(
-          correctedUserRankingsData ? correctedUserRankingsData : [],
-        );
-      }
+      const currentUserRankingsData = await fetchOwnedUserRankings(user.id);
+      setOwnedRankings(currentUserRankingsData ? currentUserRankingsData : []);
 
       // get sets that are owned by current user
-      const { data: userSetsData, error: userSetsError } = await supabase
-        .from("user_sets")
-        .select("id, name, created_at, utensils, user_id, username")
-        .eq("user_id", user.id);
-      // print error if supabase throws error getting user sets
-      if (userSetsError) {
-        console.error("error:", userSetsError);
-      } else {
-        // convert snake case from database to camel case
-        const correctedUserSetsData = userSetsData?.map((set) => {
-          return {
-            ...set,
-            createdAt: set.created_at,
-            userID: set.user_id,
-          };
-        });
-        setOwnedSets(correctedUserSetsData ? correctedUserSetsData : []);
-      }
+      const currentUserSetsData = await fetchOwnedUserSets(user.id);
+      setOwnedSets(currentUserSetsData ? currentUserSetsData : []);
 
       setLoading(false);
     }

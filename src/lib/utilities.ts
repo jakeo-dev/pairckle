@@ -1,4 +1,4 @@
-import { Utensil } from "./types";
+import { Utensil } from "@/types";
 
 /**
  * Sort utensils by their score, then win rate, then number of wins, then alphabetically.

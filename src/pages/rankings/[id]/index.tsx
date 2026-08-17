@@ -2,10 +2,12 @@ import ConfirmModal from "@/components/ConfirmModal";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import CommonHead from "@/components/CommonHead";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Ranking } from "@/types";
-import { randomElement, shuffle } from "@/utilities";
+import { randomElement, shuffle } from "@/lib/utilities";
+import { fetchRanking } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,9 +23,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import * as htmlToImage from "html-to-image";
-
-import { supabase } from "@/utils/supabase";
-import Link from "next/link";
 
 export default function SharedRanking() {
   const router = useRouter();
@@ -47,22 +46,10 @@ export default function SharedRanking() {
     async function getCurrentRanking() {
       if (!rankingID) return;
 
-      const { data: userRankingsData, error: userRankingsError } =
-        await supabase.from("user_rankings").select().eq("id", rankingID);
-      if (userRankingsError) console.error("error:", userRankingsError);
-      // convert snake case from database to camel case
-      const newSharedRankings = userRankingsData?.map((ranking) => {
-        return {
-          ...ranking,
-          createdAt: ranking.created_at,
-          rankedUtensils: ranking.ranked_utensils,
-          winnersHistory: ranking.winners_history,
-          userID: ranking.user_id,
-        };
-      });
+      const currentRankingData = await fetchRanking(Number(rankingID));
 
-      if (newSharedRankings) {
-        setCurrentRanking(newSharedRankings[0]);
+      if (currentRankingData) {
+        setCurrentRanking(currentRankingData);
       }
     }
 

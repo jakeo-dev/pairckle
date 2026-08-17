@@ -4,19 +4,18 @@ import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
 import { Ranking, Set } from "@/types";
-import { shuffle } from "@/utilities";
+import { shuffle } from "@/lib/utilities";
 import { useEffect, useState } from "react";
+import { fetchDiscoverableUserRankings, fetchDiscoverableUserSets } from "@/db";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
 });
-
-import { supabase } from "@/utils/supabase";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   /* const [starterSets, setStarterSets] = useState<Set[]>([]); */
@@ -27,38 +26,14 @@ export default function Home() {
 
   useEffect(() => {
     async function getDiscoverableStuff() {
-      const { data: userSetsData, error: userSetsError } = await supabase
-        .from("user_sets")
-        .select()
-        .eq("discoverable", true);
-      const correctedUserSets = userSetsData?.map((set) => {
-        return {
-          ...set,
-          createdAt: set.created_at,
-          userID: set.user_id,
-        };
-      });
-      if (userSetsError) console.error("error:", userSetsError);
+      const userSetsData = await fetchDiscoverableUserSets();
+      const userRankingsData = await fetchDiscoverableUserRankings();
 
-      const { data: userRankingsData, error: userRankingsError } =
-        await supabase.from("user_rankings").select().eq("discoverable", true);
-      if (userRankingsError) console.error("error:", userRankingsError);
-      // convert snake case from database to camel case
-      const correctedUserRankings = userRankingsData?.map((ranking) => {
-        return {
-          ...ranking,
-          createdAt: ranking.created_at,
-          rankedUtensils: ranking.ranked_utensils,
-          winnersHistory: ranking.winners_history,
-          userID: ranking.user_id,
-        };
-      });
-
-      if (correctedUserSets) {
-        setDiscoverableSets(correctedUserSets.toReversed());
+      if (userSetsData) {
+        setDiscoverableSets(userSetsData.toReversed());
       }
-      if (correctedUserRankings) {
-        setDiscoverableRankings(correctedUserRankings.toReversed());
+      if (userRankingsData) {
+        setDiscoverableRankings(userRankingsData.toReversed());
       }
     }
 
@@ -84,7 +59,7 @@ export default function Home() {
             {discoverableSets.length > 0 ? (
               <div className="wide-section w-full">
                 <Link
-                  className="group mb-6 flex w-fit items-center px-6 transition hover:text-neutral-600 dark:hover:text-neutral-300"
+                  className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
                   href="/sets"
                 >
                   <h2
@@ -97,7 +72,7 @@ export default function Home() {
                     className="ml-3 transition group-hover:translate-x-1"
                   />
                 </Link>
-                <div className="fade-edges-sides flex gap-4 overflow-x-scroll px-4">
+                <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
                   {[...discoverableSets].map((set, index1) => (
                     <SetBoard
                       key={index1}
@@ -127,7 +102,7 @@ export default function Home() {
                 >
                   Pre-made sets
               </h2>
-              <div className="flex gap-4 overflow-x-scroll">
+              <div className="flex gap-2 md:gap-4 overflow-x-scroll">
                 {[...starterSets].map((set, index1) => (
                   <SetBoard
                     key={index1}
@@ -150,7 +125,7 @@ export default function Home() {
             {discoverableRankings.length > 0 ? (
               <div className="wide-section">
                 <Link
-                  className="group mb-6 flex w-fit items-center px-6 transition hover:text-neutral-600 dark:hover:text-neutral-300"
+                  className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
                   href="/rankings"
                 >
                   <h2
@@ -163,7 +138,7 @@ export default function Home() {
                     className="ml-3 transition group-hover:translate-x-1"
                   />
                 </Link>
-                <div className="fade-edges-sides flex gap-4 overflow-x-scroll px-4">
+                <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
                   {[...discoverableRankings].map((ranking, index1) => (
                     <RankingBoard
                       key={index1}
