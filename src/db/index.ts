@@ -235,3 +235,57 @@ export async function fetchSet(setID: string) {
 
   return correctedData;
 }
+
+export async function deleteRanking(profile: Profile, rankingID: number) {
+  const { error: error1 } = await supabase
+    .from("user_rankings")
+    .delete()
+    .eq("id", rankingID)
+    .single();
+
+  if (error1) {
+    console.error("Failed to delete from user_rankings:", error1);
+    throw error1;
+  }
+
+  const { error: error2 } = await supabase
+    .from("profiles")
+    .update({
+      owned_rankings:
+        // remove set ID from owned_rankings array
+        [...profile.ownedRankings].filter((id) => id !== rankingID),
+    })
+    .eq("id", profile.id);
+
+  if (error2) {
+    console.error("Failed to update owned rankings:", error2);
+    throw error2;
+  }
+}
+
+export async function deleteSet(profile: Profile, setID: string) {
+  const { error: error1 } = await supabase
+    .from("user_sets")
+    .delete()
+    .eq("id", setID)
+    .single();
+
+  if (error1) {
+    console.error("Failed to delete set:", error1);
+    throw error1;
+  }
+
+  const { error: error2 } = await supabase
+    .from("profiles")
+    .update({
+      owned_sets:
+        // remove set ID from owned_sets array
+        [...profile.ownedSets].filter((id) => id !== setID),
+    })
+    .eq("id", profile.id);
+
+  if (error2) {
+    console.error("Failed to update owned sets:", error2);
+    throw error2;
+  }
+}

@@ -5,9 +5,9 @@ import CommonHead from "@/components/CommonHead";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Ranking } from "@/types";
+import { Profile, Ranking } from "@/types";
 import { randomElement, shuffle } from "@/lib/utilities";
-import { fetchRanking } from "@/db";
+import { deleteRanking, fetchCurrentProfile, fetchRanking } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -39,6 +39,7 @@ export default function SharedRanking() {
     username: "",
     userID: "",
   });
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   const exportViewRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +54,16 @@ export default function SharedRanking() {
       }
     }
 
+    async function getProfile() {
+      const result = await fetchCurrentProfile();
+
+      if (result?.profileData) {
+        setProfile(result?.profileData);
+      }
+    }
+
     getCurrentRanking();
+    getProfile();
   }, [router.isReady, rankingID]);
 
   const [settingsVis, setSettingsVis] = useState("invisible-fade");
@@ -248,6 +258,8 @@ export default function SharedRanking() {
     useState<boolean>(false);
   const [confirmDeleteModalVisibility, setConfirmDeleteModalVisibility] =
     useState<boolean>(false);
+  const [goHomeModalVisibility, setGoHomeModalVisibility] =
+    useState<boolean>(false);
 
   return (
     <>
@@ -319,20 +331,33 @@ export default function SharedRanking() {
       />
 
       {/* confirm to delete modal */}
-      {currentRanking && (
+      {currentRanking && profile && (
         <ConfirmModal
           visibility={confirmDeleteModalVisibility}
-          titleText={`Are you sure you want to delete "${currentRanking.name}"?`}
+          titleText={`Are you sure you want to permanently delete "${currentRanking.name}"?`}
           subtitleText="This ranking will be lost forever!"
           primaryButtonText="Delete"
           secondaryButtonText="Cancel"
-          onConfirm={() => {
-            // logic to delete ranking from database
+          onConfirm={async () => {
+            await deleteRanking(profile, Number(rankingID));
 
+            setGoHomeModalVisibility(true);
             setConfirmDeleteModalVisibility(false);
           }}
           onCancel={() => {
             setConfirmDeleteModalVisibility(false);
+          }}
+        />
+      )}
+
+      {/* go home after deletion modal */}
+      {currentRanking && (
+        <ConfirmModal
+          visibility={goHomeModalVisibility}
+          titleText={`"${currentRanking.name}" has been permanently deleted.`}
+          primaryButtonText="Go to home screen"
+          onConfirm={() => {
+            router.replace("/");
           }}
         />
       )}
@@ -371,7 +396,7 @@ export default function SharedRanking() {
                   </button>
                   <div
                     ref={shareDivRef}
-                    className={`${shareVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-300 bg-neutral-50 shadow-md dark:border-neutral-700 dark:bg-black md:w-52`}
+                    className={`${shareVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-200 bg-neutral-50 shadow-md dark:border-neutral-800 dark:bg-black md:w-52`}
                   >
                     <button
                       className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
@@ -444,7 +469,7 @@ export default function SharedRanking() {
                   </button>
                   <div
                     ref={settingsDivRef}
-                    className={`${settingsVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-300 bg-neutral-50 shadow-md dark:border-neutral-700 dark:bg-black md:w-52`}
+                    className={`${settingsVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-200 bg-neutral-50 shadow-md dark:border-neutral-800 dark:bg-black md:w-52`}
                   >
                     <Link
                       className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
@@ -476,41 +501,47 @@ export default function SharedRanking() {
                       <span id="re-rank-button-text">Re-rank</span>
                     </Link>
 
-                    <button
-                      className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
-                      onClick={onEditTitle}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPen}
-                        className="mr-2 w-4 text-neutral-700 dark:text-neutral-400 md:mr-3"
-                        aria-labelledby="edit-title-button-text"
-                      />
-                      <span id="edit-title-button-text">Edit title</span>
-                    </button>
+                    {profile?.id === currentRanking.userID && (
+                      <>
+                        <button
+                          className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                          onClick={onEditTitle}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            className="mr-2 w-4 text-neutral-700 dark:text-neutral-400 md:mr-3"
+                            aria-labelledby="edit-title-button-text"
+                          />
+                          <span id="edit-title-button-text">Edit title</span>
+                        </button>
 
-                    <button
-                      className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-red-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-red-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
-                      onClick={onDelete}
-                    >
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="mr-2 w-4 text-neutral-700 group-hover:text-red-800 dark:text-neutral-400 dark:group-hover:text-red-300 md:mr-3"
-                        aria-labelledby="delete-button-text"
-                      />
-                      <span id="delete-button-text">Delete</span>
-                    </button>
+                        <button
+                          className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-red-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-red-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                          onClick={onDelete}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="mr-2 w-4 text-neutral-700 group-hover:text-red-800 dark:text-neutral-400 dark:group-hover:text-red-300 md:mr-3"
+                            aria-labelledby="delete-button-text"
+                          />
+                          <span id="delete-button-text">Delete</span>
+                        </button>
+                      </>
+                    )}
 
-                    <button
-                      className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
-                      onClick={onDelete}
-                    >
-                      <FontAwesomeIcon
-                        icon={faFlag}
-                        className="mr-2 w-4 text-neutral-700 group-hover:text-yellow-800 dark:text-neutral-400 dark:group-hover:text-yellow-300 md:mr-3"
-                        aria-labelledby="report-button-text"
-                      />
-                      <span id="report-button-text">Report</span>
-                    </button>
+                    {profile?.id !== currentRanking.userID && (
+                      <button
+                        className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                        onClick={onDelete}
+                      >
+                        <FontAwesomeIcon
+                          icon={faFlag}
+                          className="mr-2 w-4 text-neutral-700 group-hover:text-yellow-800 dark:text-neutral-400 dark:group-hover:text-yellow-300 md:mr-3"
+                          aria-labelledby="report-button-text"
+                        />
+                        <span id="report-button-text">Report</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

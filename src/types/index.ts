@@ -32,5 +32,5 @@ export type Profile = {
   username: string;
   createdAt: string;
   ownedRankings: number[];
-  ownedSets: number[];
+  ownedSets: string[];
 };

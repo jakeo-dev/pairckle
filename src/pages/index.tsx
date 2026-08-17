@@ -65,7 +65,7 @@ export default function Home() {
                   <h2
                     className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
                   >
-                    Popular sets to rank
+                    Recent sets
                   </h2>
                   <FontAwesomeIcon
                     icon={faChevronRight}
@@ -131,7 +131,7 @@ export default function Home() {
                   <h2
                     className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
                   >
-                    Popular rankings
+                    Recent rankings
                   </h2>
                   <FontAwesomeIcon
                     icon={faChevronRight}
