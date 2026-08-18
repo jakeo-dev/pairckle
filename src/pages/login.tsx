@@ -225,8 +225,8 @@ export default function Login() {
                 .{" "}
               </p>
               <p className="mt-1 text-pretty text-center text-xs text-black/60 dark:text-white/60 md:text-sm">
-                Make sure to check your spam inbox. If you still don't see the
-                email, go back and try sending the code again.
+                {`Make sure to check your spam inbox. If you still don't see the
+                email, go back and try sending the code again.`}
               </p>
               <div className="mt-6">
                 <label
