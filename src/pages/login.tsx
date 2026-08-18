@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Geist_Mono } from "next/font/google";
+import { fetchUsernames } from "@/db";
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -22,6 +23,7 @@ const geistMono = Geist_Mono({
 export default function Login() {
   const [emailInput, setEmailInput] = useState<string>("");
   const [usernameInput, setUsernameInput] = useState<string>("");
+  const emailRegex = /.+@.+\..+/;
 
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"signin" | "verify">("signin");
@@ -32,25 +34,13 @@ export default function Login() {
 
   const [message, setMessage] = useState<string>("");
 
-  const emailRegex = /.+@.+\..+/;
-  const isLoginInvalid =
-    !captchaToken ||
-    isSubmitting ||
-    emailInput.length > 254 ||
-    emailInput.length < 5 ||
-    !emailRegex.test(emailInput) ||
-    (type === "signup" &&
-      (usernameInput.length > 30 || usernameInput.length < 2));
+  const [usernames, setUsernames] = useState<string[]>([]);
 
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!captchaToken || isSubmitting) {
-      setMessage("An unexpected error occurred. Try again later.");
-      return;
-    }
     if (
       emailInput.length > 255 ||
       emailInput.length < 5 ||
@@ -65,6 +55,14 @@ export default function Login() {
     }
     if (type === "signup" && usernameInput.length < 2) {
       setMessage("Username is too short.");
+      return;
+    }
+    if (usernames.includes(usernameInput)) {
+      setMessage("Username is already taken.");
+      return;
+    }
+    if (!captchaToken || isSubmitting) {
+      setMessage("An unexpected error occurred. Try again later.");
       return;
     }
     setMessage("");
@@ -85,7 +83,7 @@ export default function Login() {
     });
 
     if (loginError) {
-      console.log("error:", loginError);
+      console.log("Error logging in:", loginError);
     } else {
       console.log("sign up successful!");
       setStep("verify");
@@ -116,6 +114,16 @@ export default function Login() {
       router.push("/auth/callback");
     }
   };
+
+  useEffect(() => {
+    async function getUsernames() {
+      const usernamesList = await fetchUsernames();
+      setUsernames(usernamesList);
+      console.log(usernames);
+    }
+
+    getUsernames();
+  }, []);
 
   return (
     <>
@@ -186,10 +194,7 @@ export default function Login() {
               {message && <p className="mt-2 text-red-500">{message}</p>}
               <button
                 type="submit"
-                className={`${
-                  isLoginInvalid ? "cursor-not-allowed opacity-50" : ""
-                } mt-2 w-full rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
-                disabled={isLoginInvalid}
+                className="mt-2 w-full rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base"
               >
                 Get code
               </button>

@@ -113,7 +113,7 @@ export async function fetchCurrentProfile() {
     .eq("id", user.id)
     .single();
 
-  if (error && error.code !== "PGRST116") {
+  if (error) {
     console.error("Failed to fetch profile:", error);
     throw error;
   }
@@ -294,7 +294,7 @@ export async function deleteSet(profile: Profile, setID: string) {
 }
 
 export async function renameRanking(newName: string, rankingID: number) {
-  const { error: error } = await supabase
+  const { error } = await supabase
     .from("user_rankings")
     .update({
       name: newName,
@@ -308,7 +308,7 @@ export async function renameRanking(newName: string, rankingID: number) {
 }
 
 export async function renameSet(newName: string, setID: string) {
-  const { error: error } = await supabase
+  const { error } = await supabase
     .from("user_sets")
     .update({
       name: newName,
@@ -319,4 +319,15 @@ export async function renameSet(newName: string, setID: string) {
     console.error("Failed to rename set:", error);
     throw error;
   }
+}
+
+export async function fetchUsernames() {
+  const { data, error } = await supabase.from("profiles").select("username");
+
+  if (error) {
+    console.error("Failed to fetch profiles:", error);
+    throw error;
+  }
+
+  return data.map((d) => d.username);
 }
