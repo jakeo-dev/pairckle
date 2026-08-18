@@ -3,7 +3,7 @@ import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import router from "next/router";
-import { randomNumber } from "@/lib/utilities";
+import { generateUsername } from "@/lib/utilities";
 
 import { supabase } from "@/lib/supabase";
 
@@ -77,7 +77,7 @@ export default function Login() {
         captchaToken: captchaToken,
         emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
-          username: usernameInput || "new_user_" + randomNumber(10000, 99999),
+          username: usernameInput || generateUsername(),
         },
       },
     });
