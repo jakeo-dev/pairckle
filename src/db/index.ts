@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { Profile } from "@/types";
+import { Profile, Ranking, Set } from "@/types";
+import { sortDrawers } from "@/lib/utilities";
 
 export async function fetchDiscoverableUserRankings() {
   const { data, error } = await supabase
@@ -13,7 +14,7 @@ export async function fetchDiscoverableUserRankings() {
   }
 
   // convert snake case to camel case
-  const correctedData = data?.map((ranking) => {
+  const correctedData: Ranking[] = data.map((ranking) => {
     return {
       ...ranking,
       createdAt: ranking.created_at,
@@ -23,7 +24,7 @@ export async function fetchDiscoverableUserRankings() {
     };
   });
 
-  return correctedData;
+  return correctedData.sort(sortDrawers);
 }
 
 export async function fetchDiscoverableUserSets() {
@@ -38,7 +39,7 @@ export async function fetchDiscoverableUserSets() {
   }
 
   // convert snake case to camel case
-  const correctedData = data?.map((set) => {
+  const correctedData: Set[] = data?.map((set) => {
     return {
       ...set,
       createdAt: set.created_at,
@@ -46,7 +47,7 @@ export async function fetchDiscoverableUserSets() {
     };
   });
 
-  return correctedData;
+  return correctedData.sort(sortDrawers);
 }
 
 export async function fetchOwnedUserRankings(userID: string) {
