@@ -240,7 +240,7 @@ export default function SharedRanking() {
         ? randomNewRankingName
         : currentRanking.name,
     );
-    let rankingNewName = rankingNewNameInput ?? "New ranking";
+    const rankingNewName = rankingNewNameInput ?? "New ranking";
 
     await renameRanking(rankingNewName, Number(rankingID));
   }
