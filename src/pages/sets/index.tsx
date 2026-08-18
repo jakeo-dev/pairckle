@@ -30,7 +30,7 @@ export default function Sets() {
       const userSetsData = await fetchDiscoverableUserSets();
 
       if (userSetsData) {
-        setDiscoverableSets(userSetsData.toReversed());
+        setDiscoverableSets(userSetsData);
       }
     }
 

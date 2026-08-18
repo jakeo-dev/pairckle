@@ -30,10 +30,10 @@ export default function Home() {
       const userRankingsData = await fetchDiscoverableUserRankings();
 
       if (userSetsData) {
-        setDiscoverableSets(userSetsData.toReversed());
+        setDiscoverableSets(userSetsData);
       }
       if (userRankingsData) {
-        setDiscoverableRankings(userRankingsData.toReversed());
+        setDiscoverableRankings(userRankingsData);
       }
     }
 
@@ -56,6 +56,7 @@ export default function Home() {
           />
 
           <>
+            {/* recent sets shown on home page */}
             {discoverableSets.length > 0 ? (
               <div className="wide-section w-full">
                 <Link
@@ -121,52 +122,51 @@ export default function Home() {
 
           <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
 
-          <>
-            {discoverableRankings.length > 0 ? (
-              <div className="wide-section">
-                <Link
-                  className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
-                  href="/rankings"
+          {/* recent rankings shown on home page */}
+          {discoverableRankings.length > 0 ? (
+            <div className="wide-section">
+              <Link
+                className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
+                href="/rankings"
+              >
+                <h2
+                  className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
                 >
-                  <h2
-                    className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
-                  >
-                    Recent rankings
-                  </h2>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className="ml-3 transition group-hover:translate-x-1"
+                  Recent rankings
+                </h2>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="ml-3 transition group-hover:translate-x-1"
+                />
+              </Link>
+              <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
+                {[...discoverableRankings].map((ranking, index1) => (
+                  <RankingBoard
+                    key={index1}
+                    index1={index1}
+                    miniView
+                    ranking={{
+                      id: ranking.id,
+                      name: ranking.name,
+                      rankedUtensils: ranking.rankedUtensils,
+                      username: ranking.username,
+                      createdAt: ranking.createdAt,
+                      type: ranking.type,
+                      combos: ranking.combos,
+                      winnersHistory: ranking.winnersHistory,
+                      userID: ranking.userID,
+                      associatedSetID: ranking.associatedSetID,
+                    }}
+                    savedRankings={discoverableRankings}
                   />
-                </Link>
-                <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
-                  {[...discoverableRankings].map((ranking, index1) => (
-                    <RankingBoard
-                      key={index1}
-                      index1={index1}
-                      miniView
-                      ranking={{
-                        id: ranking.id,
-                        name: ranking.name,
-                        rankedUtensils: ranking.rankedUtensils,
-                        username: ranking.username,
-                        createdAt: ranking.createdAt,
-                        type: ranking.type,
-                        combos: ranking.combos,
-                        winnersHistory: ranking.winnersHistory,
-                        userID: ranking.userID,
-                        associatedSetID: ranking.associatedSetID,
-                      }}
-                      savedRankings={discoverableRankings}
-                    />
-                  ))}
-                </div>
+                ))}
               </div>
-            ) : (
-              <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
-                Loading community rankings...
-              </h2>
-            )}
-          </>
+            </div>
+          ) : (
+            <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+              Loading community rankings...
+            </h2>
+          )}
         </div>
       </div>
     </>

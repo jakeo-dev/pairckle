@@ -74,7 +74,7 @@ export async function fetchOwnedUserRankings(userID: string) {
     };
   });
 
-  return correctedData;
+  return correctedData.sort(sortDrawers);
 }
 
 export async function fetchOwnedUserSets(userID: string) {
@@ -97,7 +97,7 @@ export async function fetchOwnedUserSets(userID: string) {
     };
   });
 
-  return correctedData;
+  return correctedData.sort(sortDrawers);
 }
 
 export async function fetchCurrentProfile() {

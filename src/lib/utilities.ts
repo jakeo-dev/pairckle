@@ -45,7 +45,7 @@ export function sortDrawers(a: Ranking | Set, b: Ranking | Set): number {
     b.createdAt !== undefined &&
     a.createdAt !== b.createdAt
   ) {
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   }
 
   // sort alphabetically

@@ -29,7 +29,7 @@ export default function Rankings() {
       const userRankingsData = await fetchDiscoverableUserRankings();
 
       if (userRankingsData) {
-        setDiscoverableRankings(userRankingsData.toReversed());
+        setDiscoverableRankings(userRankingsData);
       }
     }
 
