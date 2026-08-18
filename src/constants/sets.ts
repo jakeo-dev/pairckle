@@ -1,5 +1,5 @@
 export const RANDOM_SET = {
-  id: "0",
+  id: 0,
   name: "Random mix",
   utensils: [
     { title: "????????" },
@@ -17,7 +17,7 @@ export const RANDOM_SET = {
 
 export const STARTER_SETS = [
   {
-    id: "1",
+    id: 1,
     name: "Ice cream flavors",
     utensils: [
       { title: "Vanilla" },
@@ -38,7 +38,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "2",
+    id: 2,
     name: "Highest-grossing films",
     utensils: [
       { title: "Gone with the Wind" },
@@ -54,7 +54,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "3",
+    id: 3,
     name: "Popular versions of Monopoly",
     utensils: [
       { title: "Classic Monopoly" },
@@ -70,7 +70,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "4",
+    id: 4,
     name: "Common dog breeds",
     utensils: [
       { title: "Labrador Retriever" },
@@ -91,7 +91,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "5",
+    id: 5,
     name: "Aquatic animals",
     utensils: [
       { title: "Dolphin" },
@@ -109,7 +109,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "6",
+    id: 6,
     name: "Face emojis",
     utensils: [
       { title: "😊" },
@@ -135,7 +135,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "7",
+    id: 7,
     name: "Seven Wonders of the Ancient World",
     utensils: [
       { title: "Great Pyramid of Giza" },
@@ -148,7 +148,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "8",
+    id: 8,
     name: "Popular vacation spots",
     utensils: [
       { title: "Paris, France" },
@@ -162,7 +162,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "9",
+    id: 9,
     name: "Harry Potter books",
     utensils: [
       { title: "Sorcerer's Stone" },
@@ -175,7 +175,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "10",
+    id: 10,
     name: "Summer Olympic sports",
     utensils: [
       { title: "Archery" },
@@ -193,7 +193,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "11",
+    id: 11,
     name: "Best-selling video games",
     utensils: [
       { title: "Minecraft" },
@@ -209,7 +209,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "12",
+    id: 12,
     name: "Popular Disney movies",
     utensils: [
       { title: "The Lion King" },
@@ -232,7 +232,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "13",
+    id: 13,
     name: "Popular fast food chains",
     utensils: [
       { title: "McDonald's" },
@@ -247,7 +247,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "14",
+    id: 14,
     name: "Popular works of art by Leonardo da Vinci",
     utensils: [
       { title: "The Last Supper" },
@@ -259,7 +259,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "15",
+    id: 15,
     name: "Types of lighting fixtures",
     utensils: [
       { title: "Chandelier" },
@@ -277,7 +277,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "16",
+    id: 16,
     name: "String instruments",
     utensils: [
       { title: "Violin" },
@@ -292,7 +292,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "17",
+    id: 17,
     name: "McDonald's menu items",
     utensils: [
       { title: "Big Mac" },
@@ -310,7 +310,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "18",
+    id: 18,
     name: "Popular cereals",
     utensils: [
       { title: "Frosted Flakes" },
@@ -334,7 +334,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "19",
+    id: 19,
     name: "Types of clouds",
     utensils: [
       { title: "Cumulus" },
@@ -350,7 +350,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "20",
+    id: 20,
     name: "Famous optical illusions",
     utensils: [
       { title: "Checker shadow illusion" },
@@ -369,7 +369,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "21",
+    id: 21,
     name: "Minecraft wood types",
     utensils: [
       { title: "Oak" },
@@ -385,7 +385,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "22",
+    id: 22,
     name: "Best-selling studio albums",
     utensils: [
       { title: "Thriller (Michael Jackson)" },
@@ -401,7 +401,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "23",
+    id: 23,
     name: "Ivy League universities",
     utensils: [
       { title: "Brown University" },
@@ -415,7 +415,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "24",
+    id: 24,
     name: "Popular sans-serif typefaces",
     utensils: [
       { title: "Arial" },
@@ -430,7 +430,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "25",
+    id: 25,
     name: "Days of the week",
     utensils: [
       { title: "Sunday" },
@@ -443,7 +443,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "26",
+    id: 26,
     name: "Months of the year",
     utensils: [
       { title: "January" },
@@ -461,7 +461,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "27",
+    id: 27,
     name: "Common types of knots",
     utensils: [
       { title: "Square knot" },
@@ -482,7 +482,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "28",
+    id: 28,
     name: "Types of denim",
     utensils: [
       { title: "Raw" },
@@ -495,7 +495,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "29",
+    id: 29,
     name: "Types of bread",
     utensils: [
       { title: "Sourdough" },
@@ -516,7 +516,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "30",
+    id: 30,
     name: "Types of puppets",
     utensils: [
       { title: "Hand puppet" },
@@ -529,7 +529,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "31",
+    id: 31,
     name: "Common figures of speech",
     utensils: [
       { title: "Alliteration" },
@@ -546,7 +546,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "32",
+    id: 32,
     name: "Popular card games",
     utensils: [
       { title: "Poker" },
@@ -561,7 +561,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "33",
+    id: 33,
     name: "Popular web development technologies",
     utensils: [
       { title: "React" },
@@ -575,7 +575,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "34",
+    id: 34,
     name: "Yoga poses",
     utensils: [
       { title: "Downward dog" },
@@ -593,7 +593,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "35",
+    id: 35,
     name: "Wind instruments",
     utensils: [
       { title: "Flute" },
@@ -610,7 +610,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "36",
+    id: 36,
     name: "Common logical fallacies",
     utensils: [
       { title: "Ad hominem" },
@@ -629,7 +629,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "37",
+    id: 37,
     name: "Popular types of hats",
     utensils: [
       { title: "Fedora" },
@@ -647,7 +647,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "38",
+    id: 38,
     name: "Popular skateboarding tricks",
     utensils: [
       { title: "Ollie" },
@@ -661,7 +661,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "39",
+    id: 39,
     name: "Pokémon types",
     utensils: [
       { title: "Normal" },
@@ -686,7 +686,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "40",
+    id: 40,
     name: "Chess pieces",
     utensils: [
       { title: "King" },
@@ -698,7 +698,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "41",
+    id: 41,
     name: "The Twelve Olympians",
     utensils: [
       { title: "Zeus" },
@@ -716,7 +716,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "42",
+    id: 42,
     name: "Common types of birds",
     utensils: [
       { title: "Eagle" },
@@ -734,7 +734,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "43",
+    id: 43,
     name: "Noble gases",
     utensils: [
       { title: "Helium" },
@@ -747,7 +747,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "44",
+    id: 44,
     name: "Main characters in SpongeBob SquarePants",
     utensils: [
       { title: "SpongeBob SquarePants" },
@@ -765,7 +765,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "45",
+    id: 45,
     name: "Games in Jackbox Party Pack 3",
     utensils: [
       { title: "Guesspionage" },
@@ -776,7 +776,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "46",
+    id: 46,
     name: "Playground equipment",
     utensils: [
       { title: "Swings" },
@@ -791,7 +791,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "47",
+    id: 47,
     name: "Shrek characters",
     utensils: [
       { title: "Shrek" },
@@ -805,7 +805,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "48",
+    id: 48,
     name: "Popular pop tart flavors",
     utensils: [
       { title: "Frosted s'mores" },
@@ -821,7 +821,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "49",
+    id: 49,
     name: "Well-known football/soccer players",
     utensils: [
       { title: "Pelé" },
@@ -839,7 +839,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "50",
+    id: 50,
     name: "Well-known NFL teams",
     utensils: [
       { title: "Dallas Cowboys" },
@@ -858,7 +858,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "51",
+    id: 51,
     name: "Energy sources",
     utensils: [
       { title: "Solar" },
@@ -873,7 +873,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "52",
+    id: 52,
     name: "Among Us maps",
     utensils: [
       { title: "The Skeld" },
@@ -884,7 +884,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "53",
+    id: 53,
     name: "Spotify features",
     utensils: [
       { title: "Spotify Wrapped" },
@@ -897,7 +897,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "54",
+    id: 54,
     name: "Types of fries",
     utensils: [
       { title: "Standard" },
@@ -912,7 +912,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "55",
+    id: 55,
     name: "Crayola crayon color names",
     utensils: [
       { title: "Razzmatazz" },
@@ -928,7 +928,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "56",
+    id: 56,
     name: "Largest subreddits",
     utensils: [
       { title: "r/funny" },
@@ -944,7 +944,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "57",
+    id: 57,
     name: "Popular musicals",
     utensils: [
       { title: "The Book of Mormon" },
@@ -959,7 +959,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "58",
+    id: 58,
     name: "Food mascots",
     utensils: [
       { title: "Keebler Elves" },
@@ -974,7 +974,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "59",
+    id: 59,
     name: "Popular Cartoon Network shows",
     utensils: [
       { title: "The Marvelous Misadventures of Flapjack" },
@@ -994,7 +994,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "60",
+    id: 60,
     name: "Colors of the rainbow",
     utensils: [
       { title: "Red" },
@@ -1007,7 +1007,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "61",
+    id: 61,
     name: "The Beatles albums",
     utensils: [
       { title: "Please Please Me" },
@@ -1025,7 +1025,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "62",
+    id: 62,
     name: "Common sounds",
     utensils: [
       { title: "Cat purr" },
@@ -1042,7 +1042,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "63",
+    id: 63,
     name: "Characters from The Office",
     utensils: [
       { title: "Michael Scott" },
@@ -1064,7 +1064,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "64",
+    id: 64,
     name: "Formula 1 circuits",
     utensils: [
       { title: "Monza" },
@@ -1081,7 +1081,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "65",
+    id: 65,
     name: "Types of coffee drinks",
     utensils: [
       { title: "Black" },
@@ -1098,7 +1098,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "66",
+    id: 66,
     name: "Common pets",
     utensils: [
       { title: "Cat" },
@@ -1111,7 +1111,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "67",
+    id: 67,
     name: "Popular programming languages",
     utensils: [
       { title: "JavaScript" },
@@ -1129,7 +1129,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "68",
+    id: 68,
     name: "Popular Christmas songs",
     utensils: [
       { title: "Sleigh Ride" },
@@ -1147,7 +1147,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "69",
+    id: 69,
     name: "Hogwarts houses",
     utensils: [
       { title: "Gryffindor" },
@@ -1157,7 +1157,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "70",
+    id: 70,
     name: "Knife cuts",
     utensils: [
       { title: "Dice" },
@@ -1172,7 +1172,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "71",
+    id: 71,
     name: "Spanish verb conjugations",
     utensils: [
       { title: "Present" },
@@ -1200,7 +1200,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "72",
+    id: 72,
     name: "Pizza toppings",
     utensils: [
       { title: "Pepperoni" },
@@ -1217,7 +1217,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "73",
+    id: 73,
     name: "Papa Louie Games",
     utensils: [
       { title: "Papa's Pizzeria" },
@@ -1240,7 +1240,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "74",
+    id: 74,
     name: "Doritos flavors",
     utensils: [
       { title: "Cool Ranch" },
@@ -1261,7 +1261,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "75",
+    id: 75,
     name: "Leonardo DiCaprio movies",
     utensils: [
       { title: "Titanic" },
@@ -1279,7 +1279,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "76",
+    id: 76,
     name: "Songs from Thriller",
     utensils: [
       { title: "Wanna Be Startin' Somethin'" },
@@ -1294,7 +1294,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "77",
+    id: 77,
     name: "Characters from Hamilton",
     utensils: [
       { title: "Aaron Burr" },
@@ -1318,7 +1318,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "78",
+    id: 78,
     name: "Fingers",
     utensils: [
       { title: "Pointer/index finger" },
@@ -1329,7 +1329,7 @@ export const STARTER_SETS = [
     ],
   },
   {
-    id: "79",
+    id: 79,
     name: "Characters from Modern Family",
     utensils: [
       { title: "Claire Dunphy" },

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
 import { Ranking, Set } from "@/types";
-import { randomNumber } from "@/lib/utilities";
+import { generateRankingID, generateSetID } from "@/lib/utilities";
 import {
   fetchCurrentProfile,
   insertUserRankings,
@@ -50,7 +50,7 @@ export default function AuthCallback() {
 
             // insert each ranking from local storage into supabase
             for (const ranking of correctedLocalRankings) {
-              const newRankingID = randomNumber(100000000000, 999999999999);
+              const newRankingID = generateRankingID();
               const rankingID =
                 !ranking.id || ranking.id === -1 ? newRankingID : ranking.id;
 
@@ -73,18 +73,8 @@ export default function AuthCallback() {
 
             // insert each set from local storage into supabase
             for (const set of localSets) {
-              const newSetID =
-                set.name
-                  ?.replaceAll(/[^\w]/gi, " ")
-                  .replaceAll(/\s+/gi, " ")
-                  .trim()
-                  .toLowerCase()
-                  .split(" ")
-                  .slice(0, 3)
-                  .join("-") +
-                "-" +
-                randomNumber(10000000, 99999999);
-              const setID = !set.id || set.id === "" ? newSetID : set.id;
+              const newSetID = generateSetID();
+              const setID = !set.id || set.id === -1 ? newSetID : set.id;
 
               await insertUserRankings([
                 {

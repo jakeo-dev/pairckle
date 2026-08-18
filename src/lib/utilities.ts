@@ -126,3 +126,19 @@ export function getNumCombos(numUtensils: number): number {
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * Generates a new ID for a ranking.
+ * @returns {number} New 16-digit ranking ID.
+ */
+export function generateRankingID(): number {
+  return randomNumber(1000000000000000, 9999999999999999);
+}
+
+/**
+ * Generates a new ID for a set.
+ * @returns {number} New 12-digit set ID.
+ */
+export function generateSetID(): number {
+  return randomNumber(100000000000, 999999999999);
+}

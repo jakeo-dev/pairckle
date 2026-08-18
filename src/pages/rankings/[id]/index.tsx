@@ -268,17 +268,7 @@ export default function SharedRanking() {
       {/* <ShareSetModal
         visibility={shareLinkModalVisibility}
         onConfirm={async (inputValue1, inputValue2, checkboxValue) => {
-          const newSetID =
-            inputValue1
-              ?.replaceAll(/[^\w]/gi, " ")
-              .replaceAll(/\s+/gi, " ")
-              .trim()
-              .toLowerCase()
-              .split(" ")
-              .slice(0, 3)
-              .join("-") +
-            "-" +
-            randomNumber(10000000, 99999999);
+          const newSetID = generateSetID();
 
           setSetID(newSetID);
 

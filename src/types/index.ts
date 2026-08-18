@@ -18,7 +18,7 @@ export type Ranking = {
 };
 
 export type Set = {
-  id: string;
+  id: number;
   name: string;
   createdAt?: string;
   utensils: Utensil[];
@@ -32,5 +32,5 @@ export type Profile = {
   username: string;
   createdAt: string;
   ownedRankings: number[];
-  ownedSets: string[];
+  ownedSets: number[];
 };

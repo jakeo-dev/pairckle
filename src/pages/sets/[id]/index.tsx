@@ -24,7 +24,7 @@ export default function SharedSet() {
   const { id: setID } = router.query;
 
   const [currentSet, setCurrentSet] = useState<Set>({
-    id: "",
+    id: -1,
     createdAt: "",
     name: "",
     username: "",
@@ -37,8 +37,8 @@ export default function SharedSet() {
     async function getCurrentSet() {
       if (!setID) return;
 
-      if (isNaN(Number(setID))) {
-        const currentSetData = await fetchSet(String(setID));
+      if (String(setID).length > 4) {
+        const currentSetData = await fetchSet(Number(setID));
 
         if (currentSetData) {
           setCurrentSet(currentSetData);
@@ -48,7 +48,7 @@ export default function SharedSet() {
         setCurrentSet(newCurrentSet);
       } else {
         const newCurrentSet = STARTER_SETS.filter((set) => {
-          return set.id === setID;
+          return set.id === Number(setID);
         })[0];
         setCurrentSet(newCurrentSet);
       }
@@ -210,7 +210,7 @@ export default function SharedSet() {
     );
     const setNewName = setNewNameInput ?? "New set";
 
-    await renameSet(setNewName, String(setID));
+    await renameSet(setNewName, Number(setID));
   }
 
   function onDelete() {
@@ -264,7 +264,7 @@ export default function SharedSet() {
           primaryButtonText="Delete"
           secondaryButtonText="Cancel"
           onConfirm={async () => {
-            await deleteSet(profile, String(setID));
+            await deleteSet(profile, Number(setID));
 
             setGoHomeModalVisibility(true);
             setConfirmDeleteModalVisibility(false);

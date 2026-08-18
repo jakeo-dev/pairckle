@@ -5,7 +5,7 @@ import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import { Profile, Ranking, Utensil } from "@/types";
-import { randomNumber, shuffle, sortUtensils } from "@/lib/utilities";
+import { generateRankingID, shuffle, sortUtensils } from "@/lib/utilities";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
@@ -273,7 +273,7 @@ export default function Create() {
       } else {
         // add new ranking to db if logged in
 
-        const rankingID = randomNumber(100000000000, 999999999999);
+        const rankingID = generateRankingID();
 
         await insertUserRankings([
           {

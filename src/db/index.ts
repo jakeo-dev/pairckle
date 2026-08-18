@@ -174,7 +174,7 @@ export async function updateCurrentOwnedRankings(
   }
 }
 
-export async function updateCurrentOwnedSets(setID: string, profile: Profile) {
+export async function updateCurrentOwnedSets(setID: number, profile: Profile) {
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -216,7 +216,7 @@ export async function fetchRanking(rankingID: number) {
   return correctedData;
 }
 
-export async function fetchSet(setID: string) {
+export async function fetchSet(setID: number) {
   const { data, error } = await supabase
     .from("user_sets")
     .select()
@@ -266,7 +266,7 @@ export async function deleteRanking(profile: Profile, rankingID: number) {
   }
 }
 
-export async function deleteSet(profile: Profile, setID: string) {
+export async function deleteSet(profile: Profile, setID: number) {
   const { error: error1 } = await supabase
     .from("user_sets")
     .delete()
@@ -307,7 +307,7 @@ export async function renameRanking(newName: string, rankingID: number) {
   }
 }
 
-export async function renameSet(newName: string, setID: string) {
+export async function renameSet(newName: string, setID: number) {
   const { error } = await supabase
     .from("user_sets")
     .update({
