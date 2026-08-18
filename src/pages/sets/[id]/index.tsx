@@ -208,7 +208,7 @@ export default function SharedSet() {
       "Enter a title for this set",
       currentSet.name === "New set" ? randomNewSetName : currentSet.name,
     );
-    let setNewName = setNewNameInput ?? "New set";
+    const setNewName = setNewNameInput ?? "New set";
 
     await renameSet(setNewName, String(setID));
   }

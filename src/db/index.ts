@@ -131,6 +131,7 @@ export async function fetchCurrentProfile() {
   return { profileData, email };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function insertUserRankings(newRanking: any) {
   const { error } = await supabase
     .from("user_rankings")
@@ -143,6 +144,7 @@ export async function insertUserRankings(newRanking: any) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function insertUserSets(newSet: any) {
   const { error } = await supabase.from("user_sets").insert(newSet).select();
 
@@ -291,29 +293,29 @@ export async function deleteSet(profile: Profile, setID: string) {
 }
 
 export async function renameRanking(newName: string, rankingID: number) {
-  const { error: error1 } = await supabase
+  const { error: error } = await supabase
     .from("user_rankings")
     .update({
       name: newName,
     })
     .eq("id", rankingID);
 
-  if (error1) {
-    console.error("Failed to rename ranking:", error1);
-    throw error1;
+  if (error) {
+    console.error("Failed to rename ranking:", error);
+    throw error;
   }
 }
 
 export async function renameSet(newName: string, setID: string) {
-  const { error: error1 } = await supabase
+  const { error: error } = await supabase
     .from("user_sets")
     .update({
       name: newName,
     })
     .eq("id", setID);
 
-  if (error1) {
-    console.error("Failed to rename set:", error1);
-    throw error1;
+  if (error) {
+    console.error("Failed to rename set:", error);
+    throw error;
   }
 }
