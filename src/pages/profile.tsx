@@ -201,7 +201,7 @@ export default function ProfilePage() {
                 {selectedView === "rankings" ? (
                   ownedRankings && ownedRankings.length > 0 ? (
                     <div className="wide-section grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                      {[...ownedRankings].toReversed().map((ranking, i) => {
+                      {[...ownedRankings].map((ranking, i) => {
                         return (
                           <RankingBoard
                             key={i}
@@ -221,7 +221,7 @@ export default function ProfilePage() {
                 ) : selectedView === "sets" ? (
                   ownedSets && ownedSets.length > 0 ? (
                     <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                      {[...ownedSets].toReversed().map((set, i) => {
+                      {[...ownedSets].map((set, i) => {
                         return (
                           <SetBoard
                             key={i}

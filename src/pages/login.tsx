@@ -57,7 +57,7 @@ export default function Login() {
       setMessage("Username is too short.");
       return;
     }
-    if (usernames.includes(usernameInput)) {
+    if (type === "signup" && usernames.includes(usernameInput)) {
       setMessage("Username is already taken.");
       return;
     }
@@ -220,11 +220,15 @@ export default function Login() {
               onSubmit={handleVerifyOtp}
               className="absolute left-1/2 top-0 mt-72 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3"
             >
-              <p className="text-pretty text-center">
-                Your verification code has been sent to{" "}
-                <span className="font-semibold">{emailInput}</span>.{" "}
+              <p className="text-pretty text-center md:text-lg">
+                Code sent to <span className="font-semibold">{emailInput}</span>
+                .{" "}
               </p>
-              <div>
+              <p className="mt-1 text-pretty text-center text-xs text-black/60 dark:text-white/60 md:text-sm">
+                Make sure to check your spam inbox. If you still don't see the
+                email, go back and try sending the code again.
+              </p>
+              <div className="mt-6">
                 <label
                   className="mb-0.5 mt-4 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
                   htmlFor="otp-input"
