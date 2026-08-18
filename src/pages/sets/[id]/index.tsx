@@ -1,13 +1,20 @@
 import ConfirmModal from "@/components/ConfirmModal";
 import SetBoard from "@/components/SetBoard";
+import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import CommonHead from "@/components/CommonHead";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Profile, Set } from "@/types";
+import { Profile, Ranking, Set } from "@/types";
 import { generateSetName, randomElement, shuffle } from "@/lib/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
-import { deleteSet, fetchCurrentProfile, fetchSet, renameSet } from "@/db";
+import {
+  deleteSet,
+  fetchCurrentProfile,
+  fetchDiscoverableUserRankings,
+  fetchSet,
+  renameSet,
+} from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +39,8 @@ export default function SharedSet() {
     userID: "",
   });
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [associatedDiscoverableRankings, setAssociatedDiscoverableRankings] =
+    useState<Ranking[]>([]);
 
   useEffect(() => {
     async function getCurrentSet() {
@@ -62,8 +71,21 @@ export default function SharedSet() {
       }
     }
 
+    async function getAssociatedDiscoverableRankings() {
+      if (!setID) return;
+
+      const userRankingsData = await fetchDiscoverableUserRankings(
+        Number(setID),
+      );
+
+      if (userRankingsData) {
+        setAssociatedDiscoverableRankings(userRankingsData);
+      }
+    }
+
     getCurrentSet();
     getProfile();
+    getAssociatedDiscoverableRankings();
   }, [router.isReady, setID]);
 
   const [settingsVis, setSettingsVis] = useState("invisible-fade");
@@ -323,6 +345,33 @@ export default function SharedSet() {
             <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
               Loading set...
             </h2>
+          )}
+
+          {associatedDiscoverableRankings.length > 0 && (
+            <div className="wide-section">
+              <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
+                {[...associatedDiscoverableRankings].map((ranking, index1) => (
+                  <RankingBoard
+                    key={index1}
+                    index1={index1}
+                    miniView
+                    ranking={{
+                      id: ranking.id,
+                      name: ranking.name,
+                      rankedUtensils: ranking.rankedUtensils,
+                      username: ranking.username,
+                      createdAt: ranking.createdAt,
+                      type: ranking.type,
+                      combos: ranking.combos,
+                      winnersHistory: ranking.winnersHistory,
+                      userID: ranking.userID,
+                      associatedSetID: ranking.associatedSetID,
+                    }}
+                    savedRankings={associatedDiscoverableRankings}
+                  />
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>

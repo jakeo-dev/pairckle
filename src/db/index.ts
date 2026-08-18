@@ -2,11 +2,11 @@ import { supabase } from "@/lib/supabase";
 import { Profile, Ranking, Set } from "@/types";
 import { sortDrawers } from "@/lib/utilities";
 
-export async function fetchDiscoverableUserRankings() {
-  const { data, error } = await supabase
-    .from("user_rankings")
-    .select()
-    .eq("discoverable", true);
+export async function fetchDiscoverableUserRankings(associatedSetID?: number) {
+  let query = supabase.from("user_rankings").select().eq("discoverable", true);
+  if (associatedSetID) query = query.eq("associated_set_id", associatedSetID);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("Failed to fetch discoverable rankings:", error);

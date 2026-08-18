@@ -232,7 +232,7 @@ export default function Create() {
       localStorage.setItem("rankingType", "");
 
       const associatedSetID = Number(
-        localStorage.getItem("associatedSetID") ?? -1,
+        localStorage.getItem("associatedSetID") || -1,
       );
 
       if (!profile) {

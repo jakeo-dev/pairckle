@@ -63,6 +63,7 @@ export default function AuthCallback() {
                   type: ranking.type,
                   combos: ranking.combos,
                   winners_history: ranking.winnersHistory,
+                  associated_set_id: ranking.associatedSetID,
                   user_id: session.user.id,
                   username: profileData?.username,
                 },
