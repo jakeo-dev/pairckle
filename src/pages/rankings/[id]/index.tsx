@@ -41,6 +41,7 @@ export default function SharedRanking() {
     type: "",
     combos: [],
     winnersHistory: [],
+    associatedSetID: -1,
     username: "",
     userID: "",
   });

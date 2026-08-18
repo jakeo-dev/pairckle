@@ -78,7 +78,10 @@ export default function SetBoard({
           <div className="mb-2.5 flex gap-2.5 md:mb-3 md:gap-3">
             <Link
               className="flex h-min w-full items-center justify-center rounded-md bg-orange-500/90 px-3 py-2 text-sm text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black md:px-4 md:py-3 md:text-base"
-              onClick={(e) => onRankNow?.(e, "hurry")}
+              onClick={(e) => {
+                onRankNow?.(e, "hurry");
+                localStorage.setItem("associatedSetID", String(set.id));
+              }}
               href="/create"
             >
               <FontAwesomeIcon
@@ -90,7 +93,10 @@ export default function SetBoard({
             </Link>
             <Link
               className="flex h-min w-full items-center justify-center rounded-md bg-blue-500/90 px-3 py-2 text-sm text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black md:px-4 md:py-3 md:text-base"
-              onClick={(e) => onRankNow?.(e, "concentrate")}
+              onClick={(e) => {
+                onRankNow?.(e, "concentrate");
+                localStorage.setItem("associatedSetID", String(set.id));
+              }}
               href="/create"
             >
               <FontAwesomeIcon

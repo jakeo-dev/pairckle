@@ -231,6 +231,10 @@ export default function Create() {
       localStorage.setItem("maxCombos", "1");
       localStorage.setItem("rankingType", "");
 
+      const associatedSetID = Number(
+        localStorage.getItem("associatedSetID") ?? -1,
+      );
+
       if (!profile) {
         // utilize local storage if not logged in
         const savedRankingsArray = JSON.parse(
@@ -264,6 +268,7 @@ export default function Create() {
           rankedUtensils: [...utensilsArray].sort(sortUtensils),
           combos: combosArray,
           winnersHistory: winnersHistory,
+          associatedSetID: associatedSetID,
         });
 
         localStorage.setItem(
@@ -285,6 +290,7 @@ export default function Create() {
             winners_history: winnersHistory,
             user_id: profile.id,
             username: profile.username,
+            associated_set_id: associatedSetID,
           },
         ]);
 
@@ -472,6 +478,7 @@ export default function Create() {
               onChange={(e) => {
                 setUtensilInput(e.currentTarget.value);
                 localStorage.setItem("utensilInput", e.currentTarget.value);
+                localStorage.setItem("associatedSetID", "");
               }}
               className="max-h-[21rem] min-h-[20.5rem] w-full text-sm leading-6 md:max-h-[24.5rem] md:text-base md:leading-7" // 1 line = 2.125 rem
               placeholder="Rank anything..."
@@ -880,7 +887,9 @@ export default function Create() {
                   <button
                     onClick={() => {
                       setConfirmRestartModalSubtext(
-                        "This ranking has already been saved, so it will not be lost.",
+                        profile
+                          ? "This ranking has already been saved, so it will not be lost."
+                          : "This ranking has been saved, but you won't to see the full ranking unless you create an account.",
                       );
                       setConfirmRestartModalVisibility(true);
                     }}

@@ -154,6 +154,7 @@ export default function Home() {
                         combos: ranking.combos,
                         winnersHistory: ranking.winnersHistory,
                         userID: ranking.userID,
+                        associatedSetID: ranking.associatedSetID,
                       }}
                       savedRankings={discoverableRankings}
                     />

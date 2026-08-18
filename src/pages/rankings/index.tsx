@@ -83,6 +83,7 @@ export default function Rankings() {
                     combos: ranking.combos,
                     winnersHistory: ranking.winnersHistory,
                     userID: ranking.userID,
+                    associatedSetID: ranking.associatedSetID
                   }}
                   savedRankings={discoverableRankings}
                 />

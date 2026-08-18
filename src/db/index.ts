@@ -21,6 +21,7 @@ export async function fetchDiscoverableUserRankings() {
       rankedUtensils: ranking.ranked_utensils,
       winnersHistory: ranking.winners_history,
       userID: ranking.user_id,
+      associatedSetID: ranking.associated_set_id,
     };
   });
 
@@ -69,6 +70,7 @@ export async function fetchOwnedUserRankings(userID: string) {
       rankedUtensils: ranking.ranked_utensils,
       winnersHistory: ranking.winners_history,
       userID: ranking.user_id,
+      associatedSetID: ranking.associated_set_id,
     };
   });
 
@@ -203,14 +205,21 @@ export async function fetchRanking(rankingID: number) {
   }
 
   // convert snake case to camel case
-  const { created_at, ranked_utensils, winners_history, user_id, ...rest } =
-    data || {};
+  const {
+    created_at,
+    ranked_utensils,
+    winners_history,
+    user_id,
+    associated_set_id,
+    ...rest
+  } = data || {};
   const correctedData = {
     ...rest,
     createdAt: created_at,
     rankedUtensils: ranked_utensils,
     winnersHistory: winners_history,
     userID: user_id,
+    associatedSetID: associated_set_id,
   };
 
   return correctedData;

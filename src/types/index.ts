@@ -13,6 +13,7 @@ export type Ranking = {
   type: string;
   combos?: number[][];
   winnersHistory?: number[];
+  associatedSetID?: number;
   userID?: string;
   username?: string;
 };
