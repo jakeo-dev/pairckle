@@ -5,21 +5,21 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 
-export default function InputModal({
+export default function ShareSetModal({
   visibility,
   onConfirm,
   onCancel,
 }: {
   visibility: boolean;
   onConfirm?: (
-    inputValue1: string,
-    inputValue2: string,
+    setName: string,
+    username: string,
     checkboxValue: boolean,
   ) => void;
   onCancel?: () => void;
 }) {
-  const [inputValue1, setInputValue1] = useState("");
-  const [inputValue2, setInputValue2] = useState("");
+  const [setName, setSetName] = useState("");
+  const [username, setUsername] = useState("");
   const [checkboxValue, setCheckboxValue] = useState(false);
 
   const [captchaToken, setCaptchaToken] = useState<string>("");
@@ -46,7 +46,7 @@ export default function InputModal({
         console.log("turnstile successful!");
 
         if (onConfirm) {
-          onConfirm(inputValue1, inputValue2, checkboxValue);
+          onConfirm(setName, username, checkboxValue);
         }
 
         // Reset widget token for security / re-use
@@ -96,7 +96,7 @@ export default function InputModal({
         <div className="mt-6">
           <label
             className="block px-1.5 text-xs text-neutral-500 md:text-sm"
-            htmlFor="modal-input-value-1-label"
+            htmlFor="set-name-input-label"
           >
             Name for this set
           </label>
@@ -104,9 +104,9 @@ export default function InputModal({
             type="text"
             placeholder="Common types of pickles"
             className="w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base"
-            id="modal-input-value-1-label"
-            value={inputValue1}
-            onChange={(e) => setInputValue1(e.target.value)}
+            id="set-name-input-label"
+            value={setName}
+            onChange={(e) => setSetName(e.target.value)}
             maxLength={50}
           />
         </div>
@@ -114,7 +114,7 @@ export default function InputModal({
         <div className="mt-6">
           <label
             className="block px-1.5 text-xs text-neutral-500 md:text-sm"
-            htmlFor="modal-input-value-2-label"
+            htmlFor="username-input-label"
           >
             Your display name (optional)
           </label>
@@ -122,9 +122,9 @@ export default function InputModal({
             type="text"
             placeholder="Jimmy Pickle"
             className="w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base"
-            id="modal-input-value-2-label"
-            value={inputValue2}
-            onChange={(e) => setInputValue2(e.target.value)}
+            id="username-input-label"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             maxLength={50}
           />
         </div>
@@ -181,18 +181,18 @@ export default function InputModal({
             className={`${
               !captchaToken ||
               isSubmitting ||
-              inputValue1.length > 50 ||
-              inputValue2.length > 50 ||
-              inputValue1.length < 1
+              setName.length > 50 ||
+              username.length > 50 ||
+              setName.length < 1
                 ? "cursor-not-allowed opacity-50"
                 : ""
             } rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
             disabled={
               !captchaToken ||
               isSubmitting ||
-              inputValue1.length > 50 ||
-              inputValue2.length > 50 ||
-              inputValue1.length < 1
+              setName.length > 50 ||
+              username.length > 50 ||
+              setName.length < 1
             }
           >
             Publish set

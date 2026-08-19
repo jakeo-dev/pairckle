@@ -1,25 +1,13 @@
 import CommonHead from "@/components/CommonHead";
 import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
-import Link from "next/link";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
 import { shuffle } from "@/lib/utilities";
 import { fetchDiscoverableUserSets } from "@/db";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBarsStaggered,
-  faChartSimple,
-  faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { Gabarito } from "next/font/google";
-const gabarito = Gabarito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
   const [starterSets, setStarterSets] = useState<Set[]>([]);
@@ -47,7 +35,7 @@ export default function Sets() {
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading
             icon={faGlobe}
-            text="Community"
+            title="Community"
             tabs={[
               { title: "Rankings", href: "/rankings" },
               {
@@ -79,6 +67,7 @@ export default function Sets() {
               Loading community sets...
             </h2>
           )}
+
           <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
 
           <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

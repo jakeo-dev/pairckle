@@ -340,3 +340,14 @@ export async function fetchUsernames() {
 
   return data.map((d) => d.username);
 }
+
+/* export async function likeRanking(rankingID: number) {
+  // first increment likes on the ranking
+  const { error } = await supabase.rpc("increment_likes", {
+    row_id: rankingID,
+    x: 1,
+  });
+
+  // add user id to liked users
+}
+ */

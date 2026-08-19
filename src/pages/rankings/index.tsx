@@ -44,7 +44,7 @@ export default function Rankings() {
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading
             icon={faGlobe}
-            text="Community"
+            title="Community"
             tabs={[
               { title: "Rankings", href: "/rankings", active: true },
               {

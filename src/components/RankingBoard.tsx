@@ -36,7 +36,7 @@ export default function RankingBoard({
     <>
       <Link
         href={`/rankings/${ranking.id}`}
-        className={`${miniView ? "min-w-48 rounded-lg p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-56" : ""} ${className || ""}`}
+        className={`${miniView ? "min-w-48 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-56" : ""} ${className || ""}`}
       >
         <div
           className={`flex items-end gap-2 md:gap-3 ${miniView ? "px-1" : "mb-0.5 px-2 md:mb-1"}`}

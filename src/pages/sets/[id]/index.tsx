@@ -200,7 +200,7 @@ export default function SharedSet() {
           {currentSet && (
             <Heading
               icon={faBarsStaggered}
-              text={currentSet.name}
+              title={currentSet.name}
               subtext1={currentSet.username}
               subtext2={
                 currentSet.createdAt

@@ -47,8 +47,8 @@ export default function Home() {
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading
             rotateIcon
-            text="Rank your favorite things \neasily, accurately, and pairwisely."
-            subtext2="Choose a set or create your own to begin ranking - or discover rankings from other users."
+            title="Rank your favorite things \neasily, accurately, and pairwisely."
+            subtitle="Choose a set or create your own to begin ranking - or discover rankings from other users."
             className="mx-auto text-center"
             childrenDivClassName="hidden"
             subtextClassName="mt-4 text-pretty"

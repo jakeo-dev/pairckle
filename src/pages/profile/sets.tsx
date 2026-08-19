@@ -65,7 +65,7 @@ export default function YourSets() {
           {!loading && (
             <Heading
               icon={faUser}
-              text={profile ? profile?.username : "Profile"}
+              title={profile ? profile?.username : "Profile"}
               tabs={[
                 { title: "Rankings", href: "/profile/rankings" },
                 {

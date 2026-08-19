@@ -14,6 +14,7 @@ export type Ranking = {
   combos?: number[][];
   winnersHistory?: number[];
   associatedSetID?: number;
+  //likes: number;
   userID?: string;
   username?: string;
 };
@@ -24,6 +25,7 @@ export type Set = {
   createdAt?: string;
   utensils: Utensil[];
   discoverable?: boolean;
+  //saves: number;
   userID?: string;
   username?: string;
 };

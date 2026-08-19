@@ -62,7 +62,7 @@ export default function SetBoard({
 
       <Link
         href={`/sets/${set.id}`}
-        className={`${miniView ? "min-w-56 rounded-lg p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
+        className={`${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
       >
         <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>

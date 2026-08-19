@@ -238,7 +238,7 @@ export default function SharedRanking() {
           {currentRanking && (
             <Heading
               icon={faBarsStaggered}
-              text={currentRanking.name}
+              title={currentRanking.name}
               subtext1={currentRanking.username}
               subtext2={
                 currentRanking.createdAt
@@ -247,6 +247,20 @@ export default function SharedRanking() {
               }
             >
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
+                {/* <button
+                  className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
+                  onClick={() => {
+                    likeRanking(Number(rankingID));
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className="mr-1 md:mr-1.5"
+                    aria-labelledby="like-button-text"
+                  />
+                  <span id="like-button-text">Like</span>
+                </button> */}
+
                 <div className="relative inline-block">
                   <button
                     className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
