@@ -29,7 +29,9 @@ export default function Heading(props: {
 }) {
   return (
     <div className="bg-gradient-to-r from-orange-300 to-blue-300 dark:from-orange-800 dark:to-blue-800">
-      <div className="relative mb-12 flex h-64 w-full items-center justify-center border-b-2 border-neutral-400/10 bg-gradient-to-b from-white/40 via-white/50 to-neutral-50 pt-24 dark:border-neutral-500/10 dark:from-black/40 dark:via-black/50 dark:to-black md:h-72">
+      <div
+        className={`relative mb-12 flex w-full items-center justify-center border-b-2 border-neutral-400/10 bg-gradient-to-b from-white/40 via-white/50 to-neutral-50 pt-24 dark:border-neutral-500/10 dark:from-black/40 dark:via-black/50 dark:to-black md:pt-32 ${props.tabs ? "pb-16 md:pb-24" : "pb-8 md:pb-12"}`}
+      >
         <div className="section flex items-center gap-2 md:gap-3">
           <div className={`flex items-start gap-3 md:gap-4 ${props.className}`}>
             {props.icon && (
@@ -55,20 +57,22 @@ export default function Heading(props: {
                   {props.subtitle}
                 </h2>
               )}
-              <div
-                className={`mt-1 flex gap-2 md:gap-2.5 ${props.subtextClassName}`}
-              >
-                {props.subtext1 && (
-                  <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-300 md:text-sm">
-                    {props.subtext1}
-                  </p>
-                )}
-                {props.subtext2 && (
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 md:text-sm">
-                    {props.subtext2}
-                  </p>
-                )}
-              </div>
+              {(props.subtext1 || props.subtext2) && (
+                <div
+                  className={`mt-1 flex gap-2 md:gap-2.5 ${props.subtextClassName}`}
+                >
+                  {props.subtext1 && (
+                    <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-300 md:text-sm">
+                      {props.subtext1}
+                    </p>
+                  )}
+                  {props.subtext2 && (
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 md:text-sm">
+                      {props.subtext2}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
