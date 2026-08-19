@@ -2,10 +2,11 @@ import CommonHead from "@/components/CommonHead";
 import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
 import Link from "next/link";
-import { shuffle } from "@/lib/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import { useEffect, useState } from "react";
 import { Set } from "@/types";
+import { shuffle } from "@/lib/utilities";
+import { fetchDiscoverableUserSets } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,7 +16,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
-import { fetchDiscoverableUserSets } from "@/db";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -35,9 +35,7 @@ export default function Sets() {
     }
 
     getDiscoverableSets();
-  }, []);
 
-  useEffect(() => {
     setStarterSets(shuffle(STARTER_SETS).toSpliced(1, 0, RANDOM_SET));
   }, []);
 
@@ -47,29 +45,18 @@ export default function Sets() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
-          <Heading icon={faGlobe} text="Community" />
-
-          <div
-            className={`wide-section mb-8 flex items-end justify-center md:mb-10 ${gabarito.className}`}
-          >
-            <Link
-              href="/rankings"
-              className="group line-clamp-1 break-all border-b-2 border-neutral-500/20 px-3 pb-1 text-sm font-medium leading-6 text-neutral-500 transition hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30 md:px-6 md:pb-3 md:text-lg"
-            >
-              <FontAwesomeIcon
-                icon={faChartSimple}
-                className="mr-2 rotate-90 text-neutral-400 dark:text-neutral-600 md:mr-2.5"
-              />
-              <span>Rankings</span>
-            </Link>
-            <button className="group line-clamp-1 break-all border-b-2 border-neutral-500/50 px-3 pb-1 text-sm font-medium leading-6 transition dark:border-neutral-400/50 md:px-6 md:pb-3 md:text-lg">
-              <FontAwesomeIcon
-                icon={faBarsStaggered}
-                className="mr-2 text-neutral-500 dark:text-neutral-400 md:mr-2.5"
-              />
-              <span>Sets</span>
-            </button>
-          </div>
+          <Heading
+            icon={faGlobe}
+            text="Community"
+            tabs={[
+              { title: "Rankings", href: "/rankings" },
+              {
+                title: "Sets",
+                href: "/sets",
+                active: true,
+              },
+            ]}
+          />
 
           {discoverableSets.length > 0 ? (
             <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -80,7 +67,7 @@ export default function Sets() {
                   set={{
                     id: set.id,
                     name: set.name,
-                    utensils: shuffle(set.utensils),
+                    utensils: set.utensils,
                     username: set.username,
                     createdAt: set.createdAt,
                   }}
@@ -102,7 +89,7 @@ export default function Sets() {
                 set={{
                   id: set.id,
                   name: set.name,
-                  utensils: shuffle(set.utensils),
+                  utensils: set.utensils,
                 }}
               />
             ))}

@@ -68,11 +68,11 @@ export default function Header({
               </Link>
               <Link
                 className={`${
-                  pathname === "/profile"
+                  pathname.startsWith("/profile")
                     ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                     : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
                 } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-2 pl-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:pl-3.5 md:text-base`}
-                href="/profile"
+                href="/profile/rankings"
               >
                 <FontAwesomeIcon icon={faUser} aria-hidden />
                 <span className="hidden md:inline md:w-0 md:text-transparent">

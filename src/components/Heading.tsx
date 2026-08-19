@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,10 +19,11 @@ export default function Heading(props: {
   className?: string;
   childrenDivClassName?: string;
   subtextClassName?: string;
+  tabs?: { title: string; href: string; active?: boolean }[];
 }) {
   return (
     <div className="bg-gradient-to-r from-orange-300 to-blue-300 dark:from-orange-800 dark:to-blue-800">
-      <div className="mb-12 flex h-64 md:h-72 w-full items-center border-b-2 border-neutral-400/10 bg-gradient-to-b from-white/40 via-white/50 to-neutral-50 pt-24 dark:border-neutral-500/10 dark:from-black/40 dark:via-black/50 dark:to-black">
+      <div className="relative mb-12 flex h-64 w-full items-center justify-center border-b-2 border-neutral-400/10 bg-gradient-to-b from-white/40 via-white/50 to-neutral-50 pt-24 dark:border-neutral-500/10 dark:from-black/40 dark:via-black/50 dark:to-black md:h-72">
         <div className="section flex items-center gap-2 md:gap-3">
           <div className={`flex items-start gap-3 md:gap-4 ${props.className}`}>
             {props.icon && (
@@ -61,6 +64,22 @@ export default function Heading(props: {
           <div className={`ml-auto ${props.childrenDivClassName}`}>
             {props.children}
           </div>
+        </div>
+
+        <div
+          className={`section absolute bottom-0 flex items-end justify-start gap-1.5 ${gabarito.className}`}
+        >
+          {props.tabs?.map((tab) => {
+            return (
+              <Link
+                key={tab.title}
+                href={tab.href}
+                className={`group mb-2 line-clamp-1 break-all rounded-full px-3 py-1 text-sm font-medium leading-6 transition md:px-4 md:py-1 md:text-lg ${tab.active ? "bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-600/25 dark:active:bg-neutral-600/35" : "hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35"} `}
+              >
+                {tab.title}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -210,7 +210,7 @@ export default function SharedSet() {
             >
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
                 <button
-                  className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-2.5 md:py-1 md:text-base"
+                  className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
                   onClick={() => {
                     setCopyLinkModalVisibility(true);
                   }}
@@ -298,7 +298,7 @@ export default function SharedSet() {
                 set={{
                   id: currentSet.id,
                   name: "",
-                  utensils: shuffle(currentSet.utensils),
+                  utensils: currentSet.utensils,
                 }}
                 /* onRank={(event) => {
                     if (

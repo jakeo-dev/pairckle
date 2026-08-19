@@ -4,7 +4,6 @@ import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
 import { Ranking, Set } from "@/types";
-import { shuffle } from "@/lib/utilities";
 import { useEffect, useState } from "react";
 import { fetchDiscoverableUserRankings, fetchDiscoverableUserSets } from "@/db";
 
@@ -81,7 +80,7 @@ export default function Home() {
                       set={{
                         id: set.id,
                         name: set.name,
-                        utensils: shuffle(set.utensils),
+                        utensils: set.utensils,
                         username: set.username,
                         createdAt: set.createdAt,
                       }}
@@ -112,7 +111,7 @@ export default function Home() {
                     set={{
                       id: set.id,
                       name: set.name,
-                      utensils: shuffle(set.utensils),
+                      utensils: set.utensils,
                     }}
                   />
                 ))}

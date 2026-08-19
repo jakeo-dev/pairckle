@@ -1,8 +1,8 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import router from "next/router";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import { generateUsername } from "@/lib/utilities";
 
 import { supabase } from "@/lib/supabase";
@@ -62,7 +62,7 @@ export default function Login() {
       return;
     }
     if (!captchaToken || isSubmitting) {
-      setMessage("An unexpected error occurred. Try again later.");
+      setMessage("An unexpected error occurred. Try again in a few seconds.");
       return;
     }
     setMessage("");

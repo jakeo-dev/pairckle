@@ -42,29 +42,17 @@ export default function Rankings() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
-          <Heading icon={faGlobe} text="Community" />
-
-          <div
-            className={`wide-section mb-8 flex items-end justify-center md:mb-10 ${gabarito.className}`}
-          >
-            <button className="group line-clamp-1 break-all border-b-2 border-neutral-500/50 px-3 pb-1 text-sm font-medium leading-6 transition dark:border-neutral-400/50 md:px-6 md:pb-3 md:text-lg">
-              <FontAwesomeIcon
-                icon={faChartSimple}
-                className="mr-2 rotate-90 text-neutral-500 dark:text-neutral-400 md:mr-2.5"
-              />
-              <span>Rankings</span>
-            </button>
-            <Link
-              href="/sets"
-              className="group line-clamp-1 break-all border-b-2 border-neutral-500/20 px-3 pb-1 text-sm font-medium leading-6 text-neutral-500 transition hover:border-neutral-500/30 dark:border-neutral-400/20 dark:hover:border-neutral-400/30 md:px-6 md:pb-3 md:text-lg"
-            >
-              <FontAwesomeIcon
-                icon={faBarsStaggered}
-                className="mr-2 text-neutral-400 dark:text-neutral-600 md:mr-2.5"
-              />
-              <span>Sets</span>
-            </Link>
-          </div>
+          <Heading
+            icon={faGlobe}
+            text="Community"
+            tabs={[
+              { title: "Rankings", href: "/rankings", active: true },
+              {
+                title: "Sets",
+                href: "/sets",
+              },
+            ]}
+          />
 
           {discoverableRankings.length > 0 ? (
             <div className="wide-section grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -83,7 +71,7 @@ export default function Rankings() {
                     combos: ranking.combos,
                     winnersHistory: ranking.winnersHistory,
                     userID: ranking.userID,
-                    associatedSetID: ranking.associatedSetID
+                    associatedSetID: ranking.associatedSetID,
                   }}
                   savedRankings={discoverableRankings}
                 />

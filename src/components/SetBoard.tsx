@@ -1,12 +1,13 @@
 import Link from "next/link";
 import ConfirmModal from "./ConfirmModal";
-import { Set } from "@/types";
-import { useState } from "react";
+import { Set, Utensil } from "@/types";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
+import { shuffle } from "@/lib/utilities";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -28,6 +29,17 @@ export default function SetBoard({
   className?: string;
   miniView?: boolean;
 }) {
+  const [utensils, setUtensils] = useState<Utensil[]>([]);
+  const [areUtensilsShuffled, setAreUtensilsShuffled] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    if (set.utensils.length < 1 || areUtensilsShuffled) return;
+
+    setAreUtensilsShuffled(true);
+    setUtensils(shuffle(set.utensils));
+  }, [set]);
+
   const [copyLinkModalVisibility, setCopyLinkModalVisibility] =
     useState<boolean>(false);
 
@@ -110,11 +122,11 @@ export default function SetBoard({
         )}
 
         <ul
-          className={`${set.utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300`}
+          className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300`}
         >
-          {/* create shallow copy of set.utensils (so it wont actually change the set.utensils variable), sort randomly */}
-          {[...set.utensils]
-            .slice(0, showAllUtensils ? set.utensils.length : 5)
+          {/* create shallow copy of utensils (so it wont actually change the utensils variable), sort randomly */}
+          {[...utensils]
+            .slice(0, showAllUtensils ? utensils.length : 5)
             .map((utensil, index) => (
               <li
                 key={index}

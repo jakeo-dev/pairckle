@@ -134,7 +134,7 @@ export default function RankingBoard({
                             #{newRankingPlace}
                           </span>
                           <p
-                            className={`truncate text-base font-semibold text-black dark:text-neutral-50 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
+                            className={`truncate text-base font-semibold text-neutral-800 dark:text-neutral-200 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
                           >
                             {utensil["title"]}
                           </p>
@@ -172,7 +172,7 @@ export default function RankingBoard({
                             #{newRankingPlace}
                           </span>
                           <p
-                            className={`truncate text-base font-semibold text-neutral-50 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
+                            className={`truncate text-base font-semibold text-neutral-100 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
                           >
                             {utensil["title"]}
                           </p>
@@ -321,7 +321,7 @@ export function ExportView({
                         >
                           #{newRankingPlace}
                         </span>
-                        <p className="ml-2.5 truncate text-base font-semibold text-black dark:text-neutral-50 md:ml-3 md:text-lg">
+                        <p className="ml-2.5 truncate text-base font-semibold text-neutral-800 dark:text-neutral-200 md:ml-3 md:text-lg">
                           {utensil["title"]}
                         </p>
                       </div>
@@ -357,7 +357,7 @@ export function ExportView({
                         >
                           #{newRankingPlace}
                         </span>
-                        <p className="ml-2.5 truncate text-base font-semibold text-neutral-50 md:ml-3 md:text-lg">
+                        <p className="ml-2.5 truncate text-base font-semibold text-neutral-100 md:ml-3 md:text-lg">
                           {utensil["title"]}
                         </p>
                       </div>
