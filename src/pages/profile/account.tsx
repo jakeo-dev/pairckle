@@ -168,7 +168,7 @@ export default function YourAccount() {
                     </h2>
                     <Link
                       href="/login"
-                      className="mt-12 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:text-base"
+                      className="mt-10 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-12 md:text-base"
                     >
                       Log in
                     </Link>

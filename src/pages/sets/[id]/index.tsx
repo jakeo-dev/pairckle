@@ -27,6 +27,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
+import Link from "next/link";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -203,17 +204,17 @@ export default function SharedSet() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="w-full lg:min-h-[88.3vh]">
-          {currentSet && (
-            <Heading
-              icon={faBarsStaggered}
-              title={currentSet.name}
-              subtext1={currentSet.username}
-              subtext2={
-                currentSet.createdAt
-                  ? new Date(currentSet.createdAt).toLocaleDateString()
-                  : ""
-              }
-            >
+          <Heading
+            icon={faBarsStaggered}
+            title={currentSet?.name || "Your set"}
+            subtext1={currentSet?.username}
+            subtext2={
+              currentSet?.createdAt
+                ? new Date(currentSet.createdAt).toLocaleDateString()
+                : ""
+            }
+          >
+            {setID && Number(setID) > 0 && (
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
                 <button
                   className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
@@ -294,10 +295,10 @@ export default function SharedSet() {
                   </div>
                 </div>
               </div>
-            </Heading>
-          )}
+            )}
+          </Heading>
 
-          {currentSet ? (
+          {currentSet && Number(setID) > -1 ? (
             <div className="section mb-10 md:mb-12">
               <SetBoard
                 showAllUtensils
@@ -340,13 +341,49 @@ export default function SharedSet() {
                 }}
               />
             </div>
+          ) : setID && Number(setID) < 0 ? (
+            <div className="section">
+              <SetBoard
+                className="blur-sm"
+                disabled
+                set={{
+                  id: -1,
+                  name: "",
+                  utensils: [
+                    {
+                      title: "When the Chips are Down",
+                    },
+                    {
+                      title: "Way Down Hadestown",
+                    },
+                    {
+                      title: "Our Lady of the Underground",
+                    },
+                    { title: "Road to Hell" },
+                    { title: "Chant" },
+                    { title: "Wedding Song" },
+                  ],
+                }}
+              />
+
+              <h2 className="mt-10 text-center text-sm text-neutral-600 dark:text-neutral-400 md:mt-12 md:text-base">
+                Sign up or log in to see your full set.
+              </h2>
+              <Link
+                href="/login"
+                className="mt-2 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-3 md:text-base"
+              >
+                Log in
+              </Link>
+            </div>
           ) : (
             <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
               Loading set...
             </h2>
           )}
 
-          {associatedDiscoverableRankings.length > 0 && (
+          {/* rankings that use this set */}
+          {currentSet && associatedDiscoverableRankings.length > 0 && (
             <div className="wide-section">
               <h2
                 className={`mb-6 px-4 text-lg font-semibold md:px-6 md:text-xl ${gabarito.className}`}

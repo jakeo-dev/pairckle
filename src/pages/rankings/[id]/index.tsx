@@ -16,7 +16,6 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBarsStaggered,
   faChartSimple,
   faCircleDown,
   faEllipsis,
@@ -235,17 +234,18 @@ export default function SharedRanking() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="w-full lg:min-h-[88.3vh]">
-          {currentRanking && (
-            <Heading
-              icon={faBarsStaggered}
-              title={currentRanking.name}
-              subtext1={currentRanking.username}
-              subtext2={
-                currentRanking.createdAt
-                  ? new Date(currentRanking.createdAt).toLocaleDateString()
-                  : ""
-              }
-            >
+          <Heading
+            icon={faChartSimple}
+            rotateIcon
+            title={currentRanking?.name || "Your ranking"}
+            subtext1={currentRanking?.username}
+            subtext2={
+              currentRanking?.createdAt
+                ? new Date(currentRanking.createdAt).toLocaleDateString()
+                : ""
+            }
+          >
+            {rankingID && Number(rankingID) > 0 && (
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
                 {/* <button
                   className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
@@ -435,10 +435,10 @@ export default function SharedRanking() {
                   </div>
                 </div>
               </div>
-            </Heading>
-          )}
+            )}
+          </Heading>
 
-          {currentRanking ? (
+          {currentRanking && Number(rankingID) > -1 ? (
             <div className="section mb-10 md:mb-12">
               <RankingBoard
                 showAllUtensils
@@ -453,6 +453,53 @@ export default function SharedRanking() {
                 savedRankings={[]}
                 exportViewRef={exportViewRef}
               />
+            </div>
+          ) : rankingID && Number(rankingID) < 0 ? (
+            <div className="section">
+              <RankingBoard
+                className="blur-sm"
+                disabled
+                ranking={{
+                  id: -1,
+                  name: "",
+                  rankedUtensils: [
+                    {
+                      title: "When the Chips are Down",
+                      score: 8,
+                      wins: 8,
+                      losses: 0,
+                    },
+                    {
+                      title: "Way Down Hadestown",
+                      score: 6,
+                      wins: 8,
+                      losses: 2,
+                    },
+                    {
+                      title: "Our Lady of the Underground",
+                      score: 3,
+                      wins: 6,
+                      losses: 3,
+                    },
+                    { title: "Road to Hell", score: 3, wins: 4, losses: 1 },
+                    { title: "Chant", score: 1, wins: 7, losses: 6 },
+                    { title: "Wedding Song", score: -1, wins: 3, losses: 4 },
+                  ],
+                  type: "hurry",
+                }}
+                index1={0}
+                savedRankings={[]}
+              />
+
+              <h2 className="mt-10 text-center text-sm text-neutral-600 dark:text-neutral-400 md:mt-12 md:text-base">
+                Sign up or log in to see your full ranking.
+              </h2>
+              <Link
+                href="/login"
+                className="mt-2 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-3 md:text-base"
+              >
+                Log in
+              </Link>
             </div>
           ) : (
             <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">

@@ -732,13 +732,15 @@ export default function Create() {
               >
                 <FontAwesomeIcon
                   icon={faAdd}
-                  className="mr-2 text-lg text-neutral-600/50 dark:text-neutral-400/50 md:text-xl"
+                  className="mr-2.5 text-base text-neutral-600/50 dark:text-neutral-400/50 md:mr-3 md:text-lg"
                   aria-hidden
                 />
-                <span className="text-sm md:text-base">Add more items</span>
+                <span className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base">
+                  Add more items
+                </span>
               </button>
 
-              <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
+              <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                 <button
                   onClick={() => onHurry(utensilsArray)}
                   className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
@@ -780,7 +782,7 @@ export default function Create() {
                   <div className="section">
                     <SetBoard set={associatedSet} showAllUtensils />
 
-                    <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
+                    <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                       <button
                         onClick={() => onHurry(utensilsArray)}
                         className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
@@ -979,7 +981,7 @@ export default function Create() {
               </button>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2 lg:mt-6">
+            <div className="mt-4 flex items-center justify-center gap-2.5 md:gap-3 lg:mt-6">
               <button
                 ref={previousOptionRef}
                 className={`h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md ${
@@ -1206,7 +1208,7 @@ export default function Create() {
                   This ranking has been saved.
                 </p>
 
-                <div className="mt-4 flex gap-2 lg:mt-6">
+                <div className="mt-4 flex gap-2.5 md:gap-3 lg:mt-6">
                   <button
                     onClick={() => {
                       setConfirmRestartModalSubtext(
@@ -1216,27 +1218,15 @@ export default function Create() {
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
+                    className="flex w-full items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3"
                   >
                     <FontAwesomeIcon
                       icon={faRotateRight}
-                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
-                      aria-labelledby="restart-button-text-2"
+                      className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base"
+                      aria-hidden
                     />
-                    <span id="restart-button-text-2">Restart</span>
+                    <span className="text-sm md:text-base">Restart</span>
                   </button>
-
-                  {/* <Link
-                    href="/rankings"
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
-                  >
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
-                      aria-labelledby="all-rankings-button-text"
-                    />
-                    <span id="all-rankings-button-text">See all rankings</span>
-                  </Link> */}
                 </div>
               </div>
             </div>
