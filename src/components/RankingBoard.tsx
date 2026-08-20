@@ -68,7 +68,7 @@ export default function RankingBoard({
         </div>
 
         <ul
-          className={`${ranking.rankedUtensils.length > 5 && !showAllUtensils ? "fade-text" : ""} h-max overflow-hidden rounded-lg border-2 border-neutral-500/15 text-neutral-50 dark:border-neutral-500/40`}
+          className={`${ranking.rankedUtensils.length > 5 && !showAllUtensils ? "fade-text" : ""} h-max overflow-hidden rounded-lg border-2 border-neutral-400/25 text-neutral-50`}
         >
           {/* create shallow copy of ranking (so it wont actually change the ranking variable), sort utensils by their score */}
           {[...ranking.rankedUtensils]

@@ -136,7 +136,7 @@ export default function SetBoard({
           )}
 
           <ul
-            className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
+            className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-400/25 text-neutral-700 dark:text-neutral-200`}
           >
             {/* create shallow copy of utensils (so it wont actually change the utensils variable), sort randomly */}
             {[...utensils]
@@ -144,7 +144,7 @@ export default function SetBoard({
               .map((utensil, index) => (
                 <li
                   key={index}
-                  className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
+                  className={`px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 ${miniView ? "md:px-2.5 md:py-1.5" : "md:px-3.5 md:py-2"}`}
                 >
                   <p
                     className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
@@ -155,27 +155,7 @@ export default function SetBoard({
               ))}
           </ul>
 
-          {/* {miniView ? (
-            <ul
-              className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
-            >
-              {[...utensils]
-                .slice(0, showAllUtensils ? utensils.length : 5)
-                .map((utensil, index) => (
-                  <li
-                    key={index}
-                    className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
-                  >
-                    <p
-                      className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
-                    >
-                      {utensil.title}
-                    </p>
-                  </li>
-                ))}
-            </ul>
-          ) : (
-            <div
+          {/* <div
               className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} grid w-full grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/25 overflow-hidden rounded-lg border-2 border-neutral-400/25 text-neutral-700 dark:text-neutral-200 [&>*:nth-child(2)]:!border-t-0 [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25`}
             >
               {[...utensils]
@@ -192,8 +172,7 @@ export default function SetBoard({
                     </p>
                   </div>
                 ))}
-            </div>
-          )} */}
+            </div> */}
         </Link>
       </>
     </>

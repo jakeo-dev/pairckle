@@ -53,8 +53,8 @@ export default function Header({
                 <Link
                   className={`${
                     pathname === "/" ||
-                    pathname === "rankings" ||
-                    pathname === "/sets"
+                    pathname.startsWith("/rankings") ||
+                    pathname.startsWith("/sets")
                       ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                       : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
                   } flex h-min items-center justify-center rounded-l-full border-2 border-r border-neutral-200 px-2.5 py-2 pr-2 text-left text-sm transition dark:border-neutral-700 md:px-4 md:py-2 md:pr-3.5 md:text-base`}

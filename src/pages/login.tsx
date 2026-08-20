@@ -212,10 +212,7 @@ export default function Login() {
               </div>
             </form>
           ) : (
-            <form
-              onSubmit={handleVerifyOtp}
-              className="absolute left-1/2 top-0 mt-72 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3"
-            >
+            <form onSubmit={handleVerifyOtp} className="section">
               <p className="text-pretty text-center md:text-lg">
                 Code sent to <span className="font-semibold">{emailInput}</span>
                 .{" "}
@@ -224,7 +221,7 @@ export default function Login() {
                 {`Make sure to check your spam inbox. If you still don't see the
                 email, go back and try sending the code again.`}
               </p>
-              <div className="mt-6">
+              <div className="mx-auto mt-6 max-w-80">
                 <label
                   className="mb-0.5 mt-4 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
                   htmlFor="otp-input"
@@ -238,10 +235,10 @@ export default function Login() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.slice(0, 8))}
                   placeholder="12345678"
-                  className={`w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-7 py-4 text-center text-2xl tracking-[0.5em] transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 active:bg-neutral-400/30 md:text-3xl ${geistMono.className}`}
+                  className={`w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-5 py-4 text-center text-2xl tracking-[0.5em] transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 active:bg-neutral-400/30 md:text-3xl ${geistMono.className}`}
                 />
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mx-auto mt-2 flex max-w-80 gap-2">
                 <button
                   className="rounded-full bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base"
                   onClick={() => {
