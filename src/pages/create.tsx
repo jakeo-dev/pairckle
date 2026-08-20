@@ -39,7 +39,6 @@ export default function Create() {
   const [flowView, setFlowView] = useState<"start" | "selection" | "ranking">(
     "start",
   );
-
   const [createView, setCreateView] = useState<"choose" | "new">("new");
 
   const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
@@ -79,6 +78,9 @@ export default function Create() {
 
   // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
+
+  // ranking ID changes to be not -1 if logged in
+  const [rankingID, setRankingID] = useState<number>(-1);
 
   useEffect(() => {
     const storedUtensilsInput = localStorage.getItem("utensilInput") ?? "";
@@ -350,11 +352,12 @@ export default function Create() {
       } else {
         // add new ranking to db if logged in
 
-        const rankingID = generateRankingID();
+        const newRankingID = generateRankingID();
+        setRankingID(newRankingID);
 
         await insertUserRankings([
           {
-            id: rankingID,
+            id: newRankingID,
             name: "New ranking",
             ranked_utensils: [...utensilsArray].sort(sortUtensils),
             type: rankingType,
@@ -404,7 +407,7 @@ export default function Create() {
     localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
 
     if (newUtensilsArray.length < 2) {
-      alert("Enter a list of things or choose a set to rank");
+      alert("Enter a list of two or more things or choose a set to rank");
     } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
       alert("One of your inputs is too long");
     } else {
@@ -443,7 +446,7 @@ export default function Create() {
     localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
 
     if (newUtensilsArray.length < 2) {
-      alert("Enter a list of things or choose a set to rank");
+      alert("Enter a list of two or more things or choose a set to rank");
     } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
       alert("One of your inputs is too long");
     } else {
@@ -525,6 +528,8 @@ export default function Create() {
           localStorage.setItem("rankingType", "");
           localStorage.setItem("maxCombos", "1");
 
+          setRankingID(-1);
+
           setConfirmRestartModalVisibility(false);
         }}
         onCancel={() => {
@@ -590,7 +595,7 @@ export default function Create() {
                       key={i}
                       type="text"
                       placeholder={`Thing ${i + 1}`}
-                      className="w-full border-t-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-500/10 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 dark:odd:bg-neutral-500/25 md:text-base"
+                      className="w-full border-t-2 border-dashed border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-400/10 hover:bg-neutral-400/10 odd:hover:bg-neutral-400/15 focus:bg-neutral-400/20 focus:ring-2 focus:ring-blue-300/75 odd:focus:bg-neutral-400/20 active:bg-neutral-400/20 odd:active:bg-neutral-400/20 dark:odd:bg-neutral-500/25 dark:odd:hover:bg-neutral-500/30 dark:odd:focus:bg-neutral-500/35 dark:odd:active:bg-neutral-500/35 md:text-base"
                       value={utensil.title}
                       onChange={(e) => {
                         const newUtensilsArray = [...utensilsArray];
@@ -1065,7 +1070,7 @@ export default function Create() {
               <div className="section mb-10 lg:mb-12">
                 <RankingBoard
                   ranking={{
-                    id: -1,
+                    id: rankingID || -1,
                     rankedUtensils: utensilsArray,
                     name: "Your final ranking",
                     type: rankingType,
