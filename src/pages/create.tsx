@@ -124,7 +124,7 @@ export default function Create() {
 
     setUtensilsArray(usableStoredUtensilsInput);
 
-    const savedSetName = JSON.parse(localStorage.getItem("setNameInput") ?? "");
+    const savedSetName = localStorage.getItem("setNameInput") ?? "";
     setSetNameInput(savedSetName);
 
     if (localStorage.getItem("rankNow") === "hurry") {
@@ -574,10 +574,7 @@ export default function Create() {
                 value={setNameInput}
                 onChange={(e) => {
                   setSetNameInput(e.target.value);
-                  localStorage.setItem(
-                    "setNameInput",
-                    JSON.stringify(e.target.value),
-                  );
+                  localStorage.setItem("setNameInput", e.target.value);
                 }}
                 maxLength={50}
               />
