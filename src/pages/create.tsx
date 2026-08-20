@@ -437,7 +437,7 @@ export default function Create() {
 
   function onConcentrate(usableUtensilsArray: Utensil[]) {
     const newUtensilsArray = usableUtensilsArray.filter(
-      (u) => u.title.trim() == "",
+      (u) => u.title.trim() !== "",
     );
     localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
 
