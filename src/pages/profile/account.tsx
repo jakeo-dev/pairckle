@@ -1,32 +1,14 @@
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import ConfirmModal from "@/components/ConfirmModal";
-import RankingBoard from "@/components/RankingBoard";
-import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
-import { Profile, Ranking, Set } from "@/types";
-import {
-  fetchCurrentProfile,
-  fetchOwnedUserRankings,
-  fetchOwnedUserSets,
-} from "@/db";
+import { Profile } from "@/types";
+import { fetchCurrentProfile } from "@/db";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBarsStaggered,
-  faChartSimple,
-  faCog,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { Gabarito } from "next/font/google";
-const gabarito = Gabarito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function YourAccount() {
   const router = useRouter();

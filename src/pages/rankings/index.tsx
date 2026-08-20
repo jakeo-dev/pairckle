@@ -1,23 +1,11 @@
 import CommonHead from "@/components/CommonHead";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Ranking } from "@/types";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBarsStaggered,
-  faChartSimple,
-  faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { Gabarito } from "next/font/google";
 import { fetchDiscoverableUserRankings } from "@/db";
-const gabarito = Gabarito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
+
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Rankings() {
   const [discoverableRankings, setDiscoverableRankings] = useState<Ranking[]>(
