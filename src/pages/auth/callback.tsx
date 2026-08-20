@@ -95,14 +95,14 @@ export default function AuthCallback() {
             localStorage.removeItem("savedSets");
           }
 
-          //router.replace("/profile");
+          //router.replace("/profile/account");
         }
       },
     );
 
     // redirect to create page if the user is already signed in
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.replace("/profile");
+      if (session) router.replace("/profile/account");
     });
 
     return () => {
