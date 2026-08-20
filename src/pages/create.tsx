@@ -776,44 +776,48 @@ export default function Create() {
           ) : (
             <div className={flowView === "start" ? "" : "hidden"}>
               {associatedSet && associatedSet.id !== -1 && (
-                <div className="section mb-10 md:mb-12">
-                  <SetBoard set={associatedSet} showAllUtensils />
+                <>
+                  <div className="section">
+                    <SetBoard set={associatedSet} showAllUtensils />
 
-                  <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
-                    <button
-                      onClick={() => onHurry(utensilsArray)}
-                      className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
-                    >
-                      <FontAwesomeIcon
-                        icon={faBolt}
-                        className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
-                        aria-hidden
-                      />
-                      <span className="block text-right text-sm font-medium sm:text-center md:text-base">
-                        Hurry
-                      </span>
-                      <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
-                        Quicker session
-                      </span>
-                    </button>
-                    <button
-                      onClick={() => onConcentrate(utensilsArray)}
-                      className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
-                    >
-                      <FontAwesomeIcon
-                        icon={faBullseye}
-                        className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
-                        aria-hidden
-                      />
-                      <span className="block text-right text-sm font-medium sm:text-center md:text-base">
-                        Concentrate
-                      </span>
-                      <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
-                        More accurate
-                      </span>
-                    </button>
+                    <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
+                      <button
+                        onClick={() => onHurry(utensilsArray)}
+                        className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+                      >
+                        <FontAwesomeIcon
+                          icon={faBolt}
+                          className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
+                          aria-hidden
+                        />
+                        <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                          Hurry
+                        </span>
+                        <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                          Quicker session
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => onConcentrate(utensilsArray)}
+                        className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+                      >
+                        <FontAwesomeIcon
+                          icon={faBullseye}
+                          className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
+                          aria-hidden
+                        />
+                        <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                          Concentrate
+                        </span>
+                        <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                          More accurate
+                        </span>
+                      </button>
+                    </div>
                   </div>
-                </div>
+
+                  <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
+                </>
               )}
 
               {/* start screen - choose existing set */}

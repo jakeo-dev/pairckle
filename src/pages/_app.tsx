@@ -32,7 +32,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       <Component {...pageProps} />
       <Analytics />
       <Footer
-        fixed={router.pathname === "/create" || router.pathname === "/landing" || router.pathname === "/login"}
+        fixed={router.pathname === "/landing" || router.pathname === "/login"}
       />
     </main>
   );
