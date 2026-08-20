@@ -227,16 +227,16 @@ export default function RankingBoard({
               </li>
             ))}
         </ul>
-
-        {exportViewRef && (
-          <ExportView
-            ref={exportViewRef}
-            ranking={ranking}
-            index1={index1}
-            savedRankings={savedRankings}
-          />
-        )}
       </Link>
+
+      {exportViewRef && (
+        <ExportView
+          ref={exportViewRef}
+          ranking={ranking}
+          index1={index1}
+          savedRankings={savedRankings}
+        />
+      )}
     </>
   );
 }
