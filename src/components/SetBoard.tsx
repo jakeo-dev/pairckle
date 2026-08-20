@@ -60,32 +60,7 @@ export default function SetBoard({
         onCancel={() => setCopyLinkModalVisibility(false)}
       />
 
-      <Link
-        href={`/sets/${set.id}`}
-        className={`${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
-      >
-        <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
-          <div>
-            <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
-              {set.username && (
-                <h3 className="line-clamp-1 font-semibold">{set.username}</h3>
-              )}
-              {set.createdAt && (
-                <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
-                  {set.createdAt
-                    ? new Date(set.createdAt).toLocaleDateString()
-                    : ""}
-                </h3>
-              )}
-            </div>
-            <h2
-              className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
-            >
-              {set.name}
-            </h2>
-          </div>
-        </div>
-
+      <>
         {onRankNow && (
           <div className="mb-2.5 flex gap-2.5 md:mb-3 md:gap-3">
             <Link
@@ -130,27 +105,57 @@ export default function SetBoard({
             </Link>
           </div>
         )}
-
-        <ul
-          className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
+        <Link
+          href={`/sets/${set.id}`}
+          className={`${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
         >
-          {/* create shallow copy of utensils (so it wont actually change the utensils variable), sort randomly */}
-          {[...utensils]
-            .slice(0, showAllUtensils ? utensils.length : 5)
-            .map((utensil, index) => (
-              <li
-                key={index}
-                className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
-              >
-                <p
-                  className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+          {(set.username || set.name || set.createdAt) && (
+            <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
+              <div>
+                <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
+                  {set.username && (
+                    <h3 className="line-clamp-1 font-semibold">
+                      {set.username}
+                    </h3>
+                  )}
+                  {set.createdAt && (
+                    <h3 className="min-w-max text-neutral-500 dark:text-neutral-400">
+                      {set.createdAt
+                        ? new Date(set.createdAt).toLocaleDateString()
+                        : ""}
+                    </h3>
+                  )}
+                </div>
+                <h2
+                  className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
                 >
-                  {utensil.title}
-                </p>
-              </li>
-            ))}
-        </ul>
-      </Link>
+                  {set.name}
+                </h2>
+              </div>
+            </div>
+          )}
+
+          <ul
+            className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
+          >
+            {/* create shallow copy of utensils (so it wont actually change the utensils variable), sort randomly */}
+            {[...utensils]
+              .slice(0, showAllUtensils ? utensils.length : 5)
+              .map((utensil, index) => (
+                <li
+                  key={index}
+                  className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
+                >
+                  <p
+                    className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                  >
+                    {utensil.title}
+                  </p>
+                </li>
+              ))}
+          </ul>
+        </Link>
+      </>
     </>
   );
 }
