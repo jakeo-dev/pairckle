@@ -371,21 +371,23 @@ export default function Create() {
 
         await updateCurrentOwnedRankings(rankingID, profile);
 
-        // add new set to db if logged in
+        // add new set to db if logged in and theres no associatedSet
 
-        const setID = generateSetID();
+        if (associatedSetID && associatedSetID !== -1) {
+          const setID = generateSetID();
 
-        await insertUserSets([
-          {
-            id: setID,
-            name: "New set",
-            utensils: shuffle([...utensilsArray]),
-            user_id: profile.id,
-            username: profile.username,
-          },
-        ]);
+          await insertUserSets([
+            {
+              id: setID,
+              name: "New set",
+              utensils: shuffle([...utensilsArray]),
+              user_id: profile.id,
+              username: profile.username,
+            },
+          ]);
 
-        await updateCurrentOwnedSets(setID, profile);
+          await updateCurrentOwnedSets(setID, profile);
+        }
       }
     }
   }
@@ -606,6 +608,8 @@ export default function Create() {
                           "utensilInput",
                           JSON.stringify(newUtensilsArray),
                         );
+
+                        localStorage.setItem("associatedSet", "");
                       }}
                       maxLength={50}
                     />
