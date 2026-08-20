@@ -26,6 +26,12 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { Gabarito } from "next/font/google";
+const gabarito = Gabarito({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
 export default function SharedSet() {
   const router = useRouter();
   const { id: setID } = router.query;
@@ -355,6 +361,11 @@ export default function SharedSet() {
 
           {associatedDiscoverableRankings.length > 0 && (
             <div className="wide-section">
+              <h2
+                className={`mb-6 px-4 text-lg font-semibold md:px-6 md:text-xl ${gabarito.className}`}
+              >
+                Rankings of this set
+              </h2>
               <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
                 {[...associatedDiscoverableRankings].map((ranking, index1) => (
                   <RankingBoard

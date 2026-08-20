@@ -25,6 +25,7 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAdd,
   faBackward,
   faBolt,
   faBookmark,
@@ -582,15 +583,14 @@ export default function Create() {
               <label className="mb-0.5 mt-4 block px-1.5 text-xs text-neutral-500 md:text-sm">
                 Items to rank
               </label>
-              <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:!border-t-0">
-                {/* [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25 */}
+              <div className="overflow-hidden rounded-lg border-2 border-neutral-400/40">
                 {utensilsArray.map((utensil, i) => {
                   return (
                     <input
                       key={i}
                       type="text"
                       placeholder={`Thing ${i + 1}`}
-                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 odd:!border-l-0 even:!border-r-0 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                      className="w-full border-t-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-500/10 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 dark:odd:bg-neutral-500/25 md:text-base"
                       value={utensil.title}
                       onChange={(e) => {
                         const newUtensilsArray = [...utensilsArray];
@@ -608,8 +608,33 @@ export default function Create() {
                 })}
               </div>
 
+              {/* <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:!border-t-0 [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25">
+                {utensilsArray.map((utensil, i) => {
+                  return (
+                    <input
+                      key={i}
+                      type="text"
+                      placeholder={`Thing ${i + 1}`}
+                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 odd:!border-l-0 even:!border-r-0 hover:!bg-neutral-400/10 focus:!bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:!bg-neutral-400/20 md:text-base"
+                      value={utensil.title}
+                      onChange={(e) => {
+                        const newUtensilsArray = [...utensilsArray];
+                        newUtensilsArray[i].title = e.target.value;
+
+                        setUtensilsArray(newUtensilsArray);
+                        localStorage.setItem(
+                          "utensilInput",
+                          JSON.stringify(newUtensilsArray),
+                        );
+                      }}
+                      maxLength={50}
+                    />
+                  );
+                })}
+              </div> */}
+
               <button
-                className="mt-2 w-full rounded-md bg-neutral-400/20 p-2 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3 md:text-base"
+                className="mt-2 flex w-full items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3"
                 onClick={() => {
                   if (utensilsArray.length > 500) {
                     alert(
@@ -633,7 +658,12 @@ export default function Create() {
                   );
                 }}
               >
-                Add more items
+                <FontAwesomeIcon
+                  icon={faAdd}
+                  className="mr-2 text-lg text-neutral-600/50 dark:text-neutral-400/50 md:text-xl"
+                  aria-hidden
+                />
+                <span className="text-sm md:text-base">Add more items</span>
               </button>
 
               <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">

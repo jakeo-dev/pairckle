@@ -154,6 +154,46 @@ export default function SetBoard({
                 </li>
               ))}
           </ul>
+
+          {/* {miniView ? (
+            <ul
+              className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
+            >
+              {[...utensils]
+                .slice(0, showAllUtensils ? utensils.length : 5)
+                .map((utensil, index) => (
+                  <li
+                    key={index}
+                    className="px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 md:px-2.5 md:py-1.5"
+                  >
+                    <p
+                      className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                    >
+                      {utensil.title}
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          ) : (
+            <div
+              className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} grid w-full grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/25 overflow-hidden rounded-lg border-2 border-neutral-400/25 text-neutral-700 dark:text-neutral-200 [&>*:nth-child(2)]:!border-t-0 [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25`}
+            >
+              {[...utensils]
+                .slice(0, showAllUtensils ? utensils.length : 5)
+                .map((utensil, index) => (
+                  <div
+                    key={index}
+                    className="bg-transparent px-2 py-1 odd:!border-l-0 even:!border-r-0 md:px-2.5 md:py-1.5"
+                  >
+                    <p
+                      className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                    >
+                      {utensil.title}
+                    </p>
+                  </div>
+                ))}
+            </div>
+          )} */}
         </Link>
       </>
     </>
