@@ -1,6 +1,5 @@
 import CommonHead from "@/components/CommonHead";
 import ConfirmModal from "@/components/ConfirmModal";
-import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
@@ -17,6 +16,7 @@ import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import {
   fetchCurrentProfile,
   fetchDiscoverableUserSets,
+  fetchSet,
   insertUserRankings,
   insertUserSets,
   updateCurrentOwnedRankings,
@@ -82,7 +82,51 @@ export default function Create() {
   // ranking ID changes to be not -1 if logged in
   const [rankingID, setRankingID] = useState<number>(-1);
 
+  // set associated with current ranking, id is -1 if an unpublished custom set
+  const [associatedSet, setAssociatedSet] = useState<Set>({
+    id: -1,
+    createdAt: "",
+    name: "",
+    username: "",
+    utensils: [],
+    userID: "",
+  });
+
   useEffect(() => {
+    async function getAssociatedSet() {
+      const storedAssociatedSetID = Number(
+        localStorage.getItem("associatedSetID") ?? "-1",
+      );
+      let storedAssociatedSet;
+
+      if (String(storedAssociatedSetID).length > 4) {
+        const currentSetData = await fetchSet(storedAssociatedSetID);
+
+        if (currentSetData) {
+          storedAssociatedSet = currentSetData;
+        }
+      } else if (Number(storedAssociatedSetID) === 0) {
+        const newCurrentSet = RANDOM_SET;
+        storedAssociatedSet = newCurrentSet;
+      } else {
+        const newCurrentSet = STARTER_SETS.filter((set) => {
+          return set.id === Number(storedAssociatedSetID);
+        })[0];
+        storedAssociatedSet = newCurrentSet;
+      }
+
+      setAssociatedSet(storedAssociatedSet);
+
+      const storedCreateView = localStorage.getItem("createView");
+      setCreateView(
+        storedAssociatedSet && storedAssociatedSet !== -1
+          ? "choose"
+          : storedCreateView === "choose" || storedCreateView === "new"
+            ? storedCreateView
+            : "new",
+      );
+    }
+
     const storedUtensilsInput = localStorage.getItem("utensilInput") ?? "";
     let usableStoredUtensilsInput: Utensil[];
 
@@ -127,8 +171,10 @@ export default function Create() {
 
     setUtensilsArray(usableStoredUtensilsInput);
 
-    const savedSetName = localStorage.getItem("setNameInput") ?? "";
-    setSetNameInput(savedSetName);
+    const storedSetName = localStorage.getItem("setNameInput") ?? "";
+    setSetNameInput(storedSetName);
+
+    getAssociatedSet();
 
     if (localStorage.getItem("rankNow") === "hurry") {
       onHurry(usableStoredUtensilsInput);
@@ -137,6 +183,7 @@ export default function Create() {
     }
     localStorage.setItem("rankNow", "");
 
+    // if ranking is currently in progress
     if (
       // dont check for winnersHistory, because it could be null if no decisions have been made yet even if the ranking has been started
       localStorage.getItem("maxCombos") &&
@@ -290,10 +337,6 @@ export default function Create() {
       localStorage.setItem("maxCombos", "1");
       localStorage.setItem("rankingType", "");
 
-      const associatedSetID = Number(
-        localStorage.getItem("associatedSetID") ?? "-1",
-      );
-
       if (!profile) {
         // utilize local storage if not logged in
         const savedRankingsArray = JSON.parse(
@@ -327,7 +370,7 @@ export default function Create() {
           rankedUtensils: [...utensilsArray].sort(sortUtensils),
           combos: combosArray,
           winnersHistory: winnersHistory,
-          associatedSetID: associatedSetID,
+          associatedSetID: associatedSet.id,
         });
 
         localStorage.setItem(
@@ -370,21 +413,27 @@ export default function Create() {
             user_id: profile.id,
             username: profile.username,
             associated_set_id:
-              !associatedSetID || associatedSetID === -1
+              !associatedSet || associatedSet.id === -1
                 ? newSetID
-                : associatedSetID,
+                : associatedSet.id,
           },
         ]);
 
         await updateCurrentOwnedRankings(rankingID, profile);
 
-        if (!associatedSetID || associatedSetID === -1) {
+        if (!associatedSet || associatedSet.id === -1) {
           // insert new set
           await insertUserSets([
             {
               id: newSetID,
               name: setNameInput || "New set",
-              utensils: shuffle([...utensilsArray]),
+              utensils: shuffle(
+                [...utensilsArray].map((u) => {
+                  return {
+                    title: u.title,
+                  };
+                }),
+              ),
               user_id: profile.id,
               username: profile.username,
             },
@@ -555,6 +604,7 @@ export default function Create() {
                   title: "Create new set",
                   onClick: () => {
                     setCreateView("new");
+                    localStorage.setItem("createView", "new");
                   },
                   active: createView === "new",
                 },
@@ -562,6 +612,7 @@ export default function Create() {
                   title: "Choose set",
                   onClick: () => {
                     setCreateView("choose");
+                    localStorage.setItem("createView", "choose");
                   },
                   active: createView === "choose",
                 },
@@ -613,7 +664,15 @@ export default function Create() {
                           JSON.stringify(newUtensilsArray),
                         );
 
-                        localStorage.setItem("associatedSetID", "");
+                        setAssociatedSet({
+                          id: -1,
+                          createdAt: "",
+                          name: "",
+                          username: "",
+                          utensils: [],
+                          userID: "",
+                        });
+                        localStorage.setItem("associatedSetID", "-1");
                       }}
                       maxLength={50}
                     />
@@ -716,6 +775,47 @@ export default function Create() {
             </div>
           ) : (
             <div className={flowView === "start" ? "" : "hidden"}>
+              {associatedSet && associatedSet.id !== -1 && (
+                <div className="section mb-10 md:mb-12">
+                  <SetBoard set={associatedSet} showAllUtensils />
+
+                  <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
+                    <button
+                      onClick={() => onHurry(utensilsArray)}
+                      className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+                    >
+                      <FontAwesomeIcon
+                        icon={faBolt}
+                        className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
+                        aria-hidden
+                      />
+                      <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                        Hurry
+                      </span>
+                      <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                        Quicker session
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => onConcentrate(utensilsArray)}
+                      className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+                    >
+                      <FontAwesomeIcon
+                        icon={faBullseye}
+                        className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
+                        aria-hidden
+                      />
+                      <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                        Concentrate
+                      </span>
+                      <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                        More accurate
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* start screen - choose existing set */}
               {discoverableSets.length > 0 ? (
                 <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -1121,7 +1221,7 @@ export default function Create() {
                     <span id="restart-button-text-2">Restart</span>
                   </button>
 
-                  <Link
+                  {/* <Link
                     href="/rankings"
                     className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-2 md:text-base"
                   >
@@ -1131,7 +1231,7 @@ export default function Create() {
                       aria-labelledby="all-rankings-button-text"
                     />
                     <span id="all-rankings-button-text">See all rankings</span>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>

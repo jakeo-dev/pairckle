@@ -64,10 +64,7 @@ export default function SetBoard({
         {onRankNow && (
           <div className="mb-2.5 flex gap-2.5 md:mb-3 md:gap-3">
             <Link
-              onClick={(e) => {
-                onRankNow?.(e, "hurry");
-                localStorage.setItem("associatedSetID", String(set.id));
-              }}
+              onClick={(e) => onRankNow?.(e, "hurry")}
               href="/create"
               className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
             >
@@ -84,10 +81,7 @@ export default function SetBoard({
               </span>
             </Link>
             <Link
-              onClick={(e) => {
-                onRankNow?.(e, "concentrate");
-                localStorage.setItem("associatedSetID", String(set.id));
-              }}
+              onClick={(e) => onRankNow?.(e, "concentrate")}
               href="/create"
               className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
             >

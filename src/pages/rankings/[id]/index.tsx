@@ -375,6 +375,11 @@ export default function SharedRanking() {
                               ),
                             ).join("\n"),
                           );
+
+                          localStorage.setItem(
+                            "associatedSetID",
+                            String(currentRanking.associatedSetID ?? -1),
+                          );
                         }
                       }}
                     >

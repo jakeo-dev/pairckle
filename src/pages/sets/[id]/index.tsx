@@ -349,6 +349,8 @@ export default function SharedSet() {
                       ),
                     );
                     localStorage.setItem("rankNow", rankingType);
+
+                    localStorage.setItem("associatedSetID", String(setID));
                   }
                 }}
               />
