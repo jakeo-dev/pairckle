@@ -4,12 +4,13 @@ import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
-import { Profile, Ranking, Utensil } from "@/types";
+import { Profile, Ranking, Utensil, Set } from "@/types";
 import { generateRankingID, shuffle, sortUtensils } from "@/lib/utilities";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   fetchCurrentProfile,
+  fetchDiscoverableUserSets,
   insertUserRankings,
   updateCurrentOwnedRankings,
 } from "@/db";
@@ -24,6 +25,8 @@ import {
   faPlusCircle,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import SetBoard from "@/components/SetBoard";
+import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 
 export default function Create() {
   const [startVisibility, setStartVisibility] =
@@ -32,6 +35,8 @@ export default function Create() {
     useState<string>("invisible-fade");
   const [finalRankingVisibility, setFinalRankingVisibility] =
     useState<string>("invisible-fade");
+
+  const [createView, setCreateView] = useState<"choose" | "new">("new");
 
   const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
     useState<boolean>(false);
@@ -55,24 +60,65 @@ export default function Create() {
   // type of ranking: hurry or concentrate
   const [rankingType, setRankingType] = useState<string>("");
 
-  const [utensilInput, setUtensilInput] = useState<string>("");
-
   // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
   const [utensilsArray, setUtensilsArray] = useState<Utensil[]>([
     { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
   ]);
+  const [setNameInput, setSetNameInput] = useState<string>("");
 
   // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
   useEffect(() => {
-    // set initial input empty if not already saved
-    setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+    const storedUtensilsInput = localStorage.getItem("utensilInput") ?? "";
+    let usableStoredUtensilsInput: Utensil[];
+
+    if (storedUtensilsInput?.startsWith("[")) {
+      usableStoredUtensilsInput = JSON.parse(storedUtensilsInput);
+    } else {
+      // if input is not separated by lines, then assume its separated by commas
+      // lines trump commas
+      let splitKey = "\n";
+      if (
+        storedUtensilsInput.trim().split("\n").length < 2 &&
+        storedUtensilsInput.trim().split(",").length > 1
+      ) {
+        splitKey = ",";
+      }
+
+      usableStoredUtensilsInput = storedUtensilsInput
+        .trim()
+        .split(splitKey)
+        .map((utensil) => {
+          return { title: utensil, score: 0, wins: 0, losses: 0 };
+        });
+      if (usableStoredUtensilsInput.length % 2 !== 0)
+        usableStoredUtensilsInput.push({
+          title: "",
+          score: 0,
+          wins: 0,
+          losses: 0,
+        });
+    }
+
+    setUtensilsArray(usableStoredUtensilsInput);
+
+    const savedSetName = JSON.parse(localStorage.getItem("setNameInput") ?? "");
+    setSetNameInput(savedSetName);
 
     if (localStorage.getItem("rankNow") === "hurry") {
-      onHurry(localStorage.getItem("utensilInput") ?? "");
+      onHurry(usableStoredUtensilsInput);
     } else if (localStorage.getItem("rankNow") === "concentrate") {
-      onConcentrate(localStorage.getItem("utensilInput") ?? "");
+      onConcentrate(usableStoredUtensilsInput);
     }
     localStorage.setItem("rankNow", "");
 
@@ -309,37 +355,16 @@ export default function Create() {
     setSecondOption(utensilsArray[combosArray[prevComboIndex][1]]["title"]);
   }
 
-  function onHurry(usableUtensilInput: string) {
-    // if input is not separated by lines, then assume its separated by commas
-    // lines trump commas
-    let splitKey = "\n";
-    if (
-      usableUtensilInput.trim().split("\n").length < 2 &&
-      usableUtensilInput.trim().split(",").length > 1
-    ) {
-      splitKey = ",";
-    }
-    const usableUtensils = usableUtensilInput.trim().split(splitKey);
+  function onHurry(usableUtensilsArray: Utensil[]) {
+    const newUtensilsArray = usableUtensilsArray.filter(
+      (u) => u.title.trim() !== "",
+    );
 
-    if (
-      usableUtensilInput.trim() === "" ||
-      (usableUtensils.length < 2 && usableUtensils.length < 2)
-    ) {
-      alert("Enter a list of things separated by line or comma");
-    } else if (usableUtensils.some((u) => u.length > 200)) {
+    if (newUtensilsArray.length < 2) {
+      alert("Enter a list of things or choose a set to rank");
+    } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
       alert("One of your inputs is too long");
     } else {
-      const newUtensilsArray = [];
-
-      for (const utensilTitle of usableUtensils) {
-        newUtensilsArray.push({
-          title: utensilTitle.trim(),
-          score: 0,
-          wins: 0,
-          losses: 0,
-        });
-      }
-
       const newCombosArray = generateCombos(newUtensilsArray);
 
       setMaxCombos(Math.ceil(newCombosArray.length / 2));
@@ -369,37 +394,16 @@ export default function Create() {
     }
   }
 
-  function onConcentrate(usableUtensilInput: string) {
-    // if input is not separated by lines, then assume its separated by commas
-    // lines trump commas
-    let splitKey = "\n";
-    if (
-      usableUtensilInput.trim().split("\n").length < 2 &&
-      usableUtensilInput.trim().split(",").length > 1
-    ) {
-      splitKey = ",";
-    }
-    const usableUtensils = usableUtensilInput.trim().split(splitKey);
+  function onConcentrate(usableUtensilsArray: Utensil[]) {
+    const newUtensilsArray = usableUtensilsArray.filter(
+      (u) => u.title.trim() == "",
+    );
 
-    if (
-      usableUtensilInput.trim() === "" ||
-      (usableUtensils.length < 2 && usableUtensils.length < 2)
-    ) {
-      alert("Enter a list of things separated by line or comma");
-    } else if (usableUtensils.some((u) => u.length > 200)) {
+    if (newUtensilsArray.length < 2) {
+      alert("Enter a list of things or choose a set to rank");
+    } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
       alert("One of your inputs is too long");
     } else {
-      const newUtensilsArray = [];
-
-      for (const utensilTitle of usableUtensils) {
-        newUtensilsArray.push({
-          title: utensilTitle.trim(),
-          score: 0,
-          wins: 0,
-          losses: 0,
-        });
-      }
-
       const newCombosArray = generateCombos(newUtensilsArray);
 
       setMaxCombos(newCombosArray.length);
@@ -426,6 +430,23 @@ export default function Create() {
     }
   }
 
+  const [starterSets, setStarterSets] = useState<Set[]>([]);
+  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+
+  useEffect(() => {
+    async function getDiscoverableSets() {
+      const userSetsData = await fetchDiscoverableUserSets();
+
+      if (userSetsData) {
+        setDiscoverableSets(userSetsData);
+      }
+    }
+
+    getDiscoverableSets();
+
+    setStarterSets(shuffle(STARTER_SETS).toSpliced(1, 0, RANDOM_SET));
+  }, []);
+
   return (
     <>
       <CommonHead />
@@ -443,7 +464,21 @@ export default function Create() {
           setStartVisibility("visible-fade");
           setCurrentComboIndex(-1);
           setWinnersHistory([]);
-          setUtensilsArray([{ title: "", score: 0, wins: 0, losses: 0 }]);
+
+          const newUtensilsArray = utensilsArray.map((utensil) => ({
+            title: utensil.title,
+            score: 0,
+            wins: 0,
+            losses: 0,
+          }));
+          if (newUtensilsArray.length % 2 !== 0)
+            newUtensilsArray.push({
+              title: "",
+              score: 0,
+              wins: 0,
+              losses: 0,
+            });
+          setUtensilsArray(newUtensilsArray);
           localStorage.setItem("combosArray", JSON.stringify([]));
           localStorage.setItem("utensilsArray", JSON.stringify([]));
           localStorage.setItem("winnersHistory", JSON.stringify([]));
@@ -457,89 +492,190 @@ export default function Create() {
         }}
       />
 
-      <div className="flex w-full items-center justify-center pb-16 lg:min-h-full">
-        <div className="w-full">
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           {startVisibility === "visible-fade" && (
-            <Heading icon={faPlusCircle} rotateIcon text="Create" />
+            <Heading
+              icon={faPlusCircle}
+              rotateIcon
+              title="Create"
+              tabs={[
+                {
+                  title: "Create new set",
+                  onClick: () => {
+                    setCreateView("new");
+                  },
+                  active: createView === "new",
+                },
+                {
+                  title: "Choose set",
+                  onClick: () => {
+                    setCreateView("choose");
+                  },
+                  active: createView === "choose",
+                },
+              ]}
+            />
           )}
 
-          {/* utensil input start screen */}
-          <div
-            className={`${startVisibility} absolute left-1/2 top-0 mt-72 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3`}
-          >
-            <label
-              className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
-              htmlFor="utensil-input"
-            >
-              Enter items to rank, separated by line or comma
-            </label>
-            <ResponsiveTextArea
-              value={utensilInput}
-              onChange={(e) => {
-                setUtensilInput(e.currentTarget.value);
-                localStorage.setItem("utensilInput", e.currentTarget.value);
-                localStorage.setItem("associatedSetID", "");
-              }}
-              className="max-h-[21rem] min-h-[20.5rem] w-full text-sm leading-6 md:max-h-[24.5rem] md:text-base md:leading-7" // 1 line = 2.125 rem
-              placeholder="Rank anything..."
-              maxLength={-1}
-              required={true}
-              id="utensil-input"
-            />
-            {/* <Link
-              href="/sets"
-              className="mt-0.5 block w-full rounded-md bg-neutral-400/20 px-3 py-2 text-center text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-3 lg:text-base"
-            >
-              <FontAwesomeIcon
-                icon={faBarsStaggered}
-                className="mr-2"
-                aria-labelledby="browse-lists-button-text"
-              />
-              <span id="browse-lists-button-text">Browse sets</span>
-            </Link> */}
-            <div className="mt-0.5 flex gap-2">
-              <button
-                onClick={() => {
-                  onHurry(utensilInput);
-                }}
-                className="w-full rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+          {createView === "new" ? (
+            <div className={`${startVisibility} section`}>
+              {/* start screen - create new set */}
+              <label
+                className="mb-0.5 block px-1.5 text-xs text-neutral-500 md:text-sm"
+                htmlFor="set-name-input-label"
               >
-                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
+                Name for this set
+              </label>
+              <input
+                type="text"
+                placeholder="Common types of pickles"
+                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                id="set-name-input-label"
+                value={setNameInput}
+                onChange={(e) => {
+                  setSetNameInput(e.target.value);
+                  localStorage.setItem(
+                    "setNameInput",
+                    JSON.stringify(e.target.value),
+                  );
+                }}
+                maxLength={50}
+              />
+
+              <label className="mb-0.5 mt-4 block px-1.5 text-xs text-neutral-500 md:text-sm">
+                Items to rank
+              </label>
+              <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:!border-t-0">
+                {utensilsArray.map((utensil, i) => {
+                  return (
+                    <input
+                      key={i}
+                      type="text"
+                      placeholder={`Thing ${i + 1}`}
+                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 odd:!border-l-0 even:!border-r-0 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                      value={utensil.title}
+                      onChange={(e) => {
+                        const newUtensilsArray = [...utensilsArray];
+                        newUtensilsArray[i].title = e.target.value;
+
+                        setUtensilsArray(newUtensilsArray);
+                        localStorage.setItem(
+                          "utensilInput",
+                          JSON.stringify(newUtensilsArray),
+                        );
+                      }}
+                      maxLength={50}
+                    />
+                  );
+                })}
+              </div>
+
+              <button
+                className="mt-2 w-full rounded-md bg-neutral-400/20 p-2 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3 md:text-base"
+                onClick={() => {
+                  if (utensilsArray.length > 500) {
+                    alert(
+                      "Item limit reached. You can only have a maximum of 500 items to rank.",
+                    );
+                    return;
+                  }
+
+                  const newUtensilsArray = [
+                    ...utensilsArray,
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                  ];
+
+                  setUtensilsArray(newUtensilsArray);
+                  localStorage.setItem(
+                    "utensilInput",
+                    JSON.stringify(newUtensilsArray),
+                  );
+                }}
+              >
+                Add more items
+              </button>
+
+              <div className="mt-2 flex gap-2 md:mt-3 md:gap-3">
+                <button
+                  onClick={() => onHurry(utensilsArray)}
+                  className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+                >
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="mr-1.5 block text-lg text-orange-200 dark:text-orange-800 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
                     aria-hidden
                   />
-                  <span className="block text-sm md:text-base lg:mt-2">
+                  <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Hurry
                   </span>
-                </div>
-                <span className="block text-xs text-white/60 dark:text-black/50 md:text-sm">
-                  Quicker session
-                </span>
-              </button>
-              <button
-                onClick={() => {
-                  onConcentrate(utensilInput);
-                }}
-                className="w-full rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
-              >
-                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
+                  <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                    Quicker session
+                  </span>
+                </button>
+                <button
+                  onClick={() => onConcentrate(utensilsArray)}
+                  className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+                >
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="mr-1.5 block text-lg text-blue-200 dark:text-blue-800 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
                     aria-hidden
                   />
-                  <span className="block text-sm md:text-base lg:mt-2">
+                  <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Concentrate
                   </span>
-                </div>
-                <span className="block text-xs text-white/60 dark:text-black/50 md:text-sm">
-                  More accurate
-                </span>
-              </button>
+                  <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                    More accurate
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className={startVisibility}>
+              {/* start screen - choose existing set */}
+              {discoverableSets.length > 0 ? (
+                <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {[...discoverableSets].map((set, index1) => (
+                    <SetBoard
+                      key={index1}
+                      miniView
+                      set={{
+                        id: set.id,
+                        name: set.name,
+                        utensils: set.utensils,
+                        username: set.username,
+                        createdAt: set.createdAt,
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                  Loading community sets...
+                </h2>
+              )}
+
+              <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
+
+              <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {[...starterSets].map((set, index1) => (
+                  <SetBoard
+                    key={index1}
+                    miniView
+                    set={{
+                      id: set.id,
+                      name: set.name,
+                      utensils: set.utensils,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* selection process screen */}
           <div

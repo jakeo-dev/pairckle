@@ -11,6 +11,10 @@
     @apply mx-auto w-full px-6 md:max-w-[75rem];
   }
 
+  .narrow-section {
+    @apply mx-auto w-full px-6 md:max-w-[25rem];
+  }
+
   .invisible-fade {
     @apply invisible opacity-0 transition-all;
   }

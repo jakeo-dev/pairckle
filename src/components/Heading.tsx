@@ -84,9 +84,9 @@ export default function Heading(props: {
         <div
           className={`section absolute bottom-0 flex items-end justify-start gap-2 ${gabarito.className}`}
         >
-          {props.tabs?.map((tab) => {
+          {props.tabs?.map((tab, i) => {
             return (
-              <>
+              <div key={i}>
                 {tab.href ? (
                   <Link
                     key={tab.title}
@@ -104,7 +104,7 @@ export default function Heading(props: {
                     {tab.title}
                   </button>
                 )}
-              </>
+              </div>
             );
           })}
         </div>

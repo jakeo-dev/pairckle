@@ -129,18 +129,15 @@ export default function Login() {
     <>
       <CommonHead />
 
-      <div className="flex w-full items-center justify-center pb-16 lg:min-h-full">
-        <div className="w-full">
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
           <Heading
             icon={faRightToBracket}
-            text={type === "login" ? "Log in" : "Sign up"}
+            title={type === "login" ? "Log in" : "Sign up"}
           />
 
           {step === "signin" ? (
-            <form
-              onSubmit={handleSubmit}
-              className={`absolute left-1/2 top-0 mt-72 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/3`}
-            >
+            <form onSubmit={handleSubmit} className="section">
               <label
                 className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
                 htmlFor="email-input"
@@ -154,7 +151,7 @@ export default function Login() {
                   setEmailInput(e.currentTarget.value);
                   setMessage("");
                 }}
-                className="w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base"
+                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
                 placeholder="you@example.com"
                 required={true}
                 id="email-input"
@@ -174,7 +171,7 @@ export default function Login() {
                       setUsernameInput(e.currentTarget.value);
                       setMessage("");
                     }}
-                    className="w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base"
+                    className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
                     placeholder="pickle_123"
                     required={true}
                     id="username-input"
@@ -188,7 +185,7 @@ export default function Login() {
                 onSuccess={(token) => {
                   setCaptchaToken(token);
                 }}
-                className="mt-8 flex items-center justify-center"
+                className="mt-8"
               />
 
               {message && <p className="mt-2 text-red-500">{message}</p>}
