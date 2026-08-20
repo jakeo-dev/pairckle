@@ -83,9 +83,9 @@ export default function Login() {
     });
 
     if (loginError) {
-      console.log("Error logging in:", loginError);
+      console.error("Error logging in:", loginError);
     } else {
-      console.log("sign up successful!");
+      console.log("Sign up successful!");
       setStep("verify");
     }
 
@@ -107,9 +107,9 @@ export default function Login() {
 
     setIsSubmitting(false);
     if (verifyOTPError) {
-      console.error("error:", verifyOTPError.message);
+      console.error("Error:", verifyOTPError.message);
     } else {
-      console.log("authentication successful!");
+      console.log("Authentication successful!");
       // Session is set in Supabase SDK automatically
       router.push("/auth/callback");
     }
@@ -119,7 +119,6 @@ export default function Login() {
     async function getUsernames() {
       const usernamesList = await fetchUsernames();
       setUsernames(usernamesList);
-      console.log(usernames);
     }
 
     getUsernames();

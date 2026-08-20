@@ -326,15 +326,21 @@ export default function SharedSet() {
                   } else {
                     localStorage.setItem(
                       "utensilInput",
-                      shuffle(currentSet.utensils)
-                        .map((utensil) =>
-                          utensil.title !== "????????"
-                            ? utensil.title
-                            : randomElement(
-                                randomElement(STARTER_SETS).utensils,
-                              ).title,
-                        )
-                        .join("\n"),
+                      JSON.stringify(
+                        shuffle(currentSet.utensils).map((utensil) => {
+                          return {
+                            title:
+                              utensil.title !== "????????"
+                                ? utensil.title
+                                : randomElement(
+                                    randomElement(STARTER_SETS).utensils,
+                                  ).title,
+                            score: 0,
+                            wins: 0,
+                            losses: 0,
+                          };
+                        }),
+                      ),
                     );
                     localStorage.setItem("rankNow", rankingType);
                   }

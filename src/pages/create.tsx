@@ -1,18 +1,26 @@
 import CommonHead from "@/components/CommonHead";
-import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
 import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
+import SetBoard from "@/components/SetBoard";
 import { Profile, Ranking, Utensil, Set } from "@/types";
-import { generateRankingID, shuffle, sortUtensils } from "@/lib/utilities";
+import {
+  generateRankingID,
+  generateSetID,
+  shuffle,
+  sortUtensils,
+} from "@/lib/utilities";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import {
   fetchCurrentProfile,
   fetchDiscoverableUserSets,
   insertUserRankings,
+  insertUserSets,
   updateCurrentOwnedRankings,
+  updateCurrentOwnedSets,
 } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,16 +33,11 @@ import {
   faPlusCircle,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
-import SetBoard from "@/components/SetBoard";
-import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 
 export default function Create() {
-  const [startVisibility, setStartVisibility] =
-    useState<string>("visible-fade");
-  const [selectionVisibility, setSelectionVisibility] =
-    useState<string>("invisible-fade");
-  const [finalRankingVisibility, setFinalRankingVisibility] =
-    useState<string>("invisible-fade");
+  const [flowView, setFlowView] = useState<"start" | "selection" | "ranking">(
+    "start",
+  );
 
   const [createView, setCreateView] = useState<"choose" | "new">("new");
 
@@ -60,10 +63,8 @@ export default function Create() {
   // type of ranking: hurry or concentrate
   const [rankingType, setRankingType] = useState<string>("");
 
-  // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
+  // array of utensils (each option inputted) from utensilInput, each starts with a score of 0, new user starts with 10 blank utensils
   const [utensilsArray, setUtensilsArray] = useState<Utensil[]>([
-    { title: "", score: 0, wins: 0, losses: 0 },
-    { title: "", score: 0, wins: 0, losses: 0 },
     { title: "", score: 0, wins: 0, losses: 0 },
     { title: "", score: 0, wins: 0, losses: 0 },
     { title: "", score: 0, wins: 0, losses: 0 },
@@ -82,7 +83,18 @@ export default function Create() {
     const storedUtensilsInput = localStorage.getItem("utensilInput") ?? "";
     let usableStoredUtensilsInput: Utensil[];
 
-    if (storedUtensilsInput?.startsWith("[")) {
+    if (!storedUtensilsInput) {
+      usableStoredUtensilsInput = [
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+      ];
+    } else if (storedUtensilsInput?.startsWith("[")) {
       usableStoredUtensilsInput = JSON.parse(storedUtensilsInput);
     } else {
       // if input is not separated by lines, then assume its separated by commas
@@ -155,8 +167,7 @@ export default function Create() {
         savedMaxCombos,
       );
 
-      setSelectionVisibility("visible-fade");
-      setStartVisibility("invisible-fade");
+      setFlowView("selection");
     }
   }, []);
 
@@ -267,8 +278,7 @@ export default function Create() {
       setSecondOption(utensilsArray[combosArray[nextComboIndex][1]]["title"]);
     } else {
       // done with all combos
-      setSelectionVisibility("invisible-fade");
-      setFinalRankingVisibility("visible-fade");
+      setFlowView("ranking");
       setCurrentComboIndex(-1);
       setWinnersHistory([]);
       localStorage.setItem("winnersHistory", JSON.stringify([]));
@@ -321,6 +331,21 @@ export default function Create() {
           "savedRankings",
           JSON.stringify(correctedSavedRankingsArray),
         );
+
+        // utilize local storage if not logged in
+        const savedSetsArray = JSON.parse(
+          localStorage.getItem("savedSets") ?? "[]",
+        );
+
+        // add new set to array
+        savedSetsArray.unshift({
+          id: -1,
+          name: "New set",
+          createdAt: new Date().toISOString(),
+          utensils: shuffle([...utensilsArray]),
+        });
+
+        localStorage.setItem("savedSets", JSON.stringify(savedSetsArray));
       } else {
         // add new ranking to db if logged in
 
@@ -341,6 +366,22 @@ export default function Create() {
         ]);
 
         await updateCurrentOwnedRankings(rankingID, profile);
+
+        // add new set to db if logged in
+
+        const setID = generateSetID();
+
+        await insertUserSets([
+          {
+            id: setID,
+            name: "New set",
+            utensils: shuffle([...utensilsArray]),
+            user_id: profile.id,
+            username: profile.username,
+          },
+        ]);
+
+        await updateCurrentOwnedSets(setID, profile);
       }
     }
   }
@@ -359,6 +400,7 @@ export default function Create() {
     const newUtensilsArray = usableUtensilsArray.filter(
       (u) => u.title.trim() !== "",
     );
+    localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
 
     if (newUtensilsArray.length < 2) {
       alert("Enter a list of things or choose a set to rank");
@@ -389,8 +431,7 @@ export default function Create() {
         maxCombos,
       );
 
-      setSelectionVisibility("visible-fade");
-      setStartVisibility("invisible-fade");
+      setFlowView("selection");
     }
   }
 
@@ -398,6 +439,7 @@ export default function Create() {
     const newUtensilsArray = usableUtensilsArray.filter(
       (u) => u.title.trim() == "",
     );
+    localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
 
     if (newUtensilsArray.length < 2) {
       alert("Enter a list of things or choose a set to rank");
@@ -425,8 +467,7 @@ export default function Create() {
         maxCombos,
       );
 
-      setSelectionVisibility("visible-fade");
-      setStartVisibility("invisible-fade");
+      setFlowView("selection");
     }
   }
 
@@ -459,9 +500,7 @@ export default function Create() {
         primaryButtonText="Restart"
         secondaryButtonText="Cancel"
         onConfirm={() => {
-          setSelectionVisibility("invisible-fade");
-          setFinalRankingVisibility("invisible-fade");
-          setStartVisibility("visible-fade");
+          setFlowView("start");
           setCurrentComboIndex(-1);
           setWinnersHistory([]);
 
@@ -494,7 +533,7 @@ export default function Create() {
 
       <div className="flex w-full items-center justify-center pb-16">
         <div className="min-h-screen w-full lg:min-h-[88.3vh]">
-          {startVisibility === "visible-fade" && (
+          {flowView === "start" && (
             <Heading
               icon={faPlusCircle}
               rotateIcon
@@ -519,7 +558,7 @@ export default function Create() {
           )}
 
           {createView === "new" ? (
-            <div className={`${startVisibility} section`}>
+            <div className={`${flowView === "start" ? "" : "hidden"} section`}>
               {/* start screen - create new set */}
               <label
                 className="mb-0.5 block px-1.5 text-xs text-neutral-500 md:text-sm"
@@ -547,6 +586,7 @@ export default function Create() {
                 Items to rank
               </label>
               <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:!border-t-0">
+                {/* [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25 */}
                 {utensilsArray.map((utensil, i) => {
                   return (
                     <input
@@ -635,7 +675,7 @@ export default function Create() {
               </div>
             </div>
           ) : (
-            <div className={startVisibility}>
+            <div className={flowView === "start" ? "" : "hidden"}>
               {/* start screen - choose existing set */}
               {discoverableSets.length > 0 ? (
                 <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -679,7 +719,7 @@ export default function Create() {
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${flowView === "selection" ? "" : "hidden"} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
             <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-500 dark:text-neutral-400 md:text-sm">
               <FontAwesomeIcon
@@ -991,7 +1031,9 @@ export default function Create() {
           </div>
 
           {/* final ranking screen */}
-          <div className={`${finalRankingVisibility} mt-24 md:mt-48`}>
+          <div
+            className={`${flowView === "ranking" ? "" : "hidden"} mt-24 md:mt-48`}
+          >
             <div className="max-h-screen w-full overflow-hidden">
               <div className="section mb-10 lg:mb-12">
                 <RankingBoard
