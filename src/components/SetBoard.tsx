@@ -89,40 +89,50 @@ export default function SetBoard({
         {onRankNow && (
           <div className="mb-2.5 flex gap-2.5 md:mb-3 md:gap-3">
             <Link
-              className="flex h-min w-full items-center justify-center rounded-md bg-orange-500/90 px-3 py-2 text-sm text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black md:px-4 md:py-3 md:text-base"
               onClick={(e) => {
                 onRankNow?.(e, "hurry");
                 localStorage.setItem("associatedSetID", String(set.id));
               }}
               href="/create"
+              className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
             >
               <FontAwesomeIcon
                 icon={faBolt}
-                className="mr-2 text-orange-200 dark:text-orange-800"
+                className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
                 aria-hidden
               />
-              <span>Hurry</span>
+              <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                Hurry
+              </span>
+              <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                Quicker session
+              </span>
             </Link>
             <Link
-              className="flex h-min w-full items-center justify-center rounded-md bg-blue-500/90 px-3 py-2 text-sm text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black md:px-4 md:py-3 md:text-base"
               onClick={(e) => {
                 onRankNow?.(e, "concentrate");
                 localStorage.setItem("associatedSetID", String(set.id));
               }}
               href="/create"
+              className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
             >
               <FontAwesomeIcon
                 icon={faBullseye}
-                className="mr-2 text-blue-200 dark:text-blue-800"
+                className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
                 aria-hidden
               />
-              <span>Concentrate</span>
+              <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                Concentrate
+              </span>
+              <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                More accurate
+              </span>
             </Link>
           </div>
         )}
 
         <ul
-          className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-600 dark:border-neutral-500/40 dark:text-neutral-300`}
+          className={`${utensils.length > 5 && !showAllUtensils ? "fade-text" : ""} w-full rounded-lg border-2 border-neutral-500/15 text-neutral-700 dark:border-neutral-500/40 dark:text-neutral-200`}
         >
           {/* create shallow copy of utensils (so it wont actually change the utensils variable), sort randomly */}
           {[...utensils]
