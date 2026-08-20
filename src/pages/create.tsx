@@ -291,7 +291,7 @@ export default function Create() {
       localStorage.setItem("rankingType", "");
 
       const associatedSetID = Number(
-        localStorage.getItem("associatedSetID") || -1,
+        localStorage.getItem("associatedSetID") ?? "-1",
       );
 
       if (!profile) {
@@ -350,11 +350,15 @@ export default function Create() {
 
         localStorage.setItem("savedSets", JSON.stringify(savedSetsArray));
       } else {
-        // add new ranking to db if logged in
+        // add new ranking (and set if no associated set) to database if logged in
+
+        // new set id only used if theres no associated set
+        const newSetID = generateSetID();
 
         const newRankingID = generateRankingID();
         setRankingID(newRankingID);
 
+        // insert new ranking
         await insertUserRankings([
           {
             id: newRankingID,
@@ -365,28 +369,28 @@ export default function Create() {
             winners_history: winnersHistory,
             user_id: profile.id,
             username: profile.username,
-            associated_set_id: associatedSetID,
+            associated_set_id:
+              !associatedSetID || associatedSetID === -1
+                ? newSetID
+                : associatedSetID,
           },
         ]);
 
         await updateCurrentOwnedRankings(rankingID, profile);
 
-        // add new set to db if logged in and theres no associatedSet
-
-        if (associatedSetID && associatedSetID !== -1) {
-          const setID = generateSetID();
-
+        if (!associatedSetID || associatedSetID === -1) {
+          // insert new set
           await insertUserSets([
             {
-              id: setID,
-              name: "New set",
+              id: newSetID,
+              name: setNameInput || "New set",
               utensils: shuffle([...utensilsArray]),
               user_id: profile.id,
               username: profile.username,
             },
           ]);
 
-          await updateCurrentOwnedSets(setID, profile);
+          await updateCurrentOwnedSets(newSetID, profile);
         }
       }
     }
@@ -609,7 +613,7 @@ export default function Create() {
                           JSON.stringify(newUtensilsArray),
                         );
 
-                        localStorage.setItem("associatedSet", "");
+                        localStorage.setItem("associatedSetID", "");
                       }}
                       maxLength={50}
                     />
