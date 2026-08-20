@@ -301,27 +301,12 @@ export default function SharedSet() {
             <div className="section mb-10 md:mb-12">
               <SetBoard
                 showAllUtensils
+                disabled
                 set={{
                   id: currentSet.id,
                   name: "",
                   utensils: currentSet.utensils,
                 }}
-                /* onRank={(event) => {
-                    if (
-                      localStorage.getItem("combosArray") &&
-                      localStorage.getItem("combosArray") !== "[]"
-                    ) {
-                      event.preventDefault();
-                      setErrorRankingModalVisibility(true);
-                    } else {
-                      localStorage.setItem(
-                        "utensilInput",
-                        shuffle(currentSet.utensils)
-                          .map((utensil) => utensil.title)
-                          .join("\n"),
-                      );
-                    }
-                  }} */
                 onRankNow={(event, rankingType) => {
                   if (
                     localStorage.getItem("combosArray") &&

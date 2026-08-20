@@ -19,6 +19,7 @@ export default function SetBoard({
   showAllUtensils = false,
   className = "",
   miniView = false,
+  disabled = false,
 }: {
   set: Set;
   onRankNow?: (
@@ -28,6 +29,7 @@ export default function SetBoard({
   showAllUtensils?: boolean;
   className?: string;
   miniView?: boolean;
+  disabled?: boolean;
 }) {
   const [utensils, setUtensils] = useState<Utensil[]>([]);
   const [areUtensilsShuffled, setAreUtensilsShuffled] =
@@ -101,7 +103,12 @@ export default function SetBoard({
         )}
         <Link
           href={`/sets/${set.id}`}
-          className={`${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
+          className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
+          onClick={(e) => {
+            if (disabled) e.preventDefault();
+          }}
+          tabIndex={disabled ? -1 : 0}
+          aria-disabled={disabled}
         >
           {(set.username || set.name || set.createdAt) && (
             <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">

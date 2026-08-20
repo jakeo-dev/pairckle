@@ -18,6 +18,7 @@ export default function RankingBoard({
   savedRankings,
   exportViewRef,
   miniView = false,
+  disabled = false,
 }: {
   ranking: Ranking;
   showAllUtensils?: boolean;
@@ -26,6 +27,7 @@ export default function RankingBoard({
   savedRankings: Ranking[];
   exportViewRef?: RefObject<HTMLDivElement | null>;
   miniView?: boolean;
+  disabled?: boolean;
 }) {
   // each number element in rankingPlaces represents the rankingPlace for each saved ranking; the number starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the corresponding saved ranking
   const rankingPlaces = new Array(
@@ -36,7 +38,12 @@ export default function RankingBoard({
     <>
       <Link
         href={`/rankings/${ranking.id}`}
-        className={`${miniView ? "min-w-48 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-56" : ""} ${className || ""}`}
+        className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-48 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-56" : ""} ${className || ""}`}
+        onClick={(e) => {
+          if (disabled) e.preventDefault();
+        }}
+        tabIndex={disabled ? -1 : 0}
+        aria-disabled={disabled}
       >
         <div
           className={`flex items-end gap-2 md:gap-3 ${miniView ? "px-1" : "mb-0.5 px-2 md:mb-1"}`}

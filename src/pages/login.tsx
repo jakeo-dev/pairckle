@@ -249,7 +249,7 @@ export default function Login() {
                 </button>
                 <button
                   type="submit"
-                  disabled={otp.length !== 8}
+                  aria-disabled={otp.length !== 8}
                   className={`${
                     otp.length !== 8 ? "cursor-not-allowed opacity-50" : ""
                   } w-full rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}

@@ -442,6 +442,7 @@ export default function SharedRanking() {
             <div className="section mb-10 md:mb-12">
               <RankingBoard
                 showAllUtensils
+                disabled
                 ranking={{
                   id: Number(rankingID),
                   name: "",
@@ -451,22 +452,6 @@ export default function SharedRanking() {
                 index1={0}
                 savedRankings={[]}
                 exportViewRef={exportViewRef}
-                /* onRank={(event) => {
-                    if (
-                      localStorage.getItem("combosArray") &&
-                      localStorage.getItem("combosArray") !== "[]"
-                    ) {
-                      event.preventDefault();
-                      setErrorRankingModalVisibility(true);
-                    } else {
-                      localStorage.setItem(
-                        "utensilInput",
-                        shuffle(currentSet.utensils)
-                          .map((utensil) => utensil.title)
-                          .join("\n"),
-                      );
-                    }
-                  }} */
               />
             </div>
           ) : (
