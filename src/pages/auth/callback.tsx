@@ -112,7 +112,7 @@ export default function AuthCallback() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+      <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
         Logging you in...
       </h2>
     </div>

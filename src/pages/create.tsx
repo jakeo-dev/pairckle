@@ -842,7 +842,7 @@ export default function Create() {
                   ))}
                 </div>
               ) : (
-                <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
                   Loading community sets...
                 </h2>
               )}

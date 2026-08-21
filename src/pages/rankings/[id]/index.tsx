@@ -32,18 +32,7 @@ export default function SharedRanking() {
   const router = useRouter();
   const { id: rankingID } = router.query;
 
-  const [currentRanking, setCurrentRanking] = useState<Ranking>({
-    id: -1,
-    createdAt: "",
-    name: "",
-    rankedUtensils: [],
-    type: "",
-    combos: [],
-    winnersHistory: [],
-    associatedSetID: -1,
-    username: "",
-    userID: "",
-  });
+  const [currentRanking, setCurrentRanking] = useState<Ranking | null>();
   const [profile, setProfile] = useState<Profile | null>(null);
 
   const exportViewRef = useRef<HTMLDivElement>(null);
@@ -56,6 +45,8 @@ export default function SharedRanking() {
 
       if (currentRankingData) {
         setCurrentRanking(currentRankingData);
+      } else {
+        setCurrentRanking(null);
       }
     }
 
@@ -117,9 +108,9 @@ export default function SharedRanking() {
 
     const rankingNewNameInput = prompt(
       "Enter a title for this ranking",
-      currentRanking.name === "New ranking"
+      currentRanking?.name === "New ranking"
         ? randomNewRankingName
-        : currentRanking.name,
+        : currentRanking?.name,
     );
 
     if (rankingNewNameInput && rankingNewNameInput?.length > 50) {
@@ -251,7 +242,7 @@ export default function SharedRanking() {
                 : ""
             }
           >
-            {rankingID && Number(rankingID) > 0 && (
+            {currentRanking && (
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
                 {/* <button
                   className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
@@ -507,8 +498,13 @@ export default function SharedRanking() {
                 Log in
               </Link>
             </div>
+          ) : !currentRanking ? (
+            <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+              The ranking you are looking for does not exist. Either it has been
+              deleted or you entered the incorrect link.
+            </h2>
           ) : (
-            <h2 className="animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
               Loading ranking...
             </h2>
           )}
