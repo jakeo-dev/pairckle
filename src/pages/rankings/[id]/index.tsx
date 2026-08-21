@@ -452,7 +452,7 @@ export default function SharedRanking() {
               />
             </div>
           ) : rankingID &&
-            (Number(rankingID) < 0 || rankingID === "undefined" || !profile) ? (
+            (Number(rankingID) < 0 || rankingID === "undefined") ? (
             <div className="section">
               <RankingBoard
                 className="blur-xs"
@@ -500,10 +500,20 @@ export default function SharedRanking() {
               </Link>
             </div>
           ) : !currentRanking ? (
-            <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
-              The ranking you are looking for does not exist. Either it has been
-              deleted or you entered the incorrect link.
-            </h2>
+            <div className="section">
+              <h2 className="text-left text-xl text-pretty text-neutral-600 md:text-2xl dark:text-neutral-400">
+                The page you are looking for does not exist. This may be
+                because:
+              </h2>
+              <ul className="mt-4 list-inside list-disc pl-4">
+                <li className="leading-7 text-neutral-800 md:text-lg dark:text-neutral-200">
+                  This ranking has been deleted.
+                </li>
+                <li className="leading-7 text-neutral-800 md:text-lg dark:text-neutral-200">
+                  You entered an incorrect link.
+                </li>
+              </ul>
+            </div>
           ) : (
             <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading ranking...

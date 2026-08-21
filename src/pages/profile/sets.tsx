@@ -82,7 +82,7 @@ export default function YourSets() {
           )}
 
           {loading ? (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading user data...
             </h2>
           ) : (
@@ -96,7 +96,7 @@ export default function YourSets() {
                           key={i}
                           miniView
                           set={{
-                            id: set.id,
+                            id: -1,
                             name: set.name,
                             createdAt: set.createdAt,
                             utensils: set.utensils,
@@ -109,7 +109,7 @@ export default function YourSets() {
                     })}
                   </div>
                 ) : (
-                  <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                  <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                     {`You haven't created any sets yet...`}
                   </h2>
                 )}

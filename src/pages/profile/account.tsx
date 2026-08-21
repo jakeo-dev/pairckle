@@ -163,7 +163,7 @@ export default function YourAccount() {
                   </div>
                 ) : (
                   <div className="section">
-                    <h2 className="text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
+                    <h2 className="text-center text-xl text-pretty text-neutral-600 md:text-2xl dark:text-neutral-400">
                       Sign up or log in to publish your rankings and access your
                       account anywhere.
                     </h2>

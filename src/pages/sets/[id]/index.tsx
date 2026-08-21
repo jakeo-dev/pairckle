@@ -340,8 +340,7 @@ export default function SharedSet() {
                 }}
               />
             </div>
-          ) : setID &&
-            (Number(setID) < 0 || setID === "undefined" || !profile) ? (
+          ) : setID && (Number(setID) < 0 || setID === "undefined") ? (
             <div className="section">
               <SetBoard
                 className="blur-xs"
@@ -377,10 +376,20 @@ export default function SharedSet() {
               </Link>
             </div>
           ) : !currentSet ? (
-            <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
-              The set you are looking for does not exist. Either it has been
-              deleted or you entered the incorrect link.
-            </h2>
+            <div className="section">
+              <h2 className="text-left text-xl text-pretty text-neutral-600 md:text-2xl dark:text-neutral-400">
+                The page you are looking for does not exist. This may be
+                because:
+              </h2>
+              <ul className="mt-4 list-inside list-disc pl-4">
+                <li className="leading-7 text-neutral-800 md:text-lg dark:text-neutral-200">
+                  This set has been deleted.
+                </li>
+                <li className="leading-7 text-neutral-800 md:text-lg dark:text-neutral-200">
+                  You entered an incorrect link.
+                </li>
+              </ul>
+            </div>
           ) : (
             <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading set...
