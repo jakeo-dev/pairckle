@@ -63,7 +63,7 @@ export default function Home() {
                   href="/sets"
                 >
                   <h2
-                    className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
+                    className={`text-xl font-semibold md:text-2xl ${gabarito.className}`}
                   >
                     Recent sets
                   </h2>
@@ -129,7 +129,7 @@ export default function Home() {
                 href="/rankings"
               >
                 <h2
-                  className={`text-lg font-semibold md:text-xl ${gabarito.className}`}
+                  className={`text-xl font-semibold md:text-2xl ${gabarito.className}`}
                 >
                   Recent rankings
                 </h2>

@@ -2,12 +2,12 @@ import Link from "next/link";
 import ConfirmModal from "./ConfirmModal";
 import { Set, Utensil } from "@/types";
 import { useEffect, useState } from "react";
+import { shuffle } from "@/lib/utilities";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
-import { shuffle } from "@/lib/utilities";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],

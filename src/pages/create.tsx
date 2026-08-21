@@ -732,12 +732,10 @@ export default function Create() {
               >
                 <FontAwesomeIcon
                   icon={faAdd}
-                  className="mr-2.5 text-base text-neutral-600/50 dark:text-neutral-400/50 md:mr-3 md:text-lg"
+                  className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base"
                   aria-hidden
                 />
-                <span className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base">
-                  Add more items
-                </span>
+                <span className="text-sm md:text-base">Add more items</span>
               </button>
 
               <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
