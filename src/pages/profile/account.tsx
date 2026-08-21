@@ -121,7 +121,7 @@ export default function YourAccount() {
                         </h2>
                       </div> */}
 
-                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-600 dark:text-neutral-300 md:px-5 md:py-4">
+                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-700 dark:text-neutral-300 md:px-5 md:py-4">
                       <div>
                         <label className="text-xs text-neutral-500 md:text-sm">
                           Username

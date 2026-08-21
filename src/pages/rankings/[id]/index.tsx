@@ -121,6 +121,12 @@ export default function SharedRanking() {
         ? randomNewRankingName
         : currentRanking.name,
     );
+
+    if (rankingNewNameInput && rankingNewNameInput?.length > 50) {
+      alert("Ranking title can only be 50 characters maximum");
+      return;
+    }
+
     const rankingNewName = rankingNewNameInput ?? "New ranking";
 
     await renameRanking(rankingNewName, Number(rankingID));

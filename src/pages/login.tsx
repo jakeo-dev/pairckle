@@ -49,7 +49,7 @@ export default function Login() {
       setMessage("Please enter a valid email.");
       return;
     }
-    if (type === "signup" && usernameInput.length > 30) {
+    if (type === "signup" && usernameInput.length > 25) {
       setMessage("Username is too long.");
       return;
     }
@@ -174,7 +174,7 @@ export default function Login() {
                     placeholder="pickle_123"
                     required={true}
                     id="username-input"
-                    maxLength={30}
+                    maxLength={25}
                   />
                 </>
               )}

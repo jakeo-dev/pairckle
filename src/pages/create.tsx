@@ -463,8 +463,10 @@ export default function Create() {
 
     if (newUtensilsArray.length < 2) {
       alert("Enter a list of two or more things or choose a set to rank");
-    } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
+    } else if (newUtensilsArray.some((u) => u.title.length > 150)) {
       alert("One of your inputs is too long");
+    } else if (setNameInput.length > 50) {
+      alert("Set name is too long");
     } else {
       const newCombosArray = generateCombos(newUtensilsArray);
 
@@ -502,8 +504,10 @@ export default function Create() {
 
     if (newUtensilsArray.length < 2) {
       alert("Enter a list of two or more things or choose a set to rank");
-    } else if (newUtensilsArray.some((u) => u.title.length > 200)) {
+    } else if (newUtensilsArray.some((u) => u.title.length > 150)) {
       alert("One of your inputs is too long");
+    } else if (setNameInput.length > 50) {
+      alert("Set name is too long");
     } else {
       const newCombosArray = generateCombos(newUtensilsArray);
 
@@ -674,7 +678,7 @@ export default function Create() {
                         });
                         localStorage.setItem("associatedSetID", "-1");
                       }}
-                      maxLength={50}
+                      maxLength={150}
                     />
                   );
                 })}

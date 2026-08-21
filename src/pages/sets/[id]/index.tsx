@@ -123,6 +123,12 @@ export default function SharedSet() {
       "Enter a title for this set",
       currentSet.name === "New set" ? randomNewSetName : currentSet.name,
     );
+
+    if (setNewNameInput && setNewNameInput?.length > 50) {
+      alert("Ranking title can only be 50 characters maximum");
+      return;
+    }
+
     const setNewName = setNewNameInput ?? "New set";
 
     await renameSet(setNewName, Number(setID));
