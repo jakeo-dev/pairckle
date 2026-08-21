@@ -109,9 +109,12 @@ export default function Login() {
     });
 
     setIsSubmitting(false);
-    if (verifyOTPError) {
+    if (verifyOTPError && verifyOTPError.code === "otp_expired") {
+      setMessage("Incorrect passcode.");
+    } else if (verifyOTPError) {
       console.error("Error:", verifyOTPError.message);
     } else {
+      setMessage("");
       console.log("Authentication successful!");
       // Session is set in Supabase SDK automatically
       router.push("/auth/callback");
@@ -266,11 +269,17 @@ export default function Login() {
                   type="number"
                   required
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value.slice(0, 8))}
+                  onChange={(e) => {
+                    setOtp(e.target.value.slice(0, 8));
+                    setMessage("");
+                  }}
                   placeholder="12345678"
                   className={`w-full rounded-md border-2 border-neutral-400/40 bg-transparent px-5 py-4 text-center text-2xl tracking-[0.5em] transition hover:bg-neutral-400/20 focus:bg-neutral-400/20 active:bg-neutral-400/30 md:text-3xl ${geistMono.className}`}
                 />
               </div>
+              {message && (
+                <p className="mx-auto mt-2 max-w-80 text-red-500">{message}</p>
+              )}
               <div className="mx-auto mt-2 flex max-w-80 gap-2">
                 <button
                   className="cursor-pointer rounded-full bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70"
