@@ -129,7 +129,7 @@ export default function Privacy() {
                   href="https://vercel.com/legal/privacy-notice"
                   target="_blank"
                 >
-                  Vercel's Privacy Policy
+                  {`Vercel's Privacy Policy`}
                 </a>
                 .
               </li>
@@ -140,7 +140,7 @@ export default function Privacy() {
                   href="https://supabase.com/privacy"
                   target="_blank"
                 >
-                  Supabase's Privacy Policy
+                  {`Supabase's Privacy Policy`}
                 </a>
                 .
               </li>
@@ -153,7 +153,7 @@ export default function Privacy() {
                   href="https://www.cloudflare.com/policies/privacy/"
                   target="_blank"
                 >
-                  Cloudflare's Privacy Policy
+                  {`Cloudflare's Privacy Policy`}
                 </a>
                 .
               </li>
@@ -164,7 +164,7 @@ export default function Privacy() {
                   href="https://www.cloudflare.com/policies/privacy/"
                   target="_blank"
                 >
-                  Brevo's Privacy Policy
+                  {`Brevo's Privacy Policy`}
                 </a>
                 .
               </li>
@@ -190,10 +190,10 @@ export default function Privacy() {
             </h2>
 
             <p className="mt-4 leading-7 text-neutral-800 dark:text-neutral-200">
-              We may update this Privacy Policy in the future. We will notify
+              {`We may update this Privacy Policy in the future. We will notify
               you of any changes made by posting them on this page and updating
               the "Last updated" text. Your continued use of our services after
-              such changes means you accept the new Privacy Policy.
+              such changes means you accept the new Privacy Policy.`}
             </p>
 
             <h2

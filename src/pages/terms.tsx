@@ -130,10 +130,10 @@ export default function Terms() {
             </h2>
 
             <p className="mt-4 leading-7 text-neutral-800 dark:text-neutral-200">
-              We may update these Terms in the future. We will notify you of any
+              {`We may update these Terms in the future. We will notify you of any
               changes made by posting them on this page and updating the "Last
               updated" text. Your continued use of our services after such
-              changes means you accept the new Terms.
+              changes means you accept the new Terms.`}
             </p>
 
             <h2
