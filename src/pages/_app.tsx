@@ -28,11 +28,11 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
   return (
     <main className={`${lexend.className} flex min-h-screen flex-col`}>
-      <Header fixed showTabs={router.pathname !== "/"} />
+      <Header fixed showTabs={router.pathname !== "/landing"} />
       <Component {...pageProps} />
       <Analytics />
       <Footer
-        fixed={router.pathname === "/create" || router.pathname === "/"}
+        fixed={router.pathname === "/landing" || router.pathname === "/login"}
       />
     </main>
   );

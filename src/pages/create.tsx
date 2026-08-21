@@ -1,30 +1,45 @@
 import CommonHead from "@/components/CommonHead";
-import ResponsiveTextArea from "@/components/ResponsiveTextArea";
 import ConfirmModal from "@/components/ConfirmModal";
-import Link from "next/link";
 import RankingBoard from "@/components/RankingBoard";
-import { Utensil } from "@/types";
-import { shuffle, sortUtensils } from "@/utilities";
+import Heading from "@/components/Heading";
+import SetBoard from "@/components/SetBoard";
+import { Profile, Ranking, Utensil, Set } from "@/types";
+import {
+  generateRankingID,
+  generateSetID,
+  shuffle,
+  sortUtensils,
+} from "@/lib/utilities";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
+import {
+  fetchCurrentProfile,
+  fetchDiscoverableUserSets,
+  fetchSet,
+  insertUserRankings,
+  insertUserSets,
+  updateCurrentOwnedRankings,
+  updateCurrentOwnedSets,
+} from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAdd,
   faBackward,
-  faBarsStaggered,
   faBolt,
   faBookmark,
   faBullseye,
   faForward,
+  faPlusCircle,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Create() {
-  const [startVisibility, setStartVisibility] =
-    useState<string>("visible-fade");
-  const [selectionVisibility, setSelectionVisibility] =
-    useState<string>("invisible-fade");
-  const [finalRankingVisibility, setFinalRankingVisibility] =
-    useState<string>("invisible-fade");
+  const [flowView, setFlowView] = useState<"start" | "selection" | "ranking">(
+    "start",
+  );
+  const [createView, setCreateView] = useState<"choose" | "new">("new");
 
   const [confirmRestartModalVisibility, setConfirmRestartModalVisibility] =
     useState<boolean>(false);
@@ -48,22 +63,129 @@ export default function Create() {
   // type of ranking: hurry or concentrate
   const [rankingType, setRankingType] = useState<string>("");
 
-  const [utensilInput, setUtensilInput] = useState<string>("");
-
-  // array of utensils (each option inputted) from utensilInput, each starts with a score of 0
+  // array of utensils (each option inputted) from utensilInput, each starts with a score of 0, new user starts with 10 blank utensils
   const [utensilsArray, setUtensilsArray] = useState<Utensil[]>([
     { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
+    { title: "", score: 0, wins: 0, losses: 0 },
   ]);
+  const [setNameInput, setSetNameInput] = useState<string>("");
 
   // randomized array of combos, each number in a combo corresponds to a utensil
   const [combosArray, setCombosArray] = useState<number[][]>([[]]);
 
-  useEffect(() => {
-    // set initial input empty if not already saved
-    setUtensilInput(localStorage.getItem("utensilInput") ?? "");
+  // ranking ID changes to be not -1 if logged in
+  const [rankingID, setRankingID] = useState<number>(-1);
 
+  // set associated with current ranking, id is -1 if an unpublished custom set
+  const [associatedSet, setAssociatedSet] = useState<Set>({
+    id: -1,
+    createdAt: "",
+    name: "",
+    username: "",
+    utensils: [],
+    userID: "",
+  });
+
+  useEffect(() => {
+    async function getAssociatedSet() {
+      const storedAssociatedSetID = Number(
+        localStorage.getItem("associatedSetID") ?? "-1",
+      );
+      let storedAssociatedSet;
+
+      if (String(storedAssociatedSetID).length > 4) {
+        const currentSetData = await fetchSet(storedAssociatedSetID);
+
+        if (currentSetData) {
+          storedAssociatedSet = currentSetData;
+        }
+      } else if (Number(storedAssociatedSetID) === 0) {
+        const newCurrentSet = RANDOM_SET;
+        storedAssociatedSet = newCurrentSet;
+      } else {
+        const newCurrentSet = STARTER_SETS.filter((set) => {
+          return set.id === Number(storedAssociatedSetID);
+        })[0];
+        storedAssociatedSet = newCurrentSet;
+      }
+
+      setAssociatedSet(storedAssociatedSet);
+
+      const storedCreateView = localStorage.getItem("createView");
+      setCreateView(
+        storedAssociatedSet && storedAssociatedSet !== -1
+          ? "choose"
+          : storedCreateView === "choose" || storedCreateView === "new"
+            ? storedCreateView
+            : "new",
+      );
+    }
+
+    const storedUtensilsInput = localStorage.getItem("utensilInput") ?? "";
+    let usableStoredUtensilsInput: Utensil[];
+
+    if (!storedUtensilsInput) {
+      usableStoredUtensilsInput = [
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+        { title: "", score: 0, wins: 0, losses: 0 },
+      ];
+    } else if (storedUtensilsInput?.startsWith("[")) {
+      usableStoredUtensilsInput = JSON.parse(storedUtensilsInput);
+    } else {
+      // if input is not separated by lines, then assume its separated by commas
+      // lines trump commas
+      let splitKey = "\n";
+      if (
+        storedUtensilsInput.trim().split("\n").length < 2 &&
+        storedUtensilsInput.trim().split(",").length > 1
+      ) {
+        splitKey = ",";
+      }
+
+      usableStoredUtensilsInput = storedUtensilsInput
+        .trim()
+        .split(splitKey)
+        .map((utensil) => {
+          return { title: utensil, score: 0, wins: 0, losses: 0 };
+        });
+      if (usableStoredUtensilsInput.length % 2 !== 0)
+        usableStoredUtensilsInput.push({
+          title: "",
+          score: 0,
+          wins: 0,
+          losses: 0,
+        });
+    }
+
+    setUtensilsArray(usableStoredUtensilsInput);
+
+    const storedSetName = localStorage.getItem("setNameInput") ?? "";
+    setSetNameInput(storedSetName);
+
+    getAssociatedSet();
+
+    if (localStorage.getItem("rankNow") === "hurry") {
+      onHurry(usableStoredUtensilsInput);
+    } else if (localStorage.getItem("rankNow") === "concentrate") {
+      onConcentrate(usableStoredUtensilsInput);
+    }
+    localStorage.setItem("rankNow", "");
+
+    // if ranking is currently in progress
     if (
-      // dont check for winnersHistory, because it could be null if no decisions have been made yet even though the ranking has been started
+      // dont check for winnersHistory, because it could be null if no decisions have been made yet even if the ranking has been started
       localStorage.getItem("maxCombos") &&
       localStorage.getItem("rankingType") &&
       localStorage.getItem("utensilsArray") &&
@@ -95,8 +217,7 @@ export default function Create() {
         savedMaxCombos,
       );
 
-      setSelectionVisibility("visible-fade");
-      setStartVisibility("invisible-fade");
+      setFlowView("selection");
     }
   }, []);
 
@@ -144,6 +265,22 @@ export default function Create() {
     };
   }, []);
 
+  const router = useRouter();
+  //const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function getProfile() {
+      const result = await fetchCurrentProfile();
+
+      if (result?.profileData) {
+        setProfile(result?.profileData);
+      }
+    }
+
+    getProfile();
+  }, [router]);
+
   function generateCombos(array: Utensil[]) {
     const combinations: number[][] = [];
 
@@ -174,7 +311,7 @@ export default function Create() {
     return shuffle(combinations);
   }
 
-  function setNextCombo(
+  async function setNextCombo(
     combosArray: number[][],
     utensilsArray: Utensil[],
     currentComboIndex: number,
@@ -191,8 +328,7 @@ export default function Create() {
       setSecondOption(utensilsArray[combosArray[nextComboIndex][1]]["title"]);
     } else {
       // done with all combos
-      setSelectionVisibility("invisible-fade");
-      setFinalRankingVisibility("visible-fade");
+      setFlowView("ranking");
       setCurrentComboIndex(-1);
       setWinnersHistory([]);
       localStorage.setItem("winnersHistory", JSON.stringify([]));
@@ -201,28 +337,116 @@ export default function Create() {
       localStorage.setItem("maxCombos", "1");
       localStorage.setItem("rankingType", "");
 
-      const savedRankingsArray = JSON.parse(
-        localStorage.getItem("savedRankings") ?? "[]",
-      );
+      // new set id only used if theres no associated set
+      const newSetID = generateSetID();
 
-      const rankingsArray = Array.isArray(savedRankingsArray)
-        ? savedRankingsArray
-        : [];
+      if (!profile) {
+        // utilize local storage if not logged in
+        const savedRankingsArray = JSON.parse(
+          localStorage.getItem("savedRankings") ?? "[]",
+        );
+        // correct rankings to use new format instead of legacy one
+        const correctedSavedRankingsArray: Ranking[] = Array.isArray(
+          savedRankingsArray,
+        )
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            savedRankingsArray.map((r: any) => ({
+              ...r,
+              name: r.name ?? r.rankingName,
+              createdAt:
+                r.createdAt ??
+                (r.rankingDate
+                  ? new Date(
+                      r.rankingDate.year,
+                      r.rankingDate.month - 1,
+                      r.rankingDate.day,
+                    ).toISOString()
+                  : new Date().toISOString()),
+              type: r.type ?? r.rankingType,
+              combos: r.combos ?? r.rankingCombos,
+              winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
+            }))
+          : [];
 
-      rankingsArray.unshift({
-        rankingName: "New ranking #" + (savedRankingsArray.length + 1),
-        rankingDate: {
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate(),
-          year: new Date().getFullYear(),
-        },
-        rankingType: rankingType,
-        rankedUtensils: [...utensilsArray].sort(sortUtensils),
-        rankingCombos: combosArray,
-        rankingWinnersHistory: winnersHistory,
-      });
+        // add new ranking to array
+        correctedSavedRankingsArray.unshift({
+          id: -1,
+          name: "New ranking", //"New ranking #" + (savedRankingsArray.length + 1),
+          createdAt: new Date().toISOString(),
+          type: rankingType,
+          rankedUtensils: [...utensilsArray].sort(sortUtensils),
+          combos: combosArray,
+          winnersHistory: winnersHistory,
+          associatedSetID:
+            !associatedSet || associatedSet.id === -1
+              ? newSetID
+              : associatedSet.id,
+        });
 
-      localStorage.setItem("savedRankings", JSON.stringify(rankingsArray));
+        localStorage.setItem(
+          "savedRankings",
+          JSON.stringify(correctedSavedRankingsArray),
+        );
+
+        if (!associatedSet || associatedSet.id === -1) {
+          // utilize local storage if not logged in
+          const savedSetsArray = JSON.parse(
+            localStorage.getItem("savedSets") ?? "[]",
+          );
+
+          // add new set to array
+          savedSetsArray.unshift({
+            id: newSetID,
+            name: "New set",
+            createdAt: new Date().toISOString(),
+            utensils: shuffle([...utensilsArray]),
+          });
+
+          localStorage.setItem("savedSets", JSON.stringify(savedSetsArray));
+        }
+      } else {
+        // add new ranking (and set if no associated set) to database if logged in
+
+        const newRankingID = generateRankingID();
+        setRankingID(newRankingID);
+
+        // insert new ranking
+        await insertUserRankings({
+          id: newRankingID,
+          name: "New ranking",
+          ranked_utensils: [...utensilsArray].sort(sortUtensils),
+          type: rankingType,
+          combos: combosArray,
+          winners_history: winnersHistory,
+          user_id: profile.id,
+          username: profile.username,
+          associated_set_id:
+            !associatedSet || associatedSet.id === -1
+              ? newSetID
+              : associatedSet.id,
+        });
+
+        await updateCurrentOwnedRankings(rankingID, profile);
+
+        if (!associatedSet || associatedSet.id === -1) {
+          // insert new set
+          await insertUserSets({
+            id: newSetID,
+            name: setNameInput || "New set",
+            utensils: shuffle(
+              [...utensilsArray].map((u) => {
+                return {
+                  title: u.title,
+                };
+              }),
+            ),
+            user_id: profile.id,
+            username: profile.username,
+          });
+
+          await updateCurrentOwnedSets(newSetID, profile);
+        }
+      }
     }
   }
 
@@ -236,6 +460,102 @@ export default function Create() {
     setSecondOption(utensilsArray[combosArray[prevComboIndex][1]]["title"]);
   }
 
+  function onHurry(usableUtensilsArray: Utensil[]) {
+    const newUtensilsArray = usableUtensilsArray.filter(
+      (u) => u.title.trim() !== "",
+    );
+    localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
+
+    if (newUtensilsArray.length < 2) {
+      alert("Enter a list of two or more things or choose a set to rank");
+    } else if (newUtensilsArray.some((u) => u.title.length > 150)) {
+      alert("One of your inputs is too long");
+    } else if (setNameInput.length > 50) {
+      alert("Set name is too long");
+    } else {
+      const newCombosArray = generateCombos(newUtensilsArray);
+
+      setMaxCombos(Math.ceil(newCombosArray.length / 2));
+
+      setRankingType("hurry");
+
+      setUtensilsArray(newUtensilsArray);
+      setCombosArray(newCombosArray);
+
+      localStorage.setItem(
+        "maxCombos",
+        String(Math.ceil(newCombosArray.length / 2)),
+      );
+      localStorage.setItem("rankingType", "hurry");
+      localStorage.setItem("utensilsArray", JSON.stringify(newUtensilsArray));
+      localStorage.setItem("combosArray", JSON.stringify(newCombosArray));
+
+      setNextCombo(
+        newCombosArray,
+        newUtensilsArray,
+        currentComboIndex,
+        maxCombos,
+      );
+
+      setFlowView("selection");
+    }
+  }
+
+  function onConcentrate(usableUtensilsArray: Utensil[]) {
+    const newUtensilsArray = usableUtensilsArray.filter(
+      (u) => u.title.trim() !== "",
+    );
+    localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
+
+    if (newUtensilsArray.length < 2) {
+      alert("Enter a list of two or more things or choose a set to rank");
+    } else if (newUtensilsArray.some((u) => u.title.length > 150)) {
+      alert("One of your inputs is too long");
+    } else if (setNameInput.length > 50) {
+      alert("Set name is too long");
+    } else {
+      const newCombosArray = generateCombos(newUtensilsArray);
+
+      setMaxCombos(newCombosArray.length);
+
+      setRankingType("concentrate");
+
+      setUtensilsArray(newUtensilsArray);
+      setCombosArray(newCombosArray);
+
+      localStorage.setItem("maxCombos", String(newCombosArray.length));
+      localStorage.setItem("rankingType", "concentrate");
+      localStorage.setItem("utensilsArray", JSON.stringify(newUtensilsArray));
+      localStorage.setItem("combosArray", JSON.stringify(newCombosArray));
+
+      setNextCombo(
+        newCombosArray,
+        newUtensilsArray,
+        currentComboIndex,
+        maxCombos,
+      );
+
+      setFlowView("selection");
+    }
+  }
+
+  const [starterSets, setStarterSets] = useState<Set[]>([]);
+  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+
+  useEffect(() => {
+    async function getDiscoverableSets() {
+      const userSetsData = await fetchDiscoverableUserSets();
+
+      if (userSetsData) {
+        setDiscoverableSets(userSetsData);
+      }
+    }
+
+    getDiscoverableSets();
+
+    setStarterSets(shuffle(STARTER_SETS).toSpliced(1, 0, RANDOM_SET));
+  }, []);
+
   return (
     <>
       <CommonHead />
@@ -248,17 +568,31 @@ export default function Create() {
         primaryButtonText="Restart"
         secondaryButtonText="Cancel"
         onConfirm={() => {
-          setSelectionVisibility("invisible-fade");
-          setFinalRankingVisibility("invisible-fade");
-          setStartVisibility("visible-fade");
+          setFlowView("start");
           setCurrentComboIndex(-1);
           setWinnersHistory([]);
-          setUtensilsArray([{ title: "", score: 0, wins: 0, losses: 0 }]);
+
+          const newUtensilsArray = utensilsArray.map((utensil) => ({
+            title: utensil.title,
+            score: 0,
+            wins: 0,
+            losses: 0,
+          }));
+          if (newUtensilsArray.length % 2 !== 0)
+            newUtensilsArray.push({
+              title: "",
+              score: 0,
+              wins: 0,
+              losses: 0,
+            });
+          setUtensilsArray(newUtensilsArray);
           localStorage.setItem("combosArray", JSON.stringify([]));
           localStorage.setItem("utensilsArray", JSON.stringify([]));
           localStorage.setItem("winnersHistory", JSON.stringify([]));
           localStorage.setItem("rankingType", "");
           localStorage.setItem("maxCombos", "1");
+
+          setRankingID(-1);
 
           setConfirmRestartModalVisibility(false);
         }}
@@ -267,214 +601,280 @@ export default function Create() {
         }}
       />
 
-      <div className="flex h-screen items-center justify-center lg:min-h-screen">
-        <div className="relative h-screen w-full">
-          {/* utensil input start screen */}
-          <div
-            className={`${startVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-96 md:-translate-x-1/2 md:-translate-y-1/2`}
-          >
-            <label
-              className="block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
-              htmlFor="utensil-input"
-            >
-              Enter items to rank, separated by line or comma
-            </label>
-            <ResponsiveTextArea
-              value={utensilInput}
-              onChange={(e) => {
-                setUtensilInput(e.currentTarget.value);
-                localStorage.setItem("utensilInput", e.currentTarget.value);
-              }}
-              className="max-h-[21rem] min-h-[20.5rem] w-full text-sm leading-6 md:max-h-[28rem] md:text-base md:leading-7" // 1 line = 2.125 rem
-              placeholder="Rank anything..."
-              maxLength={-1}
-              required={true}
-              id="utensil-input"
+      <div className="flex w-full items-center justify-center pb-16">
+        <div className="min-h-screen w-full lg:min-h-[88.1vh]">
+          {flowView === "start" && (
+            <Heading
+              icon={faPlusCircle}
+              rotateIcon
+              title="Create"
+              tabs={[
+                {
+                  title: "Create new set",
+                  onClick: () => {
+                    setCreateView("new");
+                    localStorage.setItem("createView", "new");
+                  },
+                  active: createView === "new",
+                },
+                {
+                  title: "Choose set",
+                  onClick: () => {
+                    setCreateView("choose");
+                    localStorage.setItem("createView", "choose");
+                  },
+                  active: createView === "choose",
+                },
+              ]}
             />
-            <Link
-              href="/sets"
-              className="mt-0.5 block w-full rounded-md bg-neutral-400/20 px-3 py-2 text-center text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-3 lg:text-base"
-            >
-              <FontAwesomeIcon
-                icon={faBarsStaggered}
-                className="mr-2"
-                aria-labelledby="browse-lists-button-text"
-              />
-              <span id="browse-lists-button-text">Browse starter sets</span>
-            </Link>
-            <div className="mt-2 flex gap-2">
-              <button
-                onClick={() => {
-                  if (
-                    utensilInput.trim() === "" ||
-                    (utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length < 2)
-                  ) {
-                    alert("Enter a list of things separated by line or comma");
-                  } else {
-                    const newUtensilsArray = [];
+          )}
 
-                    // if input is not separated by lines, then assume its separated by commas
-                    // lines trump commas
-                    let splitKey = "\n";
-                    if (
-                      utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length > 1
-                    ) {
-                      splitKey = ",";
-                    }
-
-                    for (const utensilTitle of utensilInput
-                      .trim()
-                      .split(splitKey)) {
-                      newUtensilsArray.push({
-                        title: utensilTitle.trim(),
-                        score: 0,
-                        wins: 0,
-                        losses: 0,
-                      });
-                    }
-
-                    const newCombosArray = generateCombos(newUtensilsArray);
-
-                    setMaxCombos(Math.ceil(newCombosArray.length / 2));
-
-                    setRankingType("hurry");
-
-                    setUtensilsArray(newUtensilsArray);
-                    setCombosArray(newCombosArray);
-
-                    localStorage.setItem(
-                      "maxCombos",
-                      String(Math.ceil(newCombosArray.length / 2)),
-                    );
-                    localStorage.setItem("rankingType", "hurry");
-                    localStorage.setItem(
-                      "utensilsArray",
-                      JSON.stringify(newUtensilsArray),
-                    );
-                    localStorage.setItem(
-                      "combosArray",
-                      JSON.stringify(newCombosArray),
-                    );
-
-                    setNextCombo(
-                      newCombosArray,
-                      newUtensilsArray,
-                      currentComboIndex,
-                      maxCombos,
-                    );
-
-                    setSelectionVisibility("visible-fade");
-                    setStartVisibility("invisible-fade");
-                  }
-                }}
-                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
+          {createView === "new" ? (
+            <div className={`${flowView === "start" ? "" : "hidden"} section`}>
+              {/* start screen - create new set */}
+              <label
+                className="mb-0.5 block px-1.5 text-xs text-neutral-500 md:text-sm"
+                htmlFor="set-name-input-label"
               >
-                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
+                Name for this set
+              </label>
+              <input
+                type="text"
+                placeholder="Common types of pickles"
+                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                id="set-name-input-label"
+                value={setNameInput}
+                onChange={(e) => {
+                  setSetNameInput(e.target.value);
+                  localStorage.setItem("setNameInput", e.target.value);
+                }}
+                maxLength={50}
+              />
+
+              <label className="mt-4 mb-0.5 block px-1.5 text-xs text-neutral-500 md:text-sm">
+                Items to rank
+              </label>
+              <div className="overflow-hidden rounded-lg border-2 border-neutral-400/40">
+                {utensilsArray.map((utensil, i) => {
+                  return (
+                    <input
+                      key={i}
+                      type="text"
+                      placeholder={`Thing ${i + 1}`}
+                      className="w-full border-t-2 border-dashed border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-400/10 hover:bg-neutral-400/10 odd:hover:bg-neutral-400/15 focus:bg-neutral-400/20 focus:ring-2 focus:ring-blue-300/75 odd:focus:bg-neutral-400/20 active:bg-neutral-400/20 odd:active:bg-neutral-400/20 md:text-base dark:odd:bg-neutral-500/25 dark:odd:hover:bg-neutral-500/30 dark:odd:focus:bg-neutral-500/35 dark:odd:active:bg-neutral-500/35"
+                      value={utensil.title}
+                      onChange={(e) => {
+                        const newUtensilsArray = [...utensilsArray];
+                        newUtensilsArray[i].title = e.target.value;
+
+                        setUtensilsArray(newUtensilsArray);
+                        localStorage.setItem(
+                          "utensilInput",
+                          JSON.stringify(newUtensilsArray),
+                        );
+
+                        setAssociatedSet({
+                          id: -1,
+                          createdAt: "",
+                          name: "",
+                          username: "",
+                          utensils: [],
+                          userID: "",
+                        });
+                        localStorage.setItem("associatedSetID", "-1");
+                      }}
+                      maxLength={150}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:border-t-0! [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25">
+                {utensilsArray.map((utensil, i) => {
+                  return (
+                    <input
+                      key={i}
+                      type="text"
+                      placeholder={`Thing ${i + 1}`}
+                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 odd:border-l-0! even:border-r-0! hover:bg-neutral-400/10! focus:bg-neutral-400/10! focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20! md:text-base"
+                      value={utensil.title}
+                      onChange={(e) => {
+                        const newUtensilsArray = [...utensilsArray];
+                        newUtensilsArray[i].title = e.target.value;
+
+                        setUtensilsArray(newUtensilsArray);
+                        localStorage.setItem(
+                          "utensilInput",
+                          JSON.stringify(newUtensilsArray),
+                        );
+                      }}
+                      maxLength={50}
+                    />
+                  );
+                })}
+              </div> */}
+
+              <button
+                className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                onClick={() => {
+                  if (utensilsArray.length > 500) {
+                    alert(
+                      "Item limit reached. You can only have a maximum of 500 items to rank.",
+                    );
+                    return;
+                  }
+
+                  const newUtensilsArray = [
+                    ...utensilsArray,
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                    { title: "", score: 0, wins: 0, losses: 0 },
+                  ];
+
+                  setUtensilsArray(newUtensilsArray);
+                  localStorage.setItem(
+                    "utensilInput",
+                    JSON.stringify(newUtensilsArray),
+                  );
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faAdd}
+                  className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                  aria-hidden
+                />
+                <span className="text-sm md:text-base">Add more items</span>
+              </button>
+
+              <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
+                <button
+                  onClick={() => onHurry(utensilsArray)}
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 lg:py-6 dark:text-black"
+                >
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="mr-1.5 block text-lg text-orange-500 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="absolute top-1/2 -left-4 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:left-0 lg:text-9xl dark:text-orange-800/50"
                     aria-hidden
                   />
-                  <span className="block text-sm md:text-base lg:mt-2">
+                  <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Hurry
                   </span>
-                </div>
-                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
-                  Quicker session
-                </span>
-              </button>
-              <button
-                onClick={() => {
-                  if (
-                    utensilInput.trim() === "" ||
-                    (utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length < 2)
-                  ) {
-                    alert("Enter a list of things separated by line or comma");
-                  } else {
-                    const newUtensilsArray = [];
-
-                    // if input is not separated by lines, then assume its separated by commas
-                    // lines trump commas
-                    let splitKey = "\n";
-                    if (
-                      utensilInput.trim().split("\n").length < 2 &&
-                      utensilInput.trim().split(",").length > 1
-                    ) {
-                      splitKey = ",";
-                    }
-
-                    for (const utensilTitle of utensilInput
-                      .trim()
-                      .split(splitKey)) {
-                      newUtensilsArray.push({
-                        title: utensilTitle.trim(),
-                        score: 0,
-                        wins: 0,
-                        losses: 0,
-                      });
-                    }
-
-                    const newCombosArray = generateCombos(newUtensilsArray);
-
-                    setMaxCombos(newCombosArray.length);
-
-                    setRankingType("concentrate");
-
-                    setUtensilsArray(newUtensilsArray);
-                    setCombosArray(newCombosArray);
-
-                    localStorage.setItem(
-                      "maxCombos",
-                      String(newCombosArray.length),
-                    );
-                    localStorage.setItem("rankingType", "concentrate");
-                    localStorage.setItem(
-                      "utensilsArray",
-                      JSON.stringify(newUtensilsArray),
-                    );
-                    localStorage.setItem(
-                      "combosArray",
-                      JSON.stringify(newCombosArray),
-                    );
-
-                    setNextCombo(
-                      newCombosArray,
-                      newUtensilsArray,
-                      currentComboIndex,
-                      maxCombos,
-                    );
-
-                    setSelectionVisibility("visible-fade");
-                    setStartVisibility("invisible-fade");
-                  }
-                }}
-                className="w-full rounded-md bg-neutral-400/20 px-3 py-4 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:py-6"
-              >
-                <div className="mb-1 flex items-center justify-center lg:mb-0 lg:block">
+                  <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
+                    Quicker session
+                  </span>
+                </button>
+                <button
+                  onClick={() => onConcentrate(utensilsArray)}
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 lg:py-6 dark:text-black"
+                >
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="mr-1.5 block text-lg text-blue-500 md:text-xl lg:mx-auto lg:text-3xl"
+                    className="absolute top-1/2 -left-7 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:-left-3 lg:text-9xl dark:text-blue-800/50"
                     aria-hidden
                   />
-                  <span className="block text-sm md:text-base lg:mt-2">
+                  <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Concentrate
                   </span>
-                </div>
-                <span className="block text-xs text-neutral-800 dark:text-neutral-300 md:text-sm">
-                  More accurate
-                </span>
-              </button>
+                  <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
+                    More accurate
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className={flowView === "start" ? "" : "hidden"}>
+              {associatedSet && associatedSet.id !== -1 && (
+                <>
+                  <div className="section">
+                    <SetBoard set={associatedSet} showAllUtensils />
+
+                    <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
+                      <button
+                        onClick={() => onHurry(utensilsArray)}
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 lg:py-6 dark:text-black"
+                      >
+                        <FontAwesomeIcon
+                          icon={faBolt}
+                          className="absolute top-1/2 -left-4 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:left-0 lg:text-9xl dark:text-orange-800/50"
+                          aria-hidden
+                        />
+                        <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                          Hurry
+                        </span>
+                        <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
+                          Quicker session
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => onConcentrate(utensilsArray)}
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 lg:py-6 dark:text-black"
+                      >
+                        <FontAwesomeIcon
+                          icon={faBullseye}
+                          className="absolute top-1/2 -left-7 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:-left-3 lg:text-9xl dark:text-blue-800/50"
+                          aria-hidden
+                        />
+                        <span className="block text-right text-sm font-medium sm:text-center md:text-base">
+                          Concentrate
+                        </span>
+                        <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
+                          More accurate
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
+                </>
+              )}
+
+              {/* start screen - choose existing set */}
+              {discoverableSets.length > 0 ? (
+                <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {[...discoverableSets].map((set, index1) => (
+                    <SetBoard
+                      key={index1}
+                      miniView
+                      set={{
+                        id: set.id,
+                        name: set.name,
+                        utensils: set.utensils,
+                        username: set.username,
+                        createdAt: set.createdAt,
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
+                  Loading community sets...
+                </h2>
+              )}
+
+              <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
+
+              <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {[...starterSets].map((set, index1) => (
+                  <SetBoard
+                    key={index1}
+                    miniView
+                    set={{
+                      id: set.id,
+                      name: set.name,
+                      utensils: set.utensils,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* selection process screen */}
           <div
-            className={`${selectionVisibility} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${flowView === "selection" ? "" : "hidden"} absolute top-0 left-1/2 mt-48 w-[85vw] -translate-x-1/2 md:top-1/2 md:left-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
-            <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
+            <p className="mb-4 px-2 text-center text-xs text-pretty text-neutral-500 md:text-sm dark:text-neutral-400">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -490,7 +890,7 @@ export default function Create() {
             <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-40 w-full cursor-pointer items-center justify-center rounded-2xl border-t-2 border-b-[6px] border-t-white/35 border-b-black/15 bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-60 lg:w-100 lg:p-8 xl:h-72 xl:w-120 dark:border-t-white/20 dark:border-b-black/30"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -498,15 +898,16 @@ export default function Create() {
                       if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
-                          score: item.score + 1,
-                          wins: item.wins + 1,
+                          score: item.score !== undefined ? item.score + 1 : -1,
+                          wins: item.wins !== undefined ? item.wins + 1 : -1,
                         };
                         // add 1 to losses and remove 1 from score for second option
                       } else if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
-                          score: item.score - 1,
-                          losses: item.losses + 1,
+                          score: item.score !== undefined ? item.score - 1 : -1,
+                          losses:
+                            item.losses !== undefined ? item.losses + 1 : -1,
                         };
                       }
                       return item;
@@ -532,13 +933,13 @@ export default function Create() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
+                <span className="line-clamp-3 text-center text-2xl font-semibold text-ellipsis lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {firstOption}
                 </span>
               </button>
               <button
                 ref={secondOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-40 w-full cursor-pointer items-center justify-center rounded-2xl border-t-2 border-b-[6px] border-t-white/35 border-b-black/15 bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-60 lg:w-100 lg:p-8 xl:h-72 xl:w-120 dark:border-t-white/20 dark:border-b-black/30"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -546,15 +947,16 @@ export default function Create() {
                       if (index === combosArray[currentComboIndex][1]) {
                         return {
                           ...item,
-                          score: item.score + 1,
-                          wins: item.wins + 1,
+                          score: item.score !== undefined ? item.score + 1 : -1,
+                          wins: item.wins !== undefined ? item.wins + 1 : -1,
                         };
                         // add 1 to losses and remove 1 from score for first option
                       } else if (index === combosArray[currentComboIndex][0]) {
                         return {
                           ...item,
-                          score: item.score - 1,
-                          losses: item.losses + 1,
+                          score: item.score !== undefined ? item.score - 1 : -1,
+                          losses:
+                            item.losses !== undefined ? item.losses + 1 : -1,
                         };
                       }
                       return item;
@@ -580,16 +982,16 @@ export default function Create() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
+                <span className="line-clamp-3 text-center text-2xl font-semibold text-ellipsis lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {secondOption}
                 </span>
               </button>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2 lg:mt-6">
+            <div className="mt-4 flex items-center justify-center gap-2.5 md:gap-3 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className={`h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md ${
+                className={`h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 ${
                   currentComboIndex < 1
                     ? "pointer-events-none cursor-not-allowed opacity-70"
                     : ""
@@ -610,8 +1012,12 @@ export default function Create() {
                             ) {
                               return {
                                 ...item,
-                                score: item.score - 1,
-                                wins: item.wins - 1,
+                                score:
+                                  item.score !== undefined
+                                    ? item.score - 1
+                                    : -1,
+                                wins:
+                                  item.wins !== undefined ? item.wins - 1 : -1,
                               };
                               // undo previous action by removing 1 from losses and adding 1 to score for the previous loser
                             } else if (
@@ -624,8 +1030,14 @@ export default function Create() {
                             ) {
                               return {
                                 ...item,
-                                score: item.score + 1,
-                                losses: item.losses - 1,
+                                score:
+                                  item.score !== undefined
+                                    ? item.score + 1
+                                    : -1,
+                                losses:
+                                  item.losses !== undefined
+                                    ? item.losses - 1
+                                    : -1,
                               };
                             }
                             return item;
@@ -663,7 +1075,7 @@ export default function Create() {
                 </div>
               </button>
               <button
-                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-[0.5] lg:rounded-md"
+                className="h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-[0.5] lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "If you restart, you'll lose all of your progress so far in this ranking.",
@@ -684,7 +1096,7 @@ export default function Create() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md"
+                className="h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
@@ -719,10 +1131,10 @@ export default function Create() {
               {[...Array(maxCombos)].map((_, i) => (
                 <div
                   key={i}
-                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] === 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] === 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i === currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r-[1px]" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
+                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] === 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] === 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i === currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
                 >
                   <div
-                    className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform whitespace-nowrap rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs shadow-sm dark:bg-black md:text-sm`}
+                    className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs whitespace-nowrap shadow-xs md:text-sm dark:bg-black`}
                   >
                     <div className="flex gap-3 px-1 text-neutral-500 dark:text-neutral-400">
                       <p>Pair {i + 1}</p>
@@ -762,7 +1174,7 @@ export default function Create() {
                     ) : null}
                   </div>
                   <p
-                    className={`${i === currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
+                    className={`${i === currentComboIndex ? "" : "hidden"} absolute top-4 left-1/2 -translate-x-1/2 transform text-center text-xs whitespace-nowrap text-neutral-600 md:text-sm dark:text-neutral-400`}
                   >
                     {currentComboIndex + 1} / {maxCombos}
                   </p>
@@ -773,25 +1185,24 @@ export default function Create() {
 
           {/* final ranking screen */}
           <div
-            className={`${finalRankingVisibility} ${finalRankingVisibility === "invisible-fade" ? "max-h-screen overflow-hidden" : "min-h-screen lg:min-h-[94.6vh]"} mt-24 md:mt-48`}
+            className={`${flowView === "ranking" ? "" : "hidden"} mt-24 md:mt-48`}
           >
-            <div className="flex h-full w-full items-center justify-center px-6 pb-16">
-              <div className="mb-10 w-full md:w-auto lg:mb-12">
+            <div className="max-h-screen w-full overflow-hidden">
+              <div className="section mb-10 lg:mb-12">
                 <RankingBoard
                   ranking={{
+                    id: rankingID || -1,
                     rankedUtensils: utensilsArray,
-                    rankingName: "My final ranking",
-                    rankingDate: {
-                      month: new Date().getMonth() + 1,
-                      day: new Date().getDate(),
-                      year: new Date().getFullYear(),
-                    },
-                    rankingType: rankingType,
+                    name: "Your final ranking",
+                    type: rankingType,
                   }}
                   index1={0} // rankingPlace starts at 1 and adds 1 for each utensil (if theres not a tie) when going through the ranking
+                  showAllUtensils
+                  savedRankings={[]}
+                  disabled={!rankingID || rankingID === -1}
                 />
 
-                <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
+                <p className="mt-1 px-2 text-xs text-pretty text-neutral-600 md:text-sm dark:text-neutral-400">
                   <FontAwesomeIcon
                     icon={faBookmark}
                     className={`${
@@ -804,35 +1215,25 @@ export default function Create() {
                   This ranking has been saved.
                 </p>
 
-                <div className="mt-4 flex gap-2 lg:mt-6">
+                <div className="mt-4 flex gap-2.5 md:gap-3 lg:mt-6">
                   <button
                     onClick={() => {
                       setConfirmRestartModalSubtext(
-                        "This ranking has already been saved, so it will not be lost.",
+                        profile
+                          ? "This ranking has already been saved, so it will not be lost."
+                          : "This ranking has been saved, but you won't to see the full ranking unless you create an account.",
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                   >
                     <FontAwesomeIcon
                       icon={faRotateRight}
-                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
-                      aria-labelledby="restart-button-text-2"
+                      className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                      aria-hidden
                     />
-                    <span id="restart-button-text-2">Restart</span>
+                    <span className="text-sm md:text-base">Restart</span>
                   </button>
-
-                  <Link
-                    href="/rankings"
-                    className="flex h-min w-full items-center justify-center rounded-md bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:text-base lg:px-3 lg:py-2"
-                  >
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                      className="mr-1.5 text-xs md:mr-2 md:text-sm"
-                      aria-labelledby="all-rankings-button-text"
-                    />
-                    <span id="all-rankings-button-text">See all rankings</span>
-                  </Link>
                 </div>
               </div>
             </div>

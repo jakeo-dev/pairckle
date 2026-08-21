@@ -1,57 +1,154 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer components {
-  .invisible-fade {
-    @apply invisible opacity-0 transition-all;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-wiggle: wiggle 15s ease-in-out infinite;
+  --animate-shine: shine 3s linear infinite;
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-1deg) translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: rotate(1.5deg) translateY(-30px) translateX(2px);
+    }
   }
-
-  .visible-fade {
-    @apply visible opacity-100 transition-all;
+  @keyframes shine {
+    0% {
+      transform: translateX(-200%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
   }
 }
 
-@layer utilities {
-  .thin-scrollbar::-webkit-scrollbar {
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility section {
+  @apply mx-auto w-full px-6 md:max-w-200;
+}
+
+@utility wide-section {
+  @apply mx-auto w-full px-6 md:max-w-300;
+}
+
+@utility narrow-section {
+  @apply mx-auto w-full px-6 md:max-w-120;
+}
+
+@utility link {
+  @apply text-neutral-500 decoration-neutral-400 decoration-[1.5px] underline-offset-2 transition hover:text-neutral-600 hover:underline dark:decoration-neutral-600 dark:hover:text-neutral-400;
+}
+
+@utility invisible-fade {
+  @apply invisible opacity-0 transition-all;
+}
+
+@utility visible-fade {
+  @apply visible opacity-100 transition-all;
+}
+
+@utility fade-text {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 25%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, black 0%, black 25%, transparent 100%);
+}
+
+@utility fade-edges-bottom {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 0%,
+    black 50%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 0%,
+    black 50%,
+    transparent
+  );
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+@utility fade-edges-sides {
+  mask-image: linear-gradient(
+    to right,
+    transparent 1%,
+    black 3%,
+    black 97%,
+    transparent 99%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 1%,
+    black 3%,
+    black 97%,
+    transparent 99%
+  );
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+@utility thin-scrollbar {
+  &::-webkit-scrollbar {
     width: 5px;
   }
-  .thin-scrollbar::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background: rgba(107, 114, 128, 0.05);
     border-radius: 100vh;
   }
-  .thin-scrollbar::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background: rgba(107, 114, 128, 0.4);
     border-radius: 100vh;
   }
-  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  &::-webkit-scrollbar-thumb:hover {
     background: rgba(107, 114, 128, 0.6);
   }
+}
 
-  .text-border {
-    text-shadow:
-      -1px -1px 0.5px rgba(0, 0, 0, 0.15),
-      1px -1px 0.5px rgba(0, 0, 0, 0.15),
-      -1px 1px 1px rgba(0, 0, 0, 0.5),
-      1px 1px 1px rgba(0, 0, 0, 0.5);
+@utility text-border {
+  text-shadow:
+    -1px -1px 0.5px rgba(0, 0, 0, 0.15),
+    1px -1px 0.5px rgba(0, 0, 0, 0.15),
+    -1px 1px 1px rgba(0, 0, 0, 0.5),
+    1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
-  .fade-edges-bottom {
-    mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      black 0%,
-      black 50%,
-      transparent
-    );
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      black 0%,
-      black 50%,
-      transparent
-    );
-    mask-composite: intersect;
-    -webkit-mask-composite: source-in;
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 }

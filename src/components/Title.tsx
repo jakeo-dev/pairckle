@@ -4,13 +4,25 @@ const gabarito = Gabarito({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
+import Image from "next/image";
+import Link from "next/link";
+
 export default function Title({ className = "" }: { className?: string }) {
   return (
-    <h1
-      className={`block text-xl font-extrabold md:text-3xl ${gabarito.className} ${className || ""}`}
-    >
-      <span className="text-orange-500">Pair</span>
-      <span className="text-blue-500">ckle</span>
-    </h1>
+    <Link href="/create">
+      <h1
+        className={`flex items-center text-2xl font-extrabold md:text-3xl ${gabarito.className} ${className || ""}`}
+      >
+        <Image
+          src="/pairckle-icon.png"
+          width={512}
+          height={512}
+          alt="Pairckle logo"
+          className="mr-1 w-7 md:mr-1.5 md:w-9"
+        />
+        <span className="hidden text-orange-500 sm:inline">Pair</span>
+        <span className="hidden text-blue-500 sm:inline">ckle</span>
+      </h1>
+    </Link>
   );
 }
