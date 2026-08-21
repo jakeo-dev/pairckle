@@ -28,7 +28,7 @@ export default function ConfirmModal({
 
   return (
     <div
-      className={`fixed left-0 top-0 z-30 flex h-full w-full items-center justify-center overflow-auto bg-black/50 ${
+      className={`fixed top-0 left-0 z-30 flex h-full w-full items-center justify-center overflow-auto bg-black/50 ${
         visibility ? "visible-fade" : "invisible-fade"
       }`}
       onKeyDown={(e) => {
@@ -36,20 +36,20 @@ export default function ConfirmModal({
       }}
       tabIndex={0}
     >
-      <div className="relative w-[90vw] rounded-xl bg-neutral-100 px-8 py-8 shadow-md dark:border-2 dark:border-neutral-800 dark:bg-black md:max-w-xl lg:p-10">
+      <div className="relative w-[90vw] rounded-xl bg-neutral-100 px-8 py-8 shadow-md md:max-w-xl lg:p-10 dark:border-2 dark:border-neutral-800 dark:bg-black">
         <button
-          className="absolute right-8 top-7 text-lg transition hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600"
+          className="absolute top-7 right-8 cursor-pointer text-lg transition hover:text-neutral-500 active:text-neutral-400 dark:active:text-neutral-600"
           onClick={() => {
             onCancel?.();
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="text-pretty pr-4 text-lg font-medium md:text-xl">
+        <h1 className="pr-4 text-lg font-medium text-pretty md:text-xl">
           {titleText}
         </h1>
         {subtitleText && (
-          <p className="mt-4 text-pretty text-sm md:text-base">
+          <p className="mt-4 text-sm text-pretty md:text-base">
             {subtitleText}
           </p>
         )}
@@ -57,7 +57,7 @@ export default function ConfirmModal({
           <button
             className={`${
               secondaryButtonText ? "" : "hidden"
-            } rounded-full border-2 border-neutral-400/40 bg-transparent px-5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
+            } cursor-pointer rounded-full border-2 border-neutral-400/40 bg-transparent px-5 py-2 text-sm transition hover:bg-neutral-400/20 active:bg-neutral-400/30 md:text-base`}
             onClick={() => {
               onCancel?.();
             }}
@@ -67,7 +67,7 @@ export default function ConfirmModal({
           <button
             className={`${
               primaryButtonText ? "" : "hidden"
-            } rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
+            } cursor-pointer rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70`}
             onClick={() => {
               onConfirm?.();
               if (primaryButtonTextClicked) {

@@ -636,7 +636,7 @@ export default function Create() {
               <input
                 type="text"
                 placeholder="Common types of pickles"
-                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
                 id="set-name-input-label"
                 value={setNameInput}
                 onChange={(e) => {
@@ -646,7 +646,7 @@ export default function Create() {
                 maxLength={50}
               />
 
-              <label className="mb-0.5 mt-4 block px-1.5 text-xs text-neutral-500 md:text-sm">
+              <label className="mt-4 mb-0.5 block px-1.5 text-xs text-neutral-500 md:text-sm">
                 Items to rank
               </label>
               <div className="overflow-hidden rounded-lg border-2 border-neutral-400/40">
@@ -656,7 +656,7 @@ export default function Create() {
                       key={i}
                       type="text"
                       placeholder={`Thing ${i + 1}`}
-                      className="w-full border-t-2 border-dashed border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-400/10 hover:bg-neutral-400/10 odd:hover:bg-neutral-400/15 focus:bg-neutral-400/20 focus:ring-2 focus:ring-blue-300/75 odd:focus:bg-neutral-400/20 active:bg-neutral-400/20 odd:active:bg-neutral-400/20 dark:odd:bg-neutral-500/25 dark:odd:hover:bg-neutral-500/30 dark:odd:focus:bg-neutral-500/35 dark:odd:active:bg-neutral-500/35 md:text-base"
+                      className="w-full border-t-2 border-dashed border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 first:border-t-0 odd:bg-neutral-400/10 hover:bg-neutral-400/10 odd:hover:bg-neutral-400/15 focus:bg-neutral-400/20 focus:ring-2 focus:ring-blue-300/75 odd:focus:bg-neutral-400/20 active:bg-neutral-400/20 odd:active:bg-neutral-400/20 md:text-base dark:odd:bg-neutral-500/25 dark:odd:hover:bg-neutral-500/30 dark:odd:focus:bg-neutral-500/35 dark:odd:active:bg-neutral-500/35"
                       value={utensil.title}
                       onChange={(e) => {
                         const newUtensilsArray = [...utensilsArray];
@@ -684,14 +684,14 @@ export default function Create() {
                 })}
               </div>
 
-              {/* <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:!border-t-0 [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25">
+              {/* <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-solid divide-neutral-400/40 overflow-hidden rounded-lg border-2 border-neutral-400/40 [&>*:nth-child(2)]:border-t-0! [&>*:nth-child(4n)]:bg-neutral-500/10 dark:[&>*:nth-child(4n)]:bg-neutral-500/25 [&>*:nth-child(4n+1)]:bg-neutral-500/10 dark:[&>*:nth-child(4n+1)]:bg-neutral-500/25">
                 {utensilsArray.map((utensil, i) => {
                   return (
                     <input
                       key={i}
                       type="text"
                       placeholder={`Thing ${i + 1}`}
-                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 odd:!border-l-0 even:!border-r-0 hover:!bg-neutral-400/10 focus:!bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:!bg-neutral-400/20 md:text-base"
+                      className="w-full bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 odd:border-l-0! even:border-r-0! hover:bg-neutral-400/10! focus:bg-neutral-400/10! focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20! md:text-base"
                       value={utensil.title}
                       onChange={(e) => {
                         const newUtensilsArray = [...utensilsArray];
@@ -710,7 +710,7 @@ export default function Create() {
               </div> */}
 
               <button
-                className="mt-2 flex w-full items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3"
+                className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                 onClick={() => {
                   if (utensilsArray.length > 500) {
                     alert(
@@ -736,7 +736,7 @@ export default function Create() {
               >
                 <FontAwesomeIcon
                   icon={faAdd}
-                  className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base"
+                  className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
                   aria-hidden
                 />
                 <span className="text-sm md:text-base">Add more items</span>
@@ -745,33 +745,33 @@ export default function Create() {
               <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                 <button
                   onClick={() => onHurry(utensilsArray)}
-                  className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 lg:py-6 dark:text-black"
                 >
                   <FontAwesomeIcon
                     icon={faBolt}
-                    className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
+                    className="absolute top-1/2 -left-4 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:left-0 lg:text-9xl dark:text-orange-800/50"
                     aria-hidden
                   />
                   <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Hurry
                   </span>
-                  <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                  <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
                     Quicker session
                   </span>
                 </button>
                 <button
                   onClick={() => onConcentrate(utensilsArray)}
-                  className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 lg:py-6 dark:text-black"
                 >
                   <FontAwesomeIcon
                     icon={faBullseye}
-                    className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
+                    className="absolute top-1/2 -left-7 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:-left-3 lg:text-9xl dark:text-blue-800/50"
                     aria-hidden
                   />
                   <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                     Concentrate
                   </span>
-                  <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                  <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
                     More accurate
                   </span>
                 </button>
@@ -787,33 +787,33 @@ export default function Create() {
                     <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                       <button
                         onClick={() => onHurry(utensilsArray)}
-                        className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 lg:py-6 dark:text-black"
                       >
                         <FontAwesomeIcon
                           icon={faBolt}
-                          className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
+                          className="absolute top-1/2 -left-4 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:left-0 lg:text-9xl dark:text-orange-800/50"
                           aria-hidden
                         />
                         <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                           Hurry
                         </span>
-                        <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                        <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
                           Quicker session
                         </span>
                       </button>
                       <button
                         onClick={() => onConcentrate(utensilsArray)}
-                        className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 lg:py-6 dark:text-black"
                       >
                         <FontAwesomeIcon
                           icon={faBullseye}
-                          className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
+                          className="absolute top-1/2 -left-7 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:-left-3 lg:text-9xl dark:text-blue-800/50"
                           aria-hidden
                         />
                         <span className="block text-right text-sm font-medium sm:text-center md:text-base">
                           Concentrate
                         </span>
-                        <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
+                        <span className="block text-right text-xs text-white/60 sm:text-center md:text-sm dark:text-black/50">
                           More accurate
                         </span>
                       </button>
@@ -842,7 +842,7 @@ export default function Create() {
                   ))}
                 </div>
               ) : (
-                <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                   Loading community sets...
                 </h2>
               )}
@@ -867,9 +867,9 @@ export default function Create() {
 
           {/* selection process screen */}
           <div
-            className={`${flowView === "selection" ? "" : "hidden"} absolute left-1/2 top-0 mt-48 w-[85vw] -translate-x-1/2 md:left-1/2 md:top-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
+            className={`${flowView === "selection" ? "" : "hidden"} absolute top-0 left-1/2 mt-48 w-[85vw] -translate-x-1/2 md:top-1/2 md:left-1/2 md:mt-0 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2`}
           >
-            <p className="mb-4 text-pretty px-2 text-center text-xs text-neutral-500 dark:text-neutral-400 md:text-sm">
+            <p className="mb-4 px-2 text-center text-xs text-pretty text-neutral-500 md:text-sm dark:text-neutral-400">
               <FontAwesomeIcon
                 icon={faBookmark}
                 className={`${
@@ -885,7 +885,7 @@ export default function Create() {
             <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
               <button
                 ref={firstOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-40 w-full cursor-pointer items-center justify-center rounded-2xl border-t-2 border-b-[6px] border-t-white/35 border-b-black/15 bg-orange-500/90 p-6 text-white shadow-md shadow-orange-500/40 transition duration-200 hover:scale-100 hover:bg-orange-500/90 hover:shadow-md hover:shadow-orange-500/40 active:scale-[0.98] active:bg-orange-500/80 active:shadow-none active:hover:bg-orange-500/70 md:hover:scale-[1.02] md:hover:bg-orange-500/80 md:hover:shadow-lg md:hover:shadow-orange-500/40 md:active:scale-100 md:active:shadow-none lg:h-60 lg:w-100 lg:p-8 xl:h-72 xl:w-120 dark:border-t-white/20 dark:border-b-black/30"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -928,13 +928,13 @@ export default function Create() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
+                <span className="line-clamp-3 text-center text-2xl font-semibold text-ellipsis lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {firstOption}
                 </span>
               </button>
               <button
                 ref={secondOptionRef}
-                className="flex min-h-[10rem] w-full items-center justify-center rounded-2xl border-b-[6px] border-t-2 border-b-black/15 border-t-white/35 bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 dark:border-b-black/30 dark:border-t-white/20 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-[15rem] lg:w-[25rem] lg:p-8 xl:h-[18rem] xl:w-[30rem]"
+                className="flex min-h-40 w-full cursor-pointer items-center justify-center rounded-2xl border-t-2 border-b-[6px] border-t-white/35 border-b-black/15 bg-blue-500/90 p-6 text-white shadow-md shadow-blue-500/40 transition duration-200 hover:scale-100 hover:bg-blue-500/90 hover:shadow-md hover:shadow-blue-500/40 active:scale-[0.98] active:bg-blue-500/80 active:shadow-none active:hover:bg-blue-500/70 md:hover:scale-[1.02] md:hover:bg-blue-500/80 md:hover:shadow-lg md:hover:shadow-blue-500/40 md:active:scale-100 md:active:shadow-none lg:h-60 lg:w-100 lg:p-8 xl:h-72 xl:w-120 dark:border-t-white/20 dark:border-b-black/30"
                 onClick={() => {
                   const updatedUtensilsArray = [...utensilsArray].map(
                     (item, index) => {
@@ -977,7 +977,7 @@ export default function Create() {
                   );
                 }}
               >
-                <span className="line-clamp-3 overflow-ellipsis text-center text-2xl font-semibold lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
+                <span className="line-clamp-3 text-center text-2xl font-semibold text-ellipsis lg:line-clamp-4 lg:text-3xl/[2.5rem] xl:py-1 xl:text-4xl/[3rem]">
                   {secondOption}
                 </span>
               </button>
@@ -986,7 +986,7 @@ export default function Create() {
             <div className="mt-4 flex items-center justify-center gap-2.5 md:gap-3 lg:mt-6">
               <button
                 ref={previousOptionRef}
-                className={`h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md ${
+                className={`h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 ${
                   currentComboIndex < 1
                     ? "pointer-events-none cursor-not-allowed opacity-70"
                     : ""
@@ -1070,7 +1070,7 @@ export default function Create() {
                 </div>
               </button>
               <button
-                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-[0.5] lg:rounded-md"
+                className="h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-[0.5] lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                 onClick={() => {
                   setConfirmRestartModalSubtext(
                     "If you restart, you'll lose all of your progress so far in this ranking.",
@@ -1091,7 +1091,7 @@ export default function Create() {
               </button>
               <button
                 ref={skipOptionRef}
-                className="h-8 w-8 rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-sm active:bg-neutral-400/40 active:shadow-none dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md"
+                className="h-8 w-8 cursor-pointer rounded-full bg-neutral-400/20 px-3 py-1.5 transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none lg:h-auto lg:w-32 lg:flex-1 lg:rounded-md dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                 onClick={() => {
                   setWinnersHistory((ogArray) => [...ogArray, 2]);
                   localStorage.setItem(
@@ -1126,10 +1126,10 @@ export default function Create() {
               {[...Array(maxCombos)].map((_, i) => (
                 <div
                   key={i}
-                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] === 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] === 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i === currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r-[1px]" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
+                  className={`group relative h-3 flex-1 border-neutral-800/10 first:rounded-l-full last:rounded-r-full last:border-r-0 dark:border-neutral-200/10 ${winnersHistory[i] === 0 ? "bg-orange-500/60 dark:bg-orange-400/60" : winnersHistory[i] === 1 ? "bg-blue-500/60 dark:bg-blue-400/60" : i === currentComboIndex ? "bg-neutral-400/50" : "bg-neutral-400/30"} ${maxCombos > 250 ? "border-0" : maxCombos > 100 ? "border-r-[0.25px] md:border-r-[0.5px] lg:border-r" : "border-r md:border-r-[1.5px] lg:border-r-2"}`}
                 >
                   <div
-                    className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform whitespace-nowrap rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs shadow-sm dark:bg-black md:text-sm`}
+                    className={`${i < currentComboIndex ? "invisible-fade group-hover:visible-fade" : "hidden"} absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-md border-2 border-neutral-400/40 bg-neutral-50 p-2 text-center text-xs whitespace-nowrap shadow-xs md:text-sm dark:bg-black`}
                   >
                     <div className="flex gap-3 px-1 text-neutral-500 dark:text-neutral-400">
                       <p>Pair {i + 1}</p>
@@ -1169,7 +1169,7 @@ export default function Create() {
                     ) : null}
                   </div>
                   <p
-                    className={`${i === currentComboIndex ? "" : "hidden"} absolute left-1/2 top-4 -translate-x-1/2 transform whitespace-nowrap text-center text-xs text-neutral-600 dark:text-neutral-400 md:text-sm`}
+                    className={`${i === currentComboIndex ? "" : "hidden"} absolute top-4 left-1/2 -translate-x-1/2 transform text-center text-xs whitespace-nowrap text-neutral-600 md:text-sm dark:text-neutral-400`}
                   >
                     {currentComboIndex + 1} / {maxCombos}
                   </p>
@@ -1197,7 +1197,7 @@ export default function Create() {
                   disabled={!rankingID || rankingID === -1}
                 />
 
-                <p className="mt-1 text-pretty px-2 text-xs text-neutral-600 dark:text-neutral-400 md:text-sm">
+                <p className="mt-1 px-2 text-xs text-pretty text-neutral-600 md:text-sm dark:text-neutral-400">
                   <FontAwesomeIcon
                     icon={faBookmark}
                     className={`${
@@ -1220,11 +1220,11 @@ export default function Create() {
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
-                    className="flex w-full items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:mt-3 md:p-3"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                   >
                     <FontAwesomeIcon
                       icon={faRotateRight}
-                      className="mr-2 text-sm text-neutral-600/50 dark:text-neutral-400/50 md:mr-2.5 md:text-base"
+                      className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
                       aria-hidden
                     />
                     <span className="text-sm md:text-base">Restart</span>

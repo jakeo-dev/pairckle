@@ -150,7 +150,7 @@ export default function RankingBoard({
 
                       <div className="absolute inset-0 h-full w-full overflow-hidden bg-transparent">
                         <div
-                          className={`h-full ${index2 % 2 !== 0 ? "bg-gradient-to-r from-blue-500/90 via-blue-500/90 to-blue-400 dark:to-blue-600" : "bg-gradient-to-r from-orange-500/90 via-orange-500/90 to-orange-400 dark:to-orange-600"} ${progress !== 1 ? "rounded-r-full" : ""}`}
+                          className={`h-full ${index2 % 2 !== 0 ? "bg-linear-to-r from-blue-500/90 via-blue-500/90 to-blue-400 dark:to-blue-600" : "bg-linear-to-r from-orange-500/90 via-orange-500/90 to-orange-400 dark:to-orange-600"} ${progress !== 1 ? "rounded-r-full" : ""}`}
                           style={{ width: `${progress * 100}%` }}
                         />
                       </div>
@@ -336,7 +336,7 @@ export function ExportView({
 
                     <div className="absolute inset-0 h-full w-full overflow-hidden bg-transparent">
                       <div
-                        className={`h-full ${index2 % 2 !== 0 ? "bg-gradient-to-r from-blue-500/90 via-blue-500/90 to-blue-400 dark:to-blue-600" : "bg-gradient-to-r from-orange-500/90 via-orange-500/90 to-orange-400 dark:to-orange-600"} ${progress !== 1 ? "rounded-r-full" : ""}`}
+                        className={`h-full ${index2 % 2 !== 0 ? "bg-linear-to-r from-blue-500/90 via-blue-500/90 to-blue-400 dark:to-blue-600" : "bg-linear-to-r from-orange-500/90 via-orange-500/90 to-orange-400 dark:to-orange-600"} ${progress !== 1 ? "rounded-r-full" : ""}`}
                         style={{ width: `${progress * 100}%` }}
                       />
                     </div>

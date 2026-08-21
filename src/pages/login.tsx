@@ -131,7 +131,7 @@ export default function Login() {
     <>
       <CommonHead />
 
-      <div className="flex w-full items-center justify-center bg-gradient-to-br from-orange-200 to-blue-200 pb-16 dark:from-orange-950 dark:to-blue-950">
+      <div className="flex w-full items-center justify-center bg-linear-to-br from-orange-200 to-blue-200 pb-16 dark:from-orange-950 dark:to-blue-950">
         <div className="min-h-screen w-full lg:min-h-[93.7vh]">
           <h1
             className={`section mt-44 text-center text-3xl md:mt-52 ${gabarito.className}`}
@@ -159,7 +159,7 @@ export default function Login() {
                   : "Already have an account?"}
               </p>
               <button
-                className="font-semibold text-blue-500 transition hover:text-orange-500"
+                className="cursor-pointer font-semibold text-blue-500 transition hover:text-orange-500"
                 onClick={() => {
                   setType(type === "login" ? "signup" : "login");
                 }}
@@ -172,7 +172,7 @@ export default function Login() {
           {step === "signin" ? (
             <form onSubmit={handleSubmit} className="narrow-section mt-8">
               <label
-                className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
+                className="mb-0.5 block px-2 text-xs text-pretty text-black/60 lg:text-sm dark:text-white/60"
                 htmlFor="email-input"
               >
                 Email
@@ -184,7 +184,7 @@ export default function Login() {
                   setEmailInput(e.currentTarget.value);
                   setMessage("");
                 }}
-                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
                 placeholder="you@example.com"
                 required={true}
                 id="email-input"
@@ -193,7 +193,7 @@ export default function Login() {
               {type === "signup" && (
                 <>
                   <label
-                    className="mb-0.5 mt-4 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
+                    className="mt-4 mb-0.5 block px-2 text-xs text-pretty text-black/60 lg:text-sm dark:text-white/60"
                     htmlFor="username-input"
                   >
                     Username
@@ -204,7 +204,7 @@ export default function Login() {
                       setUsernameInput(e.currentTarget.value);
                       setMessage("");
                     }}
-                    className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-none transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
+                    className="w-full rounded-lg border-2 border-neutral-400/40 bg-transparent px-3.5 py-2 text-sm outline-hidden transition placeholder:text-neutral-500/50 hover:bg-neutral-400/10 focus:bg-neutral-400/10 focus:ring-2 focus:ring-blue-300/75 active:bg-neutral-400/20 md:text-base"
                     placeholder="pickle_123"
                     required={true}
                     id="username-input"
@@ -224,7 +224,7 @@ export default function Login() {
               {message && <p className="mt-2 text-red-500">{message}</p>}
               <button
                 type="submit"
-                className="mt-2 w-full rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base"
+                className="mt-2 w-full cursor-pointer rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70"
               >
                 Get code
               </button>
@@ -246,17 +246,17 @@ export default function Login() {
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} className="narrow-section mt-8">
-              <p className="text-pretty text-center md:text-lg">
+              <p className="text-center text-sm text-pretty md:text-base">
                 Code sent to <span className="font-semibold">{emailInput}</span>
                 .{" "}
               </p>
-              <p className="mt-1 text-pretty text-center text-xs text-black/60 dark:text-white/60 md:text-sm">
+              <p className="mt-1 text-center text-xs text-pretty text-black/60 md:text-sm dark:text-white/60">
                 {`Make sure to check your spam inbox. If you still don't see the
                 email, go back and try sending the code again.`}
               </p>
               <div className="mx-auto mt-6 max-w-80">
                 <label
-                  className="mb-0.5 mt-4 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
+                  className="mt-4 mb-0.5 block px-2 text-xs text-pretty text-black/60 lg:text-sm dark:text-white/60"
                   htmlFor="otp-input"
                 >
                   Verification code
@@ -273,7 +273,7 @@ export default function Login() {
               </div>
               <div className="mx-auto mt-2 flex max-w-80 gap-2">
                 <button
-                  className="rounded-full bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base"
+                  className="cursor-pointer rounded-full bg-neutral-700/90 px-4 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70"
                   onClick={() => {
                     setStep("signin");
                   }}
@@ -285,7 +285,7 @@ export default function Login() {
                   aria-disabled={otp.length !== 8}
                   className={`${
                     otp.length !== 8 ? "cursor-not-allowed opacity-50" : ""
-                  } w-full rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70 md:text-base`}
+                  } w-full cursor-pointer rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70`}
                 >
                   {isSubmitting
                     ? "Verifying..."

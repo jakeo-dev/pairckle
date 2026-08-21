@@ -216,7 +216,7 @@ export default function SharedSet() {
             {currentSet && (
               <div className="mb-0.5 ml-auto flex min-w-max gap-1 md:gap-1.5">
                 <button
-                  className="flex h-min w-min items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3 md:py-1 md:text-base"
+                  className="flex h-min w-min cursor-pointer items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:px-3 md:py-1 md:text-base dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                   onClick={() => {
                     setCopyLinkModalVisibility(true);
                   }}
@@ -231,7 +231,7 @@ export default function SharedSet() {
 
                 <div className="relative inline-block">
                   <button
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:h-8 md:w-8 md:p-1 md:text-base"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-neutral-400/20 px-2 py-1 text-sm transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:h-8 md:w-8 md:p-1 md:text-base dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                     onClick={() => {
                       if (settingsVis === "invisible-fade")
                         setSettingsVis("visible-fade");
@@ -248,29 +248,29 @@ export default function SharedSet() {
                   </button>
                   <div
                     ref={settingsDivRef}
-                    className={`${settingsVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-200 bg-neutral-50 shadow-md dark:border-neutral-800 dark:bg-black md:w-52`}
+                    className={`${settingsVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-200 bg-neutral-50 shadow-md md:w-52 dark:border-neutral-800 dark:bg-black`}
                   >
                     {profile?.id === currentSet.userID && (
                       <>
                         <button
-                          className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                          className="flex h-min w-full cursor-pointer items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                           onClick={onEditTitle}
                         >
                           <FontAwesomeIcon
                             icon={faPen}
-                            className="mr-2 w-4 text-neutral-700 dark:text-neutral-400 md:mr-3"
+                            className="mr-2 w-4 text-neutral-700 md:mr-3 dark:text-neutral-400"
                             aria-labelledby="edit-title-button-text"
                           />
                           <span id="edit-title-button-text">Edit title</span>
                         </button>
 
                         <button
-                          className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-red-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-red-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                          className="group flex h-min w-full cursor-pointer items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-red-700 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-red-400 dark:active:bg-neutral-400/45"
                           onClick={onDelete}
                         >
                           <FontAwesomeIcon
                             icon={faTrashCan}
-                            className="mr-2 w-4 text-neutral-700 group-hover:text-red-800 dark:text-neutral-400 dark:group-hover:text-red-300 md:mr-3"
+                            className="mr-2 w-4 text-neutral-700 group-hover:text-red-800 md:mr-3 dark:text-neutral-400 dark:group-hover:text-red-300"
                             aria-labelledby="delete-button-text"
                           />
                           <span id="delete-button-text">Delete</span>
@@ -280,12 +280,12 @@ export default function SharedSet() {
 
                     {profile?.id !== currentSet.userID && (
                       <a
-                        className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45 md:px-3.5 md:py-2 md:text-sm"
+                        className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45"
                         href="mailto:report@jakeo.dev"
                       >
                         <FontAwesomeIcon
                           icon={faFlag}
-                          className="mr-2 w-4 text-neutral-700 group-hover:text-yellow-800 dark:text-neutral-400 dark:group-hover:text-yellow-300 md:mr-3"
+                          className="mr-2 w-4 text-neutral-700 group-hover:text-yellow-800 md:mr-3 dark:text-neutral-400 dark:group-hover:text-yellow-300"
                           aria-labelledby="report-button-text"
                         />
                         <span id="report-button-text">Report</span>
@@ -343,7 +343,7 @@ export default function SharedSet() {
           ) : setID && Number(setID) < 0 ? (
             <div className="section">
               <SetBoard
-                className="blur-sm"
+                className="blur-xs"
                 disabled
                 set={{
                   id: -1,
@@ -365,23 +365,23 @@ export default function SharedSet() {
                 }}
               />
 
-              <h2 className="mt-10 text-center text-sm text-neutral-600 dark:text-neutral-400 md:mt-12 md:text-base">
+              <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
                 Sign up or log in to see your full set.
               </h2>
               <Link
                 href="/login"
-                className="mt-2 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-3 md:text-base"
+                className="mt-2 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 md:mt-3 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
               >
                 Log in
               </Link>
             </div>
           ) : !currentSet ? (
-            <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               The set you are looking for does not exist. Either it has been
               deleted or you entered the incorrect link.
             </h2>
           ) : (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading set...
             </h2>
           )}

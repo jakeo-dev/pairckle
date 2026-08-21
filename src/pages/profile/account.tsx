@@ -105,7 +105,7 @@ export default function YourAccount() {
           )}
 
           {loading ? (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading user data...
             </h2>
           ) : (
@@ -121,7 +121,7 @@ export default function YourAccount() {
                         </h2>
                       </div> */}
 
-                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-700 dark:text-neutral-300 md:px-5 md:py-4">
+                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-700 md:px-5 md:py-4 dark:text-neutral-300">
                       <div>
                         <label className="text-xs text-neutral-500 md:text-sm">
                           Username
@@ -156,19 +156,19 @@ export default function YourAccount() {
                       onClick={() => {
                         setConfirmSignOutModalVisibility(true);
                       }}
-                      className="mt-4 w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-sm transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-6 md:text-base"
+                      className="mt-4 w-full cursor-pointer rounded-full border-2 border-neutral-400 px-4 py-2 text-sm transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 md:mt-6 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
                     >
                       Log out
                     </button>
                   </div>
                 ) : (
                   <div className="section">
-                    <h2 className="text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                    <h2 className="text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                       Sign up or log in to see account details.
                     </h2>
                     <Link
                       href="/login"
-                      className="mt-10 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black md:mt-12 md:text-base"
+                      className="mt-10 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 md:mt-12 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
                     >
                       Log in
                     </Link>

@@ -50,14 +50,14 @@ export default function Landing() {
     <>
       <CommonHead />
 
-      <div className="min-h-screen bg-gradient-to-br from-orange-200 to-blue-200 dark:from-orange-950 dark:to-blue-950">
-        <div className="mx-auto mt-16 w-full px-8 md:mt-48 lg:w-[60rem]">
+      <div className="min-h-screen bg-linear-to-br from-orange-200 to-blue-200 dark:from-orange-950 dark:to-blue-950">
+        <div className="mx-auto mt-16 w-full px-8 md:mt-48 lg:w-240">
           <div className="flex flex-col gap-12 lg:flex-row">
-            <div className="min-w-full lg:min-w-[26rem]">
-              <h1 className="mt-8 text-center text-6xl font-bold text-neutral-900 dark:text-neutral-50 lg:text-left lg:text-7xl lg:leading-[0.9]">
+            <div className="min-w-full lg:min-w-104">
+              <h1 className="mt-8 text-center text-6xl font-bold text-neutral-900 lg:text-left lg:text-7xl lg:leading-[0.9] dark:text-neutral-50">
                 Rank anything
               </h1>
-              <p className="mt-6 text-center text-neutral-700 dark:text-neutral-300 lg:mt-8 lg:text-left lg:text-lg">
+              <p className="mt-6 text-center text-neutral-700 lg:mt-8 lg:text-left lg:text-lg dark:text-neutral-300">
                 Pairckle makes it easy to create definitive rankings using
                 pairwise comparisons.
               </p>
@@ -65,7 +65,7 @@ export default function Landing() {
                 {/* <input
                   type="text"
                   placeholder="Rank anything..."
-                  className="flex-1 rounded-full bg-neutral-100 px-5 py-4 text-neutral-900 shadow-md transition placeholder:text-neutral-500 hover:-translate-y-0.5 hover:bg-white focus:-translate-y-0.5 focus:bg-white focus:outline-none dark:border-neutral-600 dark:bg-neutral-950 dark:text-neutral-300 dark:placeholder:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900"
+                  className="flex-1 rounded-full bg-neutral-100 px-5 py-4 text-neutral-900 shadow-md transition placeholder:text-neutral-500 hover:-translate-y-0.5 hover:bg-white focus:-translate-y-0.5 focus:bg-white focus:outline-hidden dark:border-neutral-600 dark:bg-neutral-950 dark:text-neutral-300 dark:placeholder:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900"
                 /> */}
                 <div
                   className={`${gabarito.className} max-h-32 w-full overflow-hidden rounded-3xl bg-neutral-100 pl-5 shadow-md transition dark:border-neutral-600 dark:bg-neutral-950`}
@@ -80,7 +80,7 @@ export default function Landing() {
                       {currentSets?.map((set, i) => (
                         <p
                           key={i}
-                          className={`w-75 h-9 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium transition ${i == 2 ? "text-orange-600 dark:text-orange-400 lg:text-stone-700 lg:group-hover:text-orange-600 lg:dark:text-stone-300 lg:group-hover:dark:text-orange-400" : ""}`}
+                          className={`h-9 w-75 overflow-hidden text-xl font-medium text-ellipsis whitespace-nowrap transition ${i == 2 ? "text-orange-600 lg:text-stone-700 lg:group-hover:text-orange-600 dark:text-orange-400 lg:dark:text-stone-300 lg:dark:group-hover:text-orange-400" : ""}`}
                         >
                           {set?.name}
                         </p>
@@ -109,7 +109,7 @@ export default function Landing() {
                     }}
                   >
                     <span className="relative z-10">Rank it!</span>
-                    <div className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <div className="animate-shine absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent" />
                   </Link>
                   <Link
                     className="flex h-12 min-w-fit items-center justify-center rounded-full border-2 border-neutral-400 px-5 py-4 font-medium transition hover:-translate-y-0.5 hover:bg-neutral-400 hover:text-white hover:shadow-md active:translate-y-0 dark:border-neutral-300 dark:hover:bg-neutral-300 dark:hover:text-black"
@@ -121,14 +121,14 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="fade-edges-bottom mt-6 max-h-screen animate-wiggle overflow-hidden lg:-mt-6">
+            <div className="fade-edges-bottom animate-wiggle mt-6 max-h-screen overflow-hidden lg:-mt-6">
               {/* image in dark mode */}
               <Image
                 src={`/pairckle-best-cereals-dark.png`}
                 alt="Ranking of the best cereals"
                 width={1796}
                 height={928}
-                className="hidden w-full rounded-xl border-2 border-neutral-700 object-cover shadow-lg dark:block lg:w-[898px]"
+                className="hidden w-full rounded-xl border-2 border-neutral-700 object-cover shadow-lg lg:w-224.5 dark:block"
               />
               {/* image in light mode */}
               <Image
@@ -136,7 +136,7 @@ export default function Landing() {
                 alt="Ranking of the best cereals"
                 width={1796}
                 height={928}
-                className="w-full rounded-xl border-2 border-neutral-300 object-cover shadow-lg dark:hidden lg:w-[898px]"
+                className="w-full rounded-xl border-2 border-neutral-300 object-cover shadow-lg lg:w-224.5 dark:hidden"
               />
             </div>
           </div>

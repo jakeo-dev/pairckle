@@ -5,7 +5,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-3 backdrop-blur-sm lg:mt-0 lg:p-4`}
+      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-3 backdrop-blur-xs lg:mt-0 lg:p-4`}
     >
       <div className="wide-section text-center text-xs lg:text-sm">
         <div className="flex items-center justify-center">
@@ -17,12 +17,12 @@ export default function Footer({ fixed }: { fixed: boolean }) {
           >
             <img
               src="https://www.jakeo.dev/logos/jakeo-wordmark.png"
-              className="w-[3.25rem] dark:hidden lg:w-[3.75rem]"
+              className="w-13 dark:hidden lg:w-15"
               alt="JakeO.dev logo"
             />
             <img
               src="https://www.jakeo.dev/logos/jakeo-wordmark-light.png"
-              className="hidden w-[3.25rem] dark:inline lg:w-[3.75rem]"
+              className="hidden w-13 dark:inline lg:w-15"
               alt="JakeO.dev logo"
             />
           </a>
