@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Profile, Ranking, Set } from "@/types";
+import { Profile, Ranking, RankingData, Set, SetData } from "@/types";
 import { sortDrawers } from "@/lib/utilities";
 
 export async function fetchDiscoverableUserRankings(associatedSetID?: number) {
@@ -134,8 +134,9 @@ export async function fetchCurrentProfile() {
   return { profileData, email };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function insertUserRankings(newRanking: any) {
+export async function insertUserRankings(
+  newRanking: RankingData | RankingData[],
+) {
   const { error } = await supabase
     .from("user_rankings")
     .insert(newRanking)
@@ -147,8 +148,7 @@ export async function insertUserRankings(newRanking: any) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function insertUserSets(newSet: any) {
+export async function insertUserSets(newSet: SetData | SetData[]) {
   const { error } = await supabase.from("user_sets").insert(newSet).select();
 
   if (error) {
@@ -176,6 +176,25 @@ export async function updateCurrentOwnedRankings(
   }
 }
 
+export async function bulkUpdateCurrentOwnedRankings(
+  rankingIDs: number[],
+  profile: Profile,
+) {
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      owned_rankings:
+        // add new ranking IDs to owned_rankings array
+        [...rankingIDs, ...profile.ownedRankings],
+    })
+    .eq("id", profile.id);
+
+  if (error) {
+    console.error("Failed to bulk update owned rankings:", error);
+    throw error;
+  }
+}
+
 export async function updateCurrentOwnedSets(setID: number, profile: Profile) {
   const { error } = await supabase
     .from("profiles")
@@ -188,6 +207,25 @@ export async function updateCurrentOwnedSets(setID: number, profile: Profile) {
 
   if (error) {
     console.error("Failed to update owned sets:", error);
+    throw error;
+  }
+}
+
+export async function bulkUpdateCurrentOwnedSets(
+  setIDs: number[],
+  profile: Profile,
+) {
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      owned_sets:
+        // add new set IDs to owned_sets array
+        [...setIDs, ...profile.ownedSets],
+    })
+    .eq("id", profile.id);
+
+  if (error) {
+    console.error("Failed to bulk update owned sets:", error);
     throw error;
   }
 }

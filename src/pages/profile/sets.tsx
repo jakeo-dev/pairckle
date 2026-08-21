@@ -96,7 +96,7 @@ export default function YourSets() {
                           key={i}
                           miniView
                           set={{
-                            id: -1,
+                            id: profile ? set.id : -1,
                             name: set.name,
                             createdAt: set.createdAt,
                             utensils: set.utensils,

@@ -43,6 +43,10 @@ export default function Footer({ fixed }: { fixed: boolean }) {
           >
             GitHub
           </a>
+          <span className="mx-3 text-neutral-400 dark:text-neutral-600">•</span>
+          <a className="link" href="mailto:support@jakeo.dev" target="_blank">
+            Contact
+          </a>
         </div>
         {/* <div className="mt-2">
           <p className="text-[0.675rem] text-neutral-500 md:text-xs">

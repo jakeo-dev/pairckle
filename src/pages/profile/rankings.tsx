@@ -33,11 +33,12 @@ export default function YourRankings() {
         const savedRankingsArray = JSON.parse(
           localStorage.getItem("savedRankings") ?? "[]",
         );
+
+        // correct rankings to use new format instead of legacy one
         const rankingsArray: Ranking[] = Array.isArray(savedRankingsArray)
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             savedRankingsArray.map((r: any) => ({
               ...r,
-              // use new format instead of legacy one
               name: r.name ?? r.rankingName,
               createdAt:
                 r.createdAt ??

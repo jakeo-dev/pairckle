@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
-import { Ranking, Set } from "@/types";
+import { Ranking, RankingData, Set, SetData } from "@/types";
 import { generateRankingID, generateSetID } from "@/lib/utilities";
 import {
+  bulkUpdateCurrentOwnedRankings,
+  bulkUpdateCurrentOwnedSets,
   fetchCurrentProfile,
   insertUserRankings,
   insertUserSets,
@@ -26,11 +28,11 @@ export default function AuthCallback() {
             localStorage.getItem("savedSets") ?? "[]",
           );
 
+          // correct rankings to use new format instead of legacy one
           const correctedLocalRankings: Ranking[] = Array.isArray(localRankings)
             ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
               localRankings.map((r: any) => ({
                 ...r,
-                // use new format instead of legacy one
                 name: r.name ?? r.rankingName,
                 createdAt:
                   r.createdAt ??
@@ -53,48 +55,54 @@ export default function AuthCallback() {
             const result = await fetchCurrentProfile();
             const profileData = result?.profileData;
 
+            const rankingIDs: number[] = [];
+            const rankingsToInsert: RankingData[] = [];
+
             // insert each ranking from local storage into supabase
             for (const ranking of correctedLocalRankings) {
-              const newRankingID = generateRankingID();
               const rankingID =
-                !ranking.id || ranking.id === -1 ? newRankingID : ranking.id;
+                !ranking.id || ranking.id === -1
+                  ? generateRankingID()
+                  : ranking.id;
+              rankingIDs.push(rankingID);
 
-              await insertUserRankings([
-                {
-                  id: rankingID,
-                  name: ranking.name ?? "New ranking",
-                  created_at: ranking.createdAt,
-                  ranked_utensils: ranking.rankedUtensils,
-                  type: ranking.type,
-                  combos: ranking.combos,
-                  winners_history: ranking.winnersHistory,
-                  associated_set_id: ranking.associatedSetID,
-                  user_id: session.user.id,
-                  username: profileData?.username,
-                },
-              ]);
-
-              await updateCurrentOwnedRankings(rankingID, profileData);
+              rankingsToInsert.push({
+                id: rankingID,
+                name: ranking.name ?? "New ranking",
+                created_at: ranking.createdAt,
+                ranked_utensils: ranking.rankedUtensils,
+                type: ranking.type,
+                combos: ranking.combos,
+                winners_history: ranking.winnersHistory,
+                associated_set_id: ranking.associatedSetID,
+                user_id: session.user.id,
+                username: profileData?.username,
+              });
             }
+
+            await insertUserRankings(rankingsToInsert);
+            await bulkUpdateCurrentOwnedRankings(rankingIDs, profileData);
+
+            const setIDs: number[] = [];
+            const setsToInsert: SetData[] = [];
 
             // insert each set from local storage into supabase
             for (const set of localSets) {
-              const newSetID = generateSetID();
-              const setID = !set.id || set.id === -1 ? newSetID : set.id;
+              const setID = !set.id || set.id === -1 ? generateSetID() : set.id;
+              setIDs.push(setID);
 
-              await insertUserSets([
-                {
-                  id: setID,
-                  name: set.name ?? "New set",
-                  created_at: set.createdAt,
-                  utensils: set.utensils,
-                  user_id: session.user.id,
-                  username: profileData?.username,
-                },
-              ]);
-
-              await updateCurrentOwnedSets(setID, profileData);
+              setsToInsert.push({
+                id: setID,
+                name: set.name ?? "New set",
+                created_at: set.createdAt,
+                utensils: set.utensils,
+                user_id: session.user.id,
+                username: profileData?.username,
+              });
             }
+
+            await insertUserSets(setsToInsert);
+            await bulkUpdateCurrentOwnedSets(setIDs, profileData);
 
             localStorage.removeItem("savedRankings");
             localStorage.removeItem("savedSets");

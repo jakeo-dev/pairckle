@@ -345,13 +345,13 @@ export default function Create() {
         const savedRankingsArray = JSON.parse(
           localStorage.getItem("savedRankings") ?? "[]",
         );
+        // correct rankings to use new format instead of legacy one
         const correctedSavedRankingsArray: Ranking[] = Array.isArray(
           savedRankingsArray,
         )
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             savedRankingsArray.map((r: any) => ({
               ...r,
-              // use new format instead of legacy one
               name: r.name ?? r.rankingName,
               createdAt:
                 r.createdAt ??
@@ -411,42 +411,38 @@ export default function Create() {
         setRankingID(newRankingID);
 
         // insert new ranking
-        await insertUserRankings([
-          {
-            id: newRankingID,
-            name: "New ranking",
-            ranked_utensils: [...utensilsArray].sort(sortUtensils),
-            type: rankingType,
-            combos: combosArray,
-            winners_history: winnersHistory,
-            user_id: profile.id,
-            username: profile.username,
-            associated_set_id:
-              !associatedSet || associatedSet.id === -1
-                ? newSetID
-                : associatedSet.id,
-          },
-        ]);
+        await insertUserRankings({
+          id: newRankingID,
+          name: "New ranking",
+          ranked_utensils: [...utensilsArray].sort(sortUtensils),
+          type: rankingType,
+          combos: combosArray,
+          winners_history: winnersHistory,
+          user_id: profile.id,
+          username: profile.username,
+          associated_set_id:
+            !associatedSet || associatedSet.id === -1
+              ? newSetID
+              : associatedSet.id,
+        });
 
         await updateCurrentOwnedRankings(rankingID, profile);
 
         if (!associatedSet || associatedSet.id === -1) {
           // insert new set
-          await insertUserSets([
-            {
-              id: newSetID,
-              name: setNameInput || "New set",
-              utensils: shuffle(
-                [...utensilsArray].map((u) => {
-                  return {
-                    title: u.title,
-                  };
-                }),
-              ),
-              user_id: profile.id,
-              username: profile.username,
-            },
-          ]);
+          await insertUserSets({
+            id: newSetID,
+            name: setNameInput || "New set",
+            utensils: shuffle(
+              [...utensilsArray].map((u) => {
+                return {
+                  title: u.title,
+                };
+              }),
+            ),
+            user_id: profile.id,
+            username: profile.username,
+          });
 
           await updateCurrentOwnedSets(newSetID, profile);
         }
