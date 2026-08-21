@@ -61,7 +61,7 @@ export default function YourSets() {
       <CommonHead />
 
       <div className="flex w-full items-center justify-center pb-16">
-        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
+        <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
               icon={faUser}

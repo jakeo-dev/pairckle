@@ -230,7 +230,7 @@ export default function SharedRanking() {
       )}
 
       <div className="flex w-full items-center justify-center pb-16">
-        <div className="w-full lg:min-h-[88.3vh]">
+        <div className="w-full lg:min-h-[88.1vh]">
           <Heading
             icon={faChartSimple}
             rotateIcon

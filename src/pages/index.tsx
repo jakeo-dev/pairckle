@@ -44,7 +44,7 @@ export default function Home() {
       <CommonHead />
 
       <div className="flex w-full items-center justify-center pb-16">
-        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
+        <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           <Heading
             rotateIcon
             title="Rank your favorite things \neasily, accurately, and pairwisely."
