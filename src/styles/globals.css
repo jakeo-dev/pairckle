@@ -12,7 +12,7 @@
   }
 
   .narrow-section {
-    @apply mx-auto w-full px-6 md:max-w-[25rem];
+    @apply mx-auto w-full px-6 md:max-w-[30rem];
   }
 
   .link {

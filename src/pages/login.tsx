@@ -1,20 +1,23 @@
 import CommonHead from "@/components/CommonHead";
-import Heading from "@/components/Heading";
+import Link from "next/link";
 import router from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import { generateUsername } from "@/lib/utilities";
+import { fetchUsernames } from "@/db";
 
 import { supabase } from "@/lib/supabase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faRightToBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+
+import { Gabarito } from "next/font/google";
+const gabarito = Gabarito({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
 
 import { Geist_Mono } from "next/font/google";
-import { fetchUsernames } from "@/db";
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -128,15 +131,46 @@ export default function Login() {
     <>
       <CommonHead />
 
-      <div className="flex w-full items-center justify-center pb-16">
-        <div className="min-h-screen w-full lg:min-h-[88.3vh]">
-          <Heading
-            icon={faRightToBracket}
-            title={type === "login" ? "Log in" : "Sign up"}
-          />
+      <div className="flex w-full items-center justify-center bg-gradient-to-br from-orange-200 to-blue-200 pb-16 dark:from-orange-950 dark:to-blue-950">
+        <div className="min-h-screen w-full lg:min-h-[93.7vh]">
+          <h1
+            className={`section mt-44 text-center text-3xl md:mt-52 ${gabarito.className}`}
+          >
+            {step === "verify" ? (
+              "Verify your email"
+            ) : type === "login" ? (
+              "Welcome back"
+            ) : (
+              <>
+                <span className="hidden md:inline">
+                  Create a Pairckle account
+                </span>
+                <span className="block md:hidden">Create a</span>
+                <span className="block md:hidden">Pairckle account</span>
+              </>
+            )}
+          </h1>
+
+          {step === "signin" && (
+            <div className="mt-2 flex items-center justify-center gap-1 text-sm md:text-base">
+              <p className="text-neutral-600 dark:text-neutral-300">
+                {type === "login"
+                  ? "Don't have an account?"
+                  : "Already have an account?"}
+              </p>
+              <button
+                className="font-semibold text-blue-500 transition hover:text-orange-500"
+                onClick={() => {
+                  setType(type === "login" ? "signup" : "login");
+                }}
+              >
+                {type === "login" ? "Sign up" : "Log in"}
+              </button>
+            </div>
+          )}
 
           {step === "signin" ? (
-            <form onSubmit={handleSubmit} className="section">
+            <form onSubmit={handleSubmit} className="narrow-section mt-8">
               <label
                 className="mb-0.5 block text-pretty px-2 text-xs text-black/60 dark:text-white/60 lg:text-sm"
                 htmlFor="email-input"
@@ -195,24 +229,23 @@ export default function Login() {
                 Get code
               </button>
 
-              <div className="mt-2 flex items-center justify-center gap-1 text-sm md:text-base">
-                <p className="text-neutral-600 dark:text-neutral-300">
-                  {type === "login"
-                    ? "Don't have an account?"
-                    : "Already have an account?"}
+              <div className="mt-2 gap-1 text-center text-xs md:text-sm">
+                <p className="text-pretty text-neutral-600 dark:text-neutral-300">
+                  By {type === "login" ? "logging in" : "signing up"}, you agree
+                  to our{" "}
+                  <Link className="link" href="/terms" target="_blank">
+                    Terms
+                  </Link>{" "}
+                  and{" "}
+                  <Link className="link" href="/terms" target="_blank">
+                    Privacy Policy
+                  </Link>
+                  .
                 </p>
-                <button
-                  className="font-semibold text-blue-500 transition hover:text-orange-500"
-                  onClick={() => {
-                    setType(type === "login" ? "signup" : "login");
-                  }}
-                >
-                  {type === "login" ? "Create one" : "Log in"}
-                </button>
               </div>
             </form>
           ) : (
-            <form onSubmit={handleVerifyOtp} className="section">
+            <form onSubmit={handleVerifyOtp} className="narrow-section mt-8">
               <p className="text-pretty text-center md:text-lg">
                 Code sent to <span className="font-semibold">{emailInput}</span>
                 .{" "}
