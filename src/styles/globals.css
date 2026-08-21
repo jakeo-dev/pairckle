@@ -15,6 +15,10 @@
     @apply mx-auto w-full px-6 md:max-w-[25rem];
   }
 
+  .link {
+    @apply text-neutral-500 decoration-neutral-400 decoration-[1.5px] underline-offset-2 transition hover:text-neutral-600 hover:underline dark:decoration-neutral-600 dark:hover:text-neutral-400;
+  }
+
   .invisible-fade {
     @apply invisible opacity-0 transition-all;
   }
