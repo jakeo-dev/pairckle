@@ -9,8 +9,6 @@ import {
   fetchCurrentProfile,
   insertUserRankings,
   insertUserSets,
-  updateCurrentOwnedRankings,
-  updateCurrentOwnedSets,
 } from "@/db";
 
 export default function AuthCallback() {
