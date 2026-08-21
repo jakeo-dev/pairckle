@@ -36,9 +36,11 @@ export default function AuthCallback() {
                   r.createdAt ??
                   (r.rankingDate
                     ? new Date(
-                        `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
-                      )
-                    : new Date()),
+                        r.rankingDate.year,
+                        r.rankingDate.month - 1,
+                        r.rankingDate.day,
+                      ).toISOString()
+                    : new Date().toISOString()),
                 type: r.type ?? r.rankingType,
                 combos: r.combos ?? r.rankingCombos,
                 winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
