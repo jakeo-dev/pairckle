@@ -59,7 +59,7 @@ export default function Home() {
             {discoverableSets.length > 0 ? (
               <div className="wide-section w-full">
                 <Link
-                  className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
+                  className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 md:px-6 dark:hover:text-neutral-300"
                   href="/sets"
                 >
                   <h2
@@ -89,7 +89,7 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+              <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                 Loading community sets...
               </h2>
             )}
@@ -125,7 +125,7 @@ export default function Home() {
           {discoverableRankings.length > 0 ? (
             <div className="wide-section">
               <Link
-                className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 dark:hover:text-neutral-300 md:px-6"
+                className="group mb-6 flex w-fit items-center px-4 transition hover:text-neutral-600 md:px-6 dark:hover:text-neutral-300"
                 href="/rankings"
               >
                 <h2
@@ -162,7 +162,7 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading community rankings...
             </h2>
           )}

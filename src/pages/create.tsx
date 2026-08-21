@@ -337,6 +337,9 @@ export default function Create() {
       localStorage.setItem("maxCombos", "1");
       localStorage.setItem("rankingType", "");
 
+      // new set id only used if theres no associated set
+      const newSetID = generateSetID();
+
       if (!profile) {
         // utilize local storage if not logged in
         const savedRankingsArray = JSON.parse(
@@ -352,9 +355,11 @@ export default function Create() {
               name: r.name ?? r.rankingName,
               createdAt:
                 r.createdAt ??
-                new Date(
-                  `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
-                ),
+                (r.rankingDate
+                  ? new Date(
+                      `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
+                    )
+                  : new Date()),
               type: r.type ?? r.rankingType,
               combos: r.combos ?? r.rankingCombos,
               winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
@@ -370,7 +375,10 @@ export default function Create() {
           rankedUtensils: [...utensilsArray].sort(sortUtensils),
           combos: combosArray,
           winnersHistory: winnersHistory,
-          associatedSetID: associatedSet.id,
+          associatedSetID:
+            !associatedSet || associatedSet.id === -1
+              ? newSetID
+              : associatedSet.id,
         });
 
         localStorage.setItem(
@@ -378,25 +386,24 @@ export default function Create() {
           JSON.stringify(correctedSavedRankingsArray),
         );
 
-        // utilize local storage if not logged in
-        const savedSetsArray = JSON.parse(
-          localStorage.getItem("savedSets") ?? "[]",
-        );
+        if (!associatedSet || associatedSet.id === -1) {
+          // utilize local storage if not logged in
+          const savedSetsArray = JSON.parse(
+            localStorage.getItem("savedSets") ?? "[]",
+          );
 
-        // add new set to array
-        savedSetsArray.unshift({
-          id: -1,
-          name: "New set",
-          createdAt: new Date().toISOString(),
-          utensils: shuffle([...utensilsArray]),
-        });
+          // add new set to array
+          savedSetsArray.unshift({
+            id: newSetID,
+            name: "New set",
+            createdAt: new Date().toISOString(),
+            utensils: shuffle([...utensilsArray]),
+          });
 
-        localStorage.setItem("savedSets", JSON.stringify(savedSetsArray));
+          localStorage.setItem("savedSets", JSON.stringify(savedSetsArray));
+        }
       } else {
         // add new ranking (and set if no associated set) to database if logged in
-
-        // new set id only used if theres no associated set
-        const newSetID = generateSetID();
 
         const newRankingID = generateRankingID();
         setRankingID(newRankingID);

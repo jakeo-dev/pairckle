@@ -451,7 +451,8 @@ export default function SharedRanking() {
                 exportViewRef={exportViewRef}
               />
             </div>
-          ) : rankingID && Number(rankingID) < 0 ? (
+          ) : rankingID &&
+            (Number(rankingID) < 0 || rankingID === "undefined" || !profile) ? (
             <div className="section">
               <RankingBoard
                 className="blur-xs"

@@ -6,6 +6,7 @@ import { generateRankingID, generateSetID } from "@/lib/utilities";
 import {
   fetchCurrentProfile,
   insertUserRankings,
+  insertUserSets,
   updateCurrentOwnedRankings,
   updateCurrentOwnedSets,
 } from "@/db";
@@ -33,9 +34,11 @@ export default function AuthCallback() {
                 name: r.name ?? r.rankingName,
                 createdAt:
                   r.createdAt ??
-                  new Date(
-                    `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
-                  ),
+                  (r.rankingDate
+                    ? new Date(
+                        `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
+                      )
+                    : new Date()),
                 type: r.type ?? r.rankingType,
                 combos: r.combos ?? r.rankingCombos,
                 winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
@@ -77,7 +80,7 @@ export default function AuthCallback() {
               const newSetID = generateSetID();
               const setID = !set.id || set.id === -1 ? newSetID : set.id;
 
-              await insertUserRankings([
+              await insertUserSets([
                 {
                   id: setID,
                   name: set.name ?? "New set",
@@ -112,7 +115,7 @@ export default function AuthCallback() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+      <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
         Logging you in...
       </h2>
     </div>

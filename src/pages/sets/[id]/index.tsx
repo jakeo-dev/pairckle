@@ -340,7 +340,8 @@ export default function SharedSet() {
                 }}
               />
             </div>
-          ) : setID && Number(setID) < 0 ? (
+          ) : setID &&
+            (Number(setID) < 0 || setID === "undefined" || !profile) ? (
             <div className="section">
               <SetBoard
                 className="blur-xs"

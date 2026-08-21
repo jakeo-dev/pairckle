@@ -41,9 +41,11 @@ export default function YourRankings() {
               name: r.name ?? r.rankingName,
               createdAt:
                 r.createdAt ??
-                new Date(
-                  `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
-                ),
+                (r.rankingDate
+                  ? new Date(
+                      `${r.rankingDate.month} ${r.rankingDate.day} ${r.rankingDate.year}`,
+                    )
+                  : new Date()),
               type: r.type ?? r.rankingType,
               combos: r.combos ?? r.rankingCombos,
               winnersHistory: r.winnersHistory ?? r.rankingWinnersHistory,
@@ -100,7 +102,7 @@ export default function YourRankings() {
           )}
 
           {loading ? (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading user data...
             </h2>
           ) : (
@@ -120,7 +122,7 @@ export default function YourRankings() {
                   })}
                 </div>
               ) : (
-                <h2 className="section text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+                <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                   {`You haven't created any rankings yet...`}
                 </h2>
               )}
