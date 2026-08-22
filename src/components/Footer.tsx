@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer({ fixed }: { fixed: boolean }) {
   return (
@@ -15,15 +16,19 @@ export default function Footer({ fixed }: { fixed: boolean }) {
             target="_blank"
             aria-label="Go to JakeO.dev"
           >
-            <img
+            <Image
               src="https://www.jakeo.dev/logos/jakeo-wordmark.png"
               className="w-13 lg:w-15 dark:hidden"
               alt="JakeO.dev logo"
+              width={764}
+              height={310}
             />
-            <img
+            <Image
               src="https://www.jakeo.dev/logos/jakeo-wordmark-light.png"
               className="hidden w-13 lg:w-15 dark:inline"
               alt="JakeO.dev logo"
+              width={764}
+              height={310}
             />
           </a>
         </div>

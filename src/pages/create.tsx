@@ -266,7 +266,7 @@ export default function Create() {
         const nodeIndex = utensilsRef.current.indexOf(
           document.activeElement as HTMLInputElement | null,
         );
-        let nextNode = utensilsRef.current[nodeIndex + 1];
+        const nextNode = utensilsRef.current[nodeIndex + 1];
         if (nextNode) {
           nextNode.focus();
         } else {
