@@ -68,7 +68,7 @@ export default function SetBoard({
             <Link
               onClick={(e) => onRankNow?.(e, "hurry")}
               href="/create"
-              className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
+              className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
             >
               <FontAwesomeIcon
                 icon={faBolt}
@@ -85,7 +85,7 @@ export default function SetBoard({
             <Link
               onClick={(e) => onRankNow?.(e, "concentrate")}
               href="/create"
-              className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
+              className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
             >
               <FontAwesomeIcon
                 icon={faBullseye}

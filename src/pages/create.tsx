@@ -221,6 +221,8 @@ export default function Create() {
     }
   }, []);
 
+  const utensilsRef = useRef<(HTMLInputElement | null)[]>([]);
+
   // click first option, second option, previous, or skip based on keyboard input (WASD, arrows)
   const firstOptionRef = useRef<HTMLButtonElement>(null);
   const secondOptionRef = useRef<HTMLButtonElement>(null);
@@ -258,12 +260,56 @@ export default function Create() {
       }
     };
 
+    // go to next utensil input on clicking enter
+    const handleEnterKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter" && utensilsRef.current) {
+        const nodeIndex = utensilsRef.current.indexOf(
+          document.activeElement as HTMLInputElement | null,
+        );
+        let nextNode = utensilsRef.current[nodeIndex + 1];
+        if (nextNode) {
+          nextNode.focus();
+        } else {
+          addUtensils(1);
+        }
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleEnterKeyDown);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleEnterKeyDown);
     };
   }, []);
+
+  function addUtensils(numUtensilsToAdd: number) {
+    setUtensilsArray((prevUtensils) => {
+      if (utensilsArray.length > 500) {
+        alert(
+          "Item limit reached. You can only have a maximum of 500 items to rank.",
+        );
+        return prevUtensils;
+      }
+
+      const newUtensilsArray = [
+        ...prevUtensils,
+        ...Array.from({ length: numUtensilsToAdd }, () => {
+          return {
+            title: "",
+            score: 0,
+            wins: 0,
+            losses: 0,
+          };
+        }),
+      ];
+
+      localStorage.setItem("utensilInput", JSON.stringify(newUtensilsArray));
+
+      return newUtensilsArray;
+    });
+  }
 
   const router = useRouter();
   //const [loading, setLoading] = useState(true);
@@ -684,6 +730,9 @@ export default function Create() {
                         localStorage.setItem("associatedSetID", "-1");
                       }}
                       maxLength={150}
+                      ref={(node) => {
+                        utensilsRef.current[i] = node;
+                      }}
                     />
                   );
                 })}
@@ -716,28 +765,7 @@ export default function Create() {
 
               <button
                 className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
-                onClick={() => {
-                  if (utensilsArray.length > 500) {
-                    alert(
-                      "Item limit reached. You can only have a maximum of 500 items to rank.",
-                    );
-                    return;
-                  }
-
-                  const newUtensilsArray = [
-                    ...utensilsArray,
-                    { title: "", score: 0, wins: 0, losses: 0 },
-                    { title: "", score: 0, wins: 0, losses: 0 },
-                    { title: "", score: 0, wins: 0, losses: 0 },
-                    { title: "", score: 0, wins: 0, losses: 0 },
-                  ];
-
-                  setUtensilsArray(newUtensilsArray);
-                  localStorage.setItem(
-                    "utensilInput",
-                    JSON.stringify(newUtensilsArray),
-                  );
-                }}
+                onClick={() => addUtensils(4)}
               >
                 <FontAwesomeIcon
                   icon={faAdd}
@@ -750,7 +778,7 @@ export default function Create() {
               <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                 <button
                   onClick={() => onHurry(utensilsArray)}
-                  className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
                 >
                   <FontAwesomeIcon
                     icon={faBolt}
@@ -766,7 +794,7 @@ export default function Create() {
                 </button>
                 <button
                   onClick={() => onConcentrate(utensilsArray)}
-                  className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
                 >
                   <FontAwesomeIcon
                     icon={faBullseye}
@@ -792,7 +820,7 @@ export default function Create() {
                     <div className="mt-2.5 flex gap-2.5 md:mt-3 md:gap-3">
                       <button
                         onClick={() => onHurry(utensilsArray)}
-                        className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
                       >
                         <FontAwesomeIcon
                           icon={faBolt}
@@ -808,7 +836,7 @@ export default function Create() {
                       </button>
                       <button
                         onClick={() => onConcentrate(utensilsArray)}
-                        className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
+                        className="group relative w-full cursor-pointer overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
                       >
                         <FontAwesomeIcon
                           icon={faBullseye}
