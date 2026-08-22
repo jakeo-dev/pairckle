@@ -68,42 +68,42 @@ export default function SetBoard({
             <Link
               onClick={(e) => onRankNow?.(e, "hurry")}
               href="/create"
-              className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-3 py-4 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 dark:text-black lg:py-6"
+              className="group relative w-full overflow-hidden rounded-md bg-orange-500/90 px-4 py-3 text-neutral-50 transition hover:bg-orange-500/80 active:bg-orange-500/70 md:px-6 lg:py-6 dark:text-black"
             >
               <FontAwesomeIcon
                 icon={faBolt}
-                className="absolute -left-4 top-1/2 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-orange-800/50 sm:text-8xl md:left-0 lg:text-9xl"
+                className="absolute top-1/2 -left-4 block -translate-y-1/2 transform text-7xl text-orange-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:left-0 lg:text-9xl dark:text-orange-800/50"
                 aria-hidden
               />
-              <span className="block text-right text-sm font-medium sm:text-center md:text-base">
-                Hurry
+              <span className="block text-right text-sm font-medium md:text-base">
+                Rank quickly
               </span>
-              <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
-                Quicker session
+              <span className="mt-0.5 block pl-8 text-right text-xs leading-3.5 text-white/60 md:text-sm md:leading-4 dark:text-black/50">
+                Quicker session, fewer matchups
               </span>
             </Link>
             <Link
               onClick={(e) => onRankNow?.(e, "concentrate")}
               href="/create"
-              className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-3 py-4 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 dark:text-black lg:py-6"
+              className="group relative w-full overflow-hidden rounded-md bg-blue-500/90 px-4 py-3 text-neutral-50 transition hover:bg-blue-500/80 active:bg-blue-500/70 md:px-6 lg:py-6 dark:text-black"
             >
               <FontAwesomeIcon
                 icon={faBullseye}
-                className="absolute -left-7 top-1/2 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md dark:text-blue-800/50 sm:text-8xl md:-left-3 lg:text-9xl"
+                className="absolute top-1/2 -left-7 block -translate-y-1/2 transform text-7xl text-blue-200/50 transition duration-300 group-hover:scale-105 group-hover:drop-shadow-md sm:text-8xl md:-left-3 lg:text-9xl dark:text-blue-800/50"
                 aria-hidden
               />
-              <span className="block text-right text-sm font-medium sm:text-center md:text-base">
-                Concentrate
+              <span className="block text-right text-sm font-medium md:text-base">
+                Rank accurately
               </span>
-              <span className="block text-right text-xs text-white/60 dark:text-black/50 sm:text-center md:text-sm">
-                More accurate
+              <span className="mt-0.5 block pl-8 text-right text-xs leading-3.5 text-white/60 md:text-sm md:leading-4 dark:text-black/50">
+                More accurate final ranking
               </span>
             </Link>
           </div>
         )}
         <Link
           href={`/sets/${set.id}`}
-          className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-72" : ""} ${className || ""}`}
+          className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 md:min-w-72 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
           onClick={(e) => {
             if (disabled) e.preventDefault();
           }}
@@ -113,7 +113,7 @@ export default function SetBoard({
           {(set.username || set.name || set.createdAt) && (
             <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-300 md:gap-2 md:text-sm">
+                <div className="flex items-center gap-1.5 text-xs text-neutral-600 md:gap-2 md:text-sm dark:text-neutral-300">
                   {set.username && (
                     <h3 className="line-clamp-1 font-semibold">
                       {set.username}
@@ -128,7 +128,7 @@ export default function SetBoard({
                   )}
                 </div>
                 <h2
-                  className={`line-clamp-1 text-base font-medium leading-6 md:text-lg ${gabarito.className}`}
+                  className={`line-clamp-1 text-base leading-6 font-medium md:text-lg ${gabarito.className}`}
                 >
                   {set.name}
                 </h2>
