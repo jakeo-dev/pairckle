@@ -16,6 +16,7 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowRightToBracket,
   faChartSimple,
   faCircleDown,
   faEllipsis,
@@ -490,13 +491,18 @@ export default function SharedRanking() {
               />
 
               <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
-                Sign up or log in to see your full ranking.
+                Log in to see your full ranking.
               </h2>
               <Link
                 href="/login"
-                className="mt-2 block w-full rounded-full border-2 border-neutral-400 px-4 py-2 text-center text-sm transition hover:border-transparent hover:bg-neutral-500 hover:text-neutral-50 active:bg-neutral-600 md:mt-3 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
+                className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
               >
-                Log in
+                <FontAwesomeIcon
+                  icon={faArrowRightToBracket}
+                  className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                  aria-hidden
+                />
+                <span className="text-sm md:text-base">Log in</span>
               </Link>
             </div>
           ) : !currentRanking ? (

@@ -3,6 +3,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
+import Link from "next/link";
 import { Profile, Ranking, Utensil, Set } from "@/types";
 import {
   generateRankingID,
@@ -26,6 +27,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
+  faArrowRightToBracket,
   faBackward,
   faBolt,
   faBookmark,
@@ -1243,7 +1245,7 @@ export default function Create() {
                   This ranking has been saved.
                 </p>
 
-                <div className="mt-4 flex gap-2.5 md:gap-3 lg:mt-6">
+                <div className="mt-3 flex gap-2.5 md:mt-4 md:gap-3">
                   <button
                     onClick={() => {
                       setConfirmRestartModalSubtext(
@@ -1253,7 +1255,7 @@ export default function Create() {
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
-                    className="flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                   >
                     <FontAwesomeIcon
                       icon={faRotateRight}
@@ -1262,6 +1264,17 @@ export default function Create() {
                     />
                     <span className="text-sm md:text-base">Restart</span>
                   </button>
+                  <Link
+                    href="/login"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                  >
+                    <FontAwesomeIcon
+                      icon={faArrowRightToBracket}
+                      className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                      aria-hidden
+                    />
+                    <span className="text-sm md:text-base">Log in</span>
+                  </Link>
                 </div>
               </div>
             </div>

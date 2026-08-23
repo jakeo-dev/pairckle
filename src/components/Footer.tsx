@@ -32,15 +32,15 @@ export default function Footer({ fixed }: { fixed: boolean }) {
             />
           </a>
         </div>
-        <div className="float-right">
+        <div className="float-right flex gap-2.5 md:gap-3">
           <Link className="link" href="/privacy" target="_blank">
             Privacy
           </Link>
-          <span className="mx-3 text-neutral-400 dark:text-neutral-600">•</span>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
           <Link className="link" href="/terms" target="_blank">
             Terms
           </Link>
-          <span className="mx-3 text-neutral-400 dark:text-neutral-600">•</span>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
           <a
             className="link"
             href="https://github.com/jakeo-dev/pairckle"
@@ -48,7 +48,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
           >
             GitHub
           </a>
-          <span className="mx-3 text-neutral-400 dark:text-neutral-600">•</span>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
           <a className="link" href="mailto:support@jakeo.dev" target="_blank">
             Contact
           </a>
