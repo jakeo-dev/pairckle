@@ -264,15 +264,31 @@ export default function Create() {
 
     // go to next utensil input on clicking enter
     const handleEnterKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" && utensilsRef.current) {
-        const nodeIndex = utensilsRef.current.indexOf(
-          document.activeElement as HTMLInputElement | null,
-        );
+      const activeElement = document.activeElement as HTMLInputElement | null;
+
+      if (
+        !utensilsRef.current ||
+        !activeElement ||
+        !utensilsRef.current.includes(activeElement)
+      ) {
+        return;
+      }
+
+      if (event.key === "Enter" || event.key === "ArrowDown") {
+        const nodeIndex = utensilsRef.current.indexOf(activeElement);
         const nextNode = utensilsRef.current[nodeIndex + 1];
         if (nextNode) {
           nextNode.focus();
         } else {
           addUtensils(1);
+        }
+      } else if (event.key === "ArrowUp" && skipOptionRef.current) {
+        const nodeIndex = utensilsRef.current.indexOf(
+          document.activeElement as HTMLInputElement | null,
+        );
+        const prevNode = utensilsRef.current[nodeIndex - 1];
+        if (prevNode) {
+          prevNode.focus();
         }
       }
     };
@@ -288,7 +304,7 @@ export default function Create() {
 
   function addUtensils(numUtensilsToAdd: number) {
     setUtensilsArray((prevUtensils) => {
-      if (utensilsArray.length > 500) {
+      if (prevUtensils.length > 500) {
         alert(
           "Item limit reached. You can only have a maximum of 500 items to rank.",
         );
