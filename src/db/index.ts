@@ -2,9 +2,13 @@ import { supabase } from "@/lib/supabase";
 import { Profile, Ranking, RankingData, Set, SetData } from "@/types";
 import { sortDrawers } from "@/lib/utilities";
 
-export async function fetchDiscoverableUserRankings(associatedSetID?: number) {
+export async function fetchDiscoverableUserRankings(
+  associatedSetID?: number,
+  userID?: string,
+) {
   let query = supabase.from("user_rankings").select().eq("discoverable", true);
   if (associatedSetID) query = query.eq("associated_set_id", associatedSetID);
+  if (userID) query = query.eq("user_id", userID);
 
   const { data, error } = await query;
 
@@ -28,11 +32,11 @@ export async function fetchDiscoverableUserRankings(associatedSetID?: number) {
   return correctedData.sort(sortDrawers);
 }
 
-export async function fetchDiscoverableUserSets() {
-  const { data, error } = await supabase
-    .from("user_sets")
-    .select()
-    .eq("discoverable", true);
+export async function fetchDiscoverableUserSets(userID?: string) {
+  let query = supabase.from("user_sets").select("*").eq("discoverable", true);
+  if (userID) query = query.eq("user_id", userID);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("Failed to fetch discoverable sets:", error);
@@ -54,7 +58,7 @@ export async function fetchDiscoverableUserSets() {
 export async function fetchOwnedUserRankings(userID: string) {
   const { data, error } = await supabase
     .from("user_rankings")
-    .select()
+    .select("*")
     .eq("user_id", userID);
 
   if (error) {
@@ -80,7 +84,7 @@ export async function fetchOwnedUserRankings(userID: string) {
 export async function fetchOwnedUserSets(userID: string) {
   const { data, error } = await supabase
     .from("user_sets")
-    .select()
+    .select("*")
     .eq("user_id", userID);
 
   if (error) {
@@ -111,7 +115,7 @@ export async function fetchCurrentProfile() {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select()
+    .select("*")
     .eq("id", user.id)
     .single();
 
@@ -134,13 +138,34 @@ export async function fetchCurrentProfile() {
   return { profileData, email };
 }
 
+export async function fetchUserProfile(userID: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userID)
+    .single();
+
+  if (error) {
+    console.error("Failed to fetch profile:", error);
+    throw error;
+  }
+
+  // convert snake case to camel case
+  const { created_at, owned_rankings, owned_sets, ...rest } = data || {};
+  const profileData = {
+    ...rest,
+    createdAt: created_at,
+    ownedRankings: owned_rankings,
+    ownedSets: owned_sets,
+  };
+
+  return profileData;
+}
+
 export async function insertUserRankings(
   newRanking: RankingData | RankingData[],
 ) {
-  const { error } = await supabase
-    .from("user_rankings")
-    .insert(newRanking)
-    .select();
+  const { error } = await supabase.from("user_rankings").insert(newRanking);
 
   if (error) {
     console.error("Failed to insert into user rankings:", error);
@@ -149,7 +174,7 @@ export async function insertUserRankings(
 }
 
 export async function insertUserSets(newSet: SetData | SetData[]) {
-  const { error } = await supabase.from("user_sets").insert(newSet).select();
+  const { error } = await supabase.from("user_sets").insert(newSet);
 
   if (error) {
     console.error("Failed to insert into user sets:", error);
@@ -233,7 +258,7 @@ export async function bulkUpdateCurrentOwnedSets(
 export async function fetchRanking(rankingID: number) {
   const { data, error } = await supabase
     .from("user_rankings")
-    .select()
+    .select("*")
     .eq("id", rankingID)
     .single();
 
@@ -266,7 +291,7 @@ export async function fetchRanking(rankingID: number) {
 export async function fetchSet(setID: number) {
   const { data, error } = await supabase
     .from("user_sets")
-    .select()
+    .select("*")
     .eq("id", setID)
     .single();
 
@@ -290,8 +315,7 @@ export async function deleteRanking(profile: Profile, rankingID: number) {
   const { error: error1 } = await supabase
     .from("user_rankings")
     .delete()
-    .eq("id", rankingID)
-    .single();
+    .eq("id", rankingID);
 
   if (error1) {
     console.error("Failed to delete from user rankings:", error1);
@@ -317,8 +341,7 @@ export async function deleteSet(profile: Profile, setID: number) {
   const { error: error1 } = await supabase
     .from("user_sets")
     .delete()
-    .eq("id", setID)
-    .single();
+    .eq("id", setID);
 
   if (error1) {
     console.error("Failed to delete from user sets:", error1);
