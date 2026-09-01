@@ -60,7 +60,10 @@ export default function Login() {
       setMessage("Username is too short.");
       return;
     }
-    if (type === "signup" && usernames.includes(usernameInput)) {
+    if (
+      type === "signup" &&
+      (usernames.includes(usernameInput) || usernameInput === "guest")
+    ) {
       setMessage("Username is already taken.");
       return;
     }
