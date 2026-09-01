@@ -7,8 +7,12 @@ import { Profile, Ranking } from "@/types";
 import { fetchCurrentProfile, fetchOwnedUserRankings } from "@/db";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 
-export default function YourRankings() {
+export default function UserRankings() {
+  const router = useRouter();
+  const { id: userID } = router.query;
+
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -91,14 +95,14 @@ export default function YourRankings() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/profile/rankings", active: true },
+                { title: "Rankings", href: "/user/rankings", active: true },
                 {
                   title: "Sets",
-                  href: "/profile/sets",
+                  href: "/user/sets",
                 },
                 {
                   title: "Account",
-                  href: "/profile/account",
+                  href: "/user/account",
                 },
               ]}
             />

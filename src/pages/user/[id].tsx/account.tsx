@@ -14,7 +14,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function YourAccount() {
+export default function UserAccount() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -94,14 +94,14 @@ export default function YourAccount() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/profile/rankings" },
+                { title: "Rankings", href: "/user/rankings" },
                 {
                   title: "Sets",
-                  href: "/profile/sets",
+                  href: "/user/sets",
                 },
                 {
                   title: "Account",
-                  href: "/profile/account",
+                  href: "/user/account",
                   active: true,
                 },
               ]}

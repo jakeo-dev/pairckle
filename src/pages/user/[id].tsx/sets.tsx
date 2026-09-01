@@ -8,7 +8,7 @@ import { fetchCurrentProfile, fetchOwnedUserSets } from "@/db";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-export default function YourSets() {
+export default function UserSets() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -67,15 +67,15 @@ export default function YourSets() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/profile/rankings" },
+                { title: "Rankings", href: "/user/rankings" },
                 {
                   title: "Sets",
-                  href: "/profile/sets",
+                  href: "/user/sets",
                   active: true,
                 },
                 {
                   title: "Account",
-                  href: "/profile/account",
+                  href: "/user/account",
                 },
               ]}
             />

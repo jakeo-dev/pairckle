@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export default function ProfilePage() {
+export default function UserPage() {
   const router = useRouter();
+  const { id: username } = router.query;
 
   useEffect(() => {
-    router.replace("/profile/rankings");
+    router.replace(`/user/${username}/rankings`);
   }, []);
 }
