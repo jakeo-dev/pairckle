@@ -2,6 +2,8 @@ import Link from "next/link";
 import Title from "./Title";
 import CreateRankingModal from "./CreateRankingModal";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { fetchCurrentProfile } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,7 +14,6 @@ import {
   faSun,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 
 export default function Header({
   fixed,
@@ -22,6 +23,20 @@ export default function Header({
   showTabs: boolean;
 }) {
   const { pathname } = useRouter();
+
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getUsername() {
+      const result = await fetchCurrentProfile();
+
+      if (result?.profileData) {
+        setUsername(result?.profileData.username);
+      }
+    }
+
+    getUsername();
+  }, []);
 
   const [createRankingModalVisibility, setCreateRankingModalVisibility] =
     useState<boolean>(false);
@@ -86,7 +101,7 @@ export default function Header({
                       ? "border-transparent bg-neutral-400/20 dark:border-transparent"
                       : "text-neutral-600 hover:bg-neutral-400/15 hover:text-neutral-700 active:bg-neutral-400/20 dark:border-neutral-400/20 dark:text-neutral-400 dark:hover:border-transparent dark:hover:text-neutral-300"
                   } flex h-min items-center justify-center rounded-r-full border-2 border-l border-neutral-200 px-2.5 py-2 pl-2 text-left text-sm transition md:px-4 md:py-2 md:pl-3.5 md:text-base dark:border-neutral-700`}
-                  href="/user/rankings"
+                  href={`/user/${username}/rankings`}
                 >
                   <FontAwesomeIcon icon={faUser} aria-hidden />
                   <span className="hidden md:inline md:w-0 md:text-transparent">

@@ -7,5 +7,5 @@ export default function UserPage() {
 
   useEffect(() => {
     router.replace(`/user/${username}/rankings`);
-  }, []);
+  }, [router.isReady, username]);
 }

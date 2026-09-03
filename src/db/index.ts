@@ -138,12 +138,15 @@ export async function fetchCurrentProfile() {
   return { profileData, email };
 }
 
-export async function fetchUserProfile(userID: string) {
+export async function fetchUserProfile(username: string) {
+  console.log(username);
+
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", userID)
+    .eq("username", username)
     .single();
+  console.log(data);
 
   if (error) {
     console.error("Failed to fetch profile:", error);
@@ -412,3 +415,18 @@ export async function fetchUsernames() {
   // add user id to liked users
 }
  */
+
+export async function fetchUserIDFromUsername(username: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("username", username)
+    .single();
+
+  if (error) {
+    console.error("Failed to fetch user id from username:", error);
+    throw error;
+  }
+
+  return data.id;
+}

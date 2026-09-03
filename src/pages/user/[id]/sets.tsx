@@ -4,11 +4,19 @@ import SetBoard from "@/components/SetBoard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Profile, Set } from "@/types";
-import { fetchCurrentProfile, fetchOwnedUserSets } from "@/db";
+import {
+  fetchOwnedUserSets,
+  fetchUserIDFromUsername,
+  fetchUserProfile,
+} from "@/db";
+import { useRouter } from "next/router";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserSets() {
+  const router = useRouter();
+  const { id: username } = router.query;
+
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -16,12 +24,8 @@ export default function UserSets() {
 
   useEffect(() => {
     async function getProfile() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
       // if not logged in, set stuff to local storage & stop here
-      if (!session) {
+      if (String(username) === "guest") {
         setProfile({
           id: "",
           username: "Profile",
@@ -37,24 +41,22 @@ export default function UserSets() {
         return;
       }
 
-      // get user
-      const user = session.user;
-
-      const result = await fetchCurrentProfile();
+      const result = await fetchUserProfile(String(username));
 
       if (result?.profileData) {
         setProfile(result?.profileData);
       }
 
       // get sets that are owned by current user
-      const currentUserSetsData = await fetchOwnedUserSets(user.id);
+      const userID = await fetchUserIDFromUsername(String(username));
+      const currentUserSetsData = await fetchOwnedUserSets(userID);
       setOwnedSets(currentUserSetsData ? currentUserSetsData : []);
 
       setLoading(false);
     }
 
     getProfile();
-  }, []);
+  }, [router.isReady, username]);
 
   return (
     <>
@@ -67,15 +69,15 @@ export default function UserSets() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/user/rankings" },
+                { title: "Rankings", href: `/user/${username}/rankings` },
                 {
                   title: "Sets",
-                  href: "/user/sets",
+                  href: `/user/${username}/sets`,
                   active: true,
                 },
                 {
                   title: "Account",
-                  href: "/user/account",
+                  href: `/user/${username}/account`,
                 },
               ]}
             />

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
 import { Profile } from "@/types";
-import { fetchCurrentProfile } from "@/db";
+import { fetchUserProfile } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +16,7 @@ import {
 
 export default function UserAccount() {
   const router = useRouter();
+  const { id: username } = router.query;
 
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
@@ -46,7 +47,7 @@ export default function UserAccount() {
       const user = session.user;
       setEmail(user.email ?? null);
 
-      const result = await fetchCurrentProfile();
+      const result = await fetchUserProfile(String(username));
 
       if (result?.profileData) {
         setProfile(result?.profileData);
@@ -56,7 +57,7 @@ export default function UserAccount() {
     }
 
     getProfile();
-  }, []);
+  }, [router.isReady, username]);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -94,14 +95,14 @@ export default function UserAccount() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/user/rankings" },
+                { title: "Rankings", href: `/user/${username}/rankings` },
                 {
                   title: "Sets",
-                  href: "/user/sets",
+                  href: `/user/${username}/sets`,
                 },
                 {
                   title: "Account",
-                  href: "/user/account",
+                  href: `/user/${username}/account`,
                   active: true,
                 },
               ]}

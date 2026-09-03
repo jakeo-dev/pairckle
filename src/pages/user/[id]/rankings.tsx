@@ -4,14 +4,18 @@ import RankingBoard from "@/components/RankingBoard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Profile, Ranking } from "@/types";
-import { fetchCurrentProfile, fetchOwnedUserRankings } from "@/db";
+import {
+  fetchOwnedUserRankings,
+  fetchUserIDFromUsername,
+  fetchUserProfile,
+} from "@/db";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
 export default function UserRankings() {
   const router = useRouter();
-  const { id: userID } = router.query;
+  const { id: username } = router.query;
 
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -20,12 +24,9 @@ export default function UserRankings() {
 
   useEffect(() => {
     async function getProfile() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
       // if not logged in, set stuff to local storage & stop here
-      if (!session) {
+      if (String(username) === "guest") {
+        console.log("here 4");
         setProfile({
           id: "",
           username: "Profile",
@@ -65,24 +66,26 @@ export default function UserRankings() {
         return;
       }
 
-      // get user
-      const user = session.user;
-
-      const result = await fetchCurrentProfile();
+      const result = await fetchUserProfile(String(username));
+      console.log("RESULT: ", result);
 
       if (result?.profileData) {
         setProfile(result?.profileData);
+        console.log("PROFILE DATA: ", result?.profileData);
       }
 
       // get rankings that are owned by current user
-      const currentUserRankingsData = await fetchOwnedUserRankings(user.id);
+      const userID = await fetchUserIDFromUsername(String(username));
+      console.log("USER ID: ", userID);
+      const currentUserRankingsData = await fetchOwnedUserRankings(userID);
+      console.log("RANKINGS: ", currentUserRankingsData);
       setOwnedRankings(currentUserRankingsData ? currentUserRankingsData : []);
 
       setLoading(false);
     }
 
     getProfile();
-  }, []);
+  }, [router.isReady, username]);
 
   return (
     <>
@@ -95,14 +98,18 @@ export default function UserRankings() {
               icon={faUser}
               title={profile ? profile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: "/user/rankings", active: true },
+                {
+                  title: "Rankings",
+                  href: `/user/${username}/rankings`,
+                  active: true,
+                },
                 {
                   title: "Sets",
-                  href: "/user/sets",
+                  href: `/user/${username}/sets`,
                 },
                 {
                   title: "Account",
-                  href: "/user/account",
+                  href: `/user/${username}/account`,
                 },
               ]}
             />
