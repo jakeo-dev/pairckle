@@ -13,6 +13,7 @@ import {
   faArrowRightToBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
 export default function UserAccount() {
   const router = useRouter();
@@ -31,10 +32,10 @@ export default function UserAccount() {
       } = await supabase.auth.getSession();
 
       // if not logged in, set stuff to local storage & stop here
-      if (!session) {
+      if (!session || String(username) === "guest") {
         setSelectedProfile({
           id: "",
-          username: "Profile",
+          username: "Guest",
           createdAt: "",
           ownedRankings: [],
           ownedSets: [],
@@ -94,8 +95,12 @@ export default function UserAccount() {
         <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
-              icon={faUser}
-              title={selectedProfile ? selectedProfile?.username : "Profile"}
+              icon={
+                selectedProfile && selectedProfile.username !== "Guest"
+                  ? faUser
+                  : faUserRegular
+              }
+              title={selectedProfile ? selectedProfile?.username : "Guest"}
               tabs={[
                 {
                   title: "Rankings",
@@ -126,7 +131,7 @@ export default function UserAccount() {
           ) : (
             <div>
               <div>
-                {selectedProfile?.username !== "Profile" ? (
+                {selectedProfile?.username !== "Guest" ? (
                   <div className="section">
                     {/* <div className="mb-0.5 flex items-end px-2 md:mb-1">
                         <h2
@@ -136,7 +141,7 @@ export default function UserAccount() {
                         </h2>
                       </div> */}
 
-                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-700 md:px-5 md:py-4 dark:text-neutral-300">
+                    <div className="w-full rounded-lg bg-neutral-400/10 px-4 py-3 text-neutral-700 md:px-5 md:py-4 dark:bg-neutral-300/10 dark:text-neutral-300">
                       <div>
                         <label className="text-xs text-neutral-500 md:text-sm">
                           Username
@@ -173,9 +178,14 @@ export default function UserAccount() {
                       onClick={() => {
                         setConfirmSignOutModalVisibility(true);
                       }}
-                      className="mt-4 w-full cursor-pointer rounded-full border-2 border-neutral-400 px-4 py-2 text-sm transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 md:mt-6 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
+                      className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                     >
-                      Log out
+                      <FontAwesomeIcon
+                        icon={faArrowRightToBracket}
+                        className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                        aria-hidden
+                      />
+                      <span className="text-sm md:text-base">Log out</span>
                     </button>
                   </div>
                 ) : (

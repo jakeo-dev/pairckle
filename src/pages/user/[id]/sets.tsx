@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/router";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
 export default function UserSets() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function UserSets() {
       if (String(username) === "guest") {
         setSelectedProfile({
           id: "",
-          username: "Profile",
+          username: "Guest",
           createdAt: "",
           ownedRankings: [],
           ownedSets: [],
@@ -68,8 +69,12 @@ export default function UserSets() {
         <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
-              icon={faUser}
-              title={selectedProfile ? selectedProfile?.username : "Profile"}
+              icon={
+                selectedProfile && selectedProfile.username !== "Guest"
+                  ? faUser
+                  : faUserRegular
+              }
+              title={selectedProfile ? selectedProfile?.username : "Guest"}
               tabs={[
                 {
                   title: "Rankings",

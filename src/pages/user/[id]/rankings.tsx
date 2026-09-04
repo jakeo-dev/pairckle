@@ -8,9 +8,10 @@ import {
   fetchOwnedUserRankings,
   fetchUserProfile,
 } from "@/db";
+import { useRouter } from "next/router";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/router";
+import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
 export default function UserRankings() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function UserRankings() {
       if (String(username) === "guest") {
         setSelectedProfile({
           id: "",
-          username: "Profile",
+          username: "Guest",
           createdAt: "",
           ownedRankings: [],
           ownedSets: [],
@@ -94,8 +95,12 @@ export default function UserRankings() {
         <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
-              icon={faUser}
-              title={selectedProfile?.username ?? "Profile"}
+              icon={
+                selectedProfile && selectedProfile.username !== "Guest"
+                  ? faUser
+                  : faUserRegular
+              }
+              title={selectedProfile?.username ?? "Guest"}
               tabs={[
                 {
                   title: "Rankings",
