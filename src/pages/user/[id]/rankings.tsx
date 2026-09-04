@@ -4,6 +4,7 @@ import RankingBoard from "@/components/RankingBoard";
 import { useEffect, useState } from "react";
 import { Profile, Ranking } from "@/types";
 import {
+  fetchCurrentProfile,
   fetchOwnedUserRankings,
   fetchUserIDFromUsername,
   fetchUserProfile,
@@ -17,7 +18,9 @@ export default function UserRankings() {
   const { id: username } = router.query;
 
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+
+  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
   const [ownedRankings, setOwnedRankings] = useState<Ranking[]>([]);
 
@@ -25,7 +28,7 @@ export default function UserRankings() {
     async function getProfile() {
       // if not logged in, set stuff to local storage & stop here
       if (String(username) === "guest") {
-        setProfile({
+        setSelectedProfile({
           id: "",
           username: "Profile",
           createdAt: "",
@@ -64,19 +67,25 @@ export default function UserRankings() {
         return;
       }
 
-      const profileData = await fetchUserProfile(String(username));
+      const selectedProfileData = await fetchUserProfile(String(username));
+      setSelectedProfile(selectedProfileData);
 
-      setProfile(profileData);
+      // get rankings that are owned by selected user
+      const selectedUserRankingsData = await fetchOwnedUserRankings(
+        selectedProfileData.id,
+      );
+      setOwnedRankings(
+        selectedUserRankingsData ? selectedUserRankingsData : [],
+      );
 
-      // get rankings that are owned by current user
-      const currentUserRankingsData = await fetchOwnedUserRankings(profileData.id);
-      setOwnedRankings(currentUserRankingsData ? currentUserRankingsData : []);
+      const currentProfileData = await fetchCurrentProfile();
+      setCurrentProfile(currentProfileData?.profileData);
 
       setLoading(false);
     }
 
     getProfile();
-  }, [router.isReady]);
+  }, [username]);
 
   return (
     <>
@@ -87,7 +96,7 @@ export default function UserRankings() {
           {!loading && (
             <Heading
               icon={faUser}
-              title={profile?.username ?? "Profile"}
+              title={selectedProfile?.username ?? "Profile"}
               tabs={[
                 {
                   title: "Rankings",
@@ -98,10 +107,15 @@ export default function UserRankings() {
                   title: "Sets",
                   href: `/user/${username}/sets`,
                 },
-                {
-                  title: "Account",
-                  href: `/user/${username}/account`,
-                },
+                ...(String(username) === "guest" ||
+                currentProfile?.id === selectedProfile?.id
+                  ? [
+                      {
+                        title: "Account",
+                        href: `/user/${username}/account`,
+                      },
+                    ]
+                  : []),
               ]}
             />
           )}

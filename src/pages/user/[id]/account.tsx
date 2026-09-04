@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
 import { Profile } from "@/types";
-import { fetchUserProfile } from "@/db";
+import { fetchCurrentProfile, fetchUserProfile } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,7 +20,9 @@ export default function UserAccount() {
 
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+
+  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     async function getProfile() {
@@ -30,7 +32,7 @@ export default function UserAccount() {
 
       // if not logged in, set stuff to local storage & stop here
       if (!session) {
-        setProfile({
+        setSelectedProfile({
           id: "",
           username: "Profile",
           createdAt: "",
@@ -47,15 +49,17 @@ export default function UserAccount() {
       const user = session.user;
       setEmail(user.email ?? null);
 
-      const profileData = await fetchUserProfile(String(username));
+      const selectedProfileData = await fetchUserProfile(String(username));
+      setSelectedProfile(selectedProfileData);
 
-      setProfile(profileData);
+      const currentProfileData = await fetchCurrentProfile();
+      setCurrentProfile(currentProfileData?.profileData);
 
       setLoading(false);
     }
 
     getProfile();
-  }, [router.isReady, username]);
+  }, [username]);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -91,18 +95,26 @@ export default function UserAccount() {
           {!loading && (
             <Heading
               icon={faUser}
-              title={profile ? profile?.username : "Profile"}
+              title={selectedProfile ? selectedProfile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: `/user/${username}/rankings` },
+                {
+                  title: "Rankings",
+                  href: `/user/${username}/rankings`,
+                },
                 {
                   title: "Sets",
                   href: `/user/${username}/sets`,
                 },
-                {
-                  title: "Account",
-                  href: `/user/${username}/account`,
-                  active: true,
-                },
+                ...(String(username) === "guest" ||
+                currentProfile?.id === selectedProfile?.id
+                  ? [
+                      {
+                        title: "Account",
+                        href: `/user/${username}/account`,
+                        active: true,
+                      },
+                    ]
+                  : []),
               ]}
             />
           )}
@@ -114,7 +126,7 @@ export default function UserAccount() {
           ) : (
             <div>
               <div>
-                {profile?.username !== "Profile" ? (
+                {selectedProfile?.username !== "Profile" ? (
                   <div className="section">
                     {/* <div className="mb-0.5 flex items-end px-2 md:mb-1">
                         <h2
@@ -130,7 +142,7 @@ export default function UserAccount() {
                           Username
                         </label>
                         <p className="text-sm font-medium md:text-base">
-                          {profile?.username}
+                          {selectedProfile?.username}
                         </p>
                       </div>
 
@@ -148,8 +160,10 @@ export default function UserAccount() {
                           Pairckler since
                         </label>
                         <p className="text-sm font-medium md:text-base">
-                          {profile?.createdAt
-                            ? new Date(profile.createdAt).toLocaleDateString()
+                          {selectedProfile?.createdAt
+                            ? new Date(
+                                selectedProfile.createdAt,
+                              ).toLocaleDateString()
                             : "N/A"}
                         </p>
                       </div>

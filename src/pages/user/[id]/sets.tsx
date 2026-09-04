@@ -4,6 +4,7 @@ import SetBoard from "@/components/SetBoard";
 import { useEffect, useState } from "react";
 import { Profile, Set } from "@/types";
 import {
+  fetchCurrentProfile,
   fetchOwnedUserSets,
   fetchUserIDFromUsername,
   fetchUserProfile,
@@ -17,7 +18,9 @@ export default function UserSets() {
   const { id: username } = router.query;
 
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+
+  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
   const [ownedSets, setOwnedSets] = useState<Set[]>([]);
 
@@ -25,7 +28,7 @@ export default function UserSets() {
     async function getProfile() {
       // if not logged in, set stuff to local storage & stop here
       if (String(username) === "guest") {
-        setProfile({
+        setSelectedProfile({
           id: "",
           username: "Profile",
           createdAt: "",
@@ -40,19 +43,23 @@ export default function UserSets() {
         return;
       }
 
-      const profileData = await fetchUserProfile(String(username));
-
-      setProfile(profileData);
+      const selectedProfileData = await fetchUserProfile(String(username));
+      setSelectedProfile(selectedProfileData);
 
       // get sets that are owned by current user
-      const currentUserSetsData = await fetchOwnedUserSets(profileData.id);
+      const currentUserSetsData = await fetchOwnedUserSets(
+        selectedProfileData.id,
+      );
       setOwnedSets(currentUserSetsData ? currentUserSetsData : []);
+
+      const currentProfileData = await fetchCurrentProfile();
+      setCurrentProfile(currentProfileData?.profileData);
 
       setLoading(false);
     }
 
     getProfile();
-  }, [router.isReady, username]);
+  }, [username]);
 
   return (
     <>
@@ -63,18 +70,26 @@ export default function UserSets() {
           {!loading && (
             <Heading
               icon={faUser}
-              title={profile ? profile?.username : "Profile"}
+              title={selectedProfile ? selectedProfile?.username : "Profile"}
               tabs={[
-                { title: "Rankings", href: `/user/${username}/rankings` },
+                {
+                  title: "Rankings",
+                  href: `/user/${username}/rankings`,
+                },
                 {
                   title: "Sets",
                   href: `/user/${username}/sets`,
                   active: true,
                 },
-                {
-                  title: "Account",
-                  href: `/user/${username}/account`,
-                },
+                ...(String(username) === "guest" ||
+                currentProfile?.id === selectedProfile?.id
+                  ? [
+                      {
+                        title: "Account",
+                        href: `/user/${username}/account`,
+                      },
+                    ]
+                  : []),
               ]}
             />
           )}
@@ -94,7 +109,7 @@ export default function UserSets() {
                           key={i}
                           miniView
                           set={{
-                            id: profile ? set.id : -1,
+                            id: selectedProfile ? set.id : -1,
                             name: set.name,
                             createdAt: set.createdAt,
                             utensils: set.utensils,
