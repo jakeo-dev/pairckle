@@ -1267,7 +1267,7 @@ export default function Create() {
                       setConfirmRestartModalSubtext(
                         profile
                           ? "This ranking has already been saved, so it will not be lost."
-                          : "This ranking has been saved, but you won't to see the full ranking unless you create an account.",
+                          : "This ranking has been saved, but you won't to be able to see the full ranking again unless you create an account.",
                       );
                       setConfirmRestartModalVisibility(true);
                     }}
