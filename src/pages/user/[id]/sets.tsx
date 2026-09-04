@@ -2,7 +2,6 @@ import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { Profile, Set } from "@/types";
 import {
   fetchOwnedUserSets,
@@ -41,15 +40,12 @@ export default function UserSets() {
         return;
       }
 
-      const result = await fetchUserProfile(String(username));
+      const profileData = await fetchUserProfile(String(username));
 
-      if (result?.profileData) {
-        setProfile(result?.profileData);
-      }
+      setProfile(profileData);
 
       // get sets that are owned by current user
-      const userID = await fetchUserIDFromUsername(String(username));
-      const currentUserSetsData = await fetchOwnedUserSets(userID);
+      const currentUserSetsData = await fetchOwnedUserSets(profileData.id);
       setOwnedSets(currentUserSetsData ? currentUserSetsData : []);
 
       setLoading(false);

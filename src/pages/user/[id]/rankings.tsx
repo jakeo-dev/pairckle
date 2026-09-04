@@ -2,7 +2,6 @@ import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import RankingBoard from "@/components/RankingBoard";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { Profile, Ranking } from "@/types";
 import {
   fetchOwnedUserRankings,
@@ -26,7 +25,6 @@ export default function UserRankings() {
     async function getProfile() {
       // if not logged in, set stuff to local storage & stop here
       if (String(username) === "guest") {
-        console.log("here 4");
         setProfile({
           id: "",
           username: "Profile",
@@ -66,26 +64,19 @@ export default function UserRankings() {
         return;
       }
 
-      const result = await fetchUserProfile(String(username));
-      console.log("RESULT: ", result);
+      const profileData = await fetchUserProfile(String(username));
 
-      if (result?.profileData) {
-        setProfile(result?.profileData);
-        console.log("PROFILE DATA: ", result?.profileData);
-      }
+      setProfile(profileData);
 
       // get rankings that are owned by current user
-      const userID = await fetchUserIDFromUsername(String(username));
-      console.log("USER ID: ", userID);
-      const currentUserRankingsData = await fetchOwnedUserRankings(userID);
-      console.log("RANKINGS: ", currentUserRankingsData);
+      const currentUserRankingsData = await fetchOwnedUserRankings(profileData.id);
       setOwnedRankings(currentUserRankingsData ? currentUserRankingsData : []);
 
       setLoading(false);
     }
 
     getProfile();
-  }, [router.isReady, username]);
+  }, [router.isReady]);
 
   return (
     <>
@@ -96,7 +87,7 @@ export default function UserRankings() {
           {!loading && (
             <Heading
               icon={faUser}
-              title={profile ? profile?.username : "Profile"}
+              title={profile?.username ?? "Profile"}
               tabs={[
                 {
                   title: "Rankings",

@@ -139,8 +139,6 @@ export async function fetchCurrentProfile() {
 }
 
 export async function fetchUserProfile(username: string) {
-  console.log(username);
-
   const { data, error } = await supabase
     .from("profiles")
     .select("*")

@@ -47,11 +47,9 @@ export default function UserAccount() {
       const user = session.user;
       setEmail(user.email ?? null);
 
-      const result = await fetchUserProfile(String(username));
+      const profileData = await fetchUserProfile(String(username));
 
-      if (result?.profileData) {
-        setProfile(result?.profileData);
-      }
+      setProfile(profileData);
 
       setLoading(false);
     }
