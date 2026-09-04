@@ -237,6 +237,7 @@ export default function SharedRanking() {
             rotateIcon
             title={currentRanking?.name || "Your ranking"}
             subtext1={currentRanking?.username}
+            subtext1Link={`/user/${currentRanking?.username}`}
             subtext2={
               currentRanking?.createdAt
                 ? new Date(currentRanking.createdAt).toLocaleDateString()

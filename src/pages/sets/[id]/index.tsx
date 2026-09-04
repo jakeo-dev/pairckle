@@ -208,6 +208,7 @@ export default function SharedSet() {
             icon={faBarsStaggered}
             title={currentSet?.name || "Your set"}
             subtext1={currentSet?.username}
+            subtext1Link={`/user/${currentSet?.username}`}
             subtext2={
               currentSet?.createdAt
                 ? new Date(currentSet.createdAt).toLocaleDateString()
