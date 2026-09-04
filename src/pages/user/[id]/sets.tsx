@@ -113,7 +113,11 @@ export default function UserSets() {
                           key={i}
                           miniView
                           set={{
-                            id: selectedProfile ? set.id : -1,
+                            id:
+                              selectedProfile &&
+                              selectedProfile.username !== "Guest"
+                                ? set.id
+                                : -1,
                             name: set.name,
                             createdAt: set.createdAt,
                             utensils: set.utensils,
