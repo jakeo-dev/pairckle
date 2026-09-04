@@ -6,7 +6,6 @@ import { Profile, Set } from "@/types";
 import {
   fetchCurrentProfile,
   fetchOwnedUserSets,
-  fetchUserIDFromUsername,
   fetchUserProfile,
 } from "@/db";
 import { useRouter } from "next/router";

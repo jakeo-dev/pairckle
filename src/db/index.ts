@@ -413,18 +413,3 @@ export async function fetchUsernames() {
   // add user id to liked users
 }
  */
-
-export async function fetchUserIDFromUsername(username: string) {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("username", username)
-    .single();
-
-  if (error) {
-    console.error("Failed to fetch user id from username:", error);
-    throw error;
-  }
-
-  return data.id;
-}

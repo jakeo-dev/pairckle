@@ -6,7 +6,6 @@ import { Profile, Ranking } from "@/types";
 import {
   fetchCurrentProfile,
   fetchOwnedUserRankings,
-  fetchUserIDFromUsername,
   fetchUserProfile,
 } from "@/db";
 
