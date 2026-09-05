@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Title({ className = "" }: { className?: string }) {
   return (
-    <Link href="/create">
+    <Link href="/">
       <h1
         className={`flex items-center text-2xl font-extrabold md:text-3xl ${gabarito.className} ${className || ""}`}
       >
