@@ -191,7 +191,7 @@ export default function UserAccount() {
                 ) : (
                   <div className="section">
                     <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
-                      Sign up or log in to publish your rankings and access your
+                      Log in to see your rankings, publish them, and access your
                       account anywhere.
                     </h2>
                     <Link

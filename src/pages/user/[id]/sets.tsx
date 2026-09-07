@@ -1,6 +1,7 @@
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Profile, Set } from "@/types";
 import {
@@ -10,7 +11,11 @@ import {
 } from "@/db";
 import { useRouter } from "next/router";
 
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRightToBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
 export default function UserSets() {
@@ -133,6 +138,25 @@ export default function UserSets() {
                   <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                     {`You haven't created any sets yet...`}
                   </h2>
+                )}
+                {selectedProfile?.username === "Guest" && (
+                  <div className="section">
+                    <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
+                      Log in to see your rankings, publish them, and access your
+                      account anywhere.
+                    </h2>
+                    <Link
+                      href="/login"
+                      className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                    >
+                      <FontAwesomeIcon
+                        icon={faArrowRightToBracket}
+                        className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                        aria-hidden
+                      />
+                      <span className="text-sm md:text-base">Log in</span>
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>
