@@ -124,7 +124,7 @@ export default function Header({
                 </Link>
 
                 <button
-                  className="ml-1 flex w-[2.1rem] cursor-pointer items-center justify-center rounded-full bg-neutral-400/20 px-2.5 py-1.5 text-sm transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none md:ml-1.5 md:w-11 md:px-4 md:py-2.5 md:text-base"
+                  className="ml-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-neutral-400/20 text-sm transition hover:bg-neutral-400/30 hover:shadow-xs active:bg-neutral-400/40 active:shadow-none md:ml-1.5 md:h-11 md:w-11 md:text-base"
                   /* className="mr-1 h-min w-5 cursor-pointer rounded-full px-1 py-0.5 text-xs transition hover:bg-neutral-400/20 hover:drop-shadow-xs active:bg-neutral-400/30 active:drop-shadow-none md:mr-1.5 md:w-7 md:px-1.5 md:py-1 md:text-sm" */
                   onClick={() => {
                     if (localStorage.getItem("theme") === "dark") {
@@ -136,7 +136,7 @@ export default function Header({
                     }
                   }}
                 >
-                  <div className="hidden dark:inline-block">
+                  <div className="hidden dark:flex">
                     <FontAwesomeIcon
                       icon={faSun}
                       className="text-neutral-300/80"
@@ -144,7 +144,7 @@ export default function Header({
                       title="Switch to light mode"
                     />
                   </div>
-                  <div className="inline-block dark:hidden">
+                  <div className="flex dark:hidden">
                     <FontAwesomeIcon
                       icon={faMoon}
                       className="text-neutral-600/80"
@@ -155,14 +155,14 @@ export default function Header({
                 </button>
 
                 <Link
-                  className="ml-1 flex w-8 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-orange-300/50 to-blue-300/50 px-2.5 py-1.5 text-sm transition hover:from-orange-300/45 hover:to-blue-300/45 hover:shadow-xs active:from-orange-300/40 active:to-blue-300/40 active:shadow-none md:ml-1.5 md:w-11 md:px-4 md:py-2.5 md:text-base dark:from-orange-800/50 dark:to-blue-800/50 dark:hover:from-orange-800/45 dark:hover:to-blue-800/45 dark:active:from-orange-800/40 dark:active:to-blue-800/40"
+                  className="ml-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-orange-300/50 to-blue-300/50 text-sm transition hover:from-orange-300/45 hover:to-blue-300/45 hover:shadow-xs active:from-orange-300/40 active:to-blue-300/40 active:shadow-none md:ml-1.5 md:h-11 md:w-11 md:text-base dark:from-orange-800/50 dark:to-blue-800/50 dark:hover:from-orange-800/45 dark:hover:to-blue-800/45 dark:active:from-orange-800/40 dark:active:to-blue-800/40"
                   href={`/user/${username ?? "guest"}/rankings`}
                 >
                   {username ? (
                     <span
                       className={`bg-linear-to-tl from-orange-700 to-blue-700 bg-clip-text text-lg leading-5 font-semibold text-transparent md:text-xl dark:from-orange-200 dark:to-blue-200 ${gabarito.className}`}
                     >
-                      {username[0]}
+                      {username[0].toUpperCase()}
                     </span>
                   ) : (
                     <FontAwesomeIcon
