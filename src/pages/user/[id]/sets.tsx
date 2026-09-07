@@ -141,7 +141,7 @@ export default function UserSets() {
                 )}
                 {selectedProfile?.username === "Guest" && (
                   <div className="section">
-                    <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
+                    <h2 className="mt-10 text-center text-sm text-pretty text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
                       Log in to see your rankings, publish them, and access your
                       account anywhere.
                     </h2>
