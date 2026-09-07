@@ -4,6 +4,7 @@ import CreateRankingModal from "./CreateRankingModal";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetchCurrentProfile } from "@/db";
+import { supabase } from "@/lib/supabase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -34,15 +35,22 @@ export default function Header({
   const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
-    async function getUsername() {
-      const result = await fetchCurrentProfile();
+    // update username when auth state changes (logging in/out)
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        if (!session) {
+          setUsername(null);
+          return;
+        }
 
-      if (result?.profileData) {
-        setUsername(result?.profileData.username);
-      }
-    }
+        const result = await fetchCurrentProfile();
+        setUsername(result?.profileData?.username ?? null);
+      },
+    );
 
-    getUsername();
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   const [createRankingModalVisibility, setCreateRankingModalVisibility] =
@@ -157,7 +165,11 @@ export default function Header({
                       {username[0]}
                     </span>
                   ) : (
-                    <FontAwesomeIcon icon={faUser} aria-hidden />
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="text-neutral-600/80 dark:text-neutral-300/80"
+                      aria-hidden
+                    />
                   )}
                   <span className="hidden md:inline md:w-0 md:text-transparent">
                     Profile

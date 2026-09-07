@@ -16,8 +16,8 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        // once user logs in, if there are rankings/sets stored locally, they are moved to supabase
+      async (_event, session) => {
+        // upon logging in, if there are rankings/sets stored locally, they are stored in supabase
         if (session) {
           const localRankings: Ranking[] = JSON.parse(
             localStorage.getItem("savedRankings") ?? "[]",
