@@ -1,30 +1,41 @@
 import CommonHead from "@/components/CommonHead";
 import Heading from "@/components/Heading";
 import RankingBoard from "@/components/RankingBoard";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { Profile, Ranking } from "@/types";
-import { fetchCurrentProfile, fetchOwnedUserRankings } from "@/db";
+import {
+  fetchCurrentProfile,
+  fetchOwnedUserRankings,
+  fetchUserProfile,
+} from "@/db";
+import { useRouter } from "next/router";
 
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRightToBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
-export default function YourRankings() {
+export default function UserRankings() {
+  const router = useRouter();
+  const { id: username } = router.query;
+
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+
+  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
   const [ownedRankings, setOwnedRankings] = useState<Ranking[]>([]);
 
   useEffect(() => {
     async function getProfile() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
       // if not logged in, set stuff to local storage & stop here
-      if (!session) {
-        setProfile({
+      if (String(username) === "guest") {
+        setSelectedProfile({
           id: "",
-          username: "Profile",
+          username: "Guest",
           createdAt: "",
           ownedRankings: [],
           ownedSets: [],
@@ -61,24 +72,25 @@ export default function YourRankings() {
         return;
       }
 
-      // get user
-      const user = session.user;
+      const selectedProfileData = await fetchUserProfile(String(username));
+      setSelectedProfile(selectedProfileData);
 
-      const result = await fetchCurrentProfile();
+      // get rankings that are owned by selected user
+      const selectedUserRankingsData = await fetchOwnedUserRankings(
+        selectedProfileData.id,
+      );
+      setOwnedRankings(
+        selectedUserRankingsData ? selectedUserRankingsData : [],
+      );
 
-      if (result?.profileData) {
-        setProfile(result?.profileData);
-      }
-
-      // get rankings that are owned by current user
-      const currentUserRankingsData = await fetchOwnedUserRankings(user.id);
-      setOwnedRankings(currentUserRankingsData ? currentUserRankingsData : []);
+      const currentProfileData = await fetchCurrentProfile();
+      setCurrentProfile(currentProfileData?.profileData);
 
       setLoading(false);
     }
 
     getProfile();
-  }, []);
+  }, [username]);
 
   return (
     <>
@@ -88,18 +100,31 @@ export default function YourRankings() {
         <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
-              icon={faUser}
-              title={profile ? profile?.username : "Profile"}
+              icon={
+                selectedProfile && selectedProfile.username !== "Guest"
+                  ? faUser
+                  : faUserRegular
+              }
+              title={selectedProfile?.username ?? "Guest"}
               tabs={[
-                { title: "Rankings", href: "/profile/rankings", active: true },
+                {
+                  title: "Rankings",
+                  href: `/user/${username}/rankings`,
+                  active: true,
+                },
                 {
                   title: "Sets",
-                  href: "/profile/sets",
+                  href: `/user/${username}/sets`,
                 },
-                {
-                  title: "Account",
-                  href: "/profile/account",
-                },
+                ...(String(username) === "guest" ||
+                currentProfile?.id === selectedProfile?.id
+                  ? [
+                      {
+                        title: "Account",
+                        href: `/user/${username}/account`,
+                      },
+                    ]
+                  : []),
               ]}
             />
           )}
@@ -128,6 +153,25 @@ export default function YourRankings() {
                 <h2 className="section text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
                   {`You haven't created any rankings yet...`}
                 </h2>
+              )}
+              {selectedProfile?.username === "Guest" && (
+                <div className="section">
+                  <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
+                    Log in to see your rankings, publish them, and access your
+                    account anywhere.
+                  </h2>
+                  <Link
+                    href="/login"
+                    className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                  >
+                    <FontAwesomeIcon
+                      icon={faArrowRightToBracket}
+                      className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                      aria-hidden
+                    />
+                    <span className="text-sm md:text-base">Log in</span>
+                  </Link>
+                </div>
               )}
             </div>
           )}

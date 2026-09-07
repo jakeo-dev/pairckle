@@ -16,8 +16,8 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        // once user logs in, if there are rankings/sets stored locally, they are moved to supabase
+      async (_event, session) => {
+        // upon logging in, if there are rankings/sets stored locally, they are stored in supabase
         if (session) {
           const localRankings: Ranking[] = JSON.parse(
             localStorage.getItem("savedRankings") ?? "[]",
@@ -106,14 +106,14 @@ export default function AuthCallback() {
             localStorage.removeItem("savedSets");
           }
 
-          //router.replace("/profile/account");
+          //router.replace("/");
         }
       },
     );
 
     // redirect to create page if the user is already signed in
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.replace("/profile/account");
+      if (session) router.replace("/");
     });
 
     return () => {

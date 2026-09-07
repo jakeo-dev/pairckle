@@ -11,7 +11,7 @@ export default function Footer({ fixed }: { fixed: boolean }) {
       <div className="wide-section text-center text-xs lg:text-sm">
         <div className="float-left">
           <a
-            className="-mt-0.5 -mr-2 flex items-center transition hover:drop-shadow-md active:drop-shadow-none dark:shadow-white"
+            className="-mt-0.5 -mr-2 flex items-center drop-shadow-black/50 transition hover:drop-shadow-md active:drop-shadow-none dark:drop-shadow-white/50"
             href="https://jakeo.dev"
             target="_blank"
             aria-label="Go to JakeO.dev"

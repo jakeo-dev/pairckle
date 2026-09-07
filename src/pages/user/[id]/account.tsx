@@ -6,20 +6,24 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
 import { Profile } from "@/types";
-import { fetchCurrentProfile } from "@/db";
+import { fetchCurrentProfile, fetchUserProfile } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 
-export default function YourAccount() {
+export default function UserAccount() {
   const router = useRouter();
+  const { id: username } = router.query;
 
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+
+  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     async function getProfile() {
@@ -28,10 +32,10 @@ export default function YourAccount() {
       } = await supabase.auth.getSession();
 
       // if not logged in, set stuff to local storage & stop here
-      if (!session) {
-        setProfile({
+      if (!session || String(username) === "guest") {
+        setSelectedProfile({
           id: "",
-          username: "Profile",
+          username: "Guest",
           createdAt: "",
           ownedRankings: [],
           ownedSets: [],
@@ -46,17 +50,17 @@ export default function YourAccount() {
       const user = session.user;
       setEmail(user.email ?? null);
 
-      const result = await fetchCurrentProfile();
+      const selectedProfileData = await fetchUserProfile(String(username));
+      setSelectedProfile(selectedProfileData);
 
-      if (result?.profileData) {
-        setProfile(result?.profileData);
-      }
+      const currentProfileData = await fetchCurrentProfile();
+      setCurrentProfile(currentProfileData?.profileData);
 
       setLoading(false);
     }
 
     getProfile();
-  }, []);
+  }, [username]);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -91,19 +95,31 @@ export default function YourAccount() {
         <div className="min-h-screen w-full lg:min-h-[88.1vh]">
           {!loading && (
             <Heading
-              icon={faUser}
-              title={profile ? profile?.username : "Profile"}
+              icon={
+                selectedProfile && selectedProfile.username !== "Guest"
+                  ? faUser
+                  : faUserRegular
+              }
+              title={selectedProfile ? selectedProfile?.username : "Guest"}
               tabs={[
-                { title: "Rankings", href: "/profile/rankings" },
+                {
+                  title: "Rankings",
+                  href: `/user/${username}/rankings`,
+                },
                 {
                   title: "Sets",
-                  href: "/profile/sets",
+                  href: `/user/${username}/sets`,
                 },
-                {
-                  title: "Account",
-                  href: "/profile/account",
-                  active: true,
-                },
+                ...(String(username) === "guest" ||
+                currentProfile?.id === selectedProfile?.id
+                  ? [
+                      {
+                        title: "Account",
+                        href: `/user/${username}/account`,
+                        active: true,
+                      },
+                    ]
+                  : []),
               ]}
             />
           )}
@@ -115,7 +131,7 @@ export default function YourAccount() {
           ) : (
             <div>
               <div>
-                {profile?.username !== "Profile" ? (
+                {selectedProfile?.username !== "Guest" ? (
                   <div className="section">
                     {/* <div className="mb-0.5 flex items-end px-2 md:mb-1">
                         <h2
@@ -125,13 +141,13 @@ export default function YourAccount() {
                         </h2>
                       </div> */}
 
-                    <div className="w-full rounded-lg border-2 border-neutral-400/25 px-4 py-3 text-neutral-700 md:px-5 md:py-4 dark:text-neutral-300">
+                    <div className="w-full rounded-lg bg-neutral-400/10 px-4 py-3 text-neutral-700 md:px-5 md:py-4 dark:bg-neutral-300/10 dark:text-neutral-300">
                       <div>
                         <label className="text-xs text-neutral-500 md:text-sm">
                           Username
                         </label>
                         <p className="text-sm font-medium md:text-base">
-                          {profile?.username}
+                          {selectedProfile?.username}
                         </p>
                       </div>
 
@@ -149,8 +165,10 @@ export default function YourAccount() {
                           Pairckler since
                         </label>
                         <p className="text-sm font-medium md:text-base">
-                          {profile?.createdAt
-                            ? new Date(profile.createdAt).toLocaleDateString()
+                          {selectedProfile?.createdAt
+                            ? new Date(
+                                selectedProfile.createdAt,
+                              ).toLocaleDateString()
                             : "N/A"}
                         </p>
                       </div>
@@ -160,15 +178,20 @@ export default function YourAccount() {
                       onClick={() => {
                         setConfirmSignOutModalVisibility(true);
                       }}
-                      className="mt-4 w-full cursor-pointer rounded-full border-2 border-neutral-400 px-4 py-2 text-sm transition hover:border-transparent hover:bg-red-500 hover:text-neutral-50 active:bg-red-600 md:mt-6 md:text-base dark:border-neutral-400 dark:hover:border-transparent dark:hover:text-black"
+                      className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-neutral-400/20 p-2 transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:mt-3 md:p-3 dark:bg-neutral-400/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
                     >
-                      Log out
+                      <FontAwesomeIcon
+                        icon={faArrowRightToBracket}
+                        className="mr-2 text-sm text-neutral-600/50 md:mr-2.5 md:text-base dark:text-neutral-400/50"
+                        aria-hidden
+                      />
+                      <span className="text-sm md:text-base">Log out</span>
                     </button>
                   </div>
                 ) : (
                   <div className="section">
                     <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
-                      Sign up or log in to publish your rankings and access your
+                      Log in to see your rankings, publish them, and access your
                       account anywhere.
                     </h2>
                     <Link

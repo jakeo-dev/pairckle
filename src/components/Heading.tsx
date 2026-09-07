@@ -13,6 +13,7 @@ export default function Heading(props: {
   title: string;
   subtitle?: string;
   subtext1?: string;
+  subtext1Link?: string;
   subtext2?: string;
   icon?: IconDefinition;
   rotateIcon?: boolean;
@@ -61,10 +62,19 @@ export default function Heading(props: {
                 <div
                   className={`mt-0.5 flex gap-2 md:mt-1 md:gap-2.5 ${props.subtextClassName}`}
                 >
-                  {props.subtext1 && (
-                    <p className="text-xs font-semibold text-neutral-600 md:text-sm dark:text-neutral-300">
+                  {props.subtext1Link ? (
+                    <Link
+                      className="cursor-pointer text-xs font-semibold text-neutral-600 transition hover:text-neutral-500 active:text-neutral-400 md:text-sm dark:text-neutral-300 dark:hover:text-neutral-400 dark:active:text-neutral-500"
+                      href={props.subtext1Link}
+                    >
                       {props.subtext1}
-                    </p>
+                    </Link>
+                  ) : (
+                    props.subtext1 && (
+                      <p className="text-xs font-semibold text-neutral-600 md:text-sm dark:text-neutral-300">
+                        {props.subtext1}
+                      </p>
+                    )
                   )}
                   {props.subtext2 && (
                     <p className="text-xs text-neutral-500 md:text-sm dark:text-neutral-400">
