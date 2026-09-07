@@ -227,7 +227,11 @@ export default function Login() {
                 className="mt-8"
               />
 
-              {message && <p className="mt-2 text-red-500">{message}</p>}
+              {message && (
+                <p className="mt-2 text-sm text-red-500 md:text-base">
+                  {message}
+                </p>
+              )}
               <button
                 type="submit"
                 className="mt-2 w-full cursor-pointer rounded-full bg-neutral-700/90 px-5 py-2 text-sm text-white transition hover:bg-neutral-700/80 active:bg-neutral-700/70 md:text-base dark:bg-neutral-300/90 dark:text-black dark:hover:bg-neutral-300/80 dark:active:bg-neutral-300/70"

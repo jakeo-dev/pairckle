@@ -203,7 +203,7 @@ export default function SharedRanking() {
         <ConfirmModal
           visibility={confirmDeleteModalVisibility}
           titleText={`Are you sure you want to permanently delete "${currentRanking.name}"?`}
-          subtitleText="This ranking will be lost forever!"
+          subtitleText="This ranking will be lost forever! If a set is associated with this ranking, it will not be deleted."
           primaryButtonText="Delete"
           secondaryButtonText="Cancel"
           onConfirm={async () => {
@@ -491,7 +491,7 @@ export default function SharedRanking() {
                 savedRankings={[]}
               />
 
-              <h2 className="mt-10 text-center text-sm text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
+              <h2 className="mt-10 text-center text-sm text-pretty text-neutral-600 md:mt-12 md:text-base dark:text-neutral-400">
                 Log in to see your full ranking.
               </h2>
               <Link
