@@ -14,7 +14,9 @@ export default function Rankings() {
 
   useEffect(() => {
     async function getDiscoverableRankings() {
-      const userRankingsData = await fetchDiscoverableUserRankings();
+      const userRankingsData = await fetchDiscoverableUserRankings({
+        limit: 50,
+      });
 
       if (userRankingsData) {
         setDiscoverableRankings(userRankingsData);
@@ -66,7 +68,7 @@ export default function Rankings() {
               ))}
             </div>
           ) : (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading community rankings...
             </h2>
           )}

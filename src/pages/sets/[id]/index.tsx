@@ -75,9 +75,9 @@ export default function SharedSet() {
     async function getAssociatedDiscoverableRankings() {
       if (!setID) return;
 
-      const userRankingsData = await fetchDiscoverableUserRankings(
-        Number(setID),
-      );
+      const userRankingsData = await fetchDiscoverableUserRankings({
+        associatedSetID: Number(setID),
+      });
 
       if (userRankingsData) {
         setAssociatedDiscoverableRankings(userRankingsData);

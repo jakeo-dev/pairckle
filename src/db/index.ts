@@ -2,13 +2,19 @@ import { supabase } from "@/lib/supabase";
 import { Profile, Ranking, RankingData, Set, SetData } from "@/types";
 import { sortDrawers } from "@/lib/utilities";
 
-export async function fetchDiscoverableUserRankings(
-  associatedSetID?: number,
-  userID?: string,
-) {
+export async function fetchDiscoverableUserRankings({
+  associatedSetID,
+  userID,
+  limit,
+}: {
+  associatedSetID?: number;
+  userID?: string;
+  limit?: number;
+} = {}) {
   let query = supabase.from("user_rankings").select().eq("discoverable", true);
   if (associatedSetID) query = query.eq("associated_set_id", associatedSetID);
   if (userID) query = query.eq("user_id", userID);
+  if (limit) query = query.limit(limit);
 
   const { data, error } = await query;
 
@@ -32,9 +38,16 @@ export async function fetchDiscoverableUserRankings(
   return correctedData.sort(sortDrawers);
 }
 
-export async function fetchDiscoverableUserSets(userID?: string) {
+export async function fetchDiscoverableUserSets({
+  userID,
+  limit,
+}: {
+  userID?: string;
+  limit?: number;
+} = {}) {
   let query = supabase.from("user_sets").select("*").eq("discoverable", true);
   if (userID) query = query.eq("user_id", userID);
+  if (limit) query = query.limit(limit);
 
   const { data, error } = await query;
 

@@ -15,7 +15,7 @@ export default function Sets() {
 
   useEffect(() => {
     async function getDiscoverableSets() {
-      const userSetsData = await fetchDiscoverableUserSets();
+      const userSetsData = await fetchDiscoverableUserSets({limit: 50});
 
       if (userSetsData) {
         setDiscoverableSets(userSetsData);

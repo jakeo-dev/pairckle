@@ -25,8 +25,10 @@ export default function Home() {
 
   useEffect(() => {
     async function getDiscoverableStuff() {
-      const userSetsData = await fetchDiscoverableUserSets();
-      const userRankingsData = await fetchDiscoverableUserRankings();
+      const userSetsData = await fetchDiscoverableUserSets({ limit: 20 });
+      const userRankingsData = await fetchDiscoverableUserRankings({
+        limit: 20,
+      });
 
       if (userSetsData) {
         setDiscoverableSets(userSetsData);
