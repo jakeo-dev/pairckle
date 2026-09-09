@@ -6,10 +6,10 @@ export default function Footer({ fixed }: { fixed: boolean }) {
     <footer
       className={`${
         fixed ? "fixed bottom-0" : ""
-      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-3 backdrop-blur-xs lg:mt-0 lg:p-4`}
+      } z-10 mt-auto w-full border-t-2 border-neutral-400/15 bg-neutral-400/5 p-4 backdrop-blur-xs lg:mt-0`}
     >
       <div className="wide-section text-center text-xs lg:text-sm">
-        <div className="float-left">
+        <div className="flex items-center justify-center gap-2 md:float-left">
           <a
             className="-mt-0.5 -mr-2 flex items-center drop-shadow-black/50 transition hover:drop-shadow-md active:drop-shadow-none dark:drop-shadow-white/50"
             href="https://jakeo.dev"
@@ -31,8 +31,9 @@ export default function Footer({ fixed }: { fixed: boolean }) {
               height={310}
             />
           </a>
+          <span className="text-neutral-500">Made by a human</span>
         </div>
-        <div className="float-right flex gap-2.5 md:gap-3">
+        <div className="mt-2 flex items-center justify-center gap-2.5 md:float-right md:mt-0 md:gap-3">
           <Link className="link" href="/privacy" target="_blank">
             Privacy
           </Link>
