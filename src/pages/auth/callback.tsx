@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
-import { Ranking, RankingData, Set, SetData } from "@/types";
+import { Ranking, RankingData, UtensilSet, SetData } from "@/types";
 import { generateRankingID, generateSetID } from "@/lib/utilities";
 import {
   bulkUpdateCurrentOwnedRankings,
@@ -22,7 +22,7 @@ export default function AuthCallback() {
           const localRankings: Ranking[] = JSON.parse(
             localStorage.getItem("savedRankings") ?? "[]",
           );
-          const localSets: Set[] = JSON.parse(
+          const localSets: UtensilSet[] = JSON.parse(
             localStorage.getItem("savedSets") ?? "[]",
           );
 

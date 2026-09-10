@@ -19,7 +19,7 @@ export type Ranking = {
   username?: string;
 };
 
-export type Set = {
+export type UtensilSet = {
   id: number;
   name: string;
   createdAt?: string;

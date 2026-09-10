@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Profile, Ranking, RankingData, Set, SetData } from "@/types";
+import { Profile, Ranking, RankingData, UtensilSet, SetData } from "@/types";
 import { sortDrawers } from "@/lib/utilities";
 
 export async function fetchDiscoverableUserRankings({
@@ -57,7 +57,7 @@ export async function fetchDiscoverableUserSets({
   }
 
   // convert snake case to camel case
-  const correctedData: Set[] = data?.map((set) => {
+  const correctedData: UtensilSet[] = data?.map((set) => {
     return {
       ...set,
       createdAt: set.created_at,

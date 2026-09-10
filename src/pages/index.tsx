@@ -3,7 +3,7 @@ import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
-import { Ranking, Set } from "@/types";
+import { Ranking, UtensilSet } from "@/types";
 import { useEffect, useState } from "react";
 import { fetchDiscoverableUserRankings, fetchDiscoverableUserSets } from "@/db";
 
@@ -17,8 +17,8 @@ const gabarito = Gabarito({
 });
 
 export default function Home() {
-  /* const [starterSets, setStarterSets] = useState<Set[]>([]); */
-  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+  /* const [starterSets, setStarterSets] = useState<UtensilSet[]>([]); */
+  const [discoverableSets, setDiscoverableSets] = useState<UtensilSet[]>([]);
   const [discoverableRankings, setDiscoverableRankings] = useState<Ranking[]>(
     [],
   );

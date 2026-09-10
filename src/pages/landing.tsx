@@ -2,7 +2,7 @@ import CommonHead from "@/components/CommonHead";
 import Image from "next/image";
 import Link from "next/link";
 import { STARTER_SETS } from "@/constants/sets";
-import { Set } from "@/types";
+import { UtensilSet } from "@/types";
 import { randomElement } from "@/lib/utilities";
 import { useEffect, useState } from "react";
 
@@ -13,7 +13,7 @@ const gabarito = Gabarito({
 });
 
 export default function Landing() {
-  const [currentSets, setCurrentSets] = useState<Set[]>();
+  const [currentSets, setCurrentSets] = useState<UtensilSet[]>();
   const [translateY, setTranslateY] = useState(0);
 
   useEffect(() => {

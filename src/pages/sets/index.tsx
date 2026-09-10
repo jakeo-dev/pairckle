@@ -3,19 +3,19 @@ import SetBoard from "@/components/SetBoard";
 import Heading from "@/components/Heading";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import { useEffect, useState } from "react";
-import { Set } from "@/types";
+import { UtensilSet } from "@/types";
 import { shuffle } from "@/lib/utilities";
 import { fetchDiscoverableUserSets } from "@/db";
 
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sets() {
-  const [starterSets, setStarterSets] = useState<Set[]>([]);
-  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+  const [starterSets, setStarterSets] = useState<UtensilSet[]>([]);
+  const [discoverableSets, setDiscoverableSets] = useState<UtensilSet[]>([]);
 
   useEffect(() => {
     async function getDiscoverableSets() {
-      const userSetsData = await fetchDiscoverableUserSets({limit: 50});
+      const userSetsData = await fetchDiscoverableUserSets({ limit: 50 });
 
       if (userSetsData) {
         setDiscoverableSets(userSetsData);
@@ -63,7 +63,7 @@ export default function Sets() {
               ))}
             </div>
           ) : (
-            <h2 className="section animate-pulse text-center text-xl text-neutral-600 dark:text-neutral-400 md:text-2xl">
+            <h2 className="section animate-pulse text-center text-xl text-neutral-600 md:text-2xl dark:text-neutral-400">
               Loading community sets...
             </h2>
           )}

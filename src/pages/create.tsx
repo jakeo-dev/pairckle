@@ -4,7 +4,7 @@ import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
-import { Profile, Ranking, Utensil, Set } from "@/types";
+import { Profile, Ranking, Utensil, UtensilSet } from "@/types";
 import {
   generateRankingID,
   generateSetID,
@@ -85,7 +85,7 @@ export default function Create() {
   const [rankingID, setRankingID] = useState<number>(-1);
 
   // set associated with current ranking, id is -1 if an unpublished custom set
-  const [associatedSet, setAssociatedSet] = useState<Set>({
+  const [associatedSet, setAssociatedSet] = useState<UtensilSet>({
     id: -1,
     createdAt: "",
     name: "",
@@ -603,8 +603,8 @@ export default function Create() {
     }
   }
 
-  const [starterSets, setStarterSets] = useState<Set[]>([]);
-  const [discoverableSets, setDiscoverableSets] = useState<Set[]>([]);
+  const [starterSets, setStarterSets] = useState<UtensilSet[]>([]);
+  const [discoverableSets, setDiscoverableSets] = useState<UtensilSet[]>([]);
 
   useEffect(() => {
     async function getDiscoverableSets() {

@@ -5,7 +5,7 @@ import Heading from "@/components/Heading";
 import CommonHead from "@/components/CommonHead";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Profile, Ranking, Set } from "@/types";
+import { Profile, Ranking, UtensilSet } from "@/types";
 import { generateSetName, randomElement, shuffle } from "@/lib/utilities";
 import { RANDOM_SET, STARTER_SETS } from "@/constants/sets";
 import {
@@ -38,7 +38,7 @@ export default function SharedSet() {
   const router = useRouter();
   const { id: setID } = router.query;
 
-  const [currentSet, setCurrentSet] = useState<Set | null>();
+  const [currentSet, setCurrentSet] = useState<UtensilSet | null>();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [associatedDiscoverableRankings, setAssociatedDiscoverableRankings] =
     useState<Ranking[]>([]);

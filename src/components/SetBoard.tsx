@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ConfirmModal from "./ConfirmModal";
-import { Set, Utensil } from "@/types";
+import { UtensilSet, Utensil } from "@/types";
 import { useEffect, useState } from "react";
 import { shuffle } from "@/lib/utilities";
 
@@ -21,7 +21,7 @@ export default function SetBoard({
   miniView = false,
   disabled = false,
 }: {
-  set: Set;
+  set: UtensilSet;
   onRankNow?: (
     event: React.MouseEvent<HTMLElement>,
     rankingType: string,

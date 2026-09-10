@@ -1,4 +1,4 @@
-import { Ranking, Set, Utensil } from "@/types";
+import { Ranking, UtensilSet, Utensil } from "@/types";
 
 /**
  * Sort utensils by their score, then win rate, then number of wins, then alphabetically.
@@ -34,11 +34,14 @@ export function sortUtensils(a: Utensil, b: Utensil): number {
 
 /**
  * Sort rankings and sets by their date, then alphabetically.
- * @param {Ranking | Set} a First ranking/set to compare.
- * @param {Ranking | Set} b Second ranking/set to compare.
+ * @param {Ranking | UtensilSet} a First ranking/set to compare.
+ * @param {Ranking | UtensilSet} b Second ranking/set to compare.
  * @returns {number} Negative num if a before b, positive num if a after b, 0 if equal.
  */
-export function sortDrawers(a: Ranking | Set, b: Ranking | Set): number {
+export function sortDrawers(
+  a: Ranking | UtensilSet,
+  b: Ranking | UtensilSet,
+): number {
   // sort by DATE, newest to oldest
   if (
     a.createdAt !== undefined &&

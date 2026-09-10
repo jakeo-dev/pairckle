@@ -3,7 +3,7 @@ import Heading from "@/components/Heading";
 import SetBoard from "@/components/SetBoard";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Profile, Set } from "@/types";
+import { Profile, UtensilSet } from "@/types";
 import {
   fetchCurrentProfile,
   fetchOwnedUserSets,
@@ -27,7 +27,7 @@ export default function UserSets() {
 
   const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
 
-  const [ownedSets, setOwnedSets] = useState<Set[]>([]);
+  const [ownedSets, setOwnedSets] = useState<UtensilSet[]>([]);
 
   useEffect(() => {
     async function getProfile() {
