@@ -40,7 +40,7 @@ export default function About() {
             </h2>
 
             <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
-              Pairckle creates a ranking using pairwise comparisons, basing it
+              {`Pairckle creates a ranking using pairwise comparisons, basing it
               on the choices you make between two possible options. Two random
               options (called "utensils") from your chosen set are shown to you,
               and whichever one you pick gains one point; the other loses one
@@ -50,7 +50,7 @@ export default function About() {
               every possible combination. After finishing selecting utensils,
               Pairckle presents your final ranking, ordered by each utensil's
               number of wins subtracted by its number of losses. The ranking is
-              displayed using dense ranking, so number number is skipped.
+              displayed using dense ranking, so number number is skipped.`}
             </p>
 
             <h2
@@ -64,14 +64,14 @@ export default function About() {
               <Link href="/create" className="link-blue">
                 Create
               </Link>{" "}
-              page to begin. You can either choose from an existing set made by
+              {`page to begin. You can either choose from an existing set made by
               another user, or create your own new set to rank. Enter the title
               of the set and the different things you want to include that are
               part of it. Click "Add more items" to add more to your set. When
               you're ready, choose "Rank quickly" for a quicker session or "Rank
               accurately" for a more accurate final ranking. Choose between the
               two options shown, and when you're finished, your ranking and its
-              set will be published.
+              set will be published.`}
             </p>
 
             <h2
@@ -111,21 +111,21 @@ export default function About() {
             <h2
               className={`mt-12 mb-4 flex w-fit items-center text-xl font-semibold md:text-2xl ${gabarito.className}`}
             >
-              What's the backstory?
+              {`What's the backstory?`}
             </h2>
 
             <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
-              I always wanted to figure out which things in a specific category
+              {`I always wanted to figure out which things in a specific category
               I liked best, but tier lists aren't definitive enough, and can get
               messy and subjective with different opinions on what the different
               tiers mean. Using pairwise comparisons allows the final ranking to
-              have a clear winner, loser, and everything in between.
+              have a clear winner, loser, and everything in between.`}
             </p>
 
             <h2
               className={`mt-12 mb-4 flex w-fit items-center text-xl font-semibold md:text-2xl ${gabarito.className}`}
             >
-              I'm having trouble with something else.
+              {`I'm having trouble with something else.`}
             </h2>
 
             <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
