@@ -309,36 +309,28 @@ export default function SharedSet() {
                   name: "",
                   utensils: currentSet.utensils,
                 }}
-                onRankNow={(event, rankingType) => {
-                  if (
-                    localStorage.getItem("combosArray") &&
-                    localStorage.getItem("combosArray") !== "[]"
-                  ) {
-                    event.preventDefault();
-                    setErrorRankingModalVisibility(true);
-                  } else {
-                    localStorage.setItem(
-                      "utensilInput",
-                      JSON.stringify(
-                        shuffle(currentSet.utensils).map((utensil) => {
-                          return {
-                            title:
-                              utensil.title !== "????????"
-                                ? utensil.title
-                                : randomElement(
-                                    randomElement(STARTER_SETS).utensils,
-                                  ).title,
-                            score: 0,
-                            wins: 0,
-                            losses: 0,
-                          };
-                        }),
-                      ),
-                    );
-                    localStorage.setItem("rankNow", rankingType);
+                onRankNow={(rankingType) => {
+                  localStorage.setItem(
+                    "utensilInput",
+                    JSON.stringify(
+                      shuffle(currentSet.utensils).map((utensil) => {
+                        return {
+                          title:
+                            utensil.title !== "????????"
+                              ? utensil.title
+                              : randomElement(
+                                  randomElement(STARTER_SETS).utensils,
+                                ).title,
+                          score: 0,
+                          wins: 0,
+                          losses: 0,
+                        };
+                      }),
+                    ),
+                  );
+                  localStorage.setItem("rankNow", rankingType);
 
-                    localStorage.setItem("associatedSetID", String(setID));
-                  }
+                  localStorage.setItem("associatedSetID", String(setID));
                 }}
               />
             </div>
