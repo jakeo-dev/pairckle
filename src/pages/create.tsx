@@ -79,7 +79,7 @@ export default function Create() {
   const [setNameInput, setSetNameInput] = useState<string>("");
 
   // randomized array of combos, each number in a combo corresponds to a utensil
-  const [combosArray, setCombosArray] = useState<number[][]>([[]]);
+  const [combosArray, setCombosArray] = useState<[number, number][]>([]);
 
   // ranking ID changes to be not -1 if logged in
   const [rankingID, setRankingID] = useState<number>(-1);
@@ -346,25 +346,11 @@ export default function Create() {
   }, [router]);
 
   function generateCombos(array: Utensil[]) {
-    const combinations: number[][] = [];
+    const combinations: [number, number][] = [];
 
-    for (const utensil1 of array) {
-      const firstUtensilIndex = array.indexOf(utensil1);
-
-      for (const utensil2 of array) {
-        const secondUtensilIndex = array.indexOf(utensil2);
-
-        if (
-          // checks if combo is the same utensil twice
-          firstUtensilIndex != secondUtensilIndex &&
-          // checks if duplicate combos in other orders already exists in combinations
-          !combinations
-            .map((combo) => JSON.stringify(combo))
-            .includes(JSON.stringify([secondUtensilIndex, firstUtensilIndex]))
-        ) {
-          // shuffles order of numbers in each combo
-          combinations.push([firstUtensilIndex, secondUtensilIndex]);
-        }
+    for (let i = 0; i < array.length; i++) {
+      for (let j = i + 1; j < array.length; j++) {
+        combinations.push([i, j]);
       }
     }
 
@@ -376,7 +362,7 @@ export default function Create() {
   }
 
   async function setNextCombo(
-    combosArray: number[][],
+    combosArray: [number, number][],
     utensilsArray: Utensil[],
     currentComboIndex: number,
     maxCombos: number,
@@ -514,7 +500,10 @@ export default function Create() {
     }
   }
 
-  function setPrevCombo(combosArray: number[][], utensilsArray: Utensil[]) {
+  function setPrevCombo(
+    combosArray: [number, number][],
+    utensilsArray: Utensil[],
+  ) {
     // go to previous combo in array
     const prevComboIndex = currentComboIndex - 1;
     setCurrentComboIndex(prevComboIndex);
