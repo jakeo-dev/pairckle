@@ -10,21 +10,21 @@ import { faBolt, faBullseye } from "@fortawesome/free-solid-svg-icons";
 export default function RankButtons({
   onHurry,
   onConcentrate,
-  e,
   utensilsArrayLength,
+  showNumCombos = false,
   className = "",
 }: {
   onHurry: (utensilsArray: Utensil[]) => void;
   onConcentrate: (utensilsArray: Utensil[]) => void;
   e?: MouseEvent<HTMLAnchorElement>;
   utensilsArrayLength: number;
+  showNumCombos?: boolean;
   className?: string;
 }) {
   const numCombos = getNumCombos(utensilsArrayLength);
 
   const [errorRankingModalVisibility, setErrorRankingModalVisibility] =
     useState<boolean>(false);
-  const [showNumCombos, setShowNumCombos] = useState<boolean>(false);
 
   return (
     <>
