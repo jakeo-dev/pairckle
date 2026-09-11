@@ -17,6 +17,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightToBracket,
+  faBolt,
+  faBullseye,
   faChartSimple,
   faCircleDown,
   faEllipsis,
