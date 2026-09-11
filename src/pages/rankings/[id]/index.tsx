@@ -476,12 +476,12 @@ export default function SharedRanking() {
 
                     {profile?.id !== currentRanking.userID && (
                       <a
-                        className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-yellow-700 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-yellow-400 dark:active:bg-neutral-400/45"
+                        className="group flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 hover:text-red-700 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:hover:text-red-400 dark:active:bg-neutral-400/45"
                         href="mailto:report@jakeo.dev"
                       >
                         <FontAwesomeIcon
                           icon={faFlag}
-                          className="mr-2 w-4 text-neutral-700 group-hover:text-yellow-800 md:mr-3 dark:text-neutral-400 dark:group-hover:text-yellow-300"
+                          className="mr-2 w-4 text-neutral-700 group-hover:text-red-800 md:mr-3 dark:text-neutral-400 dark:group-hover:text-red-300"
                           aria-labelledby="report-button-text"
                         />
                         <span id="report-button-text">Report</span>

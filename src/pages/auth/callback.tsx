@@ -3,13 +3,7 @@ import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase";
 import { Ranking, RankingData, UtensilSet, SetData } from "@/types";
 import { generateRankingID, generateSetID } from "@/lib/utilities";
-import {
-  bulkUpdateCurrentOwnedRankings,
-  bulkUpdateCurrentOwnedSets,
-  fetchCurrentProfile,
-  insertUserRankings,
-  insertUserSets,
-} from "@/db";
+import { fetchCurrentProfile, insertUserRankings, insertUserSets } from "@/db";
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -79,7 +73,6 @@ export default function AuthCallback() {
             }
 
             await insertUserRankings(rankingsToInsert);
-            await bulkUpdateCurrentOwnedRankings(rankingIDs, profileData);
 
             const setIDs: number[] = [];
             const setsToInsert: SetData[] = [];
@@ -100,7 +93,6 @@ export default function AuthCallback() {
             }
 
             await insertUserSets(setsToInsert);
-            await bulkUpdateCurrentOwnedSets(setIDs, profileData);
 
             localStorage.removeItem("savedRankings");
             localStorage.removeItem("savedSets");

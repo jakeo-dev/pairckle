@@ -21,8 +21,6 @@ import {
   fetchSet,
   insertUserRankings,
   insertUserSets,
-  updateCurrentOwnedRankings,
-  updateCurrentOwnedSets,
 } from "@/db";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -475,8 +473,6 @@ export default function Create() {
               : associatedSet.id,
         });
 
-        await updateCurrentOwnedRankings(rankingID, profile);
-
         if (!associatedSet || associatedSet.id === -1) {
           // insert new set
           await insertUserSets({
@@ -492,8 +488,6 @@ export default function Create() {
             user_id: profile.id,
             username: profile.username,
           });
-
-          await updateCurrentOwnedSets(newSetID, profile);
         }
       }
     }

@@ -37,8 +37,6 @@ export default function UserSets() {
           id: "",
           username: "Guest",
           createdAt: "",
-          ownedRankings: [],
-          ownedSets: [],
         });
 
         setOwnedSets(JSON.parse(localStorage.getItem("savedSets") ?? "[]"));

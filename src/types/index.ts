@@ -34,8 +34,6 @@ export type Profile = {
   id: string;
   username: string;
   createdAt: string;
-  ownedRankings: number[];
-  ownedSets: number[];
 };
 
 /* types from supabase (in snake case) */
@@ -69,6 +67,4 @@ export type ProfileData = {
   id: string;
   username: string;
   created_at: string;
-  owned_rankings: number[];
-  owned_sets: number[];
 };

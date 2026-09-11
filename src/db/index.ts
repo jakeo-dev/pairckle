@@ -157,7 +157,6 @@ export async function fetchUserProfile(username: string) {
     .select("*")
     .eq("username", username)
     .single();
-  console.log(data);
 
   if (error) {
     console.error("Failed to fetch profile:", error);
@@ -192,79 +191,6 @@ export async function insertUserSets(newSet: SetData | SetData[]) {
 
   if (error) {
     console.error("Failed to insert into user sets:", error);
-    throw error;
-  }
-}
-
-export async function updateCurrentOwnedRankings(
-  rankingID: number,
-  profile: Profile,
-) {
-  const { error } = await supabase
-    .from("profiles")
-    .update({
-      owned_rankings:
-        // add new ranking ID to owned_rankings array
-        [rankingID, ...profile.ownedRankings],
-    })
-    .eq("id", profile.id);
-
-  if (error) {
-    console.error("Failed to update owned rankings:", error);
-    throw error;
-  }
-}
-
-export async function bulkUpdateCurrentOwnedRankings(
-  rankingIDs: number[],
-  profile: Profile,
-) {
-  const { error } = await supabase
-    .from("profiles")
-    .update({
-      owned_rankings:
-        // add new ranking IDs to owned_rankings array
-        [...rankingIDs, ...profile.ownedRankings],
-    })
-    .eq("id", profile.id);
-
-  if (error) {
-    console.error("Failed to bulk update owned rankings:", error);
-    throw error;
-  }
-}
-
-export async function updateCurrentOwnedSets(setID: number, profile: Profile) {
-  const { error } = await supabase
-    .from("profiles")
-    .update({
-      owned_sets:
-        // add new set ID to owned_sets array
-        [setID, ...profile.ownedSets],
-    })
-    .eq("id", profile.id);
-
-  if (error) {
-    console.error("Failed to update owned sets:", error);
-    throw error;
-  }
-}
-
-export async function bulkUpdateCurrentOwnedSets(
-  setIDs: number[],
-  profile: Profile,
-) {
-  const { error } = await supabase
-    .from("profiles")
-    .update({
-      owned_sets:
-        // add new set IDs to owned_sets array
-        [...setIDs, ...profile.ownedSets],
-    })
-    .eq("id", profile.id);
-
-  if (error) {
-    console.error("Failed to bulk update owned sets:", error);
     throw error;
   }
 }
@@ -326,54 +252,26 @@ export async function fetchSet(setID: number) {
 }
 
 export async function deleteRanking(profile: Profile, rankingID: number) {
-  const { error: error1 } = await supabase
+  const { error: error } = await supabase
     .from("user_rankings")
     .delete()
     .eq("id", rankingID);
 
-  if (error1) {
-    console.error("Failed to delete from user rankings:", error1);
-    throw error1;
-  }
-
-  const { error: error2 } = await supabase
-    .from("profiles")
-    .update({
-      owned_rankings:
-        // remove set ID from owned_rankings array
-        [...profile.ownedRankings].filter((id) => id !== rankingID),
-    })
-    .eq("id", profile.id);
-
-  if (error2) {
-    console.error("Failed to update owned rankings:", error2);
-    throw error2;
+  if (error) {
+    console.error("Failed to delete from user rankings:", error);
+    throw error;
   }
 }
 
 export async function deleteSet(profile: Profile, setID: number) {
-  const { error: error1 } = await supabase
+  const { error: error } = await supabase
     .from("user_sets")
     .delete()
     .eq("id", setID);
 
-  if (error1) {
-    console.error("Failed to delete from user sets:", error1);
-    throw error1;
-  }
-
-  const { error: error2 } = await supabase
-    .from("profiles")
-    .update({
-      owned_sets:
-        // remove set ID from owned_sets array
-        [...profile.ownedSets].filter((id) => id !== setID),
-    })
-    .eq("id", profile.id);
-
-  if (error2) {
-    console.error("Failed to update owned sets:", error2);
-    throw error2;
+  if (error) {
+    console.error("Failed to delete from user sets:", error);
+    throw error;
   }
 }
 

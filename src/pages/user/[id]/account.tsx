@@ -37,8 +37,6 @@ export default function UserAccount() {
           id: "",
           username: "Guest",
           createdAt: "",
-          ownedRankings: [],
-          ownedSets: [],
         });
 
         setLoading(false);

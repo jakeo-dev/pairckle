@@ -37,8 +37,6 @@ export default function UserRankings() {
           id: "",
           username: "Guest",
           createdAt: "",
-          ownedRankings: [],
-          ownedSets: [],
         });
 
         const savedRankingsArray = JSON.parse(
