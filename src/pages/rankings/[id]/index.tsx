@@ -355,40 +355,94 @@ export default function SharedRanking() {
                     ref={settingsDivRef}
                     className={`${settingsVis} absolute right-0 z-10 mt-1 flex w-40 flex-col overflow-hidden rounded-md border-2 border-neutral-200 bg-neutral-50 shadow-md md:w-52 dark:border-neutral-800 dark:bg-black`}
                   >
-                    <Link
-                      className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
-                      href="/create"
-                      onClick={(e) => {
-                        if (
-                          localStorage.getItem("combosArray") &&
-                          localStorage.getItem("combosArray") !== "[]"
-                        ) {
-                          e.preventDefault();
-                          setErrorRankingModalVisibility(true);
-                        } else {
-                          localStorage.setItem(
-                            "utensilInput",
-                            shuffle(
-                              currentRanking.rankedUtensils.map(
-                                (utensil) => utensil.title,
+                    <div className="">
+                      <Link
+                        className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                        href="/create"
+                        onClick={(e) => {
+                          if (
+                            localStorage.getItem("combosArray") &&
+                            localStorage.getItem("combosArray") !== "[]"
+                          ) {
+                            e.preventDefault();
+                            setErrorRankingModalVisibility(true);
+                          } else {
+                            localStorage.setItem(
+                              "utensilInput",
+                              JSON.stringify(
+                                shuffle(currentRanking.rankedUtensils).map(
+                                  (utensil) => {
+                                    return {
+                                      title: utensil.title,
+                                      score: 0,
+                                      wins: 0,
+                                      losses: 0,
+                                    };
+                                  },
+                                ),
                               ),
-                            ).join("\n"),
-                          );
+                            );
+                            localStorage.setItem("rankNow", "hurry");
 
-                          localStorage.setItem(
-                            "associatedSetID",
-                            String(currentRanking.associatedSetID ?? -1),
-                          );
-                        }
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faChartSimple}
-                        className="mr-2 w-4 rotate-90 text-neutral-700 md:mr-3 dark:text-neutral-400"
-                        aria-labelledby="re-rank-button-text"
-                      />
-                      <span id="re-rank-button-text">Re-rank</span>
-                    </Link>
+                            localStorage.setItem(
+                              "associatedSetID",
+                              String(currentRanking.associatedSetID ?? -1),
+                            );
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faBolt}
+                          className="mr-2 w-4 text-neutral-700 md:mr-3 dark:text-neutral-400"
+                          aria-labelledby="hurry-button-text"
+                        />
+                        <span id="hurry-button-text">Re-rank quickly</span>
+                      </Link>
+                      <Link
+                        className="flex h-min w-full items-center justify-start bg-neutral-300/20 px-2.5 py-2 text-left text-xs transition hover:bg-neutral-400/30 active:bg-neutral-400/40 md:px-3.5 md:py-2 md:text-sm dark:bg-neutral-500/25 dark:hover:bg-neutral-400/35 dark:active:bg-neutral-400/45"
+                        href="/create"
+                        onClick={(e) => {
+                          if (
+                            localStorage.getItem("combosArray") &&
+                            localStorage.getItem("combosArray") !== "[]"
+                          ) {
+                            e.preventDefault();
+                            setErrorRankingModalVisibility(true);
+                          } else {
+                            localStorage.setItem(
+                              "utensilInput",
+                              JSON.stringify(
+                                shuffle(currentRanking.rankedUtensils).map(
+                                  (utensil) => {
+                                    return {
+                                      title: utensil.title,
+                                      score: 0,
+                                      wins: 0,
+                                      losses: 0,
+                                    };
+                                  },
+                                ),
+                              ),
+                            );
+                            localStorage.setItem("rankNow", "concentrate");
+
+                            localStorage.setItem(
+                              "associatedSetID",
+                              String(currentRanking.associatedSetID ?? -1),
+                            );
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faBullseye}
+                          className="mr-2 w-4 rotate-90 text-neutral-700 md:mr-3 dark:text-neutral-400"
+                          aria-labelledby="concentrate-button-text"
+                        />
+                        <span id="concentrate-button-text">
+                          Re-rank accurately
+                        </span>
+                      </Link>
+                    </div>
 
                     {profile?.id === currentRanking.userID && (
                       <>
