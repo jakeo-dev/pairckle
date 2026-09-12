@@ -109,7 +109,7 @@ export default function UserSets() {
             <div>
               <div>
                 {ownedSets && ownedSets.length > 0 ? (
-                  <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="wide-section grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
                     {[...ownedSets].map((set, i) => {
                       return (
                         <SetBoard

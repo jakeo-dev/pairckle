@@ -68,7 +68,7 @@ export default function SetBoard({
         )}
         <Link
           href={`/sets/${set.id}`}
-          className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-56 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 md:min-w-72 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
+          className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-52 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 md:min-w-72 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
           onClick={(e) => {
             if (disabled) e.preventDefault();
           }}
@@ -76,9 +76,13 @@ export default function SetBoard({
           aria-disabled={disabled}
         >
           {(set.username || set.name || set.createdAt) && (
-            <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
+            <div
+              className={`flex items-end gap-2 md:gap-3 ${miniView ? "px-1 md:mb-0.5" : "mb-0.5 px-2 md:mb-1"}`}
+            >
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-neutral-600 md:gap-2 md:text-sm dark:text-neutral-300">
+                <div
+                  className={`flex items-center gap-1.5 text-neutral-600 md:gap-2 dark:text-neutral-300 ${miniView ? "text-[0.65rem] md:text-xs" : "text-xs md:text-sm"}`}
+                >
                   {set.username && (
                     <h3 className="line-clamp-1 font-semibold">
                       {set.username}
@@ -93,7 +97,7 @@ export default function SetBoard({
                   )}
                 </div>
                 <h2
-                  className={`line-clamp-1 text-base leading-6 font-medium md:text-lg ${gabarito.className}`}
+                  className={`line-clamp-1 leading-6 font-medium ${miniView ? "text-sm md:text-base" : "text-base md:text-lg"} ${gabarito.className}`}
                 >
                   {set.name}
                 </h2>
@@ -113,7 +117,7 @@ export default function SetBoard({
                   className={`px-2 py-1 first:rounded-t-md last:rounded-b-md odd:bg-neutral-500/10 dark:odd:bg-neutral-500/25 ${miniView ? "md:px-2.5 md:py-1.5" : "md:px-3.5 md:py-2"}`}
                 >
                   <p
-                    className={`text-sm md:text-base ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
+                    className={`${miniView ? "text-[0.825rem] md:text-[0.925rem]" : "text-sm md:text-base"} ${showAllUtensils ? "" : "line-clamp-2"} ${utensil.title === "????????" ? "animate-pulse text-neutral-500" : ""}`}
                   >
                     {utensil.title}
                   </p>

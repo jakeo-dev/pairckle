@@ -3,6 +3,7 @@ import SetBoard from "@/components/SetBoard";
 import RankingBoard from "@/components/RankingBoard";
 import Heading from "@/components/Heading";
 import CommonHead from "@/components/CommonHead";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Profile, Ranking, UtensilSet } from "@/types";
@@ -28,7 +29,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
-import Link from "next/link";
 const gabarito = Gabarito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -403,7 +403,7 @@ export default function SharedSet() {
               >
                 Rankings of this set
               </h2>
-              <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-2 md:gap-4 md:px-4">
+              <div className="fade-edges-sides flex gap-2 overflow-x-scroll px-1 md:gap-4 md:px-4">
                 {[...associatedDiscoverableRankings].map((ranking, index1) => (
                   <RankingBoard
                     key={index1}

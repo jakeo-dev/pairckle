@@ -63,7 +63,7 @@ export default function RankButtons({
             <span className="block text-right text-sm font-medium md:text-base">
               Rank quickly
             </span>
-            <span className="mt-0.5 block pl-8 text-right text-xs leading-3.5 text-white/60 md:text-sm md:leading-4 dark:text-black/50">
+            <span className="mt-0.5 block pl-4 text-right text-xs leading-3.5 text-white/60 md:pl-8 md:text-sm md:leading-4 dark:text-black/50">
               Quicker session, fewer matchups
             </span>
           </Link>
@@ -90,7 +90,7 @@ export default function RankButtons({
             <span className="block text-right text-sm font-medium md:text-base">
               Rank accurately
             </span>
-            <span className="mt-0.5 block pl-8 text-right text-xs leading-3.5 text-white/60 md:text-sm md:leading-4 dark:text-black/50">
+            <span className="mt-0.5 block pl-4 text-right text-xs leading-3.5 text-white/60 md:pl-8 md:text-sm md:leading-4 dark:text-black/50">
               More accurate final ranking
             </span>
           </Link>

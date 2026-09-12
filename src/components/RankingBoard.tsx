@@ -38,21 +38,17 @@ export default function RankingBoard({
     <>
       <Link
         href={`/rankings/${ranking.id}`}
-        className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-48 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35 md:min-w-56" : ""} ${className || ""}`}
+        className={`${disabled ? "pointer-events-none" : ""} ${miniView ? "min-w-60 rounded-lg bg-neutral-300/10 p-2 transition hover:bg-neutral-400/25 active:bg-neutral-400/35 md:min-w-80 dark:bg-neutral-400/10 dark:hover:bg-neutral-600/25 dark:active:bg-neutral-600/35" : ""} ${className || ""}`}
         onClick={(e) => {
           if (disabled) e.preventDefault();
         }}
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled}
       >
-        <div
-          className={`flex items-end gap-2 md:gap-3 ${miniView ? "px-1" : "mb-0.5 px-2 md:mb-1"}`}
-        >
+        <div className="mb-0.5 flex items-end gap-2 px-2 md:mb-1 md:gap-3">
           <div>
             {ranking.createdAt && (
-              <div
-                className={`flex items-center gap-1.5 text-neutral-600 dark:text-neutral-300 md:gap-2 ${miniView ? "text-[0.65rem] md:text-xs" : "text-xs md:text-sm"}`}
-              >
+              <div className="flex items-center gap-1.5 text-xs text-neutral-600 md:gap-2 md:text-sm dark:text-neutral-300">
                 {ranking.username && (
                   <h3 className="line-clamp-1 font-semibold">
                     {ranking.username}
@@ -67,7 +63,7 @@ export default function RankingBoard({
               </div>
             )}
             <h2
-              className={`line-clamp-1 font-medium leading-6 ${miniView ? "text-sm md:text-base" : "text-base md:text-lg"} ${gabarito.className}`}
+              className={`line-clamp-1 text-base leading-6 font-medium md:text-lg ${gabarito.className}`}
             >
               {ranking.name}
             </h2>
@@ -119,15 +115,15 @@ export default function RankingBoard({
 
                   return (
                     <div
-                      className={`relative flex ${miniView ? "h-6 md:h-7" : "h-11 md:h-12"} w-full items-center justify-center ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}
+                      className={`relative flex ${miniView ? "h-8 md:h-9" : "h-11 md:h-12"} w-full items-center justify-center ${index2 % 2 === 0 ? "bg-neutral-500/10 dark:bg-neutral-500/25" : ""}`}
                     >
                       {/* title and ranking place, dark text underneath progress bar */}
                       <div
-                        className={`absolute inset-0 flex items-center justify-between ${miniView ? "p-1.5 md:p-2" : "px-3 pr-14 md:px-4 md:pr-32"}`}
+                        className={`absolute inset-0 flex items-center justify-between ${miniView ? "p-2 md:p-2.5" : "px-3 pr-14 md:px-4 md:pr-32"}`}
                       >
                         <div className="flex min-w-0 items-center">
                           <span
-                            className={`font-light italic ${miniView ? "md:text-lg" : "text-xl md:text-2xl"} ${
+                            className={`font-light italic ${miniView ? "text-lg md:text-xl" : "text-xl md:text-2xl"} ${
                               [...ranking.rankedUtensils].sort(sortUtensils)[
                                 index2 - 1
                               ] &&
@@ -141,7 +137,7 @@ export default function RankingBoard({
                             #{newRankingPlace}
                           </span>
                           <p
-                            className={`truncate text-base font-semibold text-neutral-800 dark:text-neutral-200 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
+                            className={`truncate font-semibold text-neutral-800 dark:text-neutral-200 ${miniView ? "ml-2 text-sm md:text-base" : "ml-2.5 text-base md:ml-3 md:text-lg"}`}
                           >
                             {utensil["title"]}
                           </p>
@@ -157,7 +153,7 @@ export default function RankingBoard({
 
                       {/* title and ranking place, light text on top of progress bar */}
                       <div
-                        className={`absolute inset-0 flex items-center justify-between ${miniView ? "p-1.5 md:p-2" : "px-3 pr-14 md:px-4 md:pr-32"}`}
+                        className={`absolute inset-0 flex items-center justify-between ${miniView ? "p-2 md:p-2.5" : "px-3 pr-14 md:px-4 md:pr-32"}`}
                         style={{
                           clipPath: `inset(0 ${100 - 100 * progress}% 0 0)`,
                         }}
@@ -165,7 +161,7 @@ export default function RankingBoard({
                         <div className="flex min-w-0 items-center">
                           {/* place in ranking, light text overlays dark text */}
                           <span
-                            className={`font-light italic ${miniView ? "md:text-lg" : "text-xl md:text-2xl"} ${
+                            className={`font-light italic ${miniView ? "text-lg md:text-xl" : "text-xl md:text-2xl"} ${
                               [...ranking.rankedUtensils].sort(sortUtensils)[
                                 index2 - 1
                               ] &&
@@ -179,7 +175,7 @@ export default function RankingBoard({
                             #{newRankingPlace}
                           </span>
                           <p
-                            className={`truncate text-base font-semibold text-neutral-100 ${miniView ? "ml-1.5 text-xs md:ml-2 md:text-sm" : "ml-2.5 md:ml-3 md:text-lg"}`}
+                            className={`truncate text-base font-semibold text-neutral-100 ${miniView ? "ml-2 text-sm md:text-base" : "ml-2.5 md:ml-3 md:text-lg"}`}
                           >
                             {utensil["title"]}
                           </p>
@@ -328,7 +324,7 @@ export function ExportView({
                         >
                           #{newRankingPlace}
                         </span>
-                        <p className="ml-2.5 truncate text-base font-semibold text-neutral-800 dark:text-neutral-200 md:ml-3 md:text-lg">
+                        <p className="ml-2.5 truncate text-base font-semibold text-neutral-800 md:ml-3 md:text-lg dark:text-neutral-200">
                           {utensil["title"]}
                         </p>
                       </div>
@@ -370,7 +366,7 @@ export function ExportView({
                       </div>
                     </div>
 
-                    <div className="absolute right-3 ml-auto hidden items-center justify-between rounded-full bg-neutral-600/50 text-sm text-white dark:bg-neutral-400/50 dark:text-black md:flex">
+                    <div className="absolute right-3 ml-auto hidden items-center justify-between rounded-full bg-neutral-600/50 text-sm text-white md:flex dark:bg-neutral-400/50 dark:text-black">
                       <span className="px-2.5 py-0.5">
                         {typeof utensil["wins"] === "number"
                           ? `${utensil["wins"]} won`
@@ -387,7 +383,7 @@ export function ExportView({
                       </span>
                     </div>
 
-                    <div className="absolute right-2.5 ml-auto items-center justify-between rounded-full bg-neutral-600/50 px-2 py-0.5 text-xs text-white dark:bg-neutral-400/50 dark:text-black md:hidden">
+                    <div className="absolute right-2.5 ml-auto items-center justify-between rounded-full bg-neutral-600/50 px-2 py-0.5 text-xs text-white md:hidden dark:bg-neutral-400/50 dark:text-black">
                       <span>
                         {typeof utensil["wins"] === "number"
                           ? `${utensil["wins"]}`

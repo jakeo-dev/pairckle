@@ -30,7 +30,7 @@
 }
 
 @utility wide-section {
-  @apply mx-auto w-full px-6 md:max-w-300;
+  @apply mx-auto w-full px-3 md:px-6 md:max-w-300;
 }
 
 @utility narrow-section {

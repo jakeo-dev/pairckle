@@ -47,7 +47,7 @@ export default function Sets() {
           />
 
           {discoverableSets.length > 0 ? (
-            <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="wide-section grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
               {[...discoverableSets].map((set, index1) => (
                 <SetBoard
                   key={index1}
@@ -70,7 +70,7 @@ export default function Sets() {
 
           <div className="my-10 flex w-full items-center border-b-2 border-neutral-400/30 md:my-12" />
 
-          <div className="wide-section grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="wide-section grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {[...starterSets].map((set, index1) => (
               <SetBoard
                 key={index1}

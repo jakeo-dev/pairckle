@@ -29,7 +29,8 @@ export default function Heading(props: {
   }[];
 }) {
   return (
-    <div className="bg-linear-to-r from-orange-300 to-blue-300 dark:from-orange-800 dark:to-blue-800">
+    <div className="bg-linear-to-r from-orange-300/50 to-blue-300/50 dark:from-orange-800/50 dark:to-blue-800/50">
+      {/* from-neutral-300 via-neutral-200 to-neutral-300 dark:from-neutral-500 dark:via-neutral-600 dark:to-neutral-500 */}
       <div
         className={`relative mb-12 flex w-full items-center justify-center border-b-2 border-neutral-400/10 bg-linear-to-b from-white/40 via-white/50 to-neutral-50 pt-24 md:pt-32 dark:border-neutral-500/10 dark:from-black/40 dark:via-black/50 dark:to-black ${props.tabs ? "pb-16 md:pb-24" : "pb-8 md:pb-12"}`}
       >
@@ -38,7 +39,7 @@ export default function Heading(props: {
             {props.icon && (
               <FontAwesomeIcon
                 icon={props.icon}
-                className={`text-2xl text-neutral-600/50 md:text-4xl dark:text-neutral-400/50 ${props.rotateIcon ? "rotate-90" : ""}`}
+                className={`text-2xl text-neutral-900/30 md:text-4xl dark:text-neutral-100/30 ${props.rotateIcon ? "rotate-90" : ""}`}
               />
             )}
             <div>
