@@ -1,5 +1,6 @@
 import Heading from "@/components/Heading";
 import CommonHead from "@/components/CommonHead";
+
 import { faShield } from "@fortawesome/free-solid-svg-icons";
 
 import { Gabarito } from "next/font/google";
@@ -18,7 +19,7 @@ export default function Privacy() {
           <Heading
             icon={faShield}
             title="Privacy Policy"
-            subtext2="Last updated: August 20, 2026"
+            subtext2="Last updated: September 13, 2026"
           />
 
           <div className="section w-full">
@@ -63,9 +64,7 @@ export default function Privacy() {
             </p>
             <ul className="mt-4 list-inside list-disc pl-4 text-neutral-800 marker:text-neutral-500 dark:text-neutral-200">
               <li className="leading-7">Email address</li>
-              <li className="leading-7">Display name</li>
-              <li className="leading-7">Device type and browser information</li>
-              <li className="leading-7">Traffic sources</li>
+              <li className="leading-7">Username</li>
             </ul>
             <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
               When you contribute to Pairckle while logged in, we store:
@@ -78,19 +77,24 @@ export default function Privacy() {
               <li className="leading-7">
                 The date and time of when you submit a ranking or set
               </li>
+              <li className="leading-7">
+                The username associated with a submitted ranking or set
+              </li>
             </ul>
             <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
               We do not sell or share your personal information with third
-              parties for marketing purposes. You may delete your account and
-              all associated personal data at any time by contacting us at{" "}
-              <a
-                className="link-blue"
-                href="mailto:privacy@jakeo.dev"
-                target="_blank"
-              >
-                privacy@jakeo.dev
-              </a>
-              .
+              parties for marketing purposes.
+            </p>
+            <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
+              You may delete a ranking or set that you have created at any time
+              by going to the page for the specific ranking or set, clicking the
+              three ellipsis button, and clicking Delete.
+            </p>
+            <p className="mt-4 leading-7 text-pretty text-neutral-800 dark:text-neutral-200">
+              You may delete your account and any other associated data at any
+              time by visiting your Account page and clicking Delete account.
+              Your created rankings and sets are not automatically deleted when
+              your account is deleted.
             </p>
 
             <h3

@@ -120,21 +120,25 @@ export async function fetchOwnedUserSets(userID: string) {
 export async function fetchCurrentProfile() {
   const {
     data: { session },
+    error: error1,
   } = await supabase.auth.getSession();
 
-  if (!session) return;
+  if (!session || error1) {
+    console.error("Failed to get session:", error1);
+    throw error1;
+  }
 
   const user = session.user;
 
-  const { data, error } = await supabase
+  const { data, error: error2 } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
 
-  if (error) {
-    console.error("Failed to fetch profile:", error);
-    throw error;
+  if (error2) {
+    console.error("Failed to fetch profile:", error2);
+    throw error2;
   }
 
   // convert snake case to camel case
@@ -324,3 +328,32 @@ export async function fetchUsernames() {
   // add user id to liked users
 }
  */
+
+export async function deleteCurrentUser() {
+  const {
+    data: { session },
+    error: error1,
+  } = await supabase.auth.getSession();
+
+  // check if logged in
+  if (!session || error1) {
+    console.error("Failed to get session:", error1);
+    throw error1;
+  }
+
+  /* const currentUserRankingsData = await fetchOwnedUserRankings(user.id);
+  const currentUserSetsData = await fetchOwnedUserSets(user.id);
+
+  if (currentUserRankingsData || currentUserSetsData) {
+    alert("Could not delete account because user owns rankings and sets");
+
+    return;
+  } */
+
+  const { error: error2 } = await supabase.rpc("delete_current_user");
+
+  if (error2) {
+    console.error("Failed to delete user:", error2);
+    throw error2;
+  }
+}
